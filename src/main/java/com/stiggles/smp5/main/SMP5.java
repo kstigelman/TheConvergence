@@ -22,7 +22,7 @@ public class SMP5 extends JavaPlugin {
         instance = this;
         //saveDefaultConfig()
         //stats = new PluginFile(this, "stats.yml", "stats.yml");
-
+        //Load important database variables
 
         if (Bukkit.getWorld("smp5") == null);
 
@@ -32,6 +32,7 @@ public class SMP5 extends JavaPlugin {
     @Override
     public void onDisable() {
         instance = null;
+        //Update world database
     }
 
 

@@ -9,11 +9,11 @@ public class ServerListeners implements Listener {
 
     @EventHandler
     public void onPlayerJoin (PlayerJoinEvent e) {
-
+        //if player is NOT found in database, run nbew player
     }
 
     @EventHandler
-    public void onPlayerLeve (PlayerQuitEvent e) {
-
+    public void onPlayerLeave (PlayerQuitEvent e) {
+        //Update player database
     }
 }

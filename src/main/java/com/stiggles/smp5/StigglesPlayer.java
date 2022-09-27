@@ -8,6 +8,8 @@ public class StigglesPlayer //implements Player
     private Player player;
     private CoinBank coinBank;
     //private StigglesInventory inv;
+    private int bounty;
+    private int killstreak;
 
     public StigglesPlayer () {
         player = null;
@@ -35,6 +37,16 @@ public class StigglesPlayer //implements Player
     }
 
 
+    public int getBounty () {
+        return bounty;
+    }
+
+    @Override
+    public String toString () {
+        return getName () + ": " +
+                          "\n  Location: " + getLocation () +
+                          "\n  Coins: " + getCoinBank().getTotalCoins();
+    }
 
 
 
