@@ -3,7 +3,8 @@ package com.stiggles.smp5;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-public class StigglesPlayer //implements Player
+
+public class StigglesPlayer
 {
     private Player player;
     private CoinBank coinBank;
