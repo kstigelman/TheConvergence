@@ -11,6 +11,7 @@ public class BountyListeners implements Listener {
 
     @EventHandler
     public void OnPlayerDeath (PlayerDeathEvent e) {
+        //Return if player was killed by a mob
         if (e.getEntity ().getKiller () == null)
             return;
         Player victim = e.getEntity ();

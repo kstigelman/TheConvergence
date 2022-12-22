@@ -1,8 +1,7 @@
 package com.stiggles.smp5.managers;
 
-import com.stiggles.smp5.StigglesPlayer;
+import com.stiggles.smp5.player.StigglesPlayer;
 import com.stiggles.smp5.bountyFunctions.BountyLeader;
-import org.bukkit.entity.Player;
 
 public class BountyManager {
 

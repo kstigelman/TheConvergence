@@ -1,6 +1,6 @@
 package com.stiggles.smp5.bountyFunctions;
 
-import com.stiggles.smp5.StigglesPlayer;
+import com.stiggles.smp5.player.StigglesPlayer;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
