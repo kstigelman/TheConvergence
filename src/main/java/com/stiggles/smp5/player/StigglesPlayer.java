@@ -1,4 +1,4 @@
-package com.stiggles.smp5;
+package com.stiggles.smp5.player;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 
 public class StigglesPlayer
 {
+
     private Player player;
     private CoinBank coinBank;
     //private StigglesInventory inv;
@@ -30,9 +31,13 @@ public class StigglesPlayer
         return coinBank;
     }
 
+
     public String getName () {
         return player.getName ();
     }
+
+
+
     public Location getLocation () {
         return player.getLocation ();
     }
