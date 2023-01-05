@@ -20,7 +20,7 @@ public class StigglesPlayer
 
     public StigglesPlayer (Player player) {
         this.player = player;
-        coinBank = new CoinBank(this.player);
+        coinBank = new CoinBank(this.player.getUniqueId ());
     }
 
     public Player getPlayer () {
@@ -51,7 +51,7 @@ public class StigglesPlayer
     public String toString () {
         return getName () + ": " +
                           "\n  Location: " + getLocation () +
-                          "\n  Coins: " + getCoinBank().getTotalCoins();
+                          "\n  Coins: " + getCoinBank().getBalance ();
     }
 
 

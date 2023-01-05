@@ -1,10 +1,13 @@
 package com.stiggles.smp5.player;
 
-import org.bukkit.entity.Player;
+
+import org.bukkit.Bukkit;
+import java.util.UUID;
 
 public class CoinBank {
     private int balance;
-    private Player owner;
+    private UUID owner;
+
 
     /**
      * Default constructor for CoinBank. Should only be used for testing, or perhaps a "World Bank"
@@ -19,7 +22,7 @@ public class CoinBank {
      *
      * @param owner The player that the account should be linked to.
      */
-    public CoinBank (Player owner) {
+    public CoinBank (UUID owner) {
         balance = 0;
         this.owner = owner;
     }
@@ -27,21 +30,21 @@ public class CoinBank {
     /**
      * @return The player that is linked to the account
      */
-    public Player getOwnerName () {
+    public UUID getOwnerName () {
         return owner;
     }
 
     /**
-     * @return The total coins the player has
+     * @return The total config.yml the player has
      */
-    public int getTotalCoins() {
+    public int getBalance () {
         return balance;
     }
 
     /**
      * Withdraw a certain amount of coins from an account
      *
-     * @param amount The amount of coins to remove
+     * @param amount The amount of coins.yml to remove
      * @return Whether or not the transaction was successful
      */
     public boolean withdraw (int amount) {
@@ -52,7 +55,7 @@ public class CoinBank {
     }
 
     /**
-     * Deposit a certain amount of coins from an account
+     * Deposit a certain amount of coins to an account
      *
      * @param amount The amount of coins to add
      */
@@ -67,12 +70,14 @@ public class CoinBank {
      * @return Whether the new balance would be above zero
      */
     private boolean hasSufficientFunds(int amount) {
-        return balance - amount > 0;
+        return (balance - amount) > 0;
     }
 
     @Override
     public String toString() {
-        return owner.getName() + ": " + balance;
+        if (Bukkit.getPlayer(owner) == null)
+            return "Error: Player not found with UUID: " + owner.toString ();
+        return Bukkit.getPlayer (owner).getName () + ": " + balance;
     }
 
 }

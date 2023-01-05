@@ -3,16 +3,29 @@ package com.stiggles.smp5.entity.npc.shopnpcs;
 import com.stiggles.smp5.main.SMP5;
 import de.studiocode.invui.gui.builder.GUIBuilder;
 import de.studiocode.invui.gui.builder.guitype.GUIType;
+import de.studiocode.invui.item.Item;
 import de.studiocode.invui.item.ItemProvider;
 import de.studiocode.invui.item.builder.ItemBuilder;
+import de.studiocode.invui.item.builder.PotionBuilder;
 import de.studiocode.invui.item.impl.BaseItem;
+import de.studiocode.invui.item.impl.CommandItem;
 import de.studiocode.invui.item.impl.SimpleItem;
+import de.studiocode.invui.util.Pair;
+import net.minecraft.world.item.alchemy.Potion;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.command.Command;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
+
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
 import java.util.Random;
 
 
@@ -22,7 +35,29 @@ import java.util.Random;
 public class Starry extends ShopNPC {
 
 
-    private class CountItem extends BaseItem {
+    private class Moonshine extends BaseItem {
+
+        /*public Moonshine(ItemProvider itemProvider, String command) {
+            super(itemProvider, command);
+        }*/
+
+        public ItemProvider getItemProvider () {
+            return new PotionBuilder(PotionBuilder.PotionType.NORMAL)
+                    .setDisplayName(ChatColor.GOLD + ChatColor.BOLD.toString() + "Moonshine")
+                    .addLoreLines ("World famous Moonshine from the Spectral Saloon!")
+                    .addEffect(new PotionEffect(PotionEffectType.CONFUSION, 10, 1))
+                    .addEffect(new PotionEffect(PotionEffectType.POISON, 10, 1))
+                    .addEffect(new PotionEffect(PotionEffectType.LUCK, 3, 1))
+                    .addEffect(new PotionEffect(PotionEffectType.WEAKNESS, 10, 1));
+        }
+
+        @Override
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
+            player.getInventory().addItem (getItemProvider().get());
+        }
+    }
+
+    public class CountItem extends BaseItem {
 
         private int count;
 
@@ -44,8 +79,6 @@ public class Starry extends ShopNPC {
 
     }
 
-    SMP5 main;
-
     public Starry (SMP5 main) {
         super (main, "Starry");
 
@@ -58,7 +91,7 @@ public class Starry extends ShopNPC {
     }
 
     @Override
-    public void createGUI () {
+    public void createGUI (Player player) {
         gui = new GUIBuilder<>(GUIType.NORMAL)
                 .setStructure(
                         "# # # # # # # # #",
@@ -66,7 +99,7 @@ public class Starry extends ShopNPC {
                         "# . . . . . . . #",
                         "# # # # # # # # #")
                 .addIngredient ('#', new SimpleItem(new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE)))
-                .addIngredient('!', new CountItem())
+                .addIngredient('!', new Moonshine ())
                 .build ();
 
     }

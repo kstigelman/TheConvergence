@@ -27,11 +27,11 @@ public abstract class ShopNPC extends StigglesNPC {
     @Override
     public void OnInteract (Player player) {
         InteractDialogue (player);
-        createGUI ();
+        createGUI (player);
         showGUI (player);
     }
 
-    public abstract void createGUI ();
+    public abstract void createGUI (Player player);
 
     public void showGUI (Player player) {
         new BukkitRunnable() {

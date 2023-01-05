@@ -15,6 +15,7 @@ import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.entity.EquipmentSlot;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_19_R1.CraftWorld;
@@ -31,7 +32,9 @@ import java.util.UUID;
 public abstract class StigglesNPC {
 
     private ServerPlayer npc;
-    private SMP5 main;
+    private ChatColor nameColorPrefix = ChatColor.WHITE;
+    private ChatColor chatColor = ChatColor.WHITE;
+    protected static SMP5 main;
     private GameProfile profile;
     private String name;
 
@@ -65,7 +68,7 @@ public abstract class StigglesNPC {
         npc = new ServerPlayer (handle.getServer(), handle.getLevel (), profile, null);
         SetPos (location);
 
-        NPCManager.RegisterNewNPC(this);
+        NPCManager.registerNewNPC(this);
 
 
     }
@@ -121,7 +124,7 @@ public abstract class StigglesNPC {
     }
 
     public void sendMessage (String msg) {
-        Bukkit.getServer().broadcastMessage("<" + name + "> " + msg);
+        Bukkit.getServer().broadcastMessage("<" + nameColorPrefix + name + ChatColor.WHITE + "> " + chatColor + msg);
     }
     public void showToPlayer (Player player) {
         Bukkit.getConsoleSender().sendMessage ("Showing " + npc.getName () + " to " + player.getName ());
@@ -169,5 +172,12 @@ public abstract class StigglesNPC {
         packetListener.send (new ClientboundSetEquipmentPacket (npc.getBukkitEntity().getEntityId(),
                     List.of (new Pair<>(EquipmentSlot.MAINHAND, CraftItemStack.asNMSCopy(new ItemStack(item, 1))))
                 ));
+    }
+
+    public void SetNameColor (ChatColor color) {
+        nameColorPrefix = color;
+    }
+    public void SetChatColor (ChatColor color) {
+
     }
 }
