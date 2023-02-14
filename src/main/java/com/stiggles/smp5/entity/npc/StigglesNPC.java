@@ -14,10 +14,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.entity.EquipmentSlot;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.craftbukkit.v1_19_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_19_R1.entity.CraftPlayer;
 
@@ -38,9 +35,13 @@ public abstract class StigglesNPC {
     private GameProfile profile;
     private String name;
 
+    private WorldType worldType;
+
+    private String worldName;
+
     ServerGamePacketListenerImpl packetListener;
 
-    private Location spawnLocation = new Location (Bukkit.getWorld ("world"), 0.0, 69, 0, 180, 0);
+    private Location spawnLocation;
     //private Plugin plugin = Main.getPlugin(SMP5.class);
 
     private float yaw;
@@ -56,6 +57,15 @@ public abstract class StigglesNPC {
         this.main = main;
         SetName (name);
 
+
+        worldName = location.getWorld().getName();
+
+        if (worldName.contains("dungeon"))
+            worldType = WorldType.DUNGEON;
+        else
+            worldType = WorldType.SMP;
+
+        spawnLocation = location;
         yaw = 1f;
         pitch = 1f;
 
@@ -126,6 +136,9 @@ public abstract class StigglesNPC {
     public void sendMessage (String msg) {
         Bukkit.getServer().broadcastMessage("<" + nameColorPrefix + name + ChatColor.WHITE + "> " + chatColor + msg);
     }
+    public void sendMessage (Player p, String msg) {
+        p.sendMessage("<" + nameColorPrefix + name + ChatColor.WHITE + "> " + chatColor + msg);
+    }
     public void showToPlayer (Player player) {
         Bukkit.getConsoleSender().sendMessage ("Showing " + npc.getName () + " to " + player.getName ());
 
@@ -179,5 +192,8 @@ public abstract class StigglesNPC {
     }
     public void SetChatColor (ChatColor color) {
 
+    }
+    public String getWorldName () {
+        return worldName;
     }
 }

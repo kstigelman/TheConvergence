@@ -1,8 +1,17 @@
 package com.stiggles.smp5.entity.npc;
 
 import com.stiggles.smp5.dungeons.Dungeon;
+import com.stiggles.smp5.entity.npc.shopnpcs.ShopNPC;
+import com.stiggles.smp5.entity.npc.shopnpcs.Starry;
 import com.stiggles.smp5.main.SMP5;
 import com.stiggles.smp5.managers.BankManager;
+import de.studiocode.invui.gui.builder.GUIBuilder;
+import de.studiocode.invui.gui.builder.guitype.GUIType;
+import de.studiocode.invui.item.ItemProvider;
+import de.studiocode.invui.item.builder.ItemBuilder;
+import de.studiocode.invui.item.builder.PotionBuilder;
+import de.studiocode.invui.item.impl.BaseItem;
+import de.studiocode.invui.item.impl.SimpleItem;
 import de.studiocode.invui.window.impl.single.SimpleWindow;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -11,17 +20,45 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
 import java.sql.SQLOutput;
 import java.util.ArrayList;
 
-public class DungeonKeeper extends StigglesNPC {
+public class DungeonKeeper extends ShopNPC {
 
+    private class Moonshine extends BaseItem {
+
+        public ItemProvider getItemProvider () {
+            return new ItemBuilder(Material.ENDER_CHEST)
+                    .setDisplayName(ChatColor.DARK_PURPLE + ChatColor.BOLD.toString() + "Item Collection")
+                    .addLoreLines ("Get back your lost items... for a price...");
+        }
+
+        @Override
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
+            if (!items.isEmpty()) {
+                if (BankManager.hasSufficientFunds(player, 50)) {
+                    CreateInventoryChest(new Location(Bukkit.getWorld(getWorldName()), -5, -60, 25));
+                    BankManager.withdraw(player, 50);
+                    sendMessage(player, "Heh.");
+                }
+                else {
+                    sendMessage(player, "That price isn't gonna cut it.");
+                }
+            }
+        }
+    }
     ArrayList<ItemStack> items = new ArrayList<>();
+
     public DungeonKeeper (SMP5 main) {
 
         super (main, "Dungeon Keeper");
@@ -65,6 +102,25 @@ public class DungeonKeeper extends StigglesNPC {
     @Override
     public void InteractDialogue(Player p) {
 
+    }
+    @Override
+    public void createGUI (Player player) {
+        gui = new GUIBuilder<>(GUIType.NORMAL)
+                .setStructure(
+                        "# # # # # # # # #",
+                        "# . a . b . c . #",
+                        "# . . . . . . . #",
+                        "# # # # # # # # #")
+                .addIngredient ('#', new SimpleItem(new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE)))
+                .addIngredient('a', new SimpleItem(new ItemBuilder(Material.ENDER_CHEST)))
+                .addIngredient('b', new SimpleItem(new ItemBuilder(Material.DIAMOND_SWORD)))
+                .addIngredient('c', new SimpleItem(new ItemBuilder(Material.IRON_PICKAXE)))
+                .build ();
+
+    }
+
+    public void createPlayerInventory () {
+        
     }
 
     public void GiveInventory (Inventory i) {
