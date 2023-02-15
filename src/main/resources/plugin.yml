@@ -4,3 +4,4 @@ main: com.stiggles.smp5.main.SMP5
 api-version: 1.19
 commands:
   npc:
+  coins:

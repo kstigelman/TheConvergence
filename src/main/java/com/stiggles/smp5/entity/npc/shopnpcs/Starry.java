@@ -45,10 +45,10 @@ public class Starry extends ShopNPC {
             return new PotionBuilder(PotionBuilder.PotionType.NORMAL)
                     .setDisplayName(ChatColor.GOLD + ChatColor.BOLD.toString() + "Moonshine")
                     .addLoreLines ("World famous Moonshine from the Spectral Saloon!")
-                    .addEffect(new PotionEffect(PotionEffectType.CONFUSION, 10, 1))
-                    .addEffect(new PotionEffect(PotionEffectType.POISON, 10, 1))
-                    .addEffect(new PotionEffect(PotionEffectType.LUCK, 3, 1))
-                    .addEffect(new PotionEffect(PotionEffectType.WEAKNESS, 10, 1));
+                    .addEffect(new PotionEffect(PotionEffectType.CONFUSION, 200, 1))
+                    .addEffect(new PotionEffect(PotionEffectType.POISON, 200, 1))
+                    .addEffect(new PotionEffect(PotionEffectType.LUCK, 60, 1))
+                    .addEffect(new PotionEffect(PotionEffectType.WEAKNESS, 200, 1));
         }
 
         @Override
