@@ -1,4 +1,4 @@
-package com.stiggles.smp5.entity.npc.shopnpcs;
+package com.stiggles.smp5.entity.npc.questnpc;
 
 import com.stiggles.smp5.entity.npc.StigglesNPC;
 import com.stiggles.smp5.main.SMP5;

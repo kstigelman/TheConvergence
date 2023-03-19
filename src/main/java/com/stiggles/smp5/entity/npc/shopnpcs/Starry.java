@@ -3,29 +3,19 @@ package com.stiggles.smp5.entity.npc.shopnpcs;
 import com.stiggles.smp5.main.SMP5;
 import de.studiocode.invui.gui.builder.GUIBuilder;
 import de.studiocode.invui.gui.builder.guitype.GUIType;
-import de.studiocode.invui.item.Item;
 import de.studiocode.invui.item.ItemProvider;
 import de.studiocode.invui.item.builder.ItemBuilder;
 import de.studiocode.invui.item.builder.PotionBuilder;
 import de.studiocode.invui.item.impl.BaseItem;
-import de.studiocode.invui.item.impl.CommandItem;
 import de.studiocode.invui.item.impl.SimpleItem;
-import de.studiocode.invui.util.Pair;
-import net.minecraft.world.item.alchemy.Potion;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.command.Command;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
-
-import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.HashMap;
 import java.util.Random;
 
 

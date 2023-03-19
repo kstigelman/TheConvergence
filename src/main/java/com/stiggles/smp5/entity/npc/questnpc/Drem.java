@@ -1,9 +1,7 @@
-package com.stiggles.smp5.entity.npc.shopnpcs;
+package com.stiggles.smp5.entity.npc.questnpc;
 
 import com.stiggles.smp5.main.SMP5;
 import org.bukkit.entity.Player;
-
-import java.util.Random;
 
 public class Drem extends QuestNPC {
 

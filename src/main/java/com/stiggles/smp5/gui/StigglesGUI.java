@@ -1,5 +1,6 @@
-package com.stiggles.smp5.entity.npc;
+package com.stiggles.smp5.gui;
 
+import com.stiggles.smp5.entity.npc.StigglesNPC;
 import com.stiggles.smp5.main.SMP5;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

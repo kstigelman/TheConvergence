@@ -1,4 +1,4 @@
-package com.stiggles.smp5.entity.npc;
+package com.stiggles.smp5.entity.npc.miscellaneous;
 
 import de.studiocode.invui.item.ItemProvider;
 import de.studiocode.invui.item.builder.ItemBuilder;

@@ -1,4 +1,4 @@
-package com.stiggles.smp5.entity.npc;
+package com.stiggles.smp5.commands;
 
 
 import com.mojang.authlib.GameProfile;

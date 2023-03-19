@@ -1,12 +1,10 @@
-package com.stiggles.smp5.events;
+package com.stiggles.smp5.listeners;
 
-import com.stiggles.smp5.entity.npc.DungeonKeeper;
-import com.stiggles.smp5.entity.npc.StigglesNPC;
+import com.stiggles.smp5.entity.npc.shopnpcs.DungeonKeeper;
 import com.stiggles.smp5.main.SMP5;
 import com.stiggles.smp5.managers.NPCManager;
 import org.apache.commons.lang.SerializationUtils;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;

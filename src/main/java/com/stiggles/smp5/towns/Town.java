@@ -1,7 +1,16 @@
 package com.stiggles.smp5.towns;
 
-public abstract class Town {
-    //private ArrayList<NPC> townNPC;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
+public abstract class Town {
+    CubeField field;
+
+
+    public Town (CubeField f) {
+        this.field = f;
+
+    }
 
 }

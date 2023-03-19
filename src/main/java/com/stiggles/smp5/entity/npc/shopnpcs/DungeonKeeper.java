@@ -1,4 +1,4 @@
-package com.stiggles.smp5.entity.npc;
+package com.stiggles.smp5.entity.npc.shopnpcs;
 
 import com.stiggles.smp5.dungeons.Dungeon;
 import com.stiggles.smp5.entity.npc.shopnpcs.ShopNPC;
@@ -75,28 +75,22 @@ public class DungeonKeeper extends ShopNPC {
 
     @Override
     public void OnInteract(Player p) {
-
-
             if (!items.isEmpty()) {
-
                 if (p.getInventory().getItemInMainHand().getType().equals(Material.GOLD_INGOT)) {
                     CreateInventoryChest(new Location(Bukkit.getWorlds().get(0), -5, -60, 25));
                     ItemStack handItem = p.getInventory().getItem(EquipmentSlot.HAND);
                     handItem.setAmount (handItem.getAmount() - 1);
                     p.updateInventory();
                     BankManager.withdraw(p, 50);
-                    this.sendMessage("Heh.");
+                    this.sendMessage(p, "Heh.");
                 }
                 else {
-                    this.sendMessage("That price isn't gonna cut it.");
+                    this.sendMessage(p,"That price isn't gonna cut it.");
                 }
             }
             else {
-                this.sendMessage("Welcome to the dungeon. Good luck...");
+                this.sendMessage(p,"Welcome to the dungeon. Good luck...");
             }
-
-
-
     }
 
     @Override
@@ -118,7 +112,6 @@ public class DungeonKeeper extends ShopNPC {
                 .build ();
 
     }
-
     public void createPlayerInventory () {
         
     }
@@ -149,7 +142,5 @@ public class DungeonKeeper extends ShopNPC {
             }
 
         }.runTaskLater(SMP5.getPlugin (), 1);
-
-
     }
 }

@@ -2,10 +2,8 @@ package com.stiggles.smp5.managers;
 
 import com.stiggles.smp5.main.SMP5;
 import com.stiggles.smp5.player.CoinBank;
-import it.unimi.dsi.fastutil.Hash;
-import org.bukkit.configuration.ConfigurationSection;
+
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.io.File;
@@ -26,15 +24,14 @@ public class BankManager {
 
         FileConfiguration coins = main.getConfig();
 
-        System.out.println(coins.getKeys(false));
-        for (String key : coins.getKeys(true)) {
+        //Grab all the coin amounts for config file and save in hashmap.
+        for (String key : coins.getKeys(true))
             coinAmounts.put (key, coins.getInt (key));
-            System.out.println("Key: " + key);
-        }
+
     }
 
     public static Integer getAmount (String key) {
-            return coinAmounts.get (key);
+        return coinAmounts.get (key);
     }
 
     public static void addPlayer (Player p) {
