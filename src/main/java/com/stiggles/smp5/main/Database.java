@@ -1,8 +1,6 @@
 package com.stiggles.smp5.main;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class Database {
 
@@ -25,6 +23,10 @@ public class Database {
 
     public Connection getConnection() { return connection; }
 
+    public boolean execute (String str) throws SQLException {
+        Statement statement = connection.createStatement();
+        return statement.execute(str);
+    }
     public void disconnect() {
         if (isConnected()){
             try {
