@@ -35,6 +35,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -42,26 +44,17 @@ public class SMP5 extends JavaPlugin implements Listener {
 
 
     private static SMP5 instance;
-
-    private static final String HOST = "jdbc:sqllite://174.175.36.215/stiggles";
-    private static Connection connection = null;
-
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public boolean inDungeon = true;
-    public NPCManager npcManager;
     public BankManager bankManager;
-    public PacketListener packetListener;
+    //public PacketListener packetListener;
     public static SMP5 getInstance() {
         return instance;
-    }
-    public static Connection getConnection () {
-        return connection;
     }
 
     private Database database;
     private PlayerManager playerManager;
-    private CustomPlayer customPlayer;
-
 
     boolean loaded = false;
     StigglesNPC npc;
@@ -75,35 +68,32 @@ public class SMP5 extends JavaPlugin implements Listener {
     //private Plugin plugin = SMP5.getPlugin(SMP5.class);
     @Override
     public void onEnable() {
-
         getConfig().options().copyDefaults();
         saveDefaultConfig();
 
+        database = new Database();
+
         try {
-            connection = DriverManager.getConnection(HOST);
+            database.connect();
         } catch (SQLException e) {
             Bukkit.getConsoleSender().sendMessage("NVTECH: Database connection failed. Server shutting down.");
             Bukkit.getServer().shutdown();
         }
-
-
         instance = this;
-        npcManager = new NPCManager();
         bankManager = new BankManager(this);
 
-        packetListener = new PacketListener (this);
+        //packetListener = new PacketListener (this);
 
         PluginManager manager = getServer().getPluginManager();
         manager.registerEvents(this, this);
         Bukkit.getPluginManager().registerEvents (new ConnectionListener(this), this);
-        Bukkit.getPluginManager().registerEvents (packetListener, this);
-        Bukkit.getPluginManager().registerEvents (new NPCListener(this), this);
+        //Bukkit.getPluginManager().registerEvents (packetListener, this);
+        //Bukkit.getPluginManager().registerEvents (new NPCListener(this), this);
+        Bukkit.getPluginManager().registerEvents(new CitizensRightClickEvent(this), this);
         Bukkit.getPluginManager().registerEvents(new ElytraEventListener(this), this);
         Bukkit.getPluginManager().registerEvents(new DungeonListener(this), this);
         Bukkit.getPluginManager().registerEvents(new MobKillListener(), this);
-        //npc = new Ned (this);
-        //npc2 = new Starry(this);
-        //npc3 = new EggDONTTake(this);
+
 
         npcs = new ArrayList<>();
         npcs.add (new Ned(this));
@@ -115,12 +105,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         online_players = new HashMap<>();
         //LOAD Registered player (UUIDS) from database
 
-        database = new Database();
-        try {
-            database.connect();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
         playerManager = new PlayerManager();
 
         Bukkit.getPluginManager().registerEvents(new ConnectionListener(this), this);
@@ -149,6 +134,7 @@ public class SMP5 extends JavaPlugin implements Listener {
             database.disconnect ();
     }
 
+    public DateTimeFormatter getFormatter() {return formatter; }
     public Database getDatabase() { return database; }
     public PlayerManager getPlayerManager() { return playerManager; }
 

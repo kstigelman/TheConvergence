@@ -1,23 +1,21 @@
 package com.stiggles.smp5.main;
 
+import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 
 public class Database {
 
-    private final String HOST = "na04-sql.pebblehost.com";
+    private final String HOST = "HIDDEN";
     private final int PORT = 3306;
-    private final String DATABASE = "customer_400683_stiggles";
-    private final String USERNAME = "customer_400683_stiggles";
-    private final String PASSWORD = "X$M5A!@F4dYU9qpf0fYQ";
+    private final String DATABASE = "HIDDEN";
+    private final String USERNAME = "HIDDEN";
+    private final String PASSWORD = "HIDDEN";
 
-    private Connection connection;
+    private Connection connection = null;
 
     public void connect() throws SQLException {
-        connection= DriverManager.getConnection(
-                "jdbc:mysql://" + HOST + ":" + PORT + "/" + DATABASE + "?useSSL=false",
-                USERNAME,
-                PASSWORD
-        );
+        connection = DriverManager.getConnection(
+                "jdbc:mysql://" + HOST + ":" + PORT + "/" + DATABASE + "?useSSL=false");
     }
     public boolean isConnected(){ return connection != null; }
 
@@ -26,6 +24,10 @@ public class Database {
     public boolean execute (String str) throws SQLException {
         Statement statement = connection.createStatement();
         return statement.execute(str);
+    }
+    public ResultSet query (String str) throws SQLException {
+        Statement statement = connection.createStatement();
+        return statement.executeQuery(str);
     }
     public void disconnect() {
         if (isConnected()){

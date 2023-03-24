@@ -19,6 +19,7 @@ public class NPCListener implements Listener {
     public void onRightClick (NPCRightClickEvent e) {
         e.getNPC ().OnInteract(e.getPlayer());
         e.getPlayer().playSound(e.getPlayer(), Sound.ENTITY_VILLAGER_AMBIENT, 1, 1.5f);
+
     }
 
 

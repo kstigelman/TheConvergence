@@ -24,8 +24,7 @@ public class functions {
      * @param m The message to be sent
      */
     public void SendMessage (String m) {
-        for (Player p : Bukkit.getOnlinePlayers())
-            p.sendMessage (m);
+        Bukkit.broadcastMessage(m);
     }
 
 }

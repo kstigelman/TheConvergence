@@ -17,10 +17,10 @@ import org.bukkit.inventory.ItemStack;
 public abstract class StigglesNPC {
 
 
-    private NPC npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, "bot");
+    private NPC npc;
     private ChatColor nameColorPrefix = ChatColor.WHITE;
     private ChatColor chatColor = ChatColor.WHITE;
-    protected static SMP5 main;
+    protected SMP5 main;
 
     private String name;
 
@@ -41,6 +41,8 @@ public abstract class StigglesNPC {
     public StigglesNPC (SMP5 main, String name, Location location) {
 
         this.main = main;
+
+        npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, "bot");
         SetName (name);
 
         worldName = location.getWorld().getName();

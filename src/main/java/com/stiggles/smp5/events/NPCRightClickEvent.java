@@ -19,7 +19,6 @@ public class NPCRightClickEvent extends Event implements Cancellable {
 
     public NPCRightClickEvent (Player player, StigglesNPC npc) {
         super (true);
-
         cancelled = false;
         this.player = player;
         this.npc = npc;

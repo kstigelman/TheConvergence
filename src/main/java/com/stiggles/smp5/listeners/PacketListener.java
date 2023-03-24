@@ -1,5 +1,5 @@
 package com.stiggles.smp5.listeners;
-
+/*
 import com.stiggles.smp5.events.NPCRightClickEvent;
 import com.stiggles.smp5.main.SMP5;
 import com.stiggles.smp5.managers.NPCManager;
@@ -86,4 +86,4 @@ public class PacketListener implements Listener {
     }
 
 
-}
+}*/

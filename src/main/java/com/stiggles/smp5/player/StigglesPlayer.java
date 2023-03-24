@@ -50,8 +50,8 @@ public class StigglesPlayer
     @Override
     public String toString () {
         return getName () + ": " +
-                          "\n  Location: " + getLocation () +
-                          "\n  Coins: " + getCoinBank().getBalance ();
+                          "\n\tLocation: " + getLocation () +
+                          "\n\tCoins: " + getCoinBank().getBalance ();
     }
 
 
