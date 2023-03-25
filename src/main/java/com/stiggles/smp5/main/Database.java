@@ -42,6 +42,7 @@ public class Database {
             }
             catch (SQLException e) {
                 Bukkit.broadcastMessage("NVTECH: Failed to disconnect from database.");
+
             }
         }
     }

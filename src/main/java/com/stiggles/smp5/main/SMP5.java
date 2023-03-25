@@ -139,8 +139,6 @@ public class SMP5 extends JavaPlugin implements Listener {
 
         // Plugin startup logic
 
-
-
         /*
             This is the lobby setup stuff
          */
