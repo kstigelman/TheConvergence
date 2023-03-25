@@ -29,10 +29,7 @@ public abstract class Dungeon {
         while (!stack.empty()) {
             Entity e = stack.pop ();
             worldEntities.add (e);
-
-
         }
-
     }
     abstract void initialize ();
     void initNPC () {

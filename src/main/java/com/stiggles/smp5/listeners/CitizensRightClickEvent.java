@@ -16,6 +16,6 @@ public class CitizensRightClickEvent implements Listener {
     @EventHandler
     public void onRightClick (NPCRightClickEvent e) {
         e.getClicker().playSound(e.getClicker(), Sound.ENTITY_VILLAGER_AMBIENT, 1, 1.5f);
-        NPCManager.getNPC(e.getNPC ().getId()).OnInteract(e.getClicker());
+        NPCManager.getNPC(e.getNPC ().getId()).onInteract(e.getClicker());
     }
 }

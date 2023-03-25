@@ -22,7 +22,7 @@ public class ConnectionListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin (PlayerJoinEvent e) {
-        main.packetListener.inject (e.getPlayer());
+        //main.packetListener.inject (e.getPlayer());
         Bukkit.getServer ().broadcastMessage("Injecting packets!");
 
         Player player = e.getPlayer();
@@ -41,7 +41,7 @@ public class ConnectionListener implements Listener {
 
     @EventHandler
     public void onPlayerQuit (PlayerQuitEvent e) {
-        main.packetListener.stop (e.getPlayer());
+        //main.packetListener.stop (e.getPlayer());
 
         customPlayer = main.getPlayerManager().getCustomPlayer(e.getPlayer().getUniqueId());
 

@@ -1,5 +1,8 @@
-package com.stiggles.smp5.commands;
+/**
+ *   CURRENTLY UNUSED, MAY NEED LATER
+ */
 
+/*package com.stiggles.smp5.commands;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
@@ -76,3 +79,4 @@ public class NPCCommand implements CommandExecutor {
     }
 
 }
+*/

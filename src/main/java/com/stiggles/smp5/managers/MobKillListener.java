@@ -21,12 +21,12 @@ public class MobKillListener implements Listener {
 
 
         Integer reward = BankManager.getAmount(parts[1]);
-        if (reward == null) {
+        if (reward == null)
             reward = BankManager.getAmount ("Default");
-        }
-        if (reward == 0) {
+
+        if (reward == 0)
             return;
-        }
+
         killer.sendMessage(ChatColor.GOLD + "+" + reward + " coins");
         BankManager.deposit(killer, reward);
         killer.playSound(killer, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.f, 2.0f);

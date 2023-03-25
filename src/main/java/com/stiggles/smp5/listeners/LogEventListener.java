@@ -96,4 +96,21 @@ public class LogEventListener implements Listener {
             Bukkit.getConsoleSender().sendMessage("NVTECH: Failed to log player logout");
         }
     }
+    public void logout (Player p) {
+        try {
+            main.getDatabase().execute(
+                    "INSERT INTO log VALUES ('"
+                            + p.getUniqueId() + "', '"
+                            + LocalDateTime.now().format(main.getFormatter()) + "', "
+                            + "'LOGOUT', "
+                            + p.getLocation().getBlockX() + ", "
+                            + p.getLocation().getBlockY() + ", "
+                            + p.getLocation().getBlockZ() + ")"
+            );
+
+        }
+        catch (SQLException event) {
+            Bukkit.getConsoleSender().sendMessage("NVTECH: Failed to log player logout");
+        }
+    }
 }
