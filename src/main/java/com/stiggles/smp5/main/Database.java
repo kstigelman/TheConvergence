@@ -1,7 +1,11 @@
 package com.stiggles.smp5.main;
 
+import org.bukkit.Bukkit;
+
 import javax.swing.plaf.nimbus.State;
 import java.sql.*;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 public class Database {
 
@@ -12,12 +16,14 @@ public class Database {
     private final String PASSWORD = "HIDDEN";
 
     private Connection connection = null;
+    private PriorityQueue<String> statements = new PriorityQueue<>();
 
     public void connect() throws SQLException {
         connection = DriverManager.getConnection(
                 "jdbc:mysql://" + HOST + ":" + PORT + "/" + DATABASE + "?useSSL=false");
+
     }
-    public boolean isConnected(){ return connection != null; }
+    public boolean isConnected() { return connection != null; }
 
     public Connection getConnection() { return connection; }
 
@@ -30,13 +36,30 @@ public class Database {
         return statement.executeQuery(str);
     }
     public void disconnect() {
-        if (isConnected()){
+        if (isConnected()) {
             try {
                 connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+            }
+            catch (SQLException e) {
+                Bukkit.broadcastMessage("NVTECH: Failed to disconnect from database.");
             }
         }
     }
+    public void runQueue () {
+        runQueue(statements.size());
+    }
+    public void runQueue (int amount) {
+        if (amount > statements.size())
+            amount = statements.size();
 
+        for (int i = 0; i < amount; ++i) {
+            try {
+                execute(statements.peek());
+                statements.remove();
+            }
+            catch (SQLException e) {
+                Bukkit.getConsoleSender().sendMessage("NVTECH: Could not execute statement from queue");
+            }
+        }
+    }
 }

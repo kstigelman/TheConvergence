@@ -7,14 +7,11 @@ import java.util.UUID;
 public class CoinBank {
     private int balance;
     private UUID owner;
-
-
     /**
      * Default constructor for CoinBank. Should only be used for testing, or perhaps a "World Bank"
      */
     public CoinBank () {
-        balance = 0;
-        owner = null;
+        this (null, 0);
     }
 
     /**
@@ -23,14 +20,17 @@ public class CoinBank {
      * @param owner The player that the account should be linked to.
      */
     public CoinBank (UUID owner) {
-        balance = 0;
-        this.owner = owner;
+        this (owner, 0);
     }
 
+    public CoinBank (UUID owner, int balance) {
+        this.balance = balance;
+        this.owner = owner;
+    }
     /**
      * @return The player that is linked to the account
      */
-    public UUID getOwnerName () {
+    public UUID getOwner () {
         return owner;
     }
 

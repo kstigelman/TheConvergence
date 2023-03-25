@@ -20,12 +20,14 @@ import com.stiggles.smp5.entity.npc.shopnpcs.DungeonKeeper;
 import com.stiggles.smp5.listeners.*;
 import com.stiggles.smp5.managers.BankManager;
 import com.stiggles.smp5.managers.MobKillListener;
+import com.stiggles.smp5.player.CoinBank;
 import com.stiggles.smp5.player.StigglesPlayer;
 import com.stiggles.smp5.entity.npc.*;
 import com.stiggles.smp5.entity.npc.shopnpcs.Starry;
 import com.stiggles.smp5.managers.NPCManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -34,11 +36,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class SMP5 extends JavaPlugin implements Listener {
 
@@ -55,6 +59,7 @@ public class SMP5 extends JavaPlugin implements Listener {
 
     private Database database;
     private PlayerManager playerManager;
+    private ArrayList<UUID> registeredUUIDs;
 
     boolean loaded = false;
     StigglesNPC npc;
@@ -62,14 +67,23 @@ public class SMP5 extends JavaPlugin implements Listener {
     StigglesNPC npc3;
 
 
+
     private ArrayList<StigglesNPC> npcs;
 
     public HashMap<String, StigglesPlayer> online_players;
     //private Plugin plugin = SMP5.getPlugin(SMP5.class);
+
+    public SMP5 () {
+        registeredUUIDs = new ArrayList<>();
+    }
+
+
     @Override
     public void onEnable() {
         getConfig().options().copyDefaults();
         saveDefaultConfig();
+
+        instance = this;
 
         database = new Database();
 
@@ -79,20 +93,26 @@ public class SMP5 extends JavaPlugin implements Listener {
             Bukkit.getConsoleSender().sendMessage("NVTECH: Database connection failed. Server shutting down.");
             Bukkit.getServer().shutdown();
         }
-        instance = this;
+
+        try {
+            ResultSet rs =database.query("SELECT * FROM players");
+            while (rs.next ()) {
+                UUID uuid = UUID.fromString(rs.getString(1));
+                registeredUUIDs.add (uuid);
+            }
+            rs.close ();
+        }
+        catch (SQLException e) {
+            Bukkit.getConsoleSender().sendMessage("NVTECH: Failed to fetch players");
+        }
+
         bankManager = new BankManager(this);
 
         //packetListener = new PacketListener (this);
 
-        PluginManager manager = getServer().getPluginManager();
-        manager.registerEvents(this, this);
-        Bukkit.getPluginManager().registerEvents (new ConnectionListener(this), this);
-        //Bukkit.getPluginManager().registerEvents (packetListener, this);
-        //Bukkit.getPluginManager().registerEvents (new NPCListener(this), this);
-        Bukkit.getPluginManager().registerEvents(new CitizensRightClickEvent(this), this);
-        Bukkit.getPluginManager().registerEvents(new ElytraEventListener(this), this);
-        Bukkit.getPluginManager().registerEvents(new DungeonListener(this), this);
-        Bukkit.getPluginManager().registerEvents(new MobKillListener(), this);
+        registerEvents();
+
+
 
 
         npcs = new ArrayList<>();
@@ -145,36 +165,41 @@ public class SMP5 extends JavaPlugin implements Listener {
     public void onPlayerJoin (PlayerJoinEvent e) {
 
         //Check if player is registered already
+        Player p = e.getPlayer();
+
+        if (!registeredUUIDs.contains(p.getUniqueId())) {
+            try {
+                //Register player record
+                database.execute("INSERT INTO players VALUES ('" + p.getUniqueId() + "', '" + p.getName() + "', " + 0 + ")");
+                //Register bank record
+                database.execute("INSERT INTO bank VALUES ('" + p.getUniqueId() + "', '" + 0 + ")");
+            }
+            catch (SQLException event) {
+                Bukkit.getConsoleSender().sendMessage("NVTECH: Failed to register new player.");
+            }
+        }
+        //online_players.put (e.getPlayer ().getName (), new StigglesPlayer());
         //If so, add uuid + stigglesplayer to online_players
         //Otherwise, register new StigglesPlayer UUID and add to online_players
-        online_players.put (e.getPlayer ().getName (), new StigglesPlayer());
-        BankManager.addPlayer(e.getPlayer());
+
 
         //for (StigglesNPC n : NPCManager.getHashMap().values ())
           //  n.showToPlayer(e.getPlayer());
 
         //npc3.SetHolding(Material.TRIDENT);
-        npcs.get (2).SetHolding(Material.TRIDENT);
-        npcs.get (4).SetHolding (Material.GOLDEN_PICKAXE);
+        //npcs.get (2).SetHolding(Material.TRIDENT);
+        //npcs.get (4).SetHolding (Material.GOLDEN_PICKAXE);
     }
 
-
-
-    public void RegisterEvents () {
-
+    public void registerEvents () {
+        PluginManager manager = Bukkit.getPluginManager();
+        manager.registerEvents(this, this);
+        manager.registerEvents (new ConnectionListener(this), this);
+        //Bukkit.getPluginManager().registerEvents (packetListener, this);
+        //Bukkit.getPluginManager().registerEvents (new NPCListener(this), this);
+        manager.registerEvents(new CitizensRightClickEvent(this), this);
+        manager.registerEvents(new ElytraEventListener(this), this);
+        manager.registerEvents(new DungeonListener(this), this);
+        manager.registerEvents(new MobKillListener(), this);
     }
-    /*
-    @EventHandler
-    public void onPlayerMove (PlayerMoveEvent e) {
-        if (!loaded) {
-            getServer().broadcastMessage("Hi!");
-
-            npc.showToPlayer(e.getPlayer());
-            loaded = true;
-        }
-
-    }*/
-
-
-
 }

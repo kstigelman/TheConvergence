@@ -43,7 +43,7 @@ public abstract class StigglesNPC {
         this.main = main;
 
         npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, "bot");
-        SetName (name);
+        setName (name);
 
         worldName = location.getWorld().getName();
 
@@ -74,7 +74,7 @@ public abstract class StigglesNPC {
      * @param yaw The horizontal rotation.
      * @param pitch The vertical rotation.
      */
-    public void SetRotation (float yaw, float pitch) {
+    public void setRotation (float yaw, float pitch) {
         this.yaw = yaw;
         this.pitch = pitch;
         npc.faceLocation(new Location (Bukkit.getWorld (worldName),
@@ -95,7 +95,7 @@ public abstract class StigglesNPC {
      *
      * @param name the new name.
      */
-    public void SetName (String name) {
+    public void setName (String name) {
         this.name = name;
     }
 
@@ -103,7 +103,7 @@ public abstract class StigglesNPC {
      *
      * @param location A minecraft location to be set.
      */
-    public void SetPos (Location location) {
+    public void setPos (Location location) {
         npc.despawn();
         npc.spawn(location);
     }
@@ -114,7 +114,7 @@ public abstract class StigglesNPC {
      * @param y The y-coordinate of the location.
      * @param z The z-coordinate of the location.
      */
-    public void SetPos (double x, double y, double z) {
+    public void setPos (double x, double y, double z) {
         npc.despawn();
         npc.spawn(new Location (Bukkit.getWorld (worldName), x, y, z));
     }
@@ -124,7 +124,7 @@ public abstract class StigglesNPC {
      * @param value The skin value string.
      * @param signature The skin signature string.
      */
-    public void SetSkin (String value, String signature) {
+    public void setSkin (String value, String signature) {
         npc.getOrAddTrait(SkinTrait.class).setSkinPersistent(name, signature, value);
     }
 
@@ -149,13 +149,13 @@ public abstract class StigglesNPC {
      *
      * @param player The player that interacted with the NPC.
      */
-    public abstract void OnInteract (Player player);
+    public abstract void onInteract (Player player);
 
     /** Send dialogue to player when the NPC is interacted with.
      *
      * @param player The player that interacted with the NPC.
      */
-    public abstract void InteractDialogue (Player player);
+    public abstract void interactDialogue (Player player);
 
     /** Get the NPC's entity ID.
      *
@@ -169,7 +169,7 @@ public abstract class StigglesNPC {
      *
      * @param item The item material the NPC should hold.
      */
-    public void SetHolding (Material item) {
+    public void setHolding (Material item) {
         if (item == null)
             return;
         npc.getOrAddTrait(Equipment.class).set (Equipment.EquipmentSlot.HAND, new ItemStack(item));
@@ -179,7 +179,7 @@ public abstract class StigglesNPC {
      *
      * @param item The item stack the NPC should hold.
      */
-    public void SetHolding (ItemStack item) {
+    public void setHolding (ItemStack item) {
         if (item == null)
             return;
         npc.getOrAddTrait(Equipment.class).set (Equipment.EquipmentSlot.HAND, item);
@@ -189,7 +189,7 @@ public abstract class StigglesNPC {
      *
      * @param color The color to be set.
      */
-    public void SetNameColor (ChatColor color) {
+    public void setNameColor (ChatColor color) {
         nameColorPrefix = color;
     }
 
@@ -197,7 +197,7 @@ public abstract class StigglesNPC {
      *
      * @param color
      */
-    public void SetChatColor (ChatColor color) {
+    public void setChatColor (ChatColor color) {
         chatColor = color;
     }
 

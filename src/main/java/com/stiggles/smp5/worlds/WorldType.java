@@ -5,5 +5,5 @@ public enum WorldType {
     DUNGEON,
     DIMENSION,
     SPECIAL,
-    EVENT;
+    EVENT
 }

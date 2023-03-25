@@ -3,15 +3,48 @@
 create table player (
     uuid char(36),
     username varchar (32),
+    playtime int,
     primary key (uuid)
 );
 create table log (
     uuid     char(36),
     log_time char (19),
     log_type char (6),
-    x        int,
-    y        int,
-    z        int,
+    x_pos    int,
+    y_pos    int,
+    z_pos    int,
     primary key (uuid, log_time, log_type),
     foreign key (uuid) references player
+);
+create table dungeon_attempts (
+    uuid          char (36),
+    dungeon_name  varchar (16),
+    timestamp     char (19),
+    difficult     int,
+    won           bit,
+    alive         bit,
+    primary key (uuid, dungeon_name, timestamp),
+    foreign key (uuid) references player
+);
+create table npc (
+    npc_id  int,
+    name    varchar (32),
+    x_pos   int,
+    y_pos   int,
+    z_pos   int,
+    primary key (npc_id)
+);
+create table talked_to_npc (
+    uuid char(36),
+    npc_id int,
+    timesTalkedTo int,
+    primary key (uuid, npc_id),
+    foreign key (uuid) references players,
+    foreign key (npc_id) references npc
+);
+create table bank (
+    uuid char (36),
+    balance int,
+    primary key (uuid),
+    foreign key (uuid) references players
 );
