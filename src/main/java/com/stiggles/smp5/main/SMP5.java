@@ -48,6 +48,9 @@ import java.util.UUID;
 public class SMP5 extends JavaPlugin implements Listener {
 
 
+    /*
+        TODO - REMOVE NPC FROM plugin.yml
+     */
     private static SMP5 instance;
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
