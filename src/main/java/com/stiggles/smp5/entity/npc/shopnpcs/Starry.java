@@ -25,14 +25,6 @@ import java.util.Random;
 public class Starry extends ShopNPC {
 
 
-    @Override
-    public void onInteract(Player player) {
-        interactDialogue(player);
-
-    }
-
-
-
     private class Moonshine extends BaseItem {
 
         /*public Moonshine(ItemProvider itemProvider, String command) {
@@ -87,6 +79,13 @@ public class Starry extends ShopNPC {
 
         setPos (-4.5, -59, 3.5);
     }
+
+
+    @Override
+    public void onInteract(Player player) {
+        interactDialogue(player);
+    }
+
 
     @Override
     public void createGUI (Player player) {

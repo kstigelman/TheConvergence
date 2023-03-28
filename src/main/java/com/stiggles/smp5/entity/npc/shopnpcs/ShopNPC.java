@@ -6,6 +6,7 @@ import de.studiocode.invui.gui.builder.GUIBuilder;
 import de.studiocode.invui.gui.builder.guitype.GUIType;
 import de.studiocode.invui.gui.impl.SimpleGUI;
 import de.studiocode.invui.item.builder.ItemBuilder;
+import de.studiocode.invui.item.impl.BaseItem;
 import de.studiocode.invui.item.impl.SimpleItem;
 import de.studiocode.invui.window.impl.single.SimpleWindow;
 import org.bukkit.Location;
@@ -15,6 +16,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public abstract class ShopNPC extends StigglesNPC {
 
+    public abstract class StigglesBaseItem extends BaseItem {
+        int cost;
+    }
     protected SimpleGUI gui;
 
     public ShopNPC (SMP5 main, String name) {
@@ -25,8 +29,8 @@ public abstract class ShopNPC extends StigglesNPC {
     }
 
     @Override
-    public void OnInteract (Player player) {
-        InteractDialogue (player);
+    public void onInteract (Player player) {
+        interactDialogue (player);
         createGUI (player);
         showGUI (player);
     }
@@ -41,6 +45,9 @@ public abstract class ShopNPC extends StigglesNPC {
             }
 
         }.runTaskLater(SMP5.getPlugin (), 4);
+    }
+
+    public void click (Player p, BaseItem item) {
 
     }
 }
