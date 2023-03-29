@@ -1,13 +1,11 @@
 package com.stiggles.smp5.entity.npc.shopnpcs;
 
-import com.stiggles.smp5.entity.npc.StigglesNPC;
 import com.stiggles.smp5.main.SMP5;
 import com.stiggles.smp5.managers.BankManager;
 import de.studiocode.invui.gui.builder.GUIBuilder;
 import de.studiocode.invui.gui.builder.guitype.GUIType;
 import de.studiocode.invui.item.ItemProvider;
 import de.studiocode.invui.item.builder.ItemBuilder;
-import de.studiocode.invui.item.builder.PotionBuilder;
 import de.studiocode.invui.item.impl.BaseItem;
 import de.studiocode.invui.item.impl.SimpleItem;
 import org.bukkit.ChatColor;
@@ -15,20 +13,14 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.Statistic;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Fish;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.Random;
-import java.util.UUID;
-import java.util.concurrent.locks.Lock;
 
 public class Mister8Bit extends ShopNPC {
     /* Set a new random integer "seed" on every instance.
