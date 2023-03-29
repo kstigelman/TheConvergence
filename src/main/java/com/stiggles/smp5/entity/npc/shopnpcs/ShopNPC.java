@@ -12,12 +12,22 @@ import de.studiocode.invui.window.impl.single.SimpleWindow;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public abstract class ShopNPC extends StigglesNPC {
 
     public abstract class StigglesBaseItem extends BaseItem {
-        int cost;
+        public int cost;
+        public ItemStack item;
+
+        public StigglesBaseItem () {
+            this (0);
+        }
+        public StigglesBaseItem (int price) {
+            super ();
+            this.cost = price;
+        }
     }
     protected SimpleGUI gui;
 

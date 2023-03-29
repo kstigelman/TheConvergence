@@ -51,11 +51,11 @@ public class BankManager {
     public static void deposit (UUID uuid, int amount) {
         banks.get (uuid).deposit(amount);
     }
-    public static void withdraw (Player p, int amount) {
-        banks.get (p.getUniqueId()).withdraw (amount);
+    public static boolean withdraw (Player p, int amount) {
+        return banks.get (p.getUniqueId()).withdraw (amount);
     }
-    public static void withdraw (UUID uuid, int amount) {
-        banks.get (uuid).withdraw (amount);
+    public static boolean withdraw (UUID uuid, int amount) {
+        return banks.get (uuid).withdraw (amount);
     }
     public static boolean hasSufficientFunds (Player p, int amount) {
         return getBalance(p) > amount;
