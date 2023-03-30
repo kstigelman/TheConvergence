@@ -41,8 +41,8 @@ public class Mister8Bit extends ShopNPC {
         @Override
         public ItemProvider getItemProvider() {
             if (randInt % 7 == 0)
-                return new ItemBuilder(Material.PUFFERFISH_BUCKET);
-            return new ItemBuilder(Material.TROPICAL_FISH_BUCKET);
+                return new ItemBuilder(Material.PUFFERFISH_BUCKET).addLoreLines(Arrays.asList(ChatColor.BLUE, "Cost: ", ChatColor.GOLD, cost, " Gold").toString());
+            return new ItemBuilder(Material.TROPICAL_FISH_BUCKET).addLoreLines(Arrays.asList(ChatColor.BLUE, "Cost: ", ChatColor.GOLD, cost, " Gold").toString());
         }
 
         @Override
@@ -74,7 +74,7 @@ public class Mister8Bit extends ShopNPC {
         }
         @Override
         public ItemProvider getItemProvider() {
-            return new ItemBuilder (item);
+            return new ItemBuilder (item).addLoreLines(Arrays.asList(ChatColor.BLUE, "Cost: ", ChatColor.GOLD, cost, " Gold").toString());
         }
 
         @Override
@@ -106,7 +106,7 @@ public class Mister8Bit extends ShopNPC {
         }
         @Override
         public ItemProvider getItemProvider() {
-            return new ItemBuilder(item);
+            return new ItemBuilder(item).addLoreLines(Arrays.asList(ChatColor.BLUE, "Cost: ", ChatColor.GOLD, cost, " Gold").toString());
         }
 
         @Override
@@ -138,7 +138,7 @@ public class Mister8Bit extends ShopNPC {
         }
         @Override
         public ItemProvider getItemProvider() {
-            return new ItemBuilder(item);
+            return new ItemBuilder(item).addLoreLines(Arrays.asList(ChatColor.BLUE, "Cost: ", ChatColor.GOLD, cost, " Gold").toString());
         }
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent inventoryClickEvent) {
@@ -155,7 +155,7 @@ public class Mister8Bit extends ShopNPC {
         }
         @Override
         public ItemProvider getItemProvider() {
-            return new ItemBuilder(Material.PRISMARINE_CRYSTALS);
+            return new ItemBuilder(Material.PRISMARINE_CRYSTALS).addLoreLines(Arrays.asList(ChatColor.BLUE, "Cost: ", ChatColor.GOLD, cost, " Gold").toString());
         }
 
         @Override
@@ -173,7 +173,7 @@ public class Mister8Bit extends ShopNPC {
         }
         @Override
         public ItemProvider getItemProvider() {
-            return new ItemBuilder(Material.PRISMARINE_SHARD);
+            return new ItemBuilder(Material.PRISMARINE_SHARD).addLoreLines(Arrays.asList(ChatColor.BLUE, "Cost: ", ChatColor.GOLD, cost, " Gold").toString());
         }
 
         @Override
@@ -190,7 +190,7 @@ public class Mister8Bit extends ShopNPC {
         public ItemProvider getItemProvider () {
             return new ItemBuilder(Material.FISHING_ROD)
                     .setDisplayName(ChatColor.BLUE + "The Mage's Fishing Rod")
-                    .addLoreLines ("")
+                    .addLoreLines(Arrays.asList(ChatColor.BLUE, "Cost: ", ChatColor.GOLD, cost, " Gold").toString())
                     .addEnchantment(Enchantment.LURE, 5, true)
                     .addEnchantment(Enchantment.LUCK, 5, true)
                     .addEnchantment(Enchantment.DAMAGE_ALL, 10, true)
