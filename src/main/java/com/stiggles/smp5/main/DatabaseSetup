@@ -39,12 +39,12 @@ create table talked_to_npc (
     npc_id int,
     timesTalkedTo int,
     primary key (uuid, npc_id),
-    foreign key (uuid) references players,
+    foreign key (uuid) references player,
     foreign key (npc_id) references npc
 );
 create table bank (
     uuid char (36),
     balance int,
     primary key (uuid),
-    foreign key (uuid) references players
+    foreign key (uuid) references player
 );

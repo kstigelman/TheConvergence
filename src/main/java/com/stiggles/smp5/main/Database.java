@@ -9,9 +9,9 @@ import java.util.Queue;
 
 public class Database {
 
-    private final String HOST = "HIDDEN";
+    private final String HOST = "174.175.7.240";
     private final int PORT = 3306;
-    private final String DATABASE = "HIDDEN";
+    private final String DATABASE = "stiggles.db";
     private final String USERNAME = "HIDDEN";
     private final String PASSWORD = "HIDDEN";
 
@@ -20,7 +20,9 @@ public class Database {
 
     public void connect() throws SQLException {
         connection = DriverManager.getConnection(
-                "jdbc:mysql://" + HOST + ":" + PORT + "/" + DATABASE + "?useSSL=false");
+                "jdbc:sqlite:" + HOST + ":" + DATABASE + "?useSSL=false");
+
+        Bukkit.getConsoleSender().sendMessage("Successfully connected to Stiggles DB");
 
     }
     public boolean isConnected() { return connection != null; }

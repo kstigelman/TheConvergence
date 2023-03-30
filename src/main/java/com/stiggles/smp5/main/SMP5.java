@@ -17,6 +17,7 @@ import com.stiggles.smp5.entity.npc.dialoguenpc.EggDONTTake;
 import com.stiggles.smp5.entity.npc.dialoguenpc.Ned;
 import com.stiggles.smp5.entity.npc.questnpc.Drem;
 import com.stiggles.smp5.entity.npc.shopnpcs.DungeonKeeper;
+import com.stiggles.smp5.entity.npc.shopnpcs.Mister8Bit;
 import com.stiggles.smp5.listeners.*;
 import com.stiggles.smp5.managers.BankManager;
 import com.stiggles.smp5.managers.CoinBankManager;
@@ -26,6 +27,11 @@ import com.stiggles.smp5.player.StigglesPlayer;
 import com.stiggles.smp5.entity.npc.*;
 import com.stiggles.smp5.entity.npc.shopnpcs.Starry;
 import com.stiggles.smp5.managers.NPCManager;
+import net.citizensnpcs.Citizens;
+import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.CitizensPlugin;
+import net.citizensnpcs.api.event.CitizensEnableEvent;
+import net.citizensnpcs.api.npc.NPCRegistry;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -44,9 +50,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.logging.Level;
 
 public class SMP5 extends JavaPlugin implements Listener {
-
 
     /*
         TODO - REMOVE NPC FROM plugin.yml
@@ -70,14 +76,26 @@ public class SMP5 extends JavaPlugin implements Listener {
     public HashMap<String, StigglesPlayer> online_players;
     //private Plugin plugin = SMP5.getPlugin(SMP5.class);
 
+
     @Override
     public void onEnable() {
+        if(getServer().getPluginManager().getPlugin("Citizens") == null || !getServer().getPluginManager().getPlugin("Citizens").isEnabled()) {
+            getLogger().log(Level.SEVERE, "Citizens 2.0 not found or not enabled");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+        //CitizensAPI.setImplementation((Citizens) CitizensAPI.getPlugin());
+
+        createNPCs();
+        Bukkit.getConsoleSender().sendMessage("Sendmsg");
+
         instance = this;
+        database = new Database();
 
         getConfig().options().copyDefaults();
         saveDefaultConfig();
 
-        if (Bukkit.getWorld ("smp5") == null) {
+        if (Bukkit.getWorld ("world") == null) {
             Bukkit.getConsoleSender().sendMessage("NVTECH: Could not load world.");
             Bukkit.getServer().shutdown();
         }
@@ -91,7 +109,7 @@ public class SMP5 extends JavaPlugin implements Listener {
 
         //LOAD Registered player (UUIDS) from database
         try {
-            ResultSet rs =database.query("SELECT * FROM players");
+            ResultSet rs =database.query("SELECT * FROM player");
             while (rs.next ()) {
                 UUID uuid = UUID.fromString(rs.getString(1));
                 registeredUUIDs.add (uuid);
@@ -101,16 +119,15 @@ public class SMP5 extends JavaPlugin implements Listener {
         catch (SQLException e) {
             Bukkit.getConsoleSender().sendMessage("NVTECH: Failed to fetch players");
         }
-
         registeredUUIDs = new ArrayList<>();
         online_players = new HashMap<>();
         playerManager = new PlayerManager();
         bankManager = new BankManager(this);
-        database = new Database();
 
         registerEvents();
         registerCommands();
-        createNPCs ();
+        createNPCs();
+
 
         /*
             This is the lobby setup stuff
@@ -121,12 +138,12 @@ public class SMP5 extends JavaPlugin implements Listener {
     public void onDisable() {
         instance = null;
         //Update world database
-        database.runQueue();
+        //database.runQueue();
 
         if (database != null)
             database.disconnect ();
 
-        bankManager.onDisable();
+        //bankManager.onDisable();
 
         Bukkit.getServer().shutdown();
     }
@@ -139,6 +156,11 @@ public class SMP5 extends JavaPlugin implements Listener {
         return instance;
     }
     @EventHandler
+    public void onCitizensEnable(CitizensEnableEvent ev) {
+        Bukkit.getConsoleSender().sendMessage("NV: Citizens Plugin enabled");
+    }
+
+    @EventHandler
     public void onPlayerJoin (PlayerJoinEvent e) {
 
         //Check if player is registered already
@@ -147,7 +169,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         if (!registeredUUIDs.contains(p.getUniqueId())) {
             try {
                 //Register player record
-                database.execute("INSERT INTO players VALUES ('" + p.getUniqueId() + "', '" + p.getName() + "', " + 0 + ")");
+                database.execute("INSERT INTO player VALUES ('" + p.getUniqueId() + "', '" + p.getName() + "', " + 0 + ")");
                 //Register bank record
                 database.execute("INSERT INTO bank VALUES ('" + p.getUniqueId() + "', '" + 0 + ")");
             }
@@ -170,8 +192,9 @@ public class SMP5 extends JavaPlugin implements Listener {
 
     public void registerEvents () {
         PluginManager manager = Bukkit.getPluginManager();
-        manager.registerEvents(this, this);
+
         manager.registerEvents(new LogEventListener(this), this);
+        //manager.registerEvents(this, this);
         //manager.registerEvents (new ConnectionListener(this), this);
         //Bukkit.getPluginManager().registerEvents (packetListener, this);
         //Bukkit.getPluginManager().registerEvents (new NPCListener(this), this);
@@ -187,9 +210,10 @@ public class SMP5 extends JavaPlugin implements Listener {
         npcs.add (new EggDONTTake(this));
         npcs.add (new Drem (this));
         npcs.add (new DungeonKeeper(this));
+        npcs.add (new Mister8Bit(this, "Luke the Fisherman"));
     }
     public void registerCommands () {
-        Bukkit.getPluginCommand("coins").setExecutor(new CoinCommand());
+        //Bukkit.getPluginCommand("coins").setExecutor(new CoinCommand());
         //saveDefaultConfig()
         //stats = new PluginFile(this, "stats.yml", "stats.yml");
         //Load important database variables

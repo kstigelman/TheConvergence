@@ -42,8 +42,9 @@ public abstract class StigglesNPC {
 
         this.main = main;
 
-        npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, "bot");
-        setName (name);
+        npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, name);
+        NPCManager.registerNewNPC(this);
+        //setName (name);
 
         worldName = location.getWorld().getName();
 
@@ -56,9 +57,9 @@ public abstract class StigglesNPC {
         yaw = 1f;
         pitch = 1f;
 
-        npc.spawn(spawnLocation);
 
-        NPCManager.registerNewNPC(this);
+
+        npc.spawn(spawnLocation);
     }
 
     /** Retrives the name of the NPC

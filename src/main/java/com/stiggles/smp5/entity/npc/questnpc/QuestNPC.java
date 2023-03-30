@@ -16,7 +16,7 @@ public abstract class QuestNPC extends StigglesNPC {
         super (main, name, location);
     }
     @Override
-    public void OnInteract(Player player) {
+    public void onInteract(Player player) {
 
     }
 

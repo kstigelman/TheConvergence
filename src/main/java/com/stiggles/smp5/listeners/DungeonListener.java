@@ -3,7 +3,6 @@ package com.stiggles.smp5.listeners;
 import com.stiggles.smp5.entity.npc.shopnpcs.DungeonKeeper;
 import com.stiggles.smp5.main.SMP5;
 import com.stiggles.smp5.managers.NPCManager;
-import org.apache.commons.lang.SerializationUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
