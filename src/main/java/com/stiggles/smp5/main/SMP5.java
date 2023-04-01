@@ -31,6 +31,7 @@ import net.citizensnpcs.Citizens;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.CitizensPlugin;
 import net.citizensnpcs.api.event.CitizensEnableEvent;
+import net.citizensnpcs.api.event.NPCOpenGateEvent;
 import net.citizensnpcs.api.npc.NPCRegistry;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -40,6 +41,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -86,7 +88,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         }
         //CitizensAPI.setImplementation((Citizens) CitizensAPI.getPlugin());
 
-        createNPCs();
+
         Bukkit.getConsoleSender().sendMessage("Sendmsg");
 
         instance = this;
@@ -100,21 +102,20 @@ public class SMP5 extends JavaPlugin implements Listener {
             Bukkit.getServer().shutdown();
         }
 
-        try {
-            database.connect();
-        } catch (SQLException e) {
-            Bukkit.getConsoleSender().sendMessage("NVTECH: Database connection failed. Server shutting down.");
-            Bukkit.getServer().shutdown();
-        }
+
 
         //LOAD Registered player (UUIDS) from database
         try {
-            ResultSet rs =database.query("SELECT * FROM player");
-            while (rs.next ()) {
-                UUID uuid = UUID.fromString(rs.getString(1));
-                registeredUUIDs.add (uuid);
+            Bukkit.getConsoleSender().sendMessage("DB: " + database.isConnected());
+            ResultSet rs = database.query("SELECT * FROM player;");
+            Bukkit.getConsoleSender().sendMessage("RS: ");
+            if (rs != null) {
+                while (rs.next()) {
+                    UUID uuid = UUID.fromString(rs.getString(1));
+                    registeredUUIDs.add(uuid);
+                }
+                rs.close();
             }
-            rs.close ();
         }
         catch (SQLException e) {
             Bukkit.getConsoleSender().sendMessage("NVTECH: Failed to fetch players");
@@ -126,12 +127,17 @@ public class SMP5 extends JavaPlugin implements Listener {
 
         registerEvents();
         registerCommands();
-        createNPCs();
 
 
         /*
             This is the lobby setup stuff
          */
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                createNPCs();
+            }
+        }.runTaskLater(this, 20);
     }
 
     @Override
@@ -167,15 +173,10 @@ public class SMP5 extends JavaPlugin implements Listener {
         Player p = e.getPlayer();
 
         if (!registeredUUIDs.contains(p.getUniqueId())) {
-            try {
-                //Register player record
-                database.execute("INSERT INTO player VALUES ('" + p.getUniqueId() + "', '" + p.getName() + "', " + 0 + ")");
-                //Register bank record
-                database.execute("INSERT INTO bank VALUES ('" + p.getUniqueId() + "', '" + 0 + ")");
-            }
-            catch (SQLException event) {
-                Bukkit.getConsoleSender().sendMessage("NVTECH: Failed to register new player.");
-            }
+            //Register player record
+            database.execute("INSERT INTO player VALUES ('" + p.getUniqueId() + "', '" + p.getName() + "', " + 0 + ")");
+            //Register bank record
+            database.execute("INSERT INTO bank VALUES ('" + p.getUniqueId() + "', '" + 0 + ")");
         }
         //online_players.put (e.getPlayer ().getName (), new StigglesPlayer());
         //If so, add uuid + stigglesplayer to online_players
@@ -204,6 +205,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         manager.registerEvents(new MobKillListener(), this);
     }
     public void createNPCs () {
+        CitizensAPI.getNPCRegistry().deregisterAll();
         npcs = new ArrayList<>();
         npcs.add (new Ned(this));
         npcs.add (new Starry (this));

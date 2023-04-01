@@ -5,6 +5,7 @@ import com.stiggles.smp5.main.SMP5;
 import com.stiggles.smp5.worlds.WorldType;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
+import net.citizensnpcs.api.npc.NPCRegistry;
 import net.citizensnpcs.api.trait.trait.Equipment;
 import net.citizensnpcs.trait.SkinTrait;
 
@@ -42,9 +43,11 @@ public abstract class StigglesNPC {
 
         this.main = main;
 
+
         npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, name);
+        Bukkit.getConsoleSender().sendMessage("Created NPC " + name + " with id " + npc.getId());
         NPCManager.registerNewNPC(this);
-        //setName (name);
+        setName (name);
 
         worldName = location.getWorld().getName();
 
@@ -143,7 +146,7 @@ public abstract class StigglesNPC {
      * @param msg The message to be sent.
      */
     public void sendMessage (Player p, String msg) {
-        p.sendMessage(chatColor + "<" + nameColorPrefix + name + ChatColor.WHITE + chatColor + "> " + msg);
+        p.sendMessage(chatColor + "<" + name + ChatColor.WHITE + chatColor + "> " + msg);
     }
 
     /** Event that occurs when the player clicks on the NPC.
@@ -163,7 +166,7 @@ public abstract class StigglesNPC {
      * @return The ID.
      */
     public int getId () {
-        return npc.getId ();
+        return npc.getId();
     }
 
     /** Set the NPC to hold a certain item.
