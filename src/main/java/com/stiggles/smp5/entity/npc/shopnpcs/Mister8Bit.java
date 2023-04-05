@@ -2,6 +2,7 @@ package com.stiggles.smp5.entity.npc.shopnpcs;
 
 import com.stiggles.smp5.main.SMP5;
 import com.stiggles.smp5.managers.BankManager;
+import de.studiocode.invui.gui.GUI;
 import de.studiocode.invui.gui.builder.GUIBuilder;
 import de.studiocode.invui.gui.builder.guitype.GUIType;
 import de.studiocode.invui.item.ItemProvider;
@@ -262,13 +263,13 @@ public class Mister8Bit extends ShopNPC {
                         "# a b c d e f g #",
                         "# # # # # # # # #")
                 .addIngredient ('#', new SimpleItem(new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE)))
-                .addIngredient( 'a', new FishBucket (100))
+                /*.addIngredient( 'a', new FishBucket (100))
                 .addIngredient( 'b', new CoralBlock (80))
                 .addIngredient( 'c', new Coral (80))
                 .addIngredient( 'd', new CoralFan (80))
                 .addIngredient( 'e', new PrismarineCrystal(40))
                 .addIngredient( 'f', new PrismarineShard(40))
                 .addIngredient( 'g', lockedSlot)
-                .build ();
+                */.build ();
     }
 }

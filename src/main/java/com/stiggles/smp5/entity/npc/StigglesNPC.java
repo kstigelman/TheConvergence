@@ -43,7 +43,7 @@ public abstract class StigglesNPC {
 
         this.main = main;
 
-
+        
         npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, name);
         Bukkit.getConsoleSender().sendMessage("Created NPC " + name + " with id " + npc.getId());
         NPCManager.registerNewNPC(this);

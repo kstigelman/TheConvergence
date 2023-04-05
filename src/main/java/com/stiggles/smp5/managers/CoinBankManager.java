@@ -24,14 +24,12 @@ public class CoinBankManager {
         //Load the CoinBank from database
         try {
             ResultSet rs = main.getDatabase().query("SELECT * FROM bank");
-            if (rs != null) {
-                while (rs.next()) {
-                    UUID uuid = UUID.fromString(rs.getString(1));
-                    int balance = rs.getInt(2);
-                    banks.put(uuid, new CoinBank(uuid, balance));
-                }
-                rs.close();
+            while (rs.next ()) {
+                UUID uuid = UUID.fromString(rs.getString(1));
+                int balance = rs.getInt (2);
+                banks.put (uuid, new CoinBank(uuid, balance));
             }
+            rs.close ();
         }
         catch (SQLException e) {
             Bukkit.getConsoleSender().sendMessage("CoinBankManager: Could not query database");
@@ -39,15 +37,20 @@ public class CoinBankManager {
     }
     public void onDisable () {
         //Save to database
-        Iterator iter = banks.entrySet().iterator();
-        while (iter.hasNext()) {
-            CoinBank mapElement = (CoinBank) iter.next();
-            int balance = mapElement.getBalance();
-            String uuid = mapElement.getOwner().toString();
+        try {
+            Iterator iter = banks.entrySet().iterator();
+            while (iter.hasNext()) {
+                CoinBank mapElement = (CoinBank) iter.next();
+                int balance = mapElement.getBalance();
+                String uuid = mapElement.getOwner().toString();
 
-            main.getDatabase().execute(
-                    "UPDATE bank SET coins = " + balance + " WHERE uuid = '" + uuid + "')"
-            );
+                main.getDatabase().execute(
+                        "UPDATE bank SET coins = " + balance + " WHERE uuid = '" + uuid + "')"
+                );
+            }
+        }
+        catch (SQLException e) {
+            Bukkit.getConsoleSender().sendMessage("CoinBankManager: Could not insert into database");
         }
     }
 

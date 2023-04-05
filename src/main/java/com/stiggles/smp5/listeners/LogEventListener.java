@@ -14,7 +14,6 @@ import org.checkerframework.checker.units.qual.A;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -45,54 +44,73 @@ public class LogEventListener implements Listener {
     @EventHandler
     public void onPlayerJoin (PlayerJoinEvent e) {
         Player p = e.getPlayer();
-        Bukkit.getConsoleSender().sendMessage("Logs");
+
 
         //Check if player has joined the server before
         if (!registeredUUIDs.contains(p.getUniqueId())) {
-            //Register player record
-            main.getDatabase().execute("INSERT INTO players VALUES ('" + p.getUniqueId() + "', '" + p.getName() + "', " + 0 + ");");
-            //Register bank record
-            main.getDatabase().execute("INSERT INTO bank VALUES ('" + p.getUniqueId() + "', '" + 0 + ");");
+            try {
+                //Register player record
+                main.getDatabase().execute("INSERT INTO players VALUES ('" + p.getUniqueId() + "', '" + p.getName() + "', " + 0 + ")");
+                //Register bank record
+                main.getDatabase().execute("INSERT INTO bank VALUES ('" + p.getUniqueId() + "', '" + 0 + ")");
+            }
+            catch (SQLException event) {
+                Bukkit.getConsoleSender().sendMessage("NVTECH: Failed to register new player.");
+            }
             registeredUUIDs.add (p.getUniqueId());
             e.setJoinMessage(ChatColor.DARK_PURPLE + p.getName() + " has fallen into The Convergence");
         }
         else
             e.setJoinMessage(ChatColor.DARK_PURPLE + p.getName() + " has entered The Convergence");
 
-        main.getDatabase().execute(
-                "INSERT INTO log VALUES ('"
-                        + e.getPlayer().getUniqueId() + "', '"
-                        + LocalDateTime.now().format(main.getFormatter()) + "', "
-                        + "'LOGIN'"
-                        + e.getPlayer().getLocation().getBlockX() + ", "
-                        + e.getPlayer().getLocation().getBlockY() + ", "
-                        + e.getPlayer().getLocation().getBlockZ() + ");"
-        );
-
+        try {
+            main.getDatabase().execute(
+                    "INSERT INTO log VALUES ('"
+                            + e.getPlayer().getUniqueId() + "', '"
+                            + LocalDateTime.now().format(main.getFormatter()) + "', "
+                            + "'LOGIN'"
+                            + e.getPlayer().getLocation().getBlockX() + ", "
+                            + e.getPlayer().getLocation().getBlockY() + ", "
+                            + e.getPlayer().getLocation().getBlockZ() + ")"
+            );
+        }
+        catch (SQLException event) {
+            Bukkit.getConsoleSender().sendMessage("NVTECH: Failed to log player login");
+        }
     }
     @EventHandler
     public void onPlayerLeave (PlayerQuitEvent e) {
         e.setQuitMessage(ChatColor.DARK_PURPLE + e.getPlayer().getName() + " has left The Convergence");
-        main.getDatabase().execute(
-                "INSERT INTO log VALUES ('"
-                        + e.getPlayer().getUniqueId() + "', '"
-                        + LocalDateTime.now().format(main.getFormatter()) + "', "
-                        + "'LOGOUT', "
-                        + e.getPlayer().getLocation().getBlockX() + ", "
-                        + e.getPlayer().getLocation().getBlockY() + ", "
-                        + e.getPlayer().getLocation().getBlockZ() + ");"
-        );
-
+        try {
+            main.getDatabase().execute(
+                    "INSERT INTO log VALUES ('"
+                            + e.getPlayer().getUniqueId() + "', '"
+                            + LocalDateTime.now().format(main.getFormatter()) + "', "
+                            + "'LOGOUT', "
+                            + e.getPlayer().getLocation().getBlockX() + ", "
+                            + e.getPlayer().getLocation().getBlockY() + ", "
+                            + e.getPlayer().getLocation().getBlockZ() + ")"
+            );
+        }
+        catch (SQLException event) {
+            Bukkit.getConsoleSender().sendMessage("NVTECH: Failed to log player logout");
+        }
     }
     public void logout (Player p) {
-        main.getDatabase().execute(
-                "INSERT INTO log VALUES ('"
-                        + p.getUniqueId() + "', '"
-                        + LocalDateTime.now().format(main.getFormatter()) + "', "
-                        + "'LOGOUT', "
-                        + p.getLocation().getBlockX() + ", "
-                        + p.getLocation().getBlockY() + ", "
-                        + p.getLocation().getBlockZ() + ");"
-        );
+        try {
+            main.getDatabase().execute(
+                    "INSERT INTO log VALUES ('"
+                            + p.getUniqueId() + "', '"
+                            + LocalDateTime.now().format(main.getFormatter()) + "', "
+                            + "'LOGOUT', "
+                            + p.getLocation().getBlockX() + ", "
+                            + p.getLocation().getBlockY() + ", "
+                            + p.getLocation().getBlockZ() + ")"
+            );
+
+        }
+        catch (SQLException event) {
+            Bukkit.getConsoleSender().sendMessage("NVTECH: Failed to log player logout");
+        }
     }
 }

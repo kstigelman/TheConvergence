@@ -102,20 +102,23 @@ public class SMP5 extends JavaPlugin implements Listener {
             Bukkit.getServer().shutdown();
         }
 
-
+        try {
+            database.connect();
+            Bukkit.getConsoleSender().sendMessage("Connected");
+            database.execute("insert into log (x_pos) values (1);");
+        } catch (SQLException e) {
+            Bukkit.getConsoleSender().sendMessage("NVTECH: Database connection failed. Server shutting down.");
+            //Bukkit.getServer().shutdown();
+        }
 
         //LOAD Registered player (UUIDS) from database
         try {
-            Bukkit.getConsoleSender().sendMessage("DB: " + database.isConnected());
-            ResultSet rs = database.query("SELECT * FROM player;");
-            Bukkit.getConsoleSender().sendMessage("RS: ");
-            if (rs != null) {
-                while (rs.next()) {
-                    UUID uuid = UUID.fromString(rs.getString(1));
-                    registeredUUIDs.add(uuid);
-                }
-                rs.close();
+            ResultSet rs =database.query("SELECT * FROM player");
+            while (rs.next ()) {
+                UUID uuid = UUID.fromString(rs.getString(1));
+                registeredUUIDs.add (uuid);
             }
+            rs.close ();
         }
         catch (SQLException e) {
             Bukkit.getConsoleSender().sendMessage("NVTECH: Failed to fetch players");
@@ -173,10 +176,15 @@ public class SMP5 extends JavaPlugin implements Listener {
         Player p = e.getPlayer();
 
         if (!registeredUUIDs.contains(p.getUniqueId())) {
-            //Register player record
-            database.execute("INSERT INTO player VALUES ('" + p.getUniqueId() + "', '" + p.getName() + "', " + 0 + ")");
-            //Register bank record
-            database.execute("INSERT INTO bank VALUES ('" + p.getUniqueId() + "', '" + 0 + ")");
+            try {
+                //Register player record
+                database.execute("INSERT INTO player VALUES ('" + p.getUniqueId() + "', '" + p.getName() + "', " + 0 + ")");
+                //Register bank record
+                database.execute("INSERT INTO bank VALUES ('" + p.getUniqueId() + "', '" + 0 + ")");
+            }
+            catch (SQLException event) {
+                Bukkit.getConsoleSender().sendMessage("NVTECH: Failed to register new player.");
+            }
         }
         //online_players.put (e.getPlayer ().getName (), new StigglesPlayer());
         //If so, add uuid + stigglesplayer to online_players
