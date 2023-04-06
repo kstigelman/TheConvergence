@@ -26,19 +26,17 @@ public class Mister8Bit extends ShopNPC {
      * shop will update daily.
      */
     Random random = new Random();
-    int randInt = random.nextInt();
-
     private class FishBucket extends StigglesBaseItem {
         public FishBucket () {
             this (0);
         }
         public FishBucket (int price) {
-            super (0);
+            super (price);
         }
 
         @Override
         public ItemProvider getItemProvider() {
-            if (randInt % 7 == 0)
+            if (random.nextInt() % 7 == 0)
                 return new ItemBuilder(Material.PUFFERFISH_BUCKET).addLoreLines(Arrays.asList(ChatColor.BLUE, "Cost: ", ChatColor.GOLD, cost, " Gold").toString());
             return new ItemBuilder(Material.TROPICAL_FISH_BUCKET).addLoreLines(Arrays.asList(ChatColor.BLUE, "Cost: ", ChatColor.GOLD, cost, " Gold").toString());
         }
@@ -53,10 +51,10 @@ public class Mister8Bit extends ShopNPC {
             this (0);
         }
         public Coral (int price) {
-            super (0);
+            super (price);
 
             Material material;
-            int n = randInt % 10;
+            int n = random.nextInt() % 10;
             if (n == 0)
                 material = Material.BRAIN_CORAL_FAN;
             else if (n == 1)
@@ -72,7 +70,7 @@ public class Mister8Bit extends ShopNPC {
         }
         @Override
         public ItemProvider getItemProvider() {
-            return new ItemBuilder (item).addLoreLines(Arrays.asList(ChatColor.BLUE, "Cost: ", ChatColor.GOLD, cost, " Gold").toString());
+            return new ItemBuilder (item).addLoreLines(ChatColor.BLUE + "Cost: " + ChatColor.GOLD + cost + " Gold");
         }
 
         @Override
@@ -85,10 +83,10 @@ public class Mister8Bit extends ShopNPC {
             this (0);
         }
         public CoralFan (int price) {
-            super (0);
+            super (price);
 
             Material material;
-            int n = randInt % 10;
+            int n = random.nextInt() % 10;
             if (n == 0)
                 material = Material.BRAIN_CORAL_FAN;
             else if (n == 1)
@@ -104,7 +102,7 @@ public class Mister8Bit extends ShopNPC {
         }
         @Override
         public ItemProvider getItemProvider() {
-            return new ItemBuilder(item).addLoreLines(Arrays.asList(ChatColor.BLUE, "Cost: ", ChatColor.GOLD, cost, " Gold").toString());
+            return new ItemBuilder(item).addLoreLines(ChatColor.BLUE + "Cost: " + ChatColor.GOLD + cost + " Gold");
         }
 
         @Override
@@ -120,7 +118,7 @@ public class Mister8Bit extends ShopNPC {
             super (price);
 
             Material material;
-            int n = randInt % 10;
+            int n = random.nextInt() % 10;
             if (n == 0)
                 material = Material.BRAIN_CORAL_BLOCK;
             else if (n == 1)
@@ -136,7 +134,7 @@ public class Mister8Bit extends ShopNPC {
         }
         @Override
         public ItemProvider getItemProvider() {
-            return new ItemBuilder(item).addLoreLines(Arrays.asList(ChatColor.BLUE, "Cost: ", ChatColor.GOLD, cost, " Gold").toString());
+            return new ItemBuilder(item).addLoreLines(ChatColor.BLUE + "Cost: "+ ChatColor.GOLD + cost + " Gold");
         }
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent inventoryClickEvent) {
@@ -146,14 +144,14 @@ public class Mister8Bit extends ShopNPC {
     private class PrismarineCrystal extends StigglesBaseItem {
 
         public PrismarineCrystal () {
-            super ();
+            super (0);
         }
         public PrismarineCrystal (int price) {
             super (price);
         }
         @Override
         public ItemProvider getItemProvider() {
-            return new ItemBuilder(Material.PRISMARINE_CRYSTALS).addLoreLines(Arrays.asList(ChatColor.BLUE, "Cost: ", ChatColor.GOLD, cost, " Gold").toString());
+            return new ItemBuilder(Material.PRISMARINE_CRYSTALS).addLoreLines(ChatColor.BLUE + "Cost: " + ChatColor.GOLD + cost + " Gold");
         }
 
         @Override
@@ -171,7 +169,7 @@ public class Mister8Bit extends ShopNPC {
         }
         @Override
         public ItemProvider getItemProvider() {
-            return new ItemBuilder(Material.PRISMARINE_SHARD).addLoreLines(Arrays.asList(ChatColor.BLUE, "Cost: ", ChatColor.GOLD, cost, " Gold").toString());
+            return new ItemBuilder(Material.PRISMARINE_SHARD).addLoreLines(ChatColor.BLUE + "Cost: " + ChatColor.GOLD + cost + " Gold");
         }
 
         @Override
@@ -188,7 +186,7 @@ public class Mister8Bit extends ShopNPC {
         public ItemProvider getItemProvider () {
             return new ItemBuilder(Material.FISHING_ROD)
                     .setDisplayName(ChatColor.BLUE + "The Mage's Fishing Rod")
-                    .addLoreLines(Arrays.asList(ChatColor.BLUE, "Cost: ", ChatColor.GOLD, cost, " Gold").toString())
+                    .addLoreLines(ChatColor.BLUE + "Cost: " + ChatColor.GOLD + cost + " Gold")
                     .addEnchantment(Enchantment.LURE, 5, true)
                     .addEnchantment(Enchantment.LUCK, 5, true)
                     .addEnchantment(Enchantment.DAMAGE_ALL, 10, true)
@@ -204,7 +202,7 @@ public class Mister8Bit extends ShopNPC {
         @Override
         public ItemProvider getItemProvider() {
             return new ItemBuilder(Material.RED_STAINED_GLASS_PANE)
-                    .setDisplayName(Arrays.asList(ChatColor.RED, ChatColor.BOLD) + "LOCKED")
+                    .setDisplayName(ChatColor.RED.toString() + ChatColor.BOLD + "LOCKED")
                     .addLoreLines(ChatColor.RED + "Catch 1000 fish");
         }
 
@@ -221,7 +219,6 @@ public class Mister8Bit extends ShopNPC {
                 "woayLucHc6lwWXiGWla9GUjLcq/nhuiyARkk4dNqO+P99L3dc7f5peX1co2rahVOqQ1YyFD0uHMyfE3zVSURa+3QgG9g5hwABl+jQgmy9cgCGM4IGL4mwrjQBBrnbPTAc3NtoFSQRmsJEiFcrH4bjsZvXaxDu56/3cm/0qMEeuE2+1Hw18ti/d8KK/AxIfY5Hg66vMAoQ+n/oJs9JUQfs+rhUqcwR7opUppKnSpqsZQDNd7JgKvyUMDdAKdGyHYUAh0/PN82EbXcVgH6fRevjLYMvB9/qcKi4oku0wHpAQAWnrvzEEPlCVeU9ockT7PCnRx8a0S6/+q5dodHycrXy+U9Y9lPRL2wa9gHzU4UmuzUIftFCnALR2ElhlYycm0Xj4epn818uss4B72nbRK64zT1KafPfI16l+0MobhWTlJTPM9oz10g6KQp+Z3dyTlXFYYWIBWYjgz0vBi6j12R7wMWtyCEHVr9h+bl0gt5/87NgBvJ5MPvGDJcPTgu5oRkjH+N2IJ+MM0zCsjUWhkOmJKbOrYe0aJqyuSrfZZuuno6jamd5arsWhS/msdSzWCcjOBIoFcN4wFmbvJJvJcQfdQjDW4bXiLRqrzj2mZQwVtlgnlILmC1NKX7PXoRIVijozmW3dvjyHmMF18B0Hcfy5FZcQ/+Eq7P2hQFYAco5No="
         );
         //setPos (-0.5, -59, 10);
-        Bukkit.getConsoleSender().sendMessage("Spawning Luke");
 
     }
 
@@ -229,11 +226,11 @@ public class Mister8Bit extends ShopNPC {
         if (BankManager.withdraw(player, item.cost)) {
             player.getInventory().addItem(item.getItemProvider().get());
             player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADE, 1.f, 1.f);
-            //sendMessage(player, "Pleasure doing business.");
+            sendMessage(player, "Pleasure doing business.");
             return;
         }
         player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.f, 1.f);
-        //sendMessage(player, "It seems you have enough coins for that.");
+        sendMessage(player, "It seems you have enough coins for that.");
     }
     @Override
     public void onInteract(Player player) {
@@ -263,13 +260,13 @@ public class Mister8Bit extends ShopNPC {
                         "# a b c d e f g #",
                         "# # # # # # # # #")
                 .addIngredient ('#', new SimpleItem(new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE)))
-                /*.addIngredient( 'a', new FishBucket (100))
+                .addIngredient( 'a', new FishBucket (100))
                 .addIngredient( 'b', new CoralBlock (80))
                 .addIngredient( 'c', new Coral (80))
                 .addIngredient( 'd', new CoralFan (80))
                 .addIngredient( 'e', new PrismarineCrystal(40))
                 .addIngredient( 'f', new PrismarineShard(40))
                 .addIngredient( 'g', lockedSlot)
-                */.build ();
+                .build ();
     }
 }

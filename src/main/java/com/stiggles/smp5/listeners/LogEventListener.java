@@ -58,17 +58,17 @@ public class LogEventListener implements Listener {
                 Bukkit.getConsoleSender().sendMessage("NVTECH: Failed to register new player.");
             }
             registeredUUIDs.add (p.getUniqueId());
-            e.setJoinMessage(ChatColor.DARK_PURPLE + p.getName() + " has fallen into The Convergence");
+            e.setJoinMessage(ChatColor.LIGHT_PURPLE + p.getName() + " has fallen into The Convergence");
         }
         else
-            e.setJoinMessage(ChatColor.DARK_PURPLE + p.getName() + " has entered The Convergence");
+            e.setJoinMessage(ChatColor.LIGHT_PURPLE + p.getName() + " has entered The Convergence");
 
         try {
             main.getDatabase().execute(
                     "INSERT INTO log VALUES ('"
                             + e.getPlayer().getUniqueId() + "', '"
                             + LocalDateTime.now().format(main.getFormatter()) + "', "
-                            + "'LOGIN'"
+                            + "'LOGIN', "
                             + e.getPlayer().getLocation().getBlockX() + ", "
                             + e.getPlayer().getLocation().getBlockY() + ", "
                             + e.getPlayer().getLocation().getBlockZ() + ")"

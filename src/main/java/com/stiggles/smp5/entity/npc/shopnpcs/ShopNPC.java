@@ -9,6 +9,7 @@ import de.studiocode.invui.item.builder.ItemBuilder;
 import de.studiocode.invui.item.impl.BaseItem;
 import de.studiocode.invui.item.impl.SimpleItem;
 import de.studiocode.invui.window.impl.single.SimpleWindow;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -27,6 +28,9 @@ public abstract class ShopNPC extends StigglesNPC {
         public StigglesBaseItem (int price) {
             super ();
             this.cost = price;
+        }
+        public String getCost () {
+            return ChatColor.BLUE + "Cost: " + ChatColor.GOLD + cost + " Gold";
         }
     }
     protected SimpleGUI gui;
@@ -60,4 +64,6 @@ public abstract class ShopNPC extends StigglesNPC {
     public void click (Player p, BaseItem item) {
 
     }
+
+
 }
