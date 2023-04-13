@@ -14,9 +14,13 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Random;
+
 
 public abstract class StigglesNPC {
 
+    protected Random random = new Random(System.currentTimeMillis());
+    protected int ri;
 
     private NPC npc;
     private ChatColor nameColorPrefix = ChatColor.WHITE;
@@ -42,7 +46,7 @@ public abstract class StigglesNPC {
     public StigglesNPC (SMP5 main, String name, Location location) {
 
         this.main = main;
-
+        ri = random.nextInt();
         
         npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, name);
         Bukkit.getConsoleSender().sendMessage("Created NPC " + name + " with id " + npc.getId());

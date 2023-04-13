@@ -18,6 +18,7 @@ import com.stiggles.smp5.entity.npc.dialoguenpc.Ned;
 import com.stiggles.smp5.entity.npc.questnpc.Drem;
 import com.stiggles.smp5.entity.npc.shopnpcs.DungeonKeeper;
 import com.stiggles.smp5.entity.npc.shopnpcs.Mister8Bit;
+import com.stiggles.smp5.entity.npc.shopnpcs.Spiffy;
 import com.stiggles.smp5.listeners.*;
 import com.stiggles.smp5.managers.BankManager;
 import com.stiggles.smp5.managers.CoinBankManager;
@@ -148,9 +149,14 @@ public class SMP5 extends JavaPlugin implements Listener {
         instance = null;
         //Update world database
         //database.runQueue();
+        try {
+            if (database != null)
+                database.disconnect ();
+        }
+        catch (SQLException e) {
 
-        if (database != null)
-            database.disconnect ();
+        }
+
 
         //bankManager.onDisable();
 
@@ -221,6 +227,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         npcs.add (new Drem (this));
         npcs.add (new DungeonKeeper(this));
         npcs.add (new Mister8Bit(this, "Luke the Fisherman"));
+        npcs.add (new Spiffy (this, "Spiffy"));
     }
     public void registerCommands () {
         //Bukkit.getPluginCommand("coins").setExecutor(new CoinCommand());

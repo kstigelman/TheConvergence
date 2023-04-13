@@ -19,14 +19,15 @@ public class Database {
     private PriorityQueue<String> statements = new PriorityQueue<>();
 
     public Database () {
-        File file = new File ("smp5/host.txt");
+        File file = new File ("plugins/smp5/host.txt");
         try {
             Scanner scanner = new Scanner(file);
             if (scanner.hasNext())
                 HOST = scanner.next ();
         }
         catch (Exception e) {
-            Bukkit.getConsoleSender().sendMessage("Failed to open file " + FILEPATH);
+            Bukkit.getConsoleSender().sendMessage("Failed to fetch host from " + FILEPATH + ". Shutting down...");
+            Bukkit.getServer().shutdown();
         }
     }
     public void connect() throws SQLException {
@@ -45,15 +46,9 @@ public class Database {
         Statement statement = connection.createStatement();
         return statement.executeQuery(str);
     }
-    public void disconnect() {
-        if (isConnected()) {
-            try {
+    public void disconnect() throws SQLException {
+        if (isConnected())
                 connection.close();
-            }
-            catch (SQLException e) {
-                Bukkit.broadcastMessage("NVTECH: Failed to disconnect from database.");
-            }
-        }
     }
     public void runQueue () {
         runQueue(statements.size());

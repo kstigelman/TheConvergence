@@ -18,13 +18,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 import java.util.Random;
 
-
-
-
-
 public class Starry extends ShopNPC {
-
-
     private class Moonshine extends BaseItem {
 
         /*public Moonshine(ItemProvider itemProvider, String command) {
@@ -46,7 +40,6 @@ public class Starry extends ShopNPC {
             player.getInventory().addItem (getItemProvider().get());
         }
     }
-
     public class CountItem extends BaseItem {
 
         private int count;

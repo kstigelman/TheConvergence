@@ -26,7 +26,6 @@ public class Spiffy extends ShopNPC {
      * Server is planned to restart daily, so the NPC's
      * shop will update daily.
      */
-    Random random = new Random();
     private class Moonshine extends StigglesBaseItem {
         public Moonshine (int price) {
             super (price);
@@ -35,6 +34,7 @@ public class Spiffy extends ShopNPC {
             return new PotionBuilder(PotionBuilder.PotionType.NORMAL)
                     .setDisplayName(ChatColor.GOLD + ChatColor.BOLD.toString() + "Moonshine")
                     .addLoreLines ("World famous Moonshine from the Spectral Saloon!")
+                    .addLoreLines(this.getCost())
                     .addEffect(new PotionEffect(PotionEffectType.CONFUSION, 200, 1))
                     .addEffect(new PotionEffect(PotionEffectType.POISON, 200, 1))
                     .addEffect(new PotionEffect(PotionEffectType.LUCK, 60, 1))
@@ -46,10 +46,10 @@ public class Spiffy extends ShopNPC {
         }
     }
     private class Sand extends StigglesBaseItem {
-
-        public Sand () {
+        public Sand (int price) {
+            super (price);
             Material material;
-            int n = random.nextInt() % 8;
+            int n = ri % 8;
             if (n <= 4)
                 material = Material.SAND;
             else
@@ -67,17 +67,49 @@ public class Spiffy extends ShopNPC {
             handleTrade(player, this);
         }
     }
-    private class Dagger extends StigglesBaseItem {
-        public Dagger (int price) {
+
+    private class Clay extends StigglesBaseItem {
+        public Clay (int price) {
             super (price);
         }
         public ItemProvider getItemProvider () {
-            return new ItemBuilder(Material.GOLDEN_SWORD)
-                    .setDisplayName(ChatColor.GOLD + ChatColor.BOLD.toString() + "Gilded Dagger")
-                    .addLoreLines ("Passed down through generations of the Morabito clan.")
-                    .addEnchantment(Enchantment.DURABILITY, 10, false)
-                    .addEnchantment(Enchantment.DAMAGE_ALL, 5, false)
-                    .addEnchantment(Enchantment.SWEEPING_EDGE, 7, false);
+            return new ItemBuilder(Material.TERRACOTTA)
+                    .addLoreLines(this.getCost());
+        }
+        @Override
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
+            handleTrade(player, this);
+        }
+    }
+    private class ColoredClay extends StigglesBaseItem {
+        public ColoredClay (int price) {
+            super (price);
+            Material material;
+            int n = (ri % 16) + 389;
+
+            material = Material.values()[n];
+            item = new ItemStack(material);
+        }
+        public ItemProvider getItemProvider () {
+            return new ItemBuilder(item)
+                    .addLoreLines(this.getCost());
+        }
+        @Override
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
+            handleTrade(player, this);
+        }
+    }
+    private class GlazedTerracotta extends StigglesBaseItem {
+        public GlazedTerracotta (int price) {
+            super (price);
+            Material material;
+            int n = (ri % 16) + 501;
+            material = Material.values()[n];
+            item = new ItemStack(material);
+        }
+        public ItemProvider getItemProvider () {
+            return new ItemBuilder(item)
+                    .addLoreLines(this.getCost());
         }
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
@@ -85,11 +117,15 @@ public class Spiffy extends ShopNPC {
         }
     }
     private class Locked extends BaseItem {
+        String lore;
+        public Locked (String description) {
+            lore = description;
+        }
         @Override
         public ItemProvider getItemProvider() {
             return new ItemBuilder(Material.RED_STAINED_GLASS_PANE)
                     .setDisplayName(ChatColor.RED.toString() + ChatColor.BOLD + "LOCKED")
-                    .addLoreLines(ChatColor.RED + "Find the Morabito's hideout");
+                    .addLoreLines(ChatColor.RED + lore);
         }
 
         @Override
@@ -105,7 +141,6 @@ public class Spiffy extends ShopNPC {
                 "PfIcTJoUTa0EvNemdy9V4ymTa6hEjQmHwUfnjml8l4XGBJq1JwRTf+pd7Yomc6mGLtlcjzzrQBFtcDs6IBVLqpx4eN3ZOuxobcLCJ2DibSN0sPsOwwMJ2KVXcu4jyVZ1cyC5Rba8aS8DJyWzExw/oO1Gsq+CWKgkSs8cootdrrmdrg2MvIT5BicHOIdHO7sj6lClfOuSFPsVrN/NYbP//91IGNkxFsPzAeB5gljnIOH44X2yjZqv7BqdJ6we9okrCiTDuByQg1I8eHl1D22tdh2Gt8lCvTBwNnQvECsLxTbcGaB3nF/Uno089vvH+VT09daGZiom2Q25bhtnRfg/U13fz5r1etJpHctwsE2vhNewtR7kCL8Vjgp2eJ/QFpk3KIong1q63867tjPEsSXgqS2l4+JJBVb7W91hIzOoV785zoRlBkXs16n2/P/pfw3V+zDinPAeecGJRLgrkB1K/pwffzFL5ACsUUfYP9HSnqAVQ/FZWdBmAV3sHOzPMgZOj8nCjw1BYzd1S7fGt2w6WwQrts+l8z3l2fIzuKnEmlDgQ5nkhVgBpbJJTMKx9mI+n099OT4LgwFE439YM0tYCOn2MuxiVxhEHxFHzyJQ/VSkhYIJxtbc1Fw2METCCihnWnqAdoJvQc2L1YdR33/x+TzEExZaiDMXaJPrH1a+tnc="
         );
         setPos (-0.5, -59, 2);
-
     }
 
     public void handleTrade (Player player, StigglesBaseItem item) {
@@ -115,6 +150,7 @@ public class Spiffy extends ShopNPC {
             sendMessage(player, "Enjoy.");
             return;
         }
+
         player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.f, 1.f);
         sendMessage(player, "Sorry, you don't have enough money for that.");
     }
@@ -132,9 +168,9 @@ public class Spiffy extends ShopNPC {
 
     @Override
     public void createGUI(Player player) {
-        BaseItem lockedSlot = new Locked();
-        if (player.getStatistic(Statistic.FISH_CAUGHT) >= 1000)
-            lockedSlot = new Dagger (1000);
+        BaseItem lockedSlot = new Locked("Find the Morabito's hideout.");
+        /* if (player has visited morabito hideout)
+            lockedSlot = new Dagger (1000);*/
 
         gui = new GUIBuilder<>(GUIType.NORMAL)
                 .setStructure(
@@ -143,11 +179,11 @@ public class Spiffy extends ShopNPC {
                         "# # # # # # # # #")
                 .addIngredient ('#', new SimpleItem(new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE)))
                 .addIngredient( 'a', new Moonshine(50))
-                /*.addIngredient( 'b', new Mister8Bit.CoralBlock(80))
-                .addIngredient( 'c', new Mister8Bit.Coral(80))
-                .addIngredient( 'd', new Mister8Bit.CoralFan(80))
-                .addIngredient( 'e', new Mister8Bit.PrismarineCrystal(40))
-                .addIngredient( 'f', new Mister8Bit.PrismarineShard(40))*/
+                .addIngredient( 'b', new Sand (10))
+                .addIngredient( 'c', new Clay (10))
+                .addIngredient( 'd', new ColoredClay(15))
+                .addIngredient( 'e', new GlazedTerracotta(30))
+                .addIngredient( 'f', new Locked ("To be added"))
                 .addIngredient( 'g', lockedSlot)
                 .build ();
     }

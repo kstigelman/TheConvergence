@@ -25,7 +25,6 @@ public class Mister8Bit extends ShopNPC {
      * Server is planned to restart daily, so the NPC's
      * shop will update daily.
      */
-    Random random = new Random();
     private class FishBucket extends StigglesBaseItem {
         public FishBucket () {
             this (0);
@@ -36,9 +35,9 @@ public class Mister8Bit extends ShopNPC {
 
         @Override
         public ItemProvider getItemProvider() {
-            if (random.nextInt() % 7 == 0)
-                return new ItemBuilder(Material.PUFFERFISH_BUCKET).addLoreLines(Arrays.asList(ChatColor.BLUE, "Cost: ", ChatColor.GOLD, cost, " Gold").toString());
-            return new ItemBuilder(Material.TROPICAL_FISH_BUCKET).addLoreLines(Arrays.asList(ChatColor.BLUE, "Cost: ", ChatColor.GOLD, cost, " Gold").toString());
+            if (ri % 7 == 0)
+                return new ItemBuilder(Material.PUFFERFISH_BUCKET).addLoreLines(this.getCost());
+            return new ItemBuilder(Material.TROPICAL_FISH_BUCKET).addLoreLines(this.getCost());
         }
 
         @Override
@@ -54,7 +53,7 @@ public class Mister8Bit extends ShopNPC {
             super (price);
 
             Material material;
-            int n = random.nextInt() % 10;
+            int n = ri % 10;
             if (n == 0)
                 material = Material.BRAIN_CORAL_FAN;
             else if (n == 1)
@@ -118,7 +117,7 @@ public class Mister8Bit extends ShopNPC {
             super (price);
 
             Material material;
-            int n = random.nextInt() % 10;
+            int n = ri % 10;
             if (n == 0)
                 material = Material.BRAIN_CORAL_BLOCK;
             else if (n == 1)
