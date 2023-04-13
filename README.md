@@ -6,9 +6,10 @@ _______________________________________________
 - Dungeons
 - NPCs
 
-There is also support for a few minor features, such as:
+There is also support for a few other features, such as:
 - Bank system
 - Database connectivity
+- Bounty system (To be added)
 ________
 ### Dungeons
 - Dungeons are built in-game, then are registered as certain room types
