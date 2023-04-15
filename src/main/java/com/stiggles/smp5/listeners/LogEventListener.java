@@ -33,9 +33,11 @@ public class LogEventListener implements Listener {
         registeredUUIDs = new ArrayList<>();
         try {
             ResultSet rs = main.getDatabase().query("SELECT uuid FROM players");
-            while (rs.next ())
-                registeredUUIDs.add (UUID.fromString(rs.getString(1)));
-            rs.close ();
+            if (rs != null) {
+                while (rs.next())
+                    registeredUUIDs.add(UUID.fromString(rs.getString(1)));
+                rs.close();
+            }
         }
         catch (SQLException e) {
             Bukkit.getConsoleSender().sendMessage("LogEventListener: Could not query database");
@@ -97,20 +99,14 @@ public class LogEventListener implements Listener {
         }
     }
     public void logout (Player p) {
-        try {
-            main.getDatabase().execute(
-                    "INSERT INTO log VALUES ('"
-                            + p.getUniqueId() + "', '"
-                            + LocalDateTime.now().format(main.getFormatter()) + "', "
-                            + "'LOGOUT', "
-                            + p.getLocation().getBlockX() + ", "
-                            + p.getLocation().getBlockY() + ", "
-                            + p.getLocation().getBlockZ() + ")"
-            );
-
-        }
-        catch (SQLException event) {
-            Bukkit.getConsoleSender().sendMessage("NVTECH: Failed to log player logout");
-        }
+        /*main.getDatabase().execute(
+                "INSERT INTO log VALUES ('"
+                        + p.getUniqueId() + "', '"
+                        + LocalDateTime.now().format(main.getFormatter()) + "', "
+                        + "'LOGOUT', "
+                        + p.getLocation().getBlockX() + ", "
+                        + p.getLocation().getBlockY() + ", "
+                        + p.getLocation().getBlockZ() + ");"
+        );*/
     }
 }

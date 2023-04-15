@@ -13,6 +13,7 @@ package com.stiggles.smp5.main;
 
 import com.stiggles.smp5.commands.CoinCommand;
 
+import com.stiggles.smp5.commands.NPCCommand;
 import com.stiggles.smp5.entity.npc.dialoguenpc.EggDONTTake;
 import com.stiggles.smp5.entity.npc.dialoguenpc.Ned;
 import com.stiggles.smp5.entity.npc.questnpc.Drem;
@@ -87,14 +88,17 @@ public class SMP5 extends JavaPlugin implements Listener {
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
-        //CitizensAPI.setImplementation((Citizens) CitizensAPI.getPlugin());
-
-
-        Bukkit.getConsoleSender().sendMessage("Sendmsg");
+        //Use CitizensAPI
 
         instance = this;
         database = new Database();
 
+        try {
+            database.connect ();
+        }
+        catch (SQLException e) {
+            Bukkit.getConsoleSender().sendMessage("NVTECH: Failed to connect to database.");
+        }
         getConfig().options().copyDefaults();
         saveDefaultConfig();
 
@@ -103,23 +107,16 @@ public class SMP5 extends JavaPlugin implements Listener {
             Bukkit.getServer().shutdown();
         }
 
-        try {
-            database.connect();
-            Bukkit.getConsoleSender().sendMessage("Connected");
-            database.execute("insert into log (x_pos) values (1);");
-        } catch (SQLException e) {
-            Bukkit.getConsoleSender().sendMessage("NVTECH: Database connection failed. Server shutting down.");
-            //Bukkit.getServer().shutdown();
-        }
-
         //LOAD Registered player (UUIDS) from database
         try {
-            ResultSet rs =database.query("SELECT * FROM player");
-            while (rs.next ()) {
-                UUID uuid = UUID.fromString(rs.getString(1));
-                registeredUUIDs.add (uuid);
+            ResultSet rs = database.query("SELECT * FROM player;");
+            if (rs != null) {
+                while (rs.next()) {
+                    UUID uuid = UUID.fromString(rs.getString(1));
+                    registeredUUIDs.add(uuid);
+                }
+                rs.close();
             }
-            rs.close ();
         }
         catch (SQLException e) {
             Bukkit.getConsoleSender().sendMessage("NVTECH: Failed to fetch players");
@@ -129,19 +126,23 @@ public class SMP5 extends JavaPlugin implements Listener {
         playerManager = new PlayerManager();
         bankManager = new BankManager(this);
 
-        registerEvents();
-        registerCommands();
+
 
 
         /*
             This is the lobby setup stuff
          */
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                createNPCs();
-            }
-        }.runTaskLater(this, 20);
+        registerCommands();
+        if (CitizensAPI.hasImplementation()) {
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    registerEvents();
+                    registerCommands();
+                    createNPCs();
+                }
+            }.runTaskLater(this, 20);
+        }
     }
 
     @Override
@@ -154,10 +155,8 @@ public class SMP5 extends JavaPlugin implements Listener {
                 database.disconnect ();
         }
         catch (SQLException e) {
-
+            Bukkit.getConsoleSender().sendMessage("Failed to close db");
         }
-
-
         //bankManager.onDisable();
 
         Bukkit.getServer().shutdown();
@@ -180,18 +179,14 @@ public class SMP5 extends JavaPlugin implements Listener {
 
         //Check if player is registered already
         Player p = e.getPlayer();
-
+        /*
         if (!registeredUUIDs.contains(p.getUniqueId())) {
-            try {
-                //Register player record
-                database.execute("INSERT INTO player VALUES ('" + p.getUniqueId() + "', '" + p.getName() + "', " + 0 + ")");
-                //Register bank record
-                database.execute("INSERT INTO bank VALUES ('" + p.getUniqueId() + "', '" + 0 + ")");
-            }
-            catch (SQLException event) {
-                Bukkit.getConsoleSender().sendMessage("NVTECH: Failed to register new player.");
-            }
-        }
+            //Register player record
+
+            database.execute("INSERT INTO player VALUES ('" + p.getUniqueId() + "', '" + p.getName() + "', " + 0 + ")");
+            //Register bank record
+            database.execute("INSERT INTO bank VALUES ('" + p.getUniqueId() + "', '" + 0 + ")");
+        }*/
         //online_players.put (e.getPlayer ().getName (), new StigglesPlayer());
         //If so, add uuid + stigglesplayer to online_players
         //Otherwise, register new StigglesPlayer UUID and add to online_players
@@ -234,6 +229,6 @@ public class SMP5 extends JavaPlugin implements Listener {
         //saveDefaultConfig()
         //stats = new PluginFile(this, "stats.yml", "stats.yml");
         //Load important database variables
-
+        Bukkit.getPluginCommand("loadcitizens").setExecutor(new NPCCommand(this));
     }
 }

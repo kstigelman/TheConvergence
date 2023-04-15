@@ -1,9 +1,17 @@
+package com.stiggles.smp5.commands;
+
+import com.stiggles.smp5.main.SMP5;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
+
 /**
  *   CURRENTLY UNUSED, MAY NEED LATER
  */
 
-/*package com.stiggles.smp5.commands;
 
+/*
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import com.stiggles.smp5.main.SMP5;
@@ -23,14 +31,23 @@ import org.bukkit.craftbukkit.v1_19_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
-
+*/
 public class NPCCommand implements CommandExecutor {
 
     private SMP5 main;
 
-    public NPCCommand (SMP5 main) {
+    public NPCCommand(SMP5 main) {
         this.main = main;
     }
+
+    @Override
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        main.registerEvents();
+        main.createNPCs();
+        return true;
+    }
+}
+    /*
     @Override
     public boolean onCommand (CommandSender sender, Command command, String label, String[] args) {
 
