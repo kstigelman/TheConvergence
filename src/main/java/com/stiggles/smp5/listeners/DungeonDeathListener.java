@@ -8,9 +8,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
-public class DungeonListener implements Listener {
+public class DungeonDeathListener implements Listener {
     private SMP5 main;
-    public DungeonListener (SMP5 main) {
+    public DungeonDeathListener (SMP5 main) {
         this.main = main;
     }
 

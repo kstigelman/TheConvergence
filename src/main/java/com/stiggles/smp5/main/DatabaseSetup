@@ -10,6 +10,7 @@ create table log (
     uuid     char(36),
     log_time char (19),
     log_type varchar (6),
+    world    varchar (16),
     x_pos    int,
     y_pos    int,
     z_pos    int,

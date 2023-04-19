@@ -143,16 +143,14 @@ public class Spiffy extends ShopNPC {
         setPos (-0.5, -59, 2);
     }
 
-    public void handleTrade (Player player, StigglesBaseItem item) {
-        if (BankManager.withdraw(player, item.cost)) {
-            player.getInventory().addItem(item.getItemProvider().get());
-            player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADE, 1.f, 1.f);
+    @Override
+    public boolean handleTrade (Player player, StigglesBaseItem item) {
+        if (super.handleTrade(player, item)) {
             sendMessage(player, "Enjoy.");
-            return;
+            return true;
         }
-
-        player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.f, 1.f);
         sendMessage(player, "Sorry, you don't have enough money for that.");
+        return false;
     }
     @Override
     public void onInteract(Player player) {

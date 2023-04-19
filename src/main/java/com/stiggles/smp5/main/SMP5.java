@@ -11,32 +11,18 @@
 package com.stiggles.smp5.main;
 
 
-import com.stiggles.smp5.commands.CoinCommand;
-
 import com.stiggles.smp5.commands.NPCCommand;
-import com.stiggles.smp5.entity.npc.dialoguenpc.EggDONTTake;
-import com.stiggles.smp5.entity.npc.dialoguenpc.Ned;
-import com.stiggles.smp5.entity.npc.questnpc.Drem;
-import com.stiggles.smp5.entity.npc.shopnpcs.DungeonKeeper;
-import com.stiggles.smp5.entity.npc.shopnpcs.Mister8Bit;
-import com.stiggles.smp5.entity.npc.shopnpcs.Spiffy;
+import com.stiggles.smp5.entity.npc.shopnpcs.EggDONTTake;
+import com.stiggles.smp5.entity.npc.Ned;
+import com.stiggles.smp5.entity.npc.shopnpcs.*;
 import com.stiggles.smp5.listeners.*;
 import com.stiggles.smp5.managers.BankManager;
-import com.stiggles.smp5.managers.CoinBankManager;
 import com.stiggles.smp5.managers.MobKillListener;
-import com.stiggles.smp5.player.CoinBank;
 import com.stiggles.smp5.player.StigglesPlayer;
 import com.stiggles.smp5.entity.npc.*;
-import com.stiggles.smp5.entity.npc.shopnpcs.Starry;
-import com.stiggles.smp5.managers.NPCManager;
-import net.citizensnpcs.Citizens;
 import net.citizensnpcs.api.CitizensAPI;
-import net.citizensnpcs.api.CitizensPlugin;
 import net.citizensnpcs.api.event.CitizensEnableEvent;
-import net.citizensnpcs.api.event.NPCOpenGateEvent;
-import net.citizensnpcs.api.npc.NPCRegistry;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -45,11 +31,8 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -210,7 +193,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         //Bukkit.getPluginManager().registerEvents (new NPCListener(this), this);
         manager.registerEvents(new CitizensRightClickEvent(this), this);
         manager.registerEvents(new ElytraEventListener(this), this);
-        manager.registerEvents(new DungeonListener(this), this);
+        //manager.registerEvents(new DungeonListener(this), this);
         manager.registerEvents(new MobKillListener(), this);
     }
     public void createNPCs () {
@@ -218,11 +201,14 @@ public class SMP5 extends JavaPlugin implements Listener {
         npcs = new ArrayList<>();
         npcs.add (new Ned(this));
         npcs.add (new Starry (this));
-        npcs.add (new EggDONTTake(this));
+        npcs.add (new EggDONTTake(this, "Francis Smurf"));
         npcs.add (new Drem (this));
         npcs.add (new DungeonKeeper(this));
         npcs.add (new Mister8Bit(this, "Luke the Fisherman"));
         npcs.add (new Spiffy (this, "Spiffy"));
+        npcs.add (new Astronomer(this, "The Astronomer"));
+        npcs.add (new Inventor(this, "The Inventor"));
+        npcs.add (new Philippe(this, "Sir Philippe Alfred"));
     }
     public void registerCommands () {
         //Bukkit.getPluginCommand("coins").setExecutor(new CoinCommand());

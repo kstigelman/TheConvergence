@@ -5,6 +5,7 @@ import com.stiggles.smp5.managers.BankManager;
 import de.studiocode.invui.gui.GUI;
 import de.studiocode.invui.gui.builder.GUIBuilder;
 import de.studiocode.invui.gui.builder.guitype.GUIType;
+import de.studiocode.invui.item.Item;
 import de.studiocode.invui.item.ItemProvider;
 import de.studiocode.invui.item.builder.ItemBuilder;
 import de.studiocode.invui.item.impl.BaseItem;
@@ -15,6 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -26,9 +28,6 @@ public class Mister8Bit extends ShopNPC {
      * shop will update daily.
      */
     private class FishBucket extends StigglesBaseItem {
-        public FishBucket () {
-            this (0);
-        }
         public FishBucket (int price) {
             super (price);
         }
@@ -46,9 +45,6 @@ public class Mister8Bit extends ShopNPC {
         }
     }
     private class Coral extends StigglesBaseItem {
-        public Coral () {
-            this (0);
-        }
         public Coral (int price) {
             super (price);
 
@@ -77,31 +73,17 @@ public class Mister8Bit extends ShopNPC {
             handleTrade(player, this);
         }
     }
-    private class CoralFan extends StigglesBaseItem {
-        public CoralFan () {
-            this (0);
-        }
-        public CoralFan (int price) {
+    private class Cram extends StigglesBaseItem {
+        public Cram (int price) {
             super (price);
-
-            Material material;
-            int n = random.nextInt() % 10;
-            if (n == 0)
-                material = Material.BRAIN_CORAL_FAN;
-            else if (n == 1)
-                material = Material.BUBBLE_CORAL_FAN;
-            else if (n == 2)
-                material = Material.HORN_CORAL_FAN;
-            else if (n == 3)
-                material = Material.FIRE_CORAL_FAN;
-            else
-                material = Material.TUBE_CORAL_FAN;
-
-            item = new ItemStack(material);
+            item = new ItemStack(Material.SWEET_BERRIES);
+            ItemMeta meta = item.getItemMeta();
+            meta.setDisplayName(ChatColor.GOLD + "Cram");
+            item.setItemMeta(meta);
         }
         @Override
         public ItemProvider getItemProvider() {
-            return new ItemBuilder(item).addLoreLines(ChatColor.BLUE + "Cost: " + ChatColor.GOLD + cost + " Gold");
+            return new ItemBuilder(item).addLoreLines(getCost());
         }
 
         @Override
@@ -110,9 +92,6 @@ public class Mister8Bit extends ShopNPC {
         }
     }
     private class CoralBlock extends StigglesBaseItem {
-        public CoralBlock () {
-            this (0);
-        }
         public CoralBlock (int price) {
             super (price);
 
@@ -133,24 +112,32 @@ public class Mister8Bit extends ShopNPC {
         }
         @Override
         public ItemProvider getItemProvider() {
-            return new ItemBuilder(item).addLoreLines(ChatColor.BLUE + "Cost: "+ ChatColor.GOLD + cost + " Gold");
+            return new ItemBuilder(item).addLoreLines(getCost());
         }
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent inventoryClickEvent) {
             handleTrade(player, this);
         }
     }
-    private class PrismarineCrystal extends StigglesBaseItem {
+    private class Sponge extends StigglesBaseItem {
+        public Sponge (int price) { super (price); }
 
-        public PrismarineCrystal () {
-            super (0);
+        @Override
+        public ItemProvider getItemProvider () {
+            return new ItemBuilder(Material.SPONGE).addLoreLines(getCost());
         }
+        @Override
+        public void handleClick (@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent inventoryClickEvent) {
+            handleTrade (player, this);
+        }
+    }
+    private class PrismarineCrystal extends StigglesBaseItem {
         public PrismarineCrystal (int price) {
             super (price);
         }
         @Override
         public ItemProvider getItemProvider() {
-            return new ItemBuilder(Material.PRISMARINE_CRYSTALS).addLoreLines(ChatColor.BLUE + "Cost: " + ChatColor.GOLD + cost + " Gold");
+            return new ItemBuilder(Material.PRISMARINE_CRYSTALS).addLoreLines(getCost());
         }
 
         @Override
@@ -221,15 +208,14 @@ public class Mister8Bit extends ShopNPC {
 
     }
 
-    public void handleTrade (Player player, StigglesBaseItem item) {
-        if (BankManager.withdraw(player, item.cost)) {
-            player.getInventory().addItem(item.getItemProvider().get());
-            player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADE, 1.f, 1.f);
+    @Override
+    public boolean handleTrade (Player player, StigglesBaseItem item) {
+        if (super.handleTrade(player, item)) {
             sendMessage(player, "Pleasure doing business.");
-            return;
+            return true;
         }
-        player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.f, 1.f);
         sendMessage(player, "It seems you have enough coins for that.");
+        return false;
     }
     @Override
     public void onInteract(Player player) {
@@ -261,8 +247,8 @@ public class Mister8Bit extends ShopNPC {
                 .addIngredient ('#', new SimpleItem(new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE)))
                 .addIngredient( 'a', new FishBucket (100))
                 .addIngredient( 'b', new CoralBlock (80))
-                .addIngredient( 'c', new Coral (80))
-                .addIngredient( 'd', new CoralFan (80))
+                .addIngredient( 'c', new Cram (5))
+                .addIngredient( 'd', new Sponge (700))
                 .addIngredient( 'e', new PrismarineCrystal(40))
                 .addIngredient( 'f', new PrismarineShard(40))
                 .addIngredient( 'g', lockedSlot)

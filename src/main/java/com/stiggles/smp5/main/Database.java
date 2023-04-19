@@ -1,6 +1,8 @@
 package com.stiggles.smp5.main;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+
 import java.io.File;
 import java.sql.*;
 import java.util.PriorityQueue;
@@ -50,6 +52,7 @@ public class Database {
         if (isConnected())
                 connection.close();
     }
+
     public void runQueue () {
         runQueue(statements.size());
     }

@@ -19,13 +19,10 @@ public class MobKillListener implements Listener {
         String killedEntity = e.getEntity().getClass().getName();
         String[] parts = killedEntity.split ("entity.Craft");
 
-
         Integer reward = BankManager.getAmount(parts[1]);
-        if (reward == null)
-            reward = BankManager.getAmount ("Default");
-
-        if (reward == 0)
+        if (reward == null || reward == 0)
             return;
+            //reward = BankManager.getAmount ("Default");
 
         killer.sendMessage(ChatColor.GOLD + "+" + reward + " coins");
         BankManager.deposit(killer, reward);
