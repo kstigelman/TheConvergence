@@ -119,8 +119,8 @@ public class Astronomer extends ShopNPC {
         }
     }
 
-    public Astronomer (SMP5 main, String name) {
-        super (main, name, new Location(Bukkit.getWorld("world"), -0.5, 73, 10));
+    public Astronomer (SMP5 main, String name, Location location) {
+        super (main, name, location);
         setSkin ("ewogICJ0aW1lc3RhbXAiIDogMTY4MTcwMDMxODkyOSwKICAicHJvZmlsZUlkIiA6ICJkYmE4OTUzOThiYTc0MzZlOTQ2YzVkZTk4N2UzZGVkNSIsCiAgInByb2ZpbGVOYW1lIiA6ICJTb21lQ29tbW9uIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzNhNjIxN2I0ZTQ2NDg3YmRhYThkMmRjMGJlMTE4OGUyYzc0ZDU0ZmIzMWI2MDY1ZGRhZGVmMzBiMDhjODZkZDIiCiAgICB9CiAgfQp9",
                 "XUng2ec0iJbjuHQOaz0387BcooM5eImlo4pE2hdwNA86ZToBrdMK3usS1d6hjuxIgixA/w0zz7++S/fxZ38yh9ZGhsz+7Ya29LtCUxwOT6o+AlZIg0B5cgtgEOEqkgCL6mHWCj3WP0/thZIxOfC1p5wlAGDfF+YOV9nbY1UTia0r2PDzf5fM0E5QZf0+/PLLdHRU+T3jdXwP8gz64hQVC+j4O9dxPRsEjPNpSL+GEXyQhIeLpeDFrQQfzvgnuH+4aqaIPvCMIRR9zLjsYrRm12tfr8ByESsV4OZxTFbzJZs10i0vIdwK2gxJObkxYM90lbdUGhDy85FFoO0DdIWZvCTneNCHwnZ8SqTArbsd6Tpy85xucTcy+dDjIkzWaFz6t/G7+/V7uGnVoGJYkMmkedK9JC3qiHkAlXvzcGiFhwgfE0pFWh/Fit9SC7+9vn2w5knM7f+AT5Coo0o0PQ3A8HZihgxOMiaJmXMtvufmlalvOjelxVszM2gr/hQwC0QcAdSatGBU3qF94W/OAw/OpttolYm2wHRCWbjN8MQtq3+pcICjL0BkN+dL6kLrRcvKG0Kqm33d0s2YR70Vrblp8WPOn8+AcZw6AgW4rA5GdhtDRnmz/HyooEQq8EUn7Cmi2qXeoY1ZPyWHapMPye9UXuANcsoT29WKkj7RmBmNOD0="
         );

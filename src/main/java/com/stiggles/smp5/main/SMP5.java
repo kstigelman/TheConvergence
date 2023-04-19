@@ -23,6 +23,7 @@ import com.stiggles.smp5.entity.npc.*;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.event.CitizensEnableEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -111,7 +112,7 @@ public class SMP5 extends JavaPlugin implements Listener {
 
 
 
-
+        Bukkit.getConsoleSender().sendMessage("Adding NPC");
         /*
             This is the lobby setup stuff
          */
@@ -199,16 +200,18 @@ public class SMP5 extends JavaPlugin implements Listener {
     public void createNPCs () {
         CitizensAPI.getNPCRegistry().deregisterAll();
         npcs = new ArrayList<>();
-        npcs.add (new Ned(this));
-        npcs.add (new Starry (this));
-        npcs.add (new EggDONTTake(this, "Francis Smurf"));
-        npcs.add (new Drem (this));
-        npcs.add (new DungeonKeeper(this));
-        npcs.add (new Mister8Bit(this, "Luke the Fisherman"));
-        npcs.add (new Spiffy (this, "Spiffy"));
-        npcs.add (new Astronomer(this, "The Astronomer"));
-        npcs.add (new Inventor(this, "The Inventor"));
-        npcs.add (new Philippe(this, "Sir Philippe Alfred"));
+        npcs.add (new Ned(this, "Ned", new Location(Bukkit.getWorld("world"), 0, 0, 0)));
+        npcs.add (new Starry (this, "Starry", new Location(Bukkit.getWorld("world"), 2, 0, 0)));
+        npcs.add (new EggDONTTake(this, "Francis Smurf", new Location(Bukkit.getWorld("world"), 4, 0, 0)));
+        npcs.add (new Drem (this, "Captain Beast", new Location(Bukkit.getWorld("world"), 6, 0, 0)));
+        npcs.add (new DungeonKeeper(this, "Dungeon Keeper", new Location(Bukkit.getWorld("world"), 8, 0, 0)));
+        npcs.add (new Mister8Bit(this, "Luke the Fisherman", new Location(Bukkit.getWorld("world"), 10, 0, 0)));
+        npcs.add (new Spiffy (this, "Spiffy", new Location(Bukkit.getWorld("world"), 12, 0, 0)));
+        npcs.add (new Astronomer(this, "The Astronomer", new Location(Bukkit.getWorld("world"), 14, 0, 0)));
+        npcs.add (new Inventor(this, "The Inventor", new Location(Bukkit.getWorld("world"), 16, 0, 0)));
+        npcs.add (new Philippe(this, "Sir Philippe Alfred", new Location(Bukkit.getWorld("world"), 18, 0, 0)));
+        npcs.add (new Baggins (this, "Mr. Orangeflips", new Location(Bukkit.getWorld("world"), 20, 0, 0)));
+        npcs.add (new Drem(this, "Drem-Bot", new Location(Bukkit.getWorld("world"), 22, 0, 0)));
     }
     public void registerCommands () {
         //Bukkit.getPluginCommand("coins").setExecutor(new CoinCommand());

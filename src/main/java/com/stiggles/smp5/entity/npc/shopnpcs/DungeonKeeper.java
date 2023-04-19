@@ -59,13 +59,12 @@ public class DungeonKeeper extends ShopNPC {
     }
     ArrayList<ItemStack> items = new ArrayList<>();
 
-    public DungeonKeeper (SMP5 main) {
+    public DungeonKeeper (SMP5 main, String name, Location location) {
 
-        super (main, "Dungeon Keeper");
+        super (main, name, location);
 
         setNameColor(ChatColor.AQUA);
 
-        setPos (-6.5, -60, 24.5);
         setRotation (215f, 1f);
 
         setSkin ("ewogICJ0aW1lc3RhbXAiIDogMTYxNDI2NjQ1MzI3MSwKICAicHJvZmlsZUlkIiA6ICI5MThhMDI5NTU5ZGQ0Y2U2YjE2ZjdhNWQ1M2VmYjQxMiIsCiAgInByb2ZpbGVOYW1lIiA6ICJCZWV2ZWxvcGVyIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzIxZTU2N2Y5YmRjMjM3OGM0ZDg5ZTRlMzViZjFmMDIzZjczYTQ0ODZmOGJhZGViYzA5NTlmNzA5YmE2MGYwZWIiCiAgICB9CiAgfQp9",

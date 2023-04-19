@@ -1,6 +1,5 @@
 package com.stiggles.smp5.entity.npc.shopnpcs;
 
-import com.stiggles.smp5.entity.npc.StigglesNPC;
 import com.stiggles.smp5.main.SMP5;
 import de.studiocode.invui.gui.builder.GUIBuilder;
 import de.studiocode.invui.gui.builder.guitype.GUIType;
@@ -115,7 +114,6 @@ public class EggDONTTake extends ShopNPC {
             player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.f, 1.f);
         }
     }
-
 
     public EggDONTTake (SMP5 main, String name) {
         super (main, name);

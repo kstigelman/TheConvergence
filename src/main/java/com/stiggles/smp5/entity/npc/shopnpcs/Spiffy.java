@@ -134,13 +134,12 @@ public class Spiffy extends ShopNPC {
         }
     }
 
-    public Spiffy (SMP5 main, String name) {
-        super (main, name, new Location(Bukkit.getWorld("world"), -0.5, 73, 10));
+    public Spiffy (SMP5 main, String name, Location location) {
+        super (main, name, location);
         setSkin (
                 "ewogICJ0aW1lc3RhbXAiIDogMTY4MDgwNDc2MDQ5MSwKICAicHJvZmlsZUlkIiA6ICI3ZDJhY2YzOGQ3YTQ0YjU0YTliMGNkYTZhNzk1YmNmYyIsCiAgInByb2ZpbGVOYW1lIiA6ICJCb3VuY2luZXNzIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2EyNWZmMmEwOTU2YWMzYmYzNTBmNDU4YThlNjQyZDkyZGEyMDI3ZDNkMTA4MTYxODE1MjE3NzFiOGRkZWZhNTAiCiAgICB9CiAgfQp9",
                 "PfIcTJoUTa0EvNemdy9V4ymTa6hEjQmHwUfnjml8l4XGBJq1JwRTf+pd7Yomc6mGLtlcjzzrQBFtcDs6IBVLqpx4eN3ZOuxobcLCJ2DibSN0sPsOwwMJ2KVXcu4jyVZ1cyC5Rba8aS8DJyWzExw/oO1Gsq+CWKgkSs8cootdrrmdrg2MvIT5BicHOIdHO7sj6lClfOuSFPsVrN/NYbP//91IGNkxFsPzAeB5gljnIOH44X2yjZqv7BqdJ6we9okrCiTDuByQg1I8eHl1D22tdh2Gt8lCvTBwNnQvECsLxTbcGaB3nF/Uno089vvH+VT09daGZiom2Q25bhtnRfg/U13fz5r1etJpHctwsE2vhNewtR7kCL8Vjgp2eJ/QFpk3KIong1q63867tjPEsSXgqS2l4+JJBVb7W91hIzOoV785zoRlBkXs16n2/P/pfw3V+zDinPAeecGJRLgrkB1K/pwffzFL5ACsUUfYP9HSnqAVQ/FZWdBmAV3sHOzPMgZOj8nCjw1BYzd1S7fGt2w6WwQrts+l8z3l2fIzuKnEmlDgQ5nkhVgBpbJJTMKx9mI+n099OT4LgwFE439YM0tYCOn2MuxiVxhEHxFHzyJQ/VSkhYIJxtbc1Fw2METCCihnWnqAdoJvQc2L1YdR33/x+TzEExZaiDMXaJPrH1a+tnc="
         );
-        setPos (-0.5, -59, 2);
     }
 
     @Override
