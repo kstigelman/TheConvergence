@@ -83,7 +83,7 @@ public class EggDONTTake extends ShopNPC {
     }
     private class Bagel extends StigglesBaseItem {
         public Bagel  (int price, String localName) {
-            super (price, localName);
+            super (price);
             item = new ItemStack(Material.PUMPKIN_PIE);
             ItemMeta m = item.getItemMeta();
             m.setDisplayName(ChatColor.GOLD + "Bagel");

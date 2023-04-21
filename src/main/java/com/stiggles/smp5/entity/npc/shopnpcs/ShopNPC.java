@@ -32,16 +32,11 @@ public abstract class ShopNPC extends StigglesNPC {
         public StigglesBaseItem(int price) {
             super();
             this.cost = price;
-            item = this.getItemProvider().get();
         }
 
         public StigglesBaseItem(int price, String localName) {
             this (price);
-            ItemMeta meta = item.getItemMeta();
-            if (meta == null)
-                return;
-            meta.setLocalizedName(localName);
-            item.setItemMeta(meta);
+
          }
         public String getCost () {
             return ChatColor.BLUE + "Cost: " + ChatColor.GOLD + cost + " Gold";

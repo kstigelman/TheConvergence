@@ -166,11 +166,11 @@ public class Inventor extends ShopNPC {
         BaseItem lockedSlot = new Locked ("Kill the Ender Dragon");
         //Also check if player has visited all locations
 
-        Advancement a = Bukkit.getAdvancement(new NamespacedKey(main, "minecraft:end/kill_dragon"));
-        if (a != null) {
+        //Advancement a = Bukkit.getAdvancement(new NamespacedKey(main, "minecraft:end/kill_dragon"));
+        /*if (a != null) {
             if (player.getAdvancementProgress(a).isDone())
                 lockedSlot = new Elytra(6464);
-        }
+        }*/
 
         gui = new GUIBuilder<>(GUIType.NORMAL)
                 .setStructure(

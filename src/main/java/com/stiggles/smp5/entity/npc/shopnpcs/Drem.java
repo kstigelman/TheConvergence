@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 public class Drem extends ShopNPC {
@@ -97,7 +98,12 @@ public class Drem extends ShopNPC {
     }
     private class Vlad extends StigglesBaseItem {
         public Vlad (int price) {
-            super (price, "vlad");
+            super (price);
+            ItemMeta meta = item.getItemMeta();
+            if (meta == null)
+                return;
+            meta.setLocalizedName("vlad");
+            item.setItemMeta(meta);
         }
         public ItemProvider getItemProvider () {
             return new ItemBuilder(Material.CROSSBOW)
@@ -113,7 +119,12 @@ public class Drem extends ShopNPC {
     }
     private class BoomBow extends StigglesBaseItem {
         public BoomBow (int price) {
-            super (price, "boom_bow");
+            super (price);
+            ItemMeta meta = item.getItemMeta();
+            if (meta == null)
+                return;
+            meta.setLocalizedName("boom_bow");
+            item.setItemMeta(meta);
         }
         public ItemProvider getItemProvider () {
             return new ItemBuilder(Material.CROSSBOW)
@@ -132,6 +143,12 @@ public class Drem extends ShopNPC {
             /* We need to make sure that the player gets the horse armor back once horse is removed.
                 or, what if the pendant is a 1 time use to spawn a horse?
              */
+            item = new ItemStack(Material.CHARCOAL);
+            ItemMeta meta = item.getItemMeta();
+            if (meta == null)
+                return;
+            meta.setLocalizedName("pendant");
+            item.setItemMeta(meta);
         }
         public ItemProvider getItemProvider () {
             return new ItemBuilder(Material.CHARCOAL)
