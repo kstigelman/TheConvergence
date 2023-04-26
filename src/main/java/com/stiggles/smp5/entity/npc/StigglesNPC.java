@@ -90,7 +90,6 @@ public abstract class StigglesNPC {
                          npc.getStoredLocation().getY(),
                       npc.getStoredLocation().getZ () + Math.sin(yaw)));
     }
-
     /** Retrieve the Citizens NPC object.
      *
      * @return The NPC.

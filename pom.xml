@@ -70,7 +70,7 @@
         <dependency>
             <groupId>de.studiocode.invui</groupId>
             <artifactId>InvUI</artifactId>
-            <version>0.10.2</version>
+            <version>RELEASE</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

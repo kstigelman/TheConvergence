@@ -22,7 +22,6 @@ public class Drem extends ShopNPC {
 
     int interactCounter = 0;
 
-
     private class Warhorn extends StigglesBaseItem {
         public Warhorn (int price) {
             super (price);
@@ -180,11 +179,11 @@ public class Drem extends ShopNPC {
     public Drem (SMP5 main, String name, Location location) {
         super (main, name, location);
 
-        setSkin ("ewogICJ0aW1lc3RhbXAiIDogMTY3MTgyMDMxMTk0MSwKICAicHJvZmlsZUlkIiA6ICI2MTJmZDAxMWY4YTQ0ZGIwOTU3ZTNjM2MyZTBkYmFlZCIsCiAgInByb2ZpbGVOYW1lIiA6ICJDYWxlbnRhZG94MTIiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjM4NGE2Yzc3MmExY2MzMjU0NzFmNjhmODE2ODQwZDIzMzMzYTdjOTE5YjQzYTk1Y2M4NjkxMzY5NmQ1NWE0OCIKICAgIH0KICB9Cn0=",
-                 "VzSj1fXlwV+gCEAGoJVaHSVOj0hgP0RHReUPcXSSDxNovRZxEs1k1iFkcHEIpBKh+On5omNhLGqP2PzXA8rBJLu+TVnM5EhxT+mcEZK49vcGVSbz52X4mF7sobvFDHIIhEAIMXvjZMM81gYE//Xe38WTl7wN7ZYIA5BMDn+HUNdvgIEfIaKFbsBiPxQQpttdzbMyJPU+7yTKixuPhOHAo4yhKmyNUW3wKcbLEgpPTt8asoYaToLEXgXwOoU7AFvBHYNi1DVNfaXaDlC8IDUDNu+YwrCcbonHd8v2J2MPE9w1sizDWegnK0AdUsG303OQ8Ukjxm0Bh689NNb5H6X1D8fiTHTD44NQhrWlO7GEDJAPcuo5/w26+T1gMaXrZByJIgtRdOrFCUiGAr/4rSspVj86YYvgji49c7W8pA6lUk1WTufiNcEOFprrQbtIYBOvKf3HAlY9J1IdKHgHGj+n9+OFV4QBiYPgH8QSSCE7H7i8MxvcvF3T3IODuzumv7EdRF46ur20ztVOW+j/kNC0pWCTbUg2r2GzDbIfUuSrlVm5MWltqkvE6f64k8/qEaEu2EWwF3W2mjCxYWMHUjS6XbEGpwDlhPv0jIAIGRNlQGmIojiA0jQsTSQ++LTyTJCOCtELK6CoW3cwqhAMw+XIlpdrH2ZsWvSUVH/q+yh/xo0="
+        setSkin ("ewogICJ0aW1lc3RhbXAiIDogMTY4MjE5NTQ5NDI0OCwKICAicHJvZmlsZUlkIiA6ICIzNzdmYzE2NzE2ZDY0NDM4YjNkYjQzYzYyOWExYTkyOCIsCiAgInByb2ZpbGVOYW1lIiA6ICJTd2VkZW5zdHlsZTM0IiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2MxZjYxODRmMDQyZjc1NTdlMjA1OGYzZDllOWVjMmFjY2UyNzU0YzRhYzFjMTFkZGI5MWZmMmU2YjAyNjhhZGEiCiAgICB9CiAgfQp9",
+                "N083dFQnybPFkzN+Za1SOk4WSM387hIIGKOklJ/PP3qq3JLOFKewvbPNCQqWI65sbVmVkZn6vrBDcnfa0Gsf49G2ihi5T5n15Wn8VCeU45xg4/cpmTulzEnLq1dX1aKcJ7WTWp0XWdmb60CmaSk7lllECAqHkmNLNz6wq32kge2jG0pHkK2+Hym7UCib2CctSM92gkqqG48zn3hLmVME6c1T+SPsGZS/V1CioAJd83Mv2+Egn5hygNoGvwHnatkSKIkK8WkZdmV2eSegLvX+V+im9ZnFFfILow5Sz9XisQwp8+X6Ew5iXco5eOuzcKflntdkGdva2jpox6BcgfHIxswwWKrPcMdrs6tgb8wFSyQ9r0Wt5W8OppdBsKkE/DAWBSSxg0YmXpG6SeBUJ0K4j2DB/l6AiJWN1AcMqSejehxMeyLrWqSYZczMcncxZ7i+/eal8LhtZTVye9fD8yEuClsqLqY/Fb9mgJSmaNhDkcJaQ19+SyAvUK0tWfQjmYUws1hfyA7U6TBvNvNPsZSjd8e6zpaNeqGLxu72CIyFFTJc4SiCTGFUd2Ly1JEwr7H2ZC3ziMa0gJ0QkVhC2Hr8vXvUci8dScd8nVKScgPMk/eoIWecgxj1ERTkaSzJPV/JiTYTIDGwzT3YyR2rncTa4KDEKpeG2k2GpfO0rzFikao="
         );
+        setRotation (110, 0);
     }
-
 
     @Override
     public void interactDialogue(Player player) {
@@ -200,7 +199,6 @@ public class Drem extends ShopNPC {
 
         player.sendMessage ("<" + getName () + "> " + msg);
         interactCounter++;
-
     }
     @Override
     public void onInteract (Player player) {
