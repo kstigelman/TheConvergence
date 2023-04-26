@@ -206,7 +206,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         npcs.add (new Philippe(this, "Sir Philippe Alfred", new Location(Bukkit.getWorld("world"), 18, 0, 0)));
         npcs.add (new Baggins (this, "Mr. Orangeflips", new Location(Bukkit.getWorld("world"), 20, 0, 0)));
         npcs.add (new Drem(this, "Drem-Bot", new Location(Bukkit.getWorld("world"), 1600.5, 111, -1004.5)));
-
+        npcs.add (new Beachman (this, "Beach Man", new Location (Bukkit.getWorld("world"), -1480.5, 63, 1024.5)));
         //BEAR -- 540.5, 92, -912.5 FACING 45deg
         //CHICKENS -- 788.5, 83, -422.5 FACING 75
         //DR TROG -- 1489.5, 136, -1475.5 FACING 90
