@@ -86,9 +86,9 @@ public abstract class StigglesNPC {
         this.yaw = yaw;
         this.pitch = pitch;
         npc.faceLocation(new Location (Bukkit.getWorld (worldName),
-                      npc.getStoredLocation().getX() + Math.cos(yaw),
+                      npc.getStoredLocation().getX() + Math.cos(yaw * 3.14 / 180),
                          npc.getStoredLocation().getY(),
-                      npc.getStoredLocation().getZ () + Math.sin(yaw)));
+                      npc.getStoredLocation().getZ () + Math.sin(pitch * 3.14 / 180)));
     }
     /** Retrieve the Citizens NPC object.
      *
