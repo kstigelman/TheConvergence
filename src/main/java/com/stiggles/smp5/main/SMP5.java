@@ -6,10 +6,7 @@
  * @version 0.0.0
  * @since 2022-08-28
  */
-
-
 package com.stiggles.smp5.main;
-
 
 import com.stiggles.smp5.commands.NPCCommand;
 import com.stiggles.smp5.entity.npc.shopnpcs.EggDONTTake;
@@ -41,9 +38,8 @@ import java.util.UUID;
 import java.util.logging.Level;
 
 public class SMP5 extends JavaPlugin implements Listener {
-
     /*
-        TODO - REMOVE NPC FROM plugin.yml
+     *  TODO - REMOVE NPC FROM plugin.yml
      */
     private static SMP5 instance;
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -59,11 +55,9 @@ public class SMP5 extends JavaPlugin implements Listener {
     private PlayerManager playerManager;
     private ArrayList<UUID> registeredUUIDs;
 
-
     private ArrayList<StigglesNPC> npcs;
     public HashMap<String, StigglesPlayer> online_players;
     //private Plugin plugin = SMP5.getPlugin(SMP5.class);
-
 
     @Override
     public void onEnable() {
