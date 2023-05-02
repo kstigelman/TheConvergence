@@ -28,22 +28,17 @@ public class Ned extends StigglesNPC {
     }
 
     @Override
-    public void interactDialogue (Player p) {
-        String msg = "";
-
-        Random rand = new Random();
-        int ni = rand.nextInt () % 10;
+    public void interactDialogue (Player player) {
+        int ni = main.getRandom() % 10;
 
         if (ni <= 3)
-            msg = "Sippin' on straight chlorine";
+            sendMessage (player, "Sippin' on straight chlorine");
         else if (ni <= 6)
-            msg = "Let the vibes slide over me";
+            sendMessage (player, "Let the vibes slide over me");
         else if (ni < 9)
-            msg = "This beat is a chemical";
+            sendMessage (player, "This beat is a chemical");
         else
-            msg = "So deep ned bayou";
-
-        p.sendMessage ("<" + getName () + "> " + msg);
+           sendMessage (player, "So deep ned bayou");
     }
 
     @Override

@@ -5,48 +5,56 @@ import com.stiggles.smp5.main.SMP5;
 import com.stiggles.smp5.worlds.WorldType;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
-import net.citizensnpcs.api.npc.NPCRegistry;
 import net.citizensnpcs.api.trait.trait.Equipment;
+import net.citizensnpcs.trait.LookClose;
 import net.citizensnpcs.trait.SkinTrait;
 
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.io.*;
+import java.util.ArrayList;
 import java.util.Random;
 
 
 public abstract class StigglesNPC {
 
-    protected Random random = new Random(System.currentTimeMillis());
     protected int ri;
 
-    private NPC npc;
+    private final NPC npc;
     private ChatColor nameColorPrefix = ChatColor.WHITE;
     private ChatColor chatColor = ChatColor.WHITE;
     protected SMP5 main;
 
     private String name;
 
-    private com.stiggles.smp5.worlds.WorldType worldType;
-    private String worldName;
+    private WorldType worldType;
+    private final String worldName;
 
-    private Location spawnLocation;
+    private final Location spawnLocation;
     //private Plugin plugin = Main.getPlugin(SMP5.class);
 
     private float yaw;
-    private float pitch;
+
 
     public StigglesNPC (SMP5 main, String name) {
-
         this (main, name, new Location (Bukkit.getWorlds().get(0), 0, 0, 0));
-
     }
     public StigglesNPC (SMP5 main, String name, Location location) {
 
         this.main = main;
-        ri = random.nextInt();
+
+        /* Set a new random integer "seed" on every instance.
+         * Server is planned to restart daily, so for certain NPC's
+         * that have a shop, the shop will update daily.
+         */
+
+        ri = main.getRandom();
         
         npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, name);
         Bukkit.getConsoleSender().sendMessage("Created NPC " + name + " with id " + npc.getId());
@@ -55,18 +63,26 @@ public abstract class StigglesNPC {
 
         worldName = location.getWorld().getName();
 
-        worldType = com.stiggles.smp5.worlds.WorldType.SMP;
-        for (com.stiggles.smp5.worlds.WorldType w : WorldType.values())
+        worldType = WorldType.SMP;
+        for (WorldType w : WorldType.values())
             if (worldName.contains(w.toString()))
                 worldType = w;
 
         spawnLocation = location;
         yaw = 1f;
-        pitch = 1f;
 
+        /*
+        try {
+            if (new File ("plugins/smp5/text/" + name + ".txt").createNewFile())
+                Bukkit.getConsoleSender().sendMessage("File created: " + name + ".txt");
+        }
+        catch (IOException e) {
+            Bukkit.getConsoleSender().sendMessage("Error: Could not create file " + name + ".txt");
+        }*/
 
-
-        npc.spawn(spawnLocation);
+        npc.spawn (spawnLocation);
+        npc.getOrAddTrait (LookClose.class).isEnabled ();
+        npc.getOrAddTrait (LookClose.class).setRealisticLooking (true);
     }
 
     /** Retrives the name of the NPC
@@ -80,15 +96,13 @@ public abstract class StigglesNPC {
     /** Set the rotation of the NPC.
      *
      * @param yaw The horizontal rotation.
-     * @param pitch The vertical rotation.
      */
-    public void setRotation (float yaw, float pitch) {
+    public void setRotation (float yaw) {
         this.yaw = yaw;
-        this.pitch = pitch;
         npc.faceLocation(new Location (Bukkit.getWorld (worldName),
                       npc.getStoredLocation().getX() + Math.cos(yaw * 3.14 / 180),
-                         npc.getStoredLocation().getY(),
-                      npc.getStoredLocation().getZ () + Math.sin(pitch * 3.14 / 180)));
+                      npc.getStoredLocation().getY(),
+                      npc.getStoredLocation().getZ () + Math.sin(yaw * 3.14 / 180)));
     }
     /** Retrieve the Citizens NPC object.
      *
@@ -156,7 +170,9 @@ public abstract class StigglesNPC {
      *
      * @param player The player that interacted with the NPC.
      */
-    public abstract void onInteract (Player player);
+    public void onInteract (Player player) {
+        interactDialogue(player);
+    }
 
     /** Send dialogue to player when the NPC is interacted with.
      *
@@ -164,6 +180,47 @@ public abstract class StigglesNPC {
      */
     public abstract void interactDialogue (Player player);
 
+    /** Selects a line of extra dialogue prompted by the player from the NPC's
+     *    dialogue file.
+     *
+     * @return The dialogue selected from the file.
+     */
+    public String getDialogue () {
+        String dialogue;
+        try {
+            FileReader fileReader = new FileReader("plugins/smp5/text/" + name + ".txt");
+            BufferedReader br = new BufferedReader(fileReader);
+
+            ArrayList<String> dialogueList = new ArrayList<>();
+            while ((dialogue = br.readLine ()) != null)
+                dialogueList.add (dialogue);
+
+            int n = main.getRandom() % dialogueList.size ();
+            dialogue = dialogueList.get (n);
+        }
+        catch (Exception e) {
+            return "";
+        }
+
+        return "<" + getName () + "> " + dialogue;
+    }
+
+    /** Prompts player in chat with a clickable message so player can talk to the NPC
+     *    more if they wish.
+     *
+     * @param p The player that interacted with the NPC.
+     */
+    public void talk (Player p) {
+        String dialogue = getDialogue();
+
+        if (dialogue.equals(""))
+            return;
+
+        TextComponent clickable = new TextComponent("§6§lTALK");
+        clickable.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tellraw @p \"" + dialogue + "\""));
+
+        p.spigot().sendMessage(new BaseComponent[]{clickable});
+    }
     /** Get the NPC's entity ID.
      *
      * @return The ID.

@@ -1,17 +1,11 @@
 package com.stiggles.smp5.entity.npc;
 
-import com.stiggles.smp5.entity.npc.StigglesNPC;
 import com.stiggles.smp5.main.SMP5;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import java.util.Random;
-
 public class DremBot extends StigglesNPC {
-
-
-    SMP5 main;
 
     public DremBot (SMP5 main, String name, Location location) {
         super (main, name, location);
@@ -23,20 +17,9 @@ public class DremBot extends StigglesNPC {
     }
 
     @Override
-    public void onInteract(Player p) {
-        interactDialogue(p);
-    }
+    public void interactDialogue(Player player) {
+        sendMessage(player, ChatColor.GRAY + "bzzz. Hello there " + player.getName () + "my name is Drem-Bot.");
 
-    @Override
-    public void interactDialogue(Player p) {
-        String msg = "";
-
-        Random rand = new Random();
-        int ni = rand.nextInt () % 9;
-
-        msg += (ChatColor.GRAY + "bzzz. Hello there " + p.getName () + "my name is Drem-Bot.");
-
-
-        p.sendMessage ("<" + getName () + "> " + msg);
+        talk (player);
     }
 }

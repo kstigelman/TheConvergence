@@ -5,110 +5,144 @@ import de.studiocode.invui.gui.builder.GUIBuilder;
 import de.studiocode.invui.gui.builder.guitype.GUIType;
 import de.studiocode.invui.item.ItemProvider;
 import de.studiocode.invui.item.builder.ItemBuilder;
+import de.studiocode.invui.item.impl.BaseItem;
 import de.studiocode.invui.item.impl.SimpleItem;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
 
 public class Philippe extends ShopNPC {
-    private class Veggie extends StigglesBaseItem {
-        public Veggie (int price) {
-            super (price);
-            if (ri % 2 == 0)
-                item = new ItemStack(Material.CARROT);
-            else
-                item = new ItemStack(Material.POTATO);
+    private class Helmet extends StigglesBaseItem {
+        public Helmet(int price) {
+            super(price);
+            int n = ri % 10;
+            if (n <= 4)
+                item = new ItemStack(Material.IRON_HELMET);
+            else if (n <= 6) {
+                item = new ItemStack(Material.CHAINMAIL_HELMET);
+                cost /= 2;
+            } else if (n <= 8) {
+                item = new ItemStack(Material.DIAMOND_HELMET);
+                cost *= 1.8;
+            } else {
+                item = new ItemStack(Material.NETHERITE_HELMET);
+                cost *= 2.5;
+            }
         }
-        public ItemProvider getItemProvider () {
+        public ItemProvider getItemProvider() {
             return new ItemBuilder(item);
         }
+
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
             handleTrade(player, this);
         }
     }
-    private class Seeds extends StigglesBaseItem {
-        public Seeds (int price) {
-            super (price);
-            int n = ri % 3;
-            if (ri == 0)
-                item = new ItemStack(Material.MELON_SEEDS);
-            else if (ri == 1)
-                item = new ItemStack(Material.PUMPKIN_SEEDS);
-            else
-                item = new ItemStack(Material.BEETROOT_SEEDS);
+    private class Chestplate extends StigglesBaseItem {
+        public Chestplate(int price) {
+            super(price);
+            int n = ri % 10;
+            if (n <= 4)
+                item = new ItemStack(Material.IRON_CHESTPLATE);
+            else if (n <= 6) {
+                item = new ItemStack(Material.CHAINMAIL_CHESTPLATE);
+                cost /= 2;
+            } else if (n <= 8) {
+                item = new ItemStack(Material.DIAMOND_CHESTPLATE);
+                cost *= 1.8;
+            } else {
+                item = new ItemStack(Material.NETHERITE_CHESTPLATE);
+                cost *= 2.5;
+            }
         }
-        public ItemProvider getItemProvider () {
+
+        public ItemProvider getItemProvider() {
             return new ItemBuilder(item);
         }
+
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
             handleTrade(player, this);
         }
     }
-    private class Bones extends StigglesBaseItem {
-        public Bones (int price) {
-            super (price);
+
+    private class Leggings extends StigglesBaseItem {
+        public Leggings(int price) {
+            super(price);
+            int n = ri % 10;
+            if (n <= 4)
+                item = new ItemStack(Material.IRON_LEGGINGS);
+            else if (n <= 6) {
+                item = new ItemStack(Material.CHAINMAIL_LEGGINGS);
+                cost /= 2;
+            } else if (n <= 8) {
+                item = new ItemStack(Material.DIAMOND_LEGGINGS);
+                cost *= 1.8;
+            } else {
+                item = new ItemStack(Material.NETHERITE_LEGGINGS);
+                cost *= 2.5;
+            }
         }
-        public ItemProvider getItemProvider () {
+
+        public ItemProvider getItemProvider() {
+            return new ItemBuilder(item);
+        }
+
+        @Override
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
+            handleTrade(player, this);
+        }
+    }
+
+    private class Boots extends StigglesBaseItem {
+        public Boots(int price) {
+            super(price);
+            int n = ri % 10;
+            if (n <= 4)
+                item = new ItemStack(Material.IRON_BOOTS);
+            else if (n <= 6) {
+                item = new ItemStack(Material.CHAINMAIL_BOOTS);
+                cost /= 2;
+            } else if (n <= 8) {
+                item = new ItemStack(Material.DIAMOND_BOOTS);
+                cost *= 1.8;
+            } else {
+                item = new ItemStack(Material.NETHERITE_BOOTS);
+                cost *= 2.5;
+            }
+        }
+
+        public ItemProvider getItemProvider() {
             return new ItemBuilder(Material.BONE_BLOCK);
         }
-        @Override
-        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
-            handleTrade(player, this);
-        }
-    }
-    private class Leather extends StigglesBaseItem {
-        public Leather (int price) {
-            super (price);
-        }
-        public ItemProvider getItemProvider () {
-            return new ItemBuilder(Material.LEATHER);
-        }
-        @Override
-        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
-            handleTrade(player, this);
-        }
-    }
-    private class Logs extends StigglesBaseItem {
-        public Logs (int price) {
-            super (price);
-            int n = (ri % 7);
 
-            item = new ItemStack(Material.OAK_LOG);
+        @Override
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
+            handleTrade(player, this);
+        }
+    }
 
+    private class Sword extends StigglesBaseItem {
+        public Sword(int price) {
+            super(price);
+            if (ri % 15 <= 8)
+                item = new ItemStack(Material.IRON_SWORD);
+            else if (ri % 15 <= 12) {
+                item = new ItemStack(Material.DIAMOND_SWORD);
+                cost *= 1.8;
+            } else {
+                item = new ItemStack(Material.NETHERITE_SWORD);
+                cost *= 2.5;
+            }
         }
-        public ItemProvider getItemProvider () {
-            return new ItemBuilder(item);
-        }
-        @Override
-        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
-            handleTrade(player, this);
-        }
-    }
-    private class Podzol extends StigglesBaseItem {
-        public Podzol (int price) {
-            super (price);
-        }
-        public ItemProvider getItemProvider () {
-            return new ItemBuilder(Material.PODZOL);
-        }
-        @Override
-        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
-            handleTrade(player, this);
-        }
-    }
-    private class Wool extends StigglesBaseItem {
-        public Wool (int price) {
-            super (price);
-            item = new ItemStack(Material.WHITE_WOOL);
-        }
-        public ItemProvider getItemProvider () {
+
+        public ItemProvider getItemProvider() {
             return new ItemBuilder(item);
         }
 
@@ -118,9 +152,56 @@ public class Philippe extends ShopNPC {
         }
     }
 
-    public Philippe (SMP5 main, String name) {
-        this (main, name, new Location(Bukkit.getWorld("world"), -0.5, 73, 10));
+    private class Shield extends StigglesBaseItem {
+        public Shield(int price) {
+            super(price);
+            item = new ItemStack(Material.SHIELD);
+        }
+
+        public ItemProvider getItemProvider() {
+            return new ItemBuilder(item);
+        }
+
+        @Override
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
+            handleTrade(player, this);
+        }
     }
+
+    private class Arrow extends StigglesBaseItem {
+        public Arrow(int price) {
+            super(price);
+            item = new ItemStack(Material.ARROW, 64);
+        }
+
+        public ItemProvider getItemProvider() {
+            return new ItemBuilder(item);
+        }
+
+        @Override
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
+            handleTrade(player, this);
+        }
+    }
+
+    private class Locked extends BaseItem {
+        String lore;
+        public Locked (String description) {
+            lore = description;
+        }
+        @Override
+        public ItemProvider getItemProvider() {
+            return new ItemBuilder(Material.RED_STAINED_GLASS_PANE)
+                    .setDisplayName(ChatColor.RED.toString() + ChatColor.BOLD + "LOCKED")
+                    .addLoreLines(ChatColor.RED + lore);
+        }
+
+        @Override
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
+            player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.f, 1.f);
+        }
+    }
+
     public Philippe (SMP5 main, String name, Location location) {
         super (main, name, location);
 
@@ -138,20 +219,18 @@ public class Philippe extends ShopNPC {
         sendMessage(player, "Désolé. You don't have money for that.");
         return false;
     }
-    @Override
-    public void onInteract(Player player) {
-        interactDialogue(player);
-        createGUI(player);
-        showGUI(player);
-    }
 
     @Override
     public void interactDialogue(Player player) {
-        int n = new Random().nextInt();
-        if (n % 2 == 0)
+        int n = main.getRandom() % 3;
+        if (n == 0)
             sendMessage(player, "Bonjour");
-        else
+        else if (n == 1)
             sendMessage(player, "Welcome to Holland!");
+        else
+            sendMessage(player, "Bienvenue en Hollande!");
+
+        talk (player);
     }
 
     @Override
@@ -162,13 +241,13 @@ public class Philippe extends ShopNPC {
                         "# a b c d e f g #",
                         "# # # # # # # # #")
                 .addIngredient ('#', new SimpleItem(new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE)))
-                .addIngredient( 'a', new Veggie(2))
-                .addIngredient( 'b', new Seeds (2))
-                .addIngredient( 'c', new Leather(9))
-                .addIngredient( 'd', new Logs (5))
-                .addIngredient( 'e', new Podzol(5))
-                .addIngredient( 'f', new Wool(9))
-                .addIngredient( 'g', new Bones (12))
+                .addIngredient( 'a', new Sword (80))
+                .addIngredient( 'b', new Arrow (75))
+                .addIngredient( 'c', new Helmet (180))
+                .addIngredient( 'd', new Chestplate(300))
+                .addIngredient( 'e', new Leggings (260))
+                .addIngredient( 'f', new Boots (140))
+                .addIngredient( 'g', new Locked ("To be added"))
                 .build ();
     }
 }

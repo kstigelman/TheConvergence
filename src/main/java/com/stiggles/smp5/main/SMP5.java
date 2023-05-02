@@ -34,6 +34,7 @@ import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.UUID;
 import java.util.logging.Level;
 
@@ -58,6 +59,7 @@ public class SMP5 extends JavaPlugin implements Listener {
     private ArrayList<StigglesNPC> npcs;
     public HashMap<String, StigglesPlayer> online_players;
     //private Plugin plugin = SMP5.getPlugin(SMP5.class);
+    Random random = new Random(System.currentTimeMillis());
 
     @Override
     public void onEnable() {
@@ -143,6 +145,7 @@ public class SMP5 extends JavaPlugin implements Listener {
     public DateTimeFormatter getFormatter() {return formatter; }
     public Database getDatabase() { return database; }
     public PlayerManager getPlayerManager() { return playerManager; }
+    public int getRandom () { return random.nextInt(); }
 
     public static SMP5 getPlugin () {
         return instance;
@@ -195,7 +198,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         CitizensAPI.getNPCRegistry().deregisterAll();
         npcs = new ArrayList<>();
         npcs.add (new Ned(this, "Ned", new Location(Bukkit.getWorld("world"), 0, 0, 0)));
-        npcs.add (new Starry (this, "Starry", new Location(Bukkit.getWorld("world"), -708.5, 67, -110.5)));
+        npcs.add (new Starry (this, "Starry", new Location(Bukkit.getWorld("world"), -708.5, 67, -1110.5)));
         npcs.add (new EggDONTTake(this, "Francis Smurf", new Location(Bukkit.getWorld("world"), 4, 0, 0)));
         npcs.add (new Drem (this, "Captain Beast", new Location(Bukkit.getWorld("world"), 6, 0, 0)));
         npcs.add (new DungeonKeeper(this, "Dungeon Keeper", new Location(Bukkit.getWorld("world"), 8, 0, 0)));
@@ -205,8 +208,10 @@ public class SMP5 extends JavaPlugin implements Listener {
         npcs.add (new Inventor(this, "The Inventor", new Location(Bukkit.getWorld("world"), 16, 0, 0)));
         npcs.add (new Philippe(this, "Sir Philippe Alfred", new Location(Bukkit.getWorld("world"), 18, 0, 0)));
         npcs.add (new Baggins (this, "Mr. Orangeflips", new Location(Bukkit.getWorld("world"), 20, 0, 0)));
-        npcs.add (new Drem(this, "Drem-Bot", new Location(Bukkit.getWorld("world"), 1600.5, 111, -1004.5)));
+        npcs.add (new DremBot (this, "Drem-Bot", new Location(Bukkit.getWorld("world"), 1600.5, 111, -1004.5)));
         npcs.add (new Beachman (this, "Beach Man", new Location (Bukkit.getWorld("world"), -1480.5, 63, 1024.5)));
+        npcs.add (new Chickens (this, "Gabe", new Location (Bukkit.getWorld("world"), 788.5, 83, -422.5)));
+        npcs.add (new Bear (this, "BearSharken", new Location (Bukkit.getWorld("world"), 540.5, 92, -912.5)));
         //BEAR -- 540.5, 92, -912.5 FACING 45deg
         //CHICKENS -- 788.5, 83, -422.5 FACING 75
         //DR TROG -- 1489.5, 136, -1475.5 FACING 90

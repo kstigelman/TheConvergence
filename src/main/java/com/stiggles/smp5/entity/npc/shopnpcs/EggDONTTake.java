@@ -128,12 +128,7 @@ public class EggDONTTake extends ShopNPC {
     public EggDONTTake (SMP5 main, String name, Location location) {
         super (main, name, location);
     }
-    @Override
-    public void onInteract(Player player) {
-        interactDialogue(player);
-        createGUI(player);
-        showGUI(player);
-    }
+
     @Override
     public void createGUI(Player player) {
         gui = new GUIBuilder<>(GUIType.NORMAL)
@@ -153,19 +148,17 @@ public class EggDONTTake extends ShopNPC {
     }
 
     @Override
-    public void interactDialogue(Player p) {
+    public void interactDialogue(Player player) {
         String msg = "";
 
-        Random rand = new Random();
-        int ni = rand.nextInt () % 99;
+        int ni = main.getRandom() % 99;
 
-        if (ni <= 4)
-            msg += "Eggs among SUS!";
+        if (ni <= 2)
+            sendMessage (player, "Eggs among SUS!");
         else if (ni <= 54)
-            msg += "Don't take eggs when you are given the chance.";
+            sendMessage (player, "Don't take eggs when you are given the chance.");
         else
-            msg += "Eggs look neat.";
+            sendMessage (player, "Eggs look neat.");
 
-        p.sendMessage ("<" + getName () + "> " + msg);
     }
 }

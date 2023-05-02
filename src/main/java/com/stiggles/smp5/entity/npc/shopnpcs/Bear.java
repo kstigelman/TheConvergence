@@ -15,11 +15,14 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
 
-public class Baggins extends ShopNPC {
-    private class Iron extends StigglesBaseItem {
-        public Iron (int price) {
+public class Bear extends ShopNPC {
+    private class Veggie extends StigglesBaseItem {
+        public Veggie (int price) {
             super (price);
-            item = new ItemStack (Material.IRON_INGOT);
+            if (ri % 2 == 0)
+                item = new ItemStack(Material.CARROT);
+            else
+                item = new ItemStack(Material.POTATO);
         }
         public ItemProvider getItemProvider () {
             return new ItemBuilder(item);
@@ -29,10 +32,16 @@ public class Baggins extends ShopNPC {
             handleTrade(player, this);
         }
     }
-    private class Gold extends StigglesBaseItem {
-        public Gold (int price) {
+    private class Seeds extends StigglesBaseItem {
+        public Seeds (int price) {
             super (price);
-            item = new ItemStack(Material.GOLD_INGOT);
+            int n = ri % 3;
+            if (ri == 0)
+                item = new ItemStack(Material.MELON_SEEDS);
+            else if (ri == 1)
+                item = new ItemStack(Material.PUMPKIN_SEEDS);
+            else
+                item = new ItemStack(Material.BEETROOT_SEEDS);
         }
         public ItemProvider getItemProvider () {
             return new ItemBuilder(item);
@@ -42,10 +51,37 @@ public class Baggins extends ShopNPC {
             handleTrade(player, this);
         }
     }
-    private class Lapis extends StigglesBaseItem {
-        public Lapis (int price) {
+    private class Bones extends StigglesBaseItem {
+        public Bones (int price) {
             super (price);
-            item = new ItemStack(Material.LAPIS_LAZULI);
+        }
+        public ItemProvider getItemProvider () {
+            return new ItemBuilder(Material.BONE_BLOCK);
+        }
+        @Override
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
+            handleTrade(player, this);
+        }
+    }
+    private class Leather extends StigglesBaseItem {
+        public Leather (int price) {
+            super (price);
+        }
+        public ItemProvider getItemProvider () {
+            return new ItemBuilder(Material.LEATHER);
+        }
+        @Override
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
+            handleTrade(player, this);
+        }
+    }
+    private class Logs extends StigglesBaseItem {
+        public Logs (int price) {
+            super (price);
+            int n = (ri % 7);
+
+            item = new ItemStack(Material.OAK_LOG);
+
         }
         public ItemProvider getItemProvider () {
             return new ItemBuilder(item);
@@ -55,49 +91,22 @@ public class Baggins extends ShopNPC {
             handleTrade(player, this);
         }
     }
-    private class Diamond extends StigglesBaseItem {
-        public Diamond (int price) {
+    private class Podzol extends StigglesBaseItem {
+        public Podzol (int price) {
             super (price);
-            item = new ItemStack(Material.DIAMOND);
         }
         public ItemProvider getItemProvider () {
-            return new ItemBuilder(item);
+            return new ItemBuilder(Material.PODZOL);
         }
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
             handleTrade(player, this);
         }
     }
-    private class Amethyst extends StigglesBaseItem {
-        public Amethyst (int price) {
+    private class Wool extends StigglesBaseItem {
+        public Wool (int price) {
             super (price);
-            item = new ItemStack(Material.AMETHYST_SHARD);
-        }
-        public ItemProvider getItemProvider () {
-            return new ItemBuilder(item);
-        }
-        @Override
-        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
-            handleTrade(player, this);
-        }
-    }
-    private class Copper extends StigglesBaseItem {
-        public Copper (int price) {
-            super (price);
-            item = new ItemStack(Material.COPPER_INGOT);
-        }
-        public ItemProvider getItemProvider () {
-            return new ItemBuilder(item);
-        }
-        @Override
-        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
-            handleTrade(player, this);
-        }
-    }
-    private class Bell extends StigglesBaseItem {
-        public Bell (int price) {
-            super (price);
-            item = new ItemStack(Material.BELL);
+            item = new ItemStack(Material.WHITE_WOOL);
         }
         public ItemProvider getItemProvider () {
             return new ItemBuilder(item);
@@ -108,22 +117,25 @@ public class Baggins extends ShopNPC {
             handleTrade(player, this);
         }
     }
-    //Other possible items: Concrete, Candles, Frog lights (UNLOCKABLE)
-    public Baggins (SMP5 main, String name, Location location) {
+
+    public Bear (SMP5 main, String name) {
+        this (main, name, new Location(Bukkit.getWorld("world"), -0.5, 73, 10));
+    }
+    public Bear (SMP5 main, String name, Location location) {
         super (main, name, location);
 
-        setSkin ("ewogICJ0aW1lc3RhbXAiIDogMTY4Mjk5NjY4ODcyOCwKICAicHJvZmlsZUlkIiA6ICIwMDc4NzVkOTI0ZWI0ZGMxODUxZGY5MWFiYTdmZjg3MSIsCiAgInByb2ZpbGVOYW1lIiA6ICJSZXphMkIyVCIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS8yNTY0NGZiOTZlNWEyNDVkOWU5NzEyMWU3ZTlkZDE2OGI2MmM2Y2M5Yzg1MDRiODJmN2RmOTliNmZlMWQxMDZjIgogICAgfQogIH0KfQ==",
-                "BATG6yKQJGTgG4Dh8SW291twDyxkSlrNVlzimxKmZ+5enF6+kbXUMzTJoaZ7yEnA48gXJNxWkvyEOmAI6oNeABK1EHHY8IQDcUWDIITNDNAOpkoUdyjsHxXI3ZKVlErcrfN+/sn0v7LumyHT3Ekxi8utiFrJ9lTNT+ZExzQyUdbRUZHXq9q27S2WXzIVuXOEA0Sj1q/hx9JzwE2dOEz6j4azfZFzAVFGjQairbDE4OabhRYmTsgMARBLTFZnw4mYPOmA4HdTV57Kvpe2A75PdPqaDUex8+Ozyb3jd2h0bhDwDEBB1EFlJ7BzkLfZwlWaHgJUkqczfBKCtfC6JpW5Wriu301YefeBrB3SF0GVCByejb4OUZ4tNz/7s/A6+LThHwSvKmeZpKYYLo60udxi5+nrHX3e9MNFwRXaTqHUHTKa4KkDtXBLyZ1CD+Jbv4hMJ7N0SKBAWOXk++2xP301nHq6h1OGu25J4kU8xjfS2vMnAnxPvpXLHJz6FQuJCepaCeDa76/KjLj892cMQWwt2/RgqpoeIHp7S21V5t4mX/CBROrUGdigAzO5LOkPS29hspR7U/CTm0Xxdyu5sN01n5H7SRhw/lKo4t0KvebU8sLf/xYipuSfzoY2y0iF50fJ25PBA5ku1OgCzIugBhGTKqjc3x6qy5TscF6rFfI/SP4="
+        setSkin ("ewogICJ0aW1lc3RhbXAiIDogMTY4MjU0NTExMTE1NSwKICAicHJvZmlsZUlkIiA6ICJhMDEyZDkwYWZjMGI0OGE4OTk5ODAwNzE5NDA5NzM2NiIsCiAgInByb2ZpbGVOYW1lIiA6ICJFbmVyZ3lpbnRha2UiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzk5NjA0YzU0NTEyNTRhZTE2OTZhZGFlZDdmZjExNmM4MTM2MzgwYTUzNTQwNWU1ZTMyMmI4ZTA4MjMzNzhmYyIKICAgIH0KICB9Cn0=",
+                "DQ9djFsksTopdywLAm9xnUB145sciJgI+lRjwJDO0BcsFO071cSnDPjqax8q/sCvYuOD0Kt10VzkEJ+m+3JjCgtsECAfVlck3RJMI4PtEafCjSZ0UB5tdIFXTO68LFJ1eTi9Fia+eeepUFiHuUOCW4+Ahmp0X9XubNdyBUsAP43in6PCNfBpavV3Fb9tvS8ES9C+zmcOlprjIfvRviC/8R1oy5r9GwhstQ4562Wt6ZUh7sR2dd3W+Q/yYvW1vKcHJ1zQXGBqv5TVZ7WgFJotQZzDF+uqXBaHBR1LCw5agIl9MXLmsuXgEzg0myL/MmINXYwyFhNXn/vVtR61n1VjrCXysjX6SNKCunQneqgehcQH27o+pa/oEAFHPWqRXKBFX/JVYY328L8c+irURy/98GU1e80zSsNvn2n+NeKxMjVvqCd0LbdSsbg4M+wzDaKcM/M/l06WCgoTiZ4nIrKgi7BbXpS3KaaS5cEpqTkZmvpzOPzYQxKs9Jc25kXATlzE7qplrG2eIVZhSqh8Wb0gOBkQqK8Nw8ygqzJRr/m8vm2eD+BaRqeu+4NGLl31fO+LujqRNTtrJJVlUDI96Nc7CKfA4cZ/kqdg5s1oT5HDOC9hkqEHuzBI5USKeaJ2+5qUKx6OHSKsAfBkyzUMiiORb2g2IFh2BuymJsW6mrom5GQ="
         );
     }
 
     @Override
     public boolean handleTrade (Player player, StigglesBaseItem item) {
         if (super.handleTrade(player, item)) {
-            sendMessage(player, "Thank you sir.");
+            sendMessage(player, "Thanks.");
             return true;
         }
-        sendMessage(player, "Hey, you don't have enough money!");
+        sendMessage(player, "I can't give that to you right now.");
         return false;
     }
 
@@ -131,9 +143,10 @@ public class Baggins extends ShopNPC {
     public void interactDialogue(Player player) {
         int n = main.getRandom() % 2;
         if (n == 0)
-            sendMessage(player, "Hello!");
+            sendMessage(player, "Hello.");
         else
-            sendMessage(player, "I'm selling some valuables, if you wish!");
+            sendMessage(player, "Hmmmmm.");
+        talk (player);
     }
 
     @Override
@@ -144,13 +157,13 @@ public class Baggins extends ShopNPC {
                         "# a b c d e f g #",
                         "# # # # # # # # #")
                 .addIngredient ('#', new SimpleItem(new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE)))
-                .addIngredient( 'a', new Copper (20))
-                .addIngredient( 'b', new Amethyst (8))
-                .addIngredient( 'c', new Iron (40))
-                .addIngredient( 'd', new Gold (50))
-                .addIngredient( 'e', new Diamond (100))
-                .addIngredient( 'f', new Lapis(30))
-                .addIngredient( 'g', new Bell (100))
+                .addIngredient( 'a', new Veggie(2))
+                .addIngredient( 'b', new Seeds (2))
+                .addIngredient( 'c', new Leather(9))
+                .addIngredient( 'd', new Logs (5))
+                .addIngredient( 'e', new Podzol(5))
+                .addIngredient( 'f', new Wool(9))
+                .addIngredient( 'g', new Bones (12))
                 .build ();
     }
 }

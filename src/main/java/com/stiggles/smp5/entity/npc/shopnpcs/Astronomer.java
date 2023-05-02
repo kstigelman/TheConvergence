@@ -14,8 +14,6 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Random;
-
 public class Astronomer extends ShopNPC {
     private class ShulkerShell extends StigglesBaseItem {
         public ShulkerShell (int price) {
@@ -137,20 +135,15 @@ public class Astronomer extends ShopNPC {
         sendMessage(player, "It seems you have enough coins for that.");
         return false;
     }
-    @Override
-    public void onInteract(Player player) {
-        interactDialogue(player);
-        createGUI(player);
-        showGUI(player);
-    }
 
     @Override
     public void interactDialogue(Player player) {
-        int n = new Random().nextInt();
-        if (n % 2 == 0)
-            sendMessage(player, "Hello.");
+        int n = main.getRandom() % 2;
+        if (n == 0)
+            sendMessage(player, "Isn't the night sky just so fascinating?");
         else
-            sendMessage(player, "Great day for fishing, isn't it?");
+            sendMessage(player, "Welcome to my observatory.");
+        talk (player);
     }
 
     @Override

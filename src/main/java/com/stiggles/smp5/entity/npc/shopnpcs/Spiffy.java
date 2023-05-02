@@ -22,10 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Random;
 
 public class Spiffy extends ShopNPC {
-    /* Set a new random integer "seed" on every instance.
-     * Server is planned to restart daily, so the NPC's
-     * shop will update daily.
-     */
+
     private class Moonshine extends StigglesBaseItem {
         public Moonshine (int price) {
             super (price);
@@ -116,6 +113,7 @@ public class Spiffy extends ShopNPC {
             handleTrade(player, this);
         }
     }
+
     private class Locked extends BaseItem {
         String lore;
         public Locked (String description) {
@@ -150,12 +148,6 @@ public class Spiffy extends ShopNPC {
         }
         sendMessage(player, "Sorry, you don't have enough money for that.");
         return false;
-    }
-    @Override
-    public void onInteract(Player player) {
-        interactDialogue(player);
-        createGUI(player);
-        showGUI(player);
     }
 
     @Override

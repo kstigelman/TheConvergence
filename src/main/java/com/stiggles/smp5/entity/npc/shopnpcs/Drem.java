@@ -182,7 +182,7 @@ public class Drem extends ShopNPC {
         setSkin ("ewogICJ0aW1lc3RhbXAiIDogMTY4MjE5NTQ5NDI0OCwKICAicHJvZmlsZUlkIiA6ICIzNzdmYzE2NzE2ZDY0NDM4YjNkYjQzYzYyOWExYTkyOCIsCiAgInByb2ZpbGVOYW1lIiA6ICJTd2VkZW5zdHlsZTM0IiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2MxZjYxODRmMDQyZjc1NTdlMjA1OGYzZDllOWVjMmFjY2UyNzU0YzRhYzFjMTFkZGI5MWZmMmU2YjAyNjhhZGEiCiAgICB9CiAgfQp9",
                 "N083dFQnybPFkzN+Za1SOk4WSM387hIIGKOklJ/PP3qq3JLOFKewvbPNCQqWI65sbVmVkZn6vrBDcnfa0Gsf49G2ihi5T5n15Wn8VCeU45xg4/cpmTulzEnLq1dX1aKcJ7WTWp0XWdmb60CmaSk7lllECAqHkmNLNz6wq32kge2jG0pHkK2+Hym7UCib2CctSM92gkqqG48zn3hLmVME6c1T+SPsGZS/V1CioAJd83Mv2+Egn5hygNoGvwHnatkSKIkK8WkZdmV2eSegLvX+V+im9ZnFFfILow5Sz9XisQwp8+X6Ew5iXco5eOuzcKflntdkGdva2jpox6BcgfHIxswwWKrPcMdrs6tgb8wFSyQ9r0Wt5W8OppdBsKkE/DAWBSSxg0YmXpG6SeBUJ0K4j2DB/l6AiJWN1AcMqSejehxMeyLrWqSYZczMcncxZ7i+/eal8LhtZTVye9fD8yEuClsqLqY/Fb9mgJSmaNhDkcJaQ19+SyAvUK0tWfQjmYUws1hfyA7U6TBvNvNPsZSjd8e6zpaNeqGLxu72CIyFFTJc4SiCTGFUd2Ly1JEwr7H2ZC3ziMa0gJ0QkVhC2Hr8vXvUci8dScd8nVKScgPMk/eoIWecgxj1ERTkaSzJPV/JiTYTIDGwzT3YyR2rncTa4KDEKpeG2k2GpfO0rzFikao="
         );
-        setRotation (110, 0);
+        //setRotation (110, 0);
     }
 
     @Override
@@ -197,12 +197,9 @@ public class Drem extends ShopNPC {
             interactCounter = 0;
         }
 
-        player.sendMessage ("<" + getName () + "> " + msg);
+        sendMessage (player, msg);
         interactCounter++;
-    }
-    @Override
-    public void onInteract (Player player) {
-        interactDialogue(player);
+        talk (player);
     }
 
     @Override

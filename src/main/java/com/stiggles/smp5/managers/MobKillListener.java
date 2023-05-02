@@ -7,8 +7,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 
+/** Rewards player with coins after they kill a mob. Reward amounts are stored in config file.
+ *    Listener: EntityDeathEvent
+ */
 public class MobKillListener implements Listener {
-
     @EventHandler
     public void OnEntityDeath (EntityDeathEvent e) {
         Player killer = e.getEntity().getKiller();

@@ -145,20 +145,15 @@ public class Inventor extends ShopNPC {
         sendMessage(player, "It seems you have enough coins for that.");
         return false;
     }
-    @Override
-    public void onInteract(Player player) {
-        interactDialogue(player);
-        createGUI(player);
-        showGUI(player);
-    }
 
     @Override
     public void interactDialogue(Player player) {
-        int n = new Random().nextInt();
-        if (n % 2 == 0)
-            sendMessage(player, "Hello.");
+        int n = main.getRandom() % 2;
+        if (n == 0)
+            sendMessage(player, "Hi there.");
         else
-            sendMessage(player, "Great day for fishing, isn't it?");
+            sendMessage(player, "Welcome to my workshop.");
+        talk (player);
     }
 
     @Override

@@ -1,14 +1,10 @@
 package com.stiggles.smp5.entity.npc;
 
-import com.stiggles.smp5.entity.npc.StigglesNPC;
 import com.stiggles.smp5.main.SMP5;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.Arrays;
 import java.util.Random;
 
 public class Beachman extends StigglesNPC {
@@ -28,28 +24,16 @@ public class Beachman extends StigglesNPC {
     }
 
     @Override
-    public void interactDialogue(Player p) {
-        String msg = "";
+    public void interactDialogue(Player player) {
+        int ni =  main.getRandom() % 5;
 
-        Random rand = new Random();
-        int ni = rand.nextInt () % 5;
-
-        if (ni >= 3)
-            msg += "HELLO.";
-        else if (ni >= 1)
-            msg += "I AM BEACH MAN.";
+        if (ni <= 1)
+            sendMessage(player,"HELLO.");
+        else if (ni <= 3)
+            sendMessage(player,"I AM BEACH MAN.");
         else
-            msg += "OHOHOHOHEEHEE";
+            sendMessage(player,"OHOHOHOHEEHEE");
 
-        msg = msg.replace ("<user>", p.getName());
-
-        p.sendMessage ("<" + getName () + "> " + msg);
-        Bukkit.getScheduler().runTaskLater(main, new BukkitRunnable() {
-            @Override
-            public void run() {
-                String text = ChatColor.GRAY + ChatColor.ITALIC.toString() + "<" + p.getName () + "> ...this guy is weird.";
-                p.sendMessage (text);
-            }
-        }, 20);
+        player.sendMessage (ChatColor.GRAY + ChatColor.ITALIC.toString() + "<" + player.getName () + "> ...this guy is weird.");
     }
 }
