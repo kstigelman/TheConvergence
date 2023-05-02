@@ -14,6 +14,7 @@ ________
 ### Dungeons
 - Dungeons are built in-game, then are registered as certain room types
   depending on characteristics contained within each room.
+- This feature is currently in a separate repository, but will soon be merged with this one.
   
 ________
 ### NPCs
