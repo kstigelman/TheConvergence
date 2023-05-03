@@ -197,7 +197,7 @@ public class SMP5 extends JavaPlugin implements Listener {
     public void createNPCs () {
         CitizensAPI.getNPCRegistry().deregisterAll();
         npcs = new ArrayList<>();
-        npcs.add (new Ned(this, "Ned", new Location(Bukkit.getWorld("world"), 0, 0, 0)));
+        //npcs.add (new Ned(this, "Ned", new Location(Bukkit.getWorld("world"), 0, 0, 0)));
         npcs.add (new Starry (this, "Starry", new Location(Bukkit.getWorld("world"), -708.5, 67, -1110.5)));
         npcs.add (new EggDONTTake(this, "Francis Smurf", new Location(Bukkit.getWorld("world"), 4, 0, 0)));
         npcs.add (new Drem (this, "Captain Beast", new Location(Bukkit.getWorld("world"), 6, 0, 0)));
@@ -212,10 +212,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         npcs.add (new Beachman (this, "Beach Man", new Location (Bukkit.getWorld("world"), -1480.5, 63, 1024.5)));
         npcs.add (new Chickens (this, "Gabe", new Location (Bukkit.getWorld("world"), 788.5, 83, -422.5)));
         npcs.add (new Bear (this, "BearSharken", new Location (Bukkit.getWorld("world"), 540.5, 92, -912.5)));
-        //BEAR -- 540.5, 92, -912.5 FACING 45deg
-        //CHICKENS -- 788.5, 83, -422.5 FACING 75
-        //DR TROG -- 1489.5, 136, -1475.5 FACING 90
-        //Beachman -- -1480.5, 63, 1024.5 Facing: 65
+        npcs.add (new DrTrog (this, "Dr. Trog", new Location(Bukkit.getWorld ("world"), 1489.5, 136, -1475.5)));
     }
     public void registerCommands () {
         //Bukkit.getPluginCommand("coins").setExecutor(new CoinCommand());
