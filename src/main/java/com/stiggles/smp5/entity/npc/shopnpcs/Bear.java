@@ -1,19 +1,17 @@
 package com.stiggles.smp5.entity.npc.shopnpcs;
 
 import com.stiggles.smp5.main.SMP5;
-import de.studiocode.invui.gui.builder.GUIBuilder;
-import de.studiocode.invui.gui.builder.guitype.GUIType;
-import de.studiocode.invui.item.ItemProvider;
-import de.studiocode.invui.item.builder.ItemBuilder;
-import de.studiocode.invui.item.impl.SimpleItem;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.item.ItemProvider;
+import xyz.xenondevs.invui.item.builder.ItemBuilder;
+import xyz.xenondevs.invui.item.impl.SimpleItem;
 
-import java.util.Random;
 
 public class Bear extends ShopNPC {
     private class Veggie extends StigglesBaseItem {
@@ -151,7 +149,7 @@ public class Bear extends ShopNPC {
 
     @Override
     public void createGUI(Player player) {
-        gui = new GUIBuilder<>(GUIType.NORMAL)
+        gui = Gui.normal()
                 .setStructure(
                         "# # # # # # # # #",
                         "# a b c d e f g #",

@@ -2,16 +2,7 @@ package com.stiggles.smp5.entity.npc.shopnpcs;
 
 import com.stiggles.smp5.Colors;
 import com.stiggles.smp5.main.SMP5;
-import com.stiggles.smp5.managers.BankManager;
-import de.studiocode.invui.gui.builder.GUIBuilder;
-import de.studiocode.invui.gui.builder.guitype.GUIType;
-import de.studiocode.invui.item.ItemProvider;
-import de.studiocode.invui.item.builder.ItemBuilder;
-import de.studiocode.invui.item.builder.PotionBuilder;
-import de.studiocode.invui.item.impl.BaseItem;
-import de.studiocode.invui.item.impl.SimpleItem;
 import org.bukkit.*;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -19,7 +10,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
-
+import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.item.ItemProvider;
+import xyz.xenondevs.invui.item.builder.ItemBuilder;
+import xyz.xenondevs.invui.item.builder.PotionBuilder;
+import xyz.xenondevs.invui.item.impl.AbstractItem;
+import xyz.xenondevs.invui.item.impl.SimpleItem;
 
 public class Mole extends ShopNPC {
     private static final int STAINED_GLASS_ID = 95;
@@ -102,7 +98,7 @@ public class Mole extends ShopNPC {
         }
     }
 
-    private class Locked extends BaseItem {
+    private class Locked extends AbstractItem {
         String lore;
         public Locked (String description) {
             lore = description;
@@ -145,11 +141,11 @@ public class Mole extends ShopNPC {
 
     @Override
     public void createGUI(Player player) {
-        BaseItem lockedSlot = new Locked("Find the Morabito's hideout.");
+        AbstractItem lockedSlot = new Locked("Find the Morabito's hideout.");
         /* if (player has visited morabito hideout)
             lockedSlot = new Dagger (1000);*/
 
-        gui = new GUIBuilder<>(GUIType.NORMAL)
+        gui = Gui.normal()
                 .setStructure(
                         "# # # # # # # # #",
                         "# a b c d e f g #",

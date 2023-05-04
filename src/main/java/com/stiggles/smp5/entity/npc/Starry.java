@@ -1,14 +1,7 @@
-package com.stiggles.smp5.entity.npc.shopnpcs;
+package com.stiggles.smp5.entity.npc;
 
 import com.stiggles.smp5.entity.npc.StigglesNPC;
 import com.stiggles.smp5.main.SMP5;
-import de.studiocode.invui.gui.builder.GUIBuilder;
-import de.studiocode.invui.gui.builder.guitype.GUIType;
-import de.studiocode.invui.item.ItemProvider;
-import de.studiocode.invui.item.builder.ItemBuilder;
-import de.studiocode.invui.item.builder.PotionBuilder;
-import de.studiocode.invui.item.impl.BaseItem;
-import de.studiocode.invui.item.impl.SimpleItem;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -18,10 +11,17 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
+import xyz.xenondevs.invui.item.builder.PotionBuilder;
+import xyz.xenondevs.invui.item.impl.AbstractItem;
+import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.item.ItemProvider;
+import xyz.xenondevs.invui.item.builder.ItemBuilder;
+import xyz.xenondevs.invui.item.impl.SimpleItem;
+import javax.swing.*;
 import java.util.Random;
 
 public class Starry extends StigglesNPC {
-    private class Moonshine extends BaseItem {
+    private class Moonshine extends AbstractItem {
 
         /*public Moonshine(ItemProvider itemProvider, String command) {
             super(itemProvider, command);
@@ -41,27 +41,6 @@ public class Starry extends StigglesNPC {
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
             player.getInventory().addItem (getItemProvider().get());
         }
-    }
-    public class CountItem extends BaseItem {
-
-        private int count;
-
-        @Override
-        public ItemProvider getItemProvider() {
-            return new ItemBuilder(Material.DIAMOND).setDisplayName("Count: " + count);
-        }
-
-        @Override
-        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
-            if (clickType.isLeftClick()) {
-                count++; // increment if left click
-            } else {
-                count--; // else decrement
-            }
-
-            notifyWindows(); // this will update the ItemStack that is displayed to the player
-        }
-
     }
 
     public Starry (SMP5 main) {

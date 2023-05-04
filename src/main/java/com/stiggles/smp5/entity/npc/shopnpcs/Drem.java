@@ -1,14 +1,6 @@
 package com.stiggles.smp5.entity.npc.shopnpcs;
 
-import com.stiggles.smp5.entity.npc.StigglesNPC;
-import com.stiggles.smp5.entity.npc.shopnpcs.ShopNPC;
 import com.stiggles.smp5.main.SMP5;
-import de.studiocode.invui.gui.builder.GUIBuilder;
-import de.studiocode.invui.gui.builder.guitype.GUIType;
-import de.studiocode.invui.item.ItemProvider;
-import de.studiocode.invui.item.builder.ItemBuilder;
-import de.studiocode.invui.item.impl.BaseItem;
-import de.studiocode.invui.item.impl.SimpleItem;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -17,6 +9,11 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
+import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.item.ItemProvider;
+import xyz.xenondevs.invui.item.builder.ItemBuilder;
+import xyz.xenondevs.invui.item.impl.AbstractItem;
+import xyz.xenondevs.invui.item.impl.SimpleItem;
 
 public class Drem extends ShopNPC {
 
@@ -159,7 +156,7 @@ public class Drem extends ShopNPC {
             handleTrade(player, this);
         }
     }
-    private class Locked extends BaseItem {
+    private class Locked extends AbstractItem {
         String lore;
         public Locked (String description) {
             lore = description;
@@ -204,11 +201,11 @@ public class Drem extends ShopNPC {
 
     @Override
     public void createGUI(Player player) {
-        BaseItem lockedSlot = new Locked ("Find the Captain's logbook");
+        AbstractItem lockedSlot = new Locked ("Find the Captain's logbook");
         /* if (player has visited ruins)
              lockedSlot = new Pendant(4000); */
 
-        gui = new GUIBuilder<>(GUIType.NORMAL)
+        gui = Gui.normal()
                 .setStructure(
                         "# # # # # # # # #",
                         "# a b c d e f g #",

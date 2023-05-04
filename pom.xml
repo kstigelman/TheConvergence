@@ -68,10 +68,10 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>de.studiocode.invui</groupId>
-            <artifactId>InvUI</artifactId>
-            <version>RELEASE</version>
-            <scope>compile</scope>
+            <groupId>xyz.xenondevs.invui</groupId>
+            <artifactId>invui</artifactId>
+            <version>1.5</version>
+            <type>pom</type>
         </dependency>
         <dependency>
             <groupId>net.citizensnpcs</groupId>

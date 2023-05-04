@@ -4,8 +4,6 @@ import com.stiggles.smp5.main.SMP5;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import java.util.Random;
-
 public class Morabito extends StigglesNPC {
 
     public Morabito (SMP5 main, String name, Location location) {

@@ -1,12 +1,6 @@
 package com.stiggles.smp5.entity.npc.shopnpcs;
 
 import com.stiggles.smp5.main.SMP5;
-import de.studiocode.invui.gui.builder.GUIBuilder;
-import de.studiocode.invui.gui.builder.guitype.GUIType;
-import de.studiocode.invui.item.ItemProvider;
-import de.studiocode.invui.item.builder.ItemBuilder;
-import de.studiocode.invui.item.impl.BaseItem;
-import de.studiocode.invui.item.impl.SimpleItem;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -15,6 +9,11 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
+import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.item.ItemProvider;
+import xyz.xenondevs.invui.item.builder.ItemBuilder;
+import xyz.xenondevs.invui.item.impl.AbstractItem;
+import xyz.xenondevs.invui.item.impl.SimpleItem;
 
 public class Mister8Bit extends ShopNPC {
     private static final int FISH_AMOUNT = 500;
@@ -176,7 +175,7 @@ public class Mister8Bit extends ShopNPC {
             handleTrade(player, this);
         }
     }
-    private class Locked extends BaseItem {
+    private class Locked extends AbstractItem {
         String lore;
         public Locked (String description) {
             lore = description;
@@ -223,11 +222,11 @@ public class Mister8Bit extends ShopNPC {
 
     @Override
     public void createGUI(Player player) {
-        BaseItem lockedSlot = new Locked ("Catch " + FISH_AMOUNT + " fish");
+        AbstractItem lockedSlot = new Locked ("Catch " + FISH_AMOUNT + " fish");
         if (player.getStatistic(Statistic.FISH_CAUGHT) >= FISH_AMOUNT)
             lockedSlot = new FishingRod();
 
-        gui = new GUIBuilder<>(GUIType.NORMAL)
+        gui = Gui.normal()
                 .setStructure(
                         "# # # # # # # # #",
                         "# a b c d e f g #",
