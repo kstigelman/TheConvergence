@@ -95,6 +95,7 @@ public class Drem extends ShopNPC {
     private class Vlad extends StigglesBaseItem {
         public Vlad (int price) {
             super (price);
+            item = new ItemStack(Material.CROSSBOW);
             ItemMeta meta = item.getItemMeta();
             if (meta == null)
                 return;
@@ -116,6 +117,7 @@ public class Drem extends ShopNPC {
     private class BoomBow extends StigglesBaseItem {
         public BoomBow (int price) {
             super (price);
+            item = new ItemStack (Material.BOW);
             ItemMeta meta = item.getItemMeta();
             if (meta == null)
                 return;
@@ -123,7 +125,7 @@ public class Drem extends ShopNPC {
             item.setItemMeta(meta);
         }
         public ItemProvider getItemProvider () {
-            return new ItemBuilder(Material.CROSSBOW)
+            return new ItemBuilder(Material.BOW)
                     .setDisplayName(ChatColor.RED + "Boom Bow")
                     .addLoreLines("This bow has an explosive personality")
                     .addLoreLines(getCost());

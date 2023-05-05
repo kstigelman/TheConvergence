@@ -1,3 +1,4 @@
 Manifest-Version: 1.0
-Main-Class: SMP5.java
+Built-By: kstigelman
+Main-Class: com.stiggles.smp5.main.SMP5
 

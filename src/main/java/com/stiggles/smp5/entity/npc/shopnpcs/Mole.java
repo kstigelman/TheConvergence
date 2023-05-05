@@ -85,7 +85,8 @@ public class Mole extends ShopNPC {
             super (price);
             Material material;
             int n = (ri % 16);
-            material = Material.getMaterial(Colors.getColor (n) + "_STAINED_GLASS");
+
+            material = Material.getMaterial((Colors.getColor (n) + "_STAINED_GLASS").toLowerCase());
             item = new ItemStack(material);
         }
         public ItemProvider getItemProvider () {

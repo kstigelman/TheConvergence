@@ -69,7 +69,8 @@ public abstract class ShopNPC extends StigglesNPC {
         new BukkitRunnable() {
             @Override
             public void run () {
-                Window.single().setViewer (player).setGui (gui).setTitle (getName()).build ();
+                Window window = Window.single().setViewer (player).setGui (gui).setTitle (getName()).build ();
+                window.open ();
             }
 
         }.runTaskLater(SMP5.getPlugin (), 4);

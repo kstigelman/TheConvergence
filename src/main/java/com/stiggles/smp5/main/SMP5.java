@@ -213,6 +213,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         npcs.add (new Bear (this, "BearSharken", new Location (Bukkit.getWorld("world"), 540.5, 92, -912.5)));
         npcs.add (new DrTrog (this, "Dr. Trog", new Location(Bukkit.getWorld ("world"), 1489.5, 136, -1475.5)));
         npcs.add (new Morabito (this, "Mr. Morabito", new Location(Bukkit.getWorld("world"), -751.5, 66,-1427.5)));
+        npcs.add (new Mole (this, "Mr. Mole A. Quacks", new Location(Bukkit.getWorld("world"), 0, 0, 0)));
     }
     public void registerCommands () {
         //Bukkit.getPluginCommand("coins").setExecutor(new CoinCommand());

@@ -34,7 +34,7 @@ public class Philippe extends ShopNPC {
             }
         }
         public ItemProvider getItemProvider() {
-            return new ItemBuilder(item);
+            return new ItemBuilder(item).addLoreLines(getCost());
         }
 
         @Override
@@ -61,7 +61,7 @@ public class Philippe extends ShopNPC {
         }
 
         public ItemProvider getItemProvider() {
-            return new ItemBuilder(item);
+            return new ItemBuilder(item).addLoreLines(getCost());
         }
 
         @Override
@@ -89,7 +89,7 @@ public class Philippe extends ShopNPC {
         }
 
         public ItemProvider getItemProvider() {
-            return new ItemBuilder(item);
+            return new ItemBuilder(item).addLoreLines(getCost());
         }
 
         @Override
@@ -117,7 +117,7 @@ public class Philippe extends ShopNPC {
         }
 
         public ItemProvider getItemProvider() {
-            return new ItemBuilder(Material.BONE_BLOCK);
+            return new ItemBuilder(Material.BONE_BLOCK).addLoreLines(getCost());
         }
 
         @Override
@@ -141,7 +141,7 @@ public class Philippe extends ShopNPC {
         }
 
         public ItemProvider getItemProvider() {
-            return new ItemBuilder(item);
+            return new ItemBuilder(item).addLoreLines(getCost());
         }
 
         @Override
@@ -157,7 +157,7 @@ public class Philippe extends ShopNPC {
         }
 
         public ItemProvider getItemProvider() {
-            return new ItemBuilder(item);
+            return new ItemBuilder(item).addLoreLines(getCost());
         }
 
         @Override
@@ -173,7 +173,7 @@ public class Philippe extends ShopNPC {
         }
 
         public ItemProvider getItemProvider() {
-            return new ItemBuilder(item);
+            return new ItemBuilder(item).addLoreLines(getCost());
         }
 
         @Override
