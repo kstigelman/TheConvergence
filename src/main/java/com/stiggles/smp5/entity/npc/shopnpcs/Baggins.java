@@ -21,7 +21,7 @@ public class Baggins extends ShopNPC {
             item = new ItemStack (Material.IRON_INGOT);
         }
         public ItemProvider getItemProvider () {
-            return new ItemBuilder(item);
+            return new ItemBuilder(item).addLoreLines(getCost());
         }
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
@@ -34,7 +34,7 @@ public class Baggins extends ShopNPC {
             item = new ItemStack(Material.GOLD_INGOT);
         }
         public ItemProvider getItemProvider () {
-            return new ItemBuilder(item);
+            return new ItemBuilder(item).addLoreLines(getCost());
         }
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
@@ -47,7 +47,7 @@ public class Baggins extends ShopNPC {
             item = new ItemStack(Material.LAPIS_LAZULI);
         }
         public ItemProvider getItemProvider () {
-            return new ItemBuilder(item);
+            return new ItemBuilder(item).addLoreLines(getCost());
         }
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
@@ -60,7 +60,7 @@ public class Baggins extends ShopNPC {
             item = new ItemStack(Material.DIAMOND);
         }
         public ItemProvider getItemProvider () {
-            return new ItemBuilder(item);
+            return new ItemBuilder(item).addLoreLines(getCost());
         }
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
@@ -73,7 +73,7 @@ public class Baggins extends ShopNPC {
             item = new ItemStack(Material.AMETHYST_SHARD);
         }
         public ItemProvider getItemProvider () {
-            return new ItemBuilder(item);
+            return new ItemBuilder(item).addLoreLines(getCost());
         }
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
@@ -86,7 +86,7 @@ public class Baggins extends ShopNPC {
             item = new ItemStack(Material.COPPER_INGOT);
         }
         public ItemProvider getItemProvider () {
-            return new ItemBuilder(item);
+            return new ItemBuilder(item).addLoreLines(getCost());
         }
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
@@ -99,7 +99,7 @@ public class Baggins extends ShopNPC {
             item = new ItemStack(Material.BELL);
         }
         public ItemProvider getItemProvider () {
-            return new ItemBuilder(item);
+            return new ItemBuilder(item).addLoreLines(getCost());
         }
 
         @Override

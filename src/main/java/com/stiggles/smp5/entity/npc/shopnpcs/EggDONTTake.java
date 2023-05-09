@@ -24,7 +24,7 @@ public class EggDONTTake extends ShopNPC {
             super (price);
         }
         public ItemProvider getItemProvider () {
-            return new ItemBuilder(Material.RED_MUSHROOM);
+            return new ItemBuilder(Material.RED_MUSHROOM).addLoreLines(getCost());
         }
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
@@ -36,7 +36,7 @@ public class EggDONTTake extends ShopNPC {
             super (price);
         }
         public ItemProvider getItemProvider () {
-            return new ItemBuilder(Material.BROWN_MUSHROOM);
+            return new ItemBuilder(Material.BROWN_MUSHROOM).addLoreLines(getCost());
         }
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
@@ -48,7 +48,7 @@ public class EggDONTTake extends ShopNPC {
             super (price);
         }
         public ItemProvider getItemProvider () {
-            return new ItemBuilder(Material.MYCELIUM);
+            return new ItemBuilder(Material.MYCELIUM).addLoreLines(getCost());
         }
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
@@ -60,7 +60,7 @@ public class EggDONTTake extends ShopNPC {
             super (price);
         }
         public ItemProvider getItemProvider () {
-            return new ItemBuilder(Material.SUSPICIOUS_STEW);
+            return new ItemBuilder(Material.SUSPICIOUS_STEW).addLoreLines(getCost());
         }
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
@@ -72,7 +72,7 @@ public class EggDONTTake extends ShopNPC {
             super (price);
         }
         public ItemProvider getItemProvider () {
-            return new ItemBuilder(Material.POPPY);
+            return new ItemBuilder(Material.POPPY).addLoreLines(getCost());
         }
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
@@ -88,7 +88,7 @@ public class EggDONTTake extends ShopNPC {
             item.setItemMeta(m);
         }
         public ItemProvider getItemProvider () {
-            return new ItemBuilder(item);
+            return new ItemBuilder(item).addLoreLines(getCost());
         }
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {

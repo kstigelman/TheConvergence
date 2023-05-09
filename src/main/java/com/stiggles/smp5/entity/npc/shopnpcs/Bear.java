@@ -24,7 +24,7 @@ public class Bear extends ShopNPC {
                 item = new ItemStack(Material.POTATO);
         }
         public ItemProvider getItemProvider () {
-            return new ItemBuilder(item);
+            return new ItemBuilder(item).addLoreLines(getCost());
         }
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
@@ -43,7 +43,7 @@ public class Bear extends ShopNPC {
                 item = new ItemStack(Material.BEETROOT_SEEDS);
         }
         public ItemProvider getItemProvider () {
-            return new ItemBuilder(item);
+            return new ItemBuilder(item).addLoreLines(getCost());
         }
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
@@ -55,7 +55,7 @@ public class Bear extends ShopNPC {
             super (price);
         }
         public ItemProvider getItemProvider () {
-            return new ItemBuilder(Material.BONE_BLOCK);
+            return new ItemBuilder(Material.BONE_BLOCK).addLoreLines(getCost());
         }
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
@@ -67,7 +67,7 @@ public class Bear extends ShopNPC {
             super (price);
         }
         public ItemProvider getItemProvider () {
-            return new ItemBuilder(Material.LEATHER);
+            return new ItemBuilder(Material.LEATHER).addLoreLines(getCost());
         }
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
@@ -83,7 +83,7 @@ public class Bear extends ShopNPC {
 
         }
         public ItemProvider getItemProvider () {
-            return new ItemBuilder(item);
+            return new ItemBuilder(item).addLoreLines(getCost());
         }
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
@@ -95,7 +95,7 @@ public class Bear extends ShopNPC {
             super (price);
         }
         public ItemProvider getItemProvider () {
-            return new ItemBuilder(Material.PODZOL);
+            return new ItemBuilder(Material.PODZOL).addLoreLines(getCost());
         }
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
@@ -108,7 +108,7 @@ public class Bear extends ShopNPC {
             item = new ItemStack(Material.WHITE_WOOL);
         }
         public ItemProvider getItemProvider () {
-            return new ItemBuilder(item);
+            return new ItemBuilder(item).addLoreLines(getCost());
         }
 
         @Override

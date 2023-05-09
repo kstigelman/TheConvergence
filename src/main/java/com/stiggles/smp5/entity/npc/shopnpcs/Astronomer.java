@@ -21,7 +21,7 @@ public class Astronomer extends ShopNPC {
             super (price);
         }
         public ItemProvider getItemProvider () {
-            return new ItemBuilder(Material.SHULKER_SHELL);
+            return new ItemBuilder(Material.SHULKER_SHELL).addLoreLines(getCost());
         }
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
@@ -33,7 +33,7 @@ public class Astronomer extends ShopNPC {
             super (price);
         }
         public ItemProvider getItemProvider () {
-            return new ItemBuilder(Material.END_STONE);
+            return new ItemBuilder(Material.END_STONE).addLoreLines(getCost());
         }
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
@@ -45,7 +45,7 @@ public class Astronomer extends ShopNPC {
             super (price);
         }
         public ItemProvider getItemProvider () {
-            return new ItemBuilder(Material.CHORUS_FLOWER);
+            return new ItemBuilder(Material.CHORUS_FLOWER).addLoreLines(getCost());
         }
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
@@ -57,7 +57,7 @@ public class Astronomer extends ShopNPC {
             super (price);
         }
         public ItemProvider getItemProvider () {
-            return new ItemBuilder(Material.PURPUR_BLOCK);
+            return new ItemBuilder(Material.PURPUR_BLOCK).addLoreLines(getCost());
         }
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
@@ -69,7 +69,7 @@ public class Astronomer extends ShopNPC {
             super (price);
         }
         public ItemProvider getItemProvider () {
-            return new ItemBuilder(Material.END_ROD);
+            return new ItemBuilder(Material.END_ROD).addLoreLines(getCost());
         }
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
@@ -81,7 +81,7 @@ public class Astronomer extends ShopNPC {
             super (price);
         }
         public ItemProvider getItemProvider () {
-            return new ItemBuilder(Material.DRAGON_HEAD);
+            return new ItemBuilder(Material.DRAGON_HEAD).addLoreLines(getCost());
         }
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
