@@ -17,12 +17,14 @@ public class BountyListeners implements Listener {
         Player victim = e.getEntity ();
         Player killer = victim.getKiller ();
 
-        /** if player is bountyLeader
+        /* TO-DO:
+         * if player is bountyLeader
          * then
          *      killer gets world leader status
-         *
+         *      give killer bounty from player
+         *      Reset bounty on victim
+         *      Update bounty for killer
          */
-
     }
 
 

@@ -1,4 +1,4 @@
-package com.stiggles.smp5.entity.npc.shopnpcs;
+package com.stiggles.smp5.entity.npc;
 
 import com.stiggles.smp5.entity.npc.StigglesNPC;
 import com.stiggles.smp5.main.SMP5;
@@ -53,16 +53,17 @@ public abstract class ShopNPC extends StigglesNPC {
         interactDialogue (player);
         createGUI (player);
         showGUI (player);
+        talk (player);
     }
 
     public abstract void createGUI (Player player);
     public boolean handleTrade (Player player, StigglesBaseItem item) {
         if (BankManager.withdraw(player, item.cost)) {
             player.getInventory().addItem(item.getItemProvider().get());
-            player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADE, 1.f, 1.f);
+            playSound (player, Sound.ENTITY_VILLAGER_TRADE);
             return true;
         }
-        player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.f, 1.f);
+        playSound (player, Sound.ENTITY_VILLAGER_NO);
         return false;
     }
     public void showGUI (Player player) {

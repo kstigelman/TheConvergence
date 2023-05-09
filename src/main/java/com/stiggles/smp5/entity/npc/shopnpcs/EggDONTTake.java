@@ -1,5 +1,6 @@
 package com.stiggles.smp5.entity.npc.shopnpcs;
 
+import com.stiggles.smp5.entity.npc.ShopNPC;
 import com.stiggles.smp5.main.SMP5;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -16,7 +17,6 @@ import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.builder.ItemBuilder;
 import xyz.xenondevs.invui.item.impl.AbstractItem;
 import xyz.xenondevs.invui.item.impl.SimpleItem;
-import java.util.Random;
 
 public class EggDONTTake extends ShopNPC {
     private class RedMushroom extends StigglesBaseItem {
@@ -109,7 +109,7 @@ public class EggDONTTake extends ShopNPC {
 
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
-            player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.f, 1.f);
+            playSound(player, Sound.ENTITY_VILLAGER_NO);
         }
     }
 

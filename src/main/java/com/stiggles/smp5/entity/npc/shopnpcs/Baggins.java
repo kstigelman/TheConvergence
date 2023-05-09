@@ -1,5 +1,6 @@
 package com.stiggles.smp5.entity.npc.shopnpcs;
 
+import com.stiggles.smp5.entity.npc.ShopNPC;
 import com.stiggles.smp5.main.SMP5;
 
 import org.bukkit.*;
@@ -12,8 +13,6 @@ import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.builder.ItemBuilder;
 import xyz.xenondevs.invui.item.impl.SimpleItem;
-
-import java.util.Random;
 
 public class Baggins extends ShopNPC {
     private class Iron extends StigglesBaseItem {

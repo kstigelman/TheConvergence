@@ -7,6 +7,9 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
+/**
+ * Event when an NPC is right-clicked
+ */
 public class NPCRightClickEvent extends Event implements Cancellable {
 
     //Mandatory list to return

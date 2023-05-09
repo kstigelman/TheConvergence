@@ -1,5 +1,6 @@
-package com.stiggles.smp5.entity.npc;
+package com.stiggles.smp5.entity.npc.dialoguenpc;
 
+import com.stiggles.smp5.entity.npc.StigglesNPC;
 import com.stiggles.smp5.main.SMP5;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -25,7 +26,5 @@ public class Chickens extends StigglesNPC {
             sendMessage (player, "Don't tell anyone I am here.");
         else
             sendMessage (player, "I'm in hiding.");
-
-        talk (player);
     }
 }

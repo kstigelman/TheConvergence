@@ -8,6 +8,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
+/**
+ * Listen to player death event. If the player's world of death is a dungeon, then the Dungeon Keeper gets the items.
+ */
 public class DungeonDeathListener implements Listener {
     private SMP5 main;
     public DungeonDeathListener (SMP5 main) {

@@ -1,5 +1,6 @@
 package com.stiggles.smp5.entity.npc.shopnpcs;
 
+import com.stiggles.smp5.entity.npc.ShopNPC;
 import com.stiggles.smp5.main.SMP5;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
@@ -170,7 +171,7 @@ public class Drem extends ShopNPC {
 
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
-            player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.f, 1.f);
+            playSound (player, Sound.ENTITY_VILLAGER_NO);
         }
     }
     public Drem (SMP5 main, String name, Location location) {
@@ -196,7 +197,6 @@ public class Drem extends ShopNPC {
 
         sendMessage (player, msg);
         interactCounter++;
-        talk (player);
     }
 
     @Override

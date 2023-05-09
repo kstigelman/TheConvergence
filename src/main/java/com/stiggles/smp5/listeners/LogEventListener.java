@@ -16,7 +16,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
 
-
+/**
+ * Listen to player connect/disconnect events. Log player information to SQL database.
+ *
+ */
 public class LogEventListener implements Listener {
 
     private SMP5 main;
@@ -70,9 +73,9 @@ public class LogEventListener implements Listener {
 
     public void log (Player p, String logType){
         String world = p.getWorld ().getName();
-        if (p.getWorld().getEnvironment() != World.Environment.NETHER)
+        if (p.getWorld().getEnvironment() == World.Environment.NETHER)
             world = "nether";
-        if (p.getWorld().getEnvironment() != World.Environment.NETHER)
+        if (p.getWorld().getEnvironment() == World.Environment.THE_END)
             world = "end";
 
         try {

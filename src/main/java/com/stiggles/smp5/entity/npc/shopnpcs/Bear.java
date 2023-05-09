@@ -1,5 +1,6 @@
 package com.stiggles.smp5.entity.npc.shopnpcs;
 
+import com.stiggles.smp5.entity.npc.ShopNPC;
 import com.stiggles.smp5.main.SMP5;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -144,7 +145,6 @@ public class Bear extends ShopNPC {
             sendMessage(player, "Hello.");
         else
             sendMessage(player, "Hmmmmm.");
-        talk (player);
     }
 
     @Override

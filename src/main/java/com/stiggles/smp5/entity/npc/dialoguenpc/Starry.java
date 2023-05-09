@@ -1,4 +1,4 @@
-package com.stiggles.smp5.entity.npc;
+package com.stiggles.smp5.entity.npc.dialoguenpc;
 
 import com.stiggles.smp5.entity.npc.StigglesNPC;
 import com.stiggles.smp5.main.SMP5;
@@ -78,6 +78,5 @@ public class Starry extends StigglesNPC {
             msg += " We're happy to have you!";
 
         sendMessage (player, msg);
-        talk (player);
     }
 }

@@ -1,5 +1,6 @@
-package com.stiggles.smp5.entity.npc;
+package com.stiggles.smp5.entity.npc.dialoguenpc;
 
+import com.stiggles.smp5.entity.npc.StigglesNPC;
 import com.stiggles.smp5.main.SMP5;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -16,6 +17,5 @@ public class DrTrog extends StigglesNPC {
     @Override
     public void interactDialogue(Player player) {
         sendMessage(player,"Uh, hello?");
-        talk (player);
     }
 }

@@ -1,5 +1,6 @@
 package com.stiggles.smp5.entity.npc.shopnpcs;
 
+import com.stiggles.smp5.entity.npc.ShopNPC;
 import com.stiggles.smp5.main.SMP5;
 
 import org.bukkit.*;
@@ -113,7 +114,7 @@ public class Astronomer extends ShopNPC {
 
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
-            player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.f, 1.f);
+            playSound (player, Sound.ENTITY_VILLAGER_NO);
         }
     }
 
@@ -143,7 +144,6 @@ public class Astronomer extends ShopNPC {
             sendMessage(player, "Isn't the night sky just so fascinating?");
         else
             sendMessage(player, "Welcome to my observatory.");
-        talk (player);
     }
 
     @Override

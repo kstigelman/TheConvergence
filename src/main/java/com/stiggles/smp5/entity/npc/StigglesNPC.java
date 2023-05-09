@@ -38,7 +38,7 @@ public abstract class StigglesNPC {
 
     private final Location spawnLocation;
     //private Plugin plugin = Main.getPlugin(SMP5.class);
-
+    private float voice = 1.0f;
     private float yaw;
 
 
@@ -172,6 +172,7 @@ public abstract class StigglesNPC {
      */
     public void onInteract (Player player) {
         interactDialogue(player);
+        talk (player);
     }
 
     /** Send dialogue to player when the NPC is interacted with.
@@ -217,7 +218,7 @@ public abstract class StigglesNPC {
             return;
 
         TextComponent clickable = new TextComponent("§6§lTALK");
-        clickable.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tellraw @p \"" + dialogue + "\""));
+        clickable.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tellraw " + p.getName() + " \"" + dialogue + "\""));
 
         p.spigot().sendMessage(new BaseComponent[]{clickable});
     }
@@ -237,6 +238,9 @@ public abstract class StigglesNPC {
         if (item == null)
             return;
         npc.getOrAddTrait(Equipment.class).set (Equipment.EquipmentSlot.HAND, new ItemStack(item));
+    }
+    public void playSound (Player p, Sound sound) {
+        p.playSound(p.getLocation(), sound, 1.f, voice);
     }
 
     /** Set the NPC to hold a certain item.

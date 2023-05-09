@@ -1,5 +1,7 @@
 -- noinspection SqlNoDataSourceInspectionForFile
-
+/*
+   Setup SQL tables
+ */
 create table player (
     uuid char(36),
     username varchar (32),

@@ -1,5 +1,6 @@
-package com.stiggles.smp5.entity.npc;
+package com.stiggles.smp5.entity.npc.dialoguenpc;
 
+import com.stiggles.smp5.entity.npc.StigglesNPC;
 import com.stiggles.smp5.main.SMP5;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -19,6 +20,5 @@ public class DremBot extends StigglesNPC {
     @Override
     public void interactDialogue(Player player) {
         sendMessage(player, ChatColor.GRAY + "bzzz. Hello there " + player.getName () + "my name is Drem-Bot.");
-        talk (player);
     }
 }

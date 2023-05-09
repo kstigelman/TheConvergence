@@ -5,6 +5,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerPortalEvent;
 
+
+/**
+ * Detect when player enters or exits the Nether world to save to database.
+ */
 public class NetherListener implements Listener {
 
     @EventHandler

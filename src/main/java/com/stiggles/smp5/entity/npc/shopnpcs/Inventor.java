@@ -1,10 +1,8 @@
 package com.stiggles.smp5.entity.npc.shopnpcs;
 
+import com.stiggles.smp5.entity.npc.ShopNPC;
 import com.stiggles.smp5.main.SMP5;
 import org.bukkit.*;
-import org.bukkit.advancement.Advancement;
-import org.bukkit.boss.DragonBattle;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -119,7 +117,7 @@ public class Inventor extends ShopNPC {
 
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
-            player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.f, 1.f);
+            playSound(player, Sound.ENTITY_VILLAGER_NO);
         }
     }
 
@@ -151,7 +149,6 @@ public class Inventor extends ShopNPC {
             sendMessage(player, "Hi there.");
         else
             sendMessage(player, "Welcome to my workshop.");
-        talk (player);
     }
 
     @Override

@@ -6,3 +6,7 @@ depend: [Citizens]
 commands:
   loadcitizens:
     description: Init Citizens
+  world:
+    description: Teleports the player to the specified world.
+  start-dungeon:
+    description: Teleports the player to the dungeon and begins the event.
