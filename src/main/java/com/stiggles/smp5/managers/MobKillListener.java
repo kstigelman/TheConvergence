@@ -1,5 +1,6 @@
 package com.stiggles.smp5.managers;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -21,11 +22,12 @@ public class MobKillListener implements Listener {
         String killedEntity = e.getEntity().getClass().getName();
         String[] parts = killedEntity.split ("entity.Craft");
 
+        Bukkit.getConsoleSender().sendMessage(parts[0] + ", " + parts[1]);
         Integer reward = BankManager.getAmount(parts[1]);
+        Bukkit.getConsoleSender().sendMessage("Reward " + reward);
         if (reward == null || reward == 0)
             return;
             //reward = BankManager.getAmount ("Default");
-
 
         if (!BankManager.deposit(killer, reward))
             return;

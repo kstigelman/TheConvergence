@@ -64,6 +64,7 @@ public class LogEventListener implements Listener {
         }
         registeredUUIDs.add (p.getUniqueId());
         BankManager.addPlayer (p);
+        Bukkit.getConsoleSender().sendMessage("Added " + p.getName () + "to bank");
         e.setJoinMessage(ChatColor.LIGHT_PURPLE + p.getName() + " has fallen into The Convergence");
     }
 
