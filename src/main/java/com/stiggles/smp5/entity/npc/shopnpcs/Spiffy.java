@@ -1,5 +1,6 @@
 package com.stiggles.smp5.entity.npc.shopnpcs;
 
+import com.stiggles.smp5.Colors;
 import com.stiggles.smp5.entity.npc.ShopNPC;
 import com.stiggles.smp5.main.SMP5;
 import org.bukkit.*;
@@ -13,9 +14,11 @@ import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.item.builder.PotionBuilder;
 import xyz.xenondevs.invui.item.impl.AbstractItem;
+import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.builder.ItemBuilder;
 import xyz.xenondevs.invui.item.impl.SimpleItem;
+import java.util.Random;
 
 public class Spiffy extends ShopNPC {
 
@@ -78,9 +81,13 @@ public class Spiffy extends ShopNPC {
         public ColoredClay (int price) {
             super (price);
             Material material;
-            int n = (ri % 16) + 389;
+            //int n = (ri % 16) + 389;
 
-            material = Material.values()[n];
+            //material = Material.values()[n];
+            int n = (ri % 16);
+
+            material = Material.valueOf((Colors.getColor (n) + "_TERRACOTTA"));
+
             item = new ItemStack(material);
         }
         public ItemProvider getItemProvider () {
@@ -96,8 +103,11 @@ public class Spiffy extends ShopNPC {
         public GlazedTerracotta (int price) {
             super (price);
             Material material;
-            int n = (ri % 16) + 501;
-            material = Material.values()[n];
+            //int n = (ri % 16) + 501;
+            //material = Material.values()[n];
+            int n = (ri % 16);
+
+            material = Material.valueOf((Colors.getColor (n) + "_GLAZED_TERRACOTTA"));
             item = new ItemStack(material);
         }
         public ItemProvider getItemProvider () {

@@ -46,7 +46,7 @@ public abstract class StigglesNPC {
     public StigglesNPC (SMP5 main, String name) {
         this (main, name, new Location (Bukkit.getWorlds().get(0), 0, 0, 0));
     }
-    public StigglesNPC (SMP5 main, String name, Location location) {
+    public StigglesNPC (SMP5 main, String name, Location location, int id) {
 
         this.main = main;
 
@@ -57,12 +57,13 @@ public abstract class StigglesNPC {
 
         ri = main.getRandom();
 
-        if ((npc = CitizensAPI.getNPCRegistry().getNPC(Bukkit.getPlayer(name))) == null) {
-            Bukkit.getConsoleSender().sendMessage("Created NPC " + name + " with id " + npc.getId());
+        //npc = CitizensAPI.getNPCRegistry().getNPC(Bukkit.getEntity());
+        //if (npc == null) {
             npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, name);
-        }
-        else
-            Bukkit.getConsoleSender().sendMessage("Found NPC " + name + " in registry with id " + npc.getId());
+        //    Bukkit.getConsoleSender().sendMessage("Created NPC " + name + " with id " + npc.getId());
+       // }
+        //else
+          //  Bukkit.getConsoleSender().sendMessage("Found NPC " + name + " in registry with id " + npc.getId());
 
         NPCManager.registerNewNPC(this);
         setName (name);
@@ -91,6 +92,9 @@ public abstract class StigglesNPC {
 
         npc.spawn (spawnLocation);
 
+    }
+    public StigglesNPC (SMP5 main, String name, Location location) {
+        this (main, name, location, -1);
     }
 
     /** Retrives the name of the NPC

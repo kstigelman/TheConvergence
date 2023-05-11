@@ -3,8 +3,11 @@ package com.stiggles.smp5.main;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 
@@ -41,24 +44,32 @@ public class Database {
     public Connection getConnection() { return connection; }
 
     public boolean execute (String str) throws SQLException {
+        connect ();
         Statement statement = connection.createStatement();
-        return statement.execute(str);
+        boolean returnVal = statement.execute(str);
+        disconnect();
+        return returnVal;
     }
     public ResultSet query (String str) throws SQLException {
-        Statement statement = connection.createStatement();
-        return statement.executeQuery(str);
+        connect ();
+        Statement statement = connection.createStatement ();
+        ResultSet returnVal = statement.executeQuery(str);
+        disconnect ();
+        return returnVal;
     }
     public void disconnect() throws SQLException {
         if (isConnected())
                 connection.close();
     }
 
-    public void runQueue () {
+    public void runQueue () throws SQLException {
         runQueue(statements.size());
     }
-    public void runQueue (int amount) {
+    public void runQueue (int amount) throws SQLException {
+        connect ();
         if (amount > statements.size())
             amount = statements.size();
+
 
         for (int i = 0; i < amount; ++i) {
             try {
@@ -67,7 +78,25 @@ public class Database {
             }
             catch (SQLException e) {
                 Bukkit.getConsoleSender().sendMessage("NVTECH: Could not execute statement from queue");
+
+                /*try {
+                    FileReader fileReader = new FileReader("plugins/smp5/journal.txt");
+                    BufferedReader br = new BufferedReader(fileReader);
+
+                    String entry;
+                    while ((entry = br.readLine ()) != null)
+
+
+                    int n = main.getRandom() % dialogueList.size ();
+                    dialogue = dialogueList.get (n);
+                }
+                catch (Exception e) {
+
+                }*/
             }
         }
+
+
+        disconnect ();
     }
 }

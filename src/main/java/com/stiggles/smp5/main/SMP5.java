@@ -11,14 +11,13 @@ package com.stiggles.smp5.main;
 import com.stiggles.smp5.commands.ChangeWorldCommand;
 import com.stiggles.smp5.commands.NPCCommand;
 import com.stiggles.smp5.dungeons.DungeonStartCommand;
+import com.stiggles.smp5.entity.npc.*;
 import com.stiggles.smp5.entity.npc.dialoguenpc.*;
-import com.stiggles.smp5.entity.npc.shopnpcs.EggDONTTake;
 import com.stiggles.smp5.entity.npc.shopnpcs.*;
 import com.stiggles.smp5.listeners.*;
 import com.stiggles.smp5.managers.BankManager;
 import com.stiggles.smp5.managers.MobKillListener;
 import com.stiggles.smp5.player.StigglesPlayer;
-import com.stiggles.smp5.entity.npc.*;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.event.CitizensEnableEvent;
 import org.bukkit.Bukkit;
@@ -133,12 +132,15 @@ public class SMP5 extends JavaPlugin implements Listener {
         //Update world database
         //database.runQueue();
         try {
+            database.runQueue ();
+
             if (database != null)
                 database.disconnect ();
         }
         catch (SQLException e) {
             Bukkit.getConsoleSender().sendMessage("Failed to close db");
         }
+
         //bankManager.onDisable();
 
         Bukkit.getServer().shutdown();
