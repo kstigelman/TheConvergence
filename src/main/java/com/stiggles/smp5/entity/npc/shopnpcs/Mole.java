@@ -29,8 +29,8 @@ public class Mole extends ShopNPC {
                     .setDisplayName(ChatColor.DARK_GREEN + ChatColor.BOLD.toString() + "Kelprosoft Energy Drink")
                     .addLoreLines (ChatColor.GREEN + "World-famous Kelprosoft Energy Drink! A favorite of Ed Shearan!")
                     .addLoreLines(this.getCost())
-                    .addEffect(new PotionEffect(PotionEffectType.CONFUSION, 400, 1))
-                    .addEffect(new PotionEffect(PotionEffectType.SPEED, 400, 5));
+                    .addEffect(new PotionEffect(PotionEffectType.CONFUSION, 240, 9))
+                    .addEffect(new PotionEffect(PotionEffectType.SPEED, 200, 4));
         }
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {

@@ -89,6 +89,12 @@ public class SMP5 extends JavaPlugin implements Listener {
             Bukkit.getServer().shutdown();
         }
 
+
+        registeredUUIDs = new ArrayList<>();
+        online_players = new HashMap<>();
+        playerManager = new PlayerManager();
+        bankManager = new BankManager(this);
+
         //LOAD Registered player (UUIDS) from database
         try {
             ResultSet rs = database.query("SELECT * FROM player;");
@@ -103,12 +109,6 @@ public class SMP5 extends JavaPlugin implements Listener {
         catch (SQLException e) {
             Bukkit.getConsoleSender().sendMessage("NVTECH: Failed to fetch players");
         }
-        registeredUUIDs = new ArrayList<>();
-        online_players = new HashMap<>();
-        playerManager = new PlayerManager();
-        bankManager = new BankManager(this);
-
-
 
         Bukkit.getConsoleSender().sendMessage("Adding NPC");
         /*
@@ -131,6 +131,7 @@ public class SMP5 extends JavaPlugin implements Listener {
     public void onDisable() {
         instance = null;
         //Update world database
+        BankManager.onDisable();
         //database.runQueue();
         try {
             database.runQueue ();

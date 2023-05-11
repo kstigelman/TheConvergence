@@ -1,23 +1,14 @@
 package com.stiggles.smp5.main;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 
 public class Database {
 
-    private String HOST = "HIDDEN";
-    private final int PORT = 3306;
-    private final String DATABASE = "HIDDEN";
-    private final String USERNAME = "HIDDEN";
-    private final String PASSWORD = "HIDDEN";
+    private String[] HOST_INFO = new String[5];
     private final String FILEPATH = "smp5/host.txt";
 
     private Connection connection = null;
@@ -27,8 +18,12 @@ public class Database {
         File file = new File ("plugins/smp5/host.txt");
         try {
             Scanner scanner = new Scanner(file);
-            if (scanner.hasNext())
-                HOST = scanner.next ();
+            for (int i = 0; i < 5; ++i) {
+                if (scanner.hasNext())
+                    HOST_INFO[i] = scanner.next();
+                else
+                    HOST_INFO[i] = "";
+            }
         }
         catch (Exception e) {
             Bukkit.getConsoleSender().sendMessage("Failed to fetch host from " + FILEPATH + ". Shutting down...");
@@ -36,7 +31,11 @@ public class Database {
         }
     }
     public void connect() throws SQLException {
-        connection = DriverManager.getConnection("jdbc:sqlite:" + HOST);
+        connection = DriverManager.getConnection(
+                "jdbc:mysql://" + HOST_INFO[0] + ":" + HOST_INFO[1] + "/" + HOST_INFO[2] + "?useSSL=false",
+                HOST_INFO[3],
+                HOST_INFO[4]
+        );
         Bukkit.getConsoleSender().sendMessage("Successfully connected to Stiggles DB");
     }
     public boolean isConnected() { return connection != null; }
@@ -44,18 +43,13 @@ public class Database {
     public Connection getConnection() { return connection; }
 
     public boolean execute (String str) throws SQLException {
-        connect ();
         Statement statement = connection.createStatement();
-        boolean returnVal = statement.execute(str);
-        disconnect();
-        return returnVal;
+        return statement.execute(str);
     }
     public ResultSet query (String str) throws SQLException {
-        connect ();
         Statement statement = connection.createStatement ();
-        ResultSet returnVal = statement.executeQuery(str);
-        disconnect ();
-        return returnVal;
+        return statement.executeQuery(str);
+
     }
     public void disconnect() throws SQLException {
         if (isConnected())
@@ -66,7 +60,6 @@ public class Database {
         runQueue(statements.size());
     }
     public void runQueue (int amount) throws SQLException {
-        connect ();
         if (amount > statements.size())
             amount = statements.size();
 
@@ -96,7 +89,5 @@ public class Database {
             }
         }
 
-
-        disconnect ();
     }
 }

@@ -1,5 +1,6 @@
 package com.stiggles.smp5.managers;
 
+import com.stiggles.smp5.main.Database;
 import com.stiggles.smp5.main.SMP5;
 import com.stiggles.smp5.player.CoinBank;
 
@@ -17,14 +18,11 @@ public class BankManager {
 
     private static HashMap<String, Integer> coinAmounts;
     private static HashMap<UUID, CoinBank> banks;
-    private SMP5 main;
+    private static SMP5 main;
 
 
     public BankManager (SMP5 main) {
-
         this.main = main;
-
-
         onEnable();
     }
 
@@ -103,8 +101,10 @@ public class BankManager {
             coinAmounts.put (key, coins.getInt (key));
 
         //Load the CoinBank from database
+
         try {
-            ResultSet rs = main.getDatabase().query("SELECT * FROM bank");
+            Database db = main.getDatabase();
+            ResultSet rs = db.query("SELECT * FROM bank;");
             if (rs == null)
                 return;
             while (rs.next ()) {
@@ -118,19 +118,17 @@ public class BankManager {
             Bukkit.getConsoleSender().sendMessage("CoinBankManager: Could not query database");
         }
     }
-    public void onDisable () {
+    public static void onDisable () {
         //Save to database
-        Iterator iter = banks.entrySet().iterator();
-        while (iter.hasNext()) {
-            CoinBank mapElement = (CoinBank) iter.next();
+        for (java.util.Map.Entry<UUID, CoinBank> uuidCoinBankEntry : banks.entrySet()) {
+            CoinBank mapElement = uuidCoinBankEntry.getValue();
             int balance = mapElement.getBalance();
             String uuid = mapElement.getOwner().toString();
             try {
                 main.getDatabase().execute(
-                        "UPDATE bank SET coins = " + balance + " WHERE uuid = '" + uuid + "')"
+                        "UPDATE bank SET coins = " + balance + " WHERE uuid = '" + uuid + "');"
                 );
-            }
-            catch (SQLException e) {
+            } catch (SQLException e) {
                 Bukkit.getConsoleSender().sendMessage("Failed to update");
             }
         }

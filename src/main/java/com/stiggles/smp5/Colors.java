@@ -21,7 +21,7 @@ public class Colors {
     };
 
     public static String getColor (int index) {
-        if (index < colors.length)
+        if (index >= colors.length)
             return null;
         return colors[index];
     }

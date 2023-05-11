@@ -1,5 +1,6 @@
 package com.stiggles.smp5.listeners;
 
+import com.stiggles.smp5.main.Database;
 import com.stiggles.smp5.main.SMP5;
 import com.stiggles.smp5.managers.BankManager;
 import net.md_5.bungee.api.ChatColor;
@@ -32,7 +33,8 @@ public class LogEventListener implements Listener {
         //Load all players that have previously joined the server
         registeredUUIDs = new ArrayList<>();
         try {
-            ResultSet rs = main.getDatabase().query("SELECT uuid FROM players");
+            Database db = main.getDatabase();
+            ResultSet rs = db.query("SELECT uuid FROM player;");
             if (rs != null) {
                 while (rs.next())
                     registeredUUIDs.add(UUID.fromString(rs.getString(1)));
@@ -47,17 +49,19 @@ public class LogEventListener implements Listener {
     public void onPlayerJoin (PlayerJoinEvent e) {
         Player p = e.getPlayer();
         //Check if player has joined the server before
+        log (e.getPlayer(), "LOGIN");
+
         if (registeredUUIDs.contains(p.getUniqueId())) {
             e.setJoinMessage(ChatColor.LIGHT_PURPLE + p.getName() + " has entered The Convergence");
-            log (e.getPlayer(), "LOGIN");
             return;
         }
         //New player
         try {
+            Database db = main.getDatabase();
             //Register player record
-            main.getDatabase().execute("INSERT INTO players VALUES ('" + p.getUniqueId() + "', '" + p.getName() + "', " + 0 + ")");
+            db.execute("INSERT INTO player VALUES ('" + p.getUniqueId() + "', '" + p.getName() + "', " + 0 + ");");
             //Register bank record
-            main.getDatabase().execute("INSERT INTO bank VALUES ('" + p.getUniqueId() + "', '" + 0 + ")");
+            db.execute("INSERT INTO bank VALUES ('" + p.getUniqueId() + "', " + 0 + ");");
         }
         catch (SQLException event) {
             Bukkit.getConsoleSender().sendMessage("NVTECH: Failed to register new player.");
@@ -82,7 +86,8 @@ public class LogEventListener implements Listener {
             world = "end";
 
         try {
-            main.getDatabase().execute(
+            Database db = main.getDatabase();
+            db.execute(
                     "INSERT INTO log VALUES ('"
                             + p.getUniqueId() + "', '"
                             + LocalDateTime.now().format(main.getFormatter()) + "', '"
@@ -90,7 +95,7 @@ public class LogEventListener implements Listener {
                             + world + "', "
                             + p.getLocation().getBlockX() + ", "
                             + p.getLocation().getBlockY() + ", "
-                            + p.getLocation().getBlockZ() + ")"
+                            + p.getLocation().getBlockZ() + ");"
             );
         }
         catch (SQLException event) {

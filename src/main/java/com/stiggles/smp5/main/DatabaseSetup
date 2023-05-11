@@ -17,7 +17,7 @@ create table log (
     y_pos    int,
     z_pos    int,
     primary key (uuid, log_time, log_type),
-    foreign key (uuid) references player
+    foreign key (uuid) references player (uuid)
 );
 create table dungeon_attempts (
     uuid          char (36),
@@ -27,7 +27,7 @@ create table dungeon_attempts (
     won           bit,
     alive         bit,
     primary key (uuid, dungeon_name, timestamp),
-    foreign key (uuid) references player
+    foreign key (uuid) references player (uuid)
 );
 create table npc (
     npc_id  int,
@@ -42,12 +42,12 @@ create table talked_to_npc (
     npc_id int,
     timesTalkedTo int,
     primary key (uuid, npc_id),
-    foreign key (uuid) references player,
-    foreign key (npc_id) references npc
+    foreign key (uuid) references player (uuid),
+    foreign key (npc_id) references npc (npc_id)
 );
 create table bank (
     uuid char (36),
     balance int,
     primary key (uuid),
-    foreign key (uuid) references player
+    foreign key (uuid) references player (uuid)
 );
