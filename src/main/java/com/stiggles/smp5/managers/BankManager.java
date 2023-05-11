@@ -45,11 +45,14 @@ public class BankManager {
     public static int getBalance (UUID uuid) {
         return banks.get (uuid).getBalance();
     }
-    public static void deposit (Player p, int amount) {
-        banks.get (p.getUniqueId()).deposit(amount);
+    public static boolean deposit (Player p, int amount) {
+        return deposit (p.getUniqueId(), amount);
     }
-    public static void deposit (UUID uuid, int amount) {
+    public static boolean deposit (UUID uuid, int amount) {
+        if (banks.get (uuid) == null)
+            return false;
         banks.get (uuid).deposit(amount);
+        return true;
     }
     public static boolean withdraw (Player p, int amount) {
         return banks.get (p.getUniqueId()).withdraw (amount);

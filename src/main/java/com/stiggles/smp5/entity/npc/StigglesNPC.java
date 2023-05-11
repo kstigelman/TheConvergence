@@ -6,6 +6,7 @@ import com.stiggles.smp5.worlds.WorldType;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.trait.trait.Equipment;
+import net.citizensnpcs.trait.FollowTrait;
 import net.citizensnpcs.trait.LookClose;
 import net.citizensnpcs.trait.SkinTrait;
 
@@ -26,7 +27,7 @@ public abstract class StigglesNPC {
 
     protected int ri;
 
-    private final NPC npc;
+    private NPC npc;
     private ChatColor nameColorPrefix = ChatColor.WHITE;
     private ChatColor chatColor = ChatColor.WHITE;
     protected SMP5 main;
@@ -34,7 +35,7 @@ public abstract class StigglesNPC {
     private String name;
 
     private WorldType worldType;
-    private final String worldName;
+    private String worldName = "world";
 
     private final Location spawnLocation;
     //private Plugin plugin = Main.getPlugin(SMP5.class);
@@ -55,13 +56,19 @@ public abstract class StigglesNPC {
          */
 
         ri = main.getRandom();
-        
-        npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, name);
-        Bukkit.getConsoleSender().sendMessage("Created NPC " + name + " with id " + npc.getId());
+
+        if ((npc = CitizensAPI.getNPCRegistry().getNPC(Bukkit.getPlayer(name))) == null) {
+            Bukkit.getConsoleSender().sendMessage("Created NPC " + name + " with id " + npc.getId());
+            npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, name);
+        }
+        else
+            Bukkit.getConsoleSender().sendMessage("Found NPC " + name + " in registry with id " + npc.getId());
+
         NPCManager.registerNewNPC(this);
         setName (name);
 
-        worldName = location.getWorld().getName();
+        if (location.getWorld() != null)
+            worldName = location.getWorld().getName();
 
         worldType = WorldType.SMP;
         for (WorldType w : WorldType.values())
@@ -79,10 +86,11 @@ public abstract class StigglesNPC {
         catch (IOException e) {
             Bukkit.getConsoleSender().sendMessage("Error: Could not create file " + name + ".txt");
         }*/
+        npc.getOrAddTrait (LookClose.class).lookClose (true);
+        npc.getOrAddTrait (LookClose.class).setRange (5.0);
 
         npc.spawn (spawnLocation);
-        npc.getOrAddTrait (LookClose.class).isEnabled ();
-        npc.getOrAddTrait (LookClose.class).setRealisticLooking (true);
+
     }
 
     /** Retrives the name of the NPC
@@ -146,7 +154,7 @@ public abstract class StigglesNPC {
      * @param signature The skin signature string.
      */
     public void setSkin (String value, String signature) {
-        npc.getOrAddTrait(SkinTrait.class).setSkinPersistent(name, signature, value);
+        npc.getOrAddTrait (SkinTrait.class).setSkinPersistent(name, signature, value);
     }
 
     /** Broadcast message from the NPC to all players online.
@@ -163,13 +171,14 @@ public abstract class StigglesNPC {
      * @param msg The message to be sent.
      */
     public void sendMessage (Player p, String msg) {
-        p.sendMessage(chatColor + "<" + name + ChatColor.WHITE + chatColor + "> " + msg);
+        p.sendMessage(chatColor + "<" + nameColorPrefix + name + ChatColor.WHITE + chatColor + "> " + msg);
     }
 
     /** Event that occurs when the player clicks on the NPC.
      *
      * @param player The player that interacted with the NPC.
      */
+
     public void onInteract (Player player) {
         interactDialogue(player);
         talk (player);
@@ -214,10 +223,10 @@ public abstract class StigglesNPC {
     public void talk (Player p) {
         String dialogue = getDialogue();
 
-        if (dialogue.equals(""))
+        if (dialogue == null || dialogue.equals(""))
             return;
 
-        TextComponent clickable = new TextComponent("§6§lTALK");
+        TextComponent clickable = new TextComponent("§6§l<<CLICK TO TALK MORE>>");
         clickable.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tellraw " + p.getName() + " \"" + dialogue + "\""));
 
         p.spigot().sendMessage(new BaseComponent[]{clickable});

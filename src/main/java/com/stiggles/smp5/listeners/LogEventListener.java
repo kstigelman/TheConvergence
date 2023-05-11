@@ -1,6 +1,7 @@
 package com.stiggles.smp5.listeners;
 
 import com.stiggles.smp5.main.SMP5;
+import com.stiggles.smp5.managers.BankManager;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -62,6 +63,7 @@ public class LogEventListener implements Listener {
             Bukkit.getConsoleSender().sendMessage("NVTECH: Failed to register new player.");
         }
         registeredUUIDs.add (p.getUniqueId());
+        BankManager.addPlayer (p);
         e.setJoinMessage(ChatColor.LIGHT_PURPLE + p.getName() + " has fallen into The Convergence");
     }
 

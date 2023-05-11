@@ -196,19 +196,25 @@ public class SMP5 extends JavaPlugin implements Listener {
         //manager.registerEvents(new DungeonListener(this), this);
         manager.registerEvents(new MobKillListener(), this);
     }
+
+    /**
+     * Loads all NPCs into the world and saves them as a StigglesNPC object.
+     */
     public void createNPCs () {
         CitizensAPI.getNPCRegistry().deregisterAll();
         npcs = new ArrayList<>();
         //npcs.add (new Ned(this, "Ned", new Location(Bukkit.getWorld("world"), 0, 0, 0)));
+
+
         npcs.add (new Starry (this, "Starry", new Location(Bukkit.getWorld("world"), -708.5, 67, -1110.5)));
         npcs.add (new EggDONTTake(this, "Francis Smurf", new Location(Bukkit.getWorld("world"), 4, 0, 0)));
-        npcs.add (new DremBot (this, "Drem-Bot", new Location(Bukkit.getWorld("world"), 6, 0, 0)));
-        npcs.add (new DungeonKeeper(this, "Dungeon Keeper", new Location(Bukkit.getWorld("world"), 8, 0, 0)));
+        npcs.add (new DremBot (this, "Drem-Bot", new Location(Bukkit.getWorld("world"), 1154.5, 74, 127.5)));
+        npcs.add (new DungeonKeeper(this, "Dungeon Keeper", new Location(Bukkit.getWorld("world"), 1135.5, 78, 156.5)));
         npcs.add (new Mister8Bit(this, "Luke the Fisherman", new Location(Bukkit.getWorld("world"), 774.5, 77, -596.5)));
         npcs.add (new Spiffy (this, "Spiffy", new Location(Bukkit.getWorld("world"), -709.5, 66, -1121)));
         npcs.add (new Astronomer(this, "The Astronomer", new Location(Bukkit.getWorld("world"), -900.5, 120, -1113.5)));
-        npcs.add (new Inventor(this, "The Inventor", new Location(Bukkit.getWorld("world"), 16, 0, 0)));
-        npcs.add (new Philippe(this, "Sir Philippe Alfred", new Location(Bukkit.getWorld("world"), 18, 0, 0)));
+        npcs.add (new Inventor(this, "The Inventor", new Location(Bukkit.getWorld("world"), 1149.5, 74, 120.5)));
+        npcs.add (new Philippe(this, "Sir Philippe Alfred", new Location(Bukkit.getWorld("world"), 1128.5, 71, 118.5)));
         npcs.add (new Baggins (this, "Mr. Orangeflips", new Location(Bukkit.getWorld("world"), 20, 0, 0)));
         npcs.add (new Drem (this, "Captain Beast", new Location(Bukkit.getWorld("world"), 1675.5, 107, -1133.5)));
         npcs.add (new Beachman (this, "Beach Man", new Location (Bukkit.getWorld("world"), -1480.5, 63, 1024.5)));
@@ -216,7 +222,9 @@ public class SMP5 extends JavaPlugin implements Listener {
         npcs.add (new Bear (this, "BearSharken", new Location (Bukkit.getWorld("world"), 540.5, 92, -912.5)));
         npcs.add (new DrTrog (this, "Dr. Trog", new Location(Bukkit.getWorld ("world"), 1489.5, 136, -1475.5)));
         npcs.add (new Morabito (this, "Mr. Morabito", new Location(Bukkit.getWorld("world"), -751.5, 66,-1427.5)));
-        npcs.add (new Mole (this, "Mr. Mole A. Quacks", new Location(Bukkit.getWorld("world"), 0, 0, 0)));
+        npcs.add (new Mole (this, "Mole 'a Quacks", new Location(Bukkit.getWorld("world"), 73.5, 111, 774.5)));
+        //Nouveau 52, 132, 746
+        //Tiger 45.5, 93, 818.5
     }
     public void registerCommands () {
         //Bukkit.getPluginCommand("coins").setExecutor(new CoinCommand());

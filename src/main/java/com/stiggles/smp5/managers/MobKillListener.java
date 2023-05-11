@@ -26,8 +26,11 @@ public class MobKillListener implements Listener {
             return;
             //reward = BankManager.getAmount ("Default");
 
+
+        if (!BankManager.deposit(killer, reward))
+            return;
+
         killer.sendMessage(ChatColor.GOLD + "+" + reward + " coins");
-        BankManager.deposit(killer, reward);
         killer.playSound(killer, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.f, 2.0f);
     }
 }

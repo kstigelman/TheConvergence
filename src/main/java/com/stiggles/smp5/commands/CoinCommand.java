@@ -28,7 +28,7 @@ public class CoinCommand implements CommandExecutor {
                 //If they have any other arguments and the player is not opped, just ignore
                 // the arg and return the player's account instead.
             }
-            p.sendMessage("You have " + BankManager.getBalance(p) + " coins.");
+            p.sendMessage("You have " + ChatColor.GOLD + BankManager.getBalance(p) + " coins.");
             return true;
         }
         if (args.length > 0) {
