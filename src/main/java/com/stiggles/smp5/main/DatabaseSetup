@@ -51,3 +51,11 @@ create table bank (
     primary key (uuid),
     foreign key (uuid) references player (uuid)
 );
+create table kills (
+  killer    char (36),
+  victim    char (36),
+  timestamp char (19),
+  primary key (killer, victim, timestamp),
+  foreign key (killer) references player (uuid),
+  foreign key (victim) references player (uuid)
+);

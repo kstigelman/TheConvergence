@@ -9,6 +9,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
@@ -143,7 +144,6 @@ public class EggDONTTake extends ShopNPC {
                 .addIngredient( 'g', new Locked ("TBA"))
                 .build ();
     }
-
     @Override
     public void interactDialogue(Player player) {
         String msg = "";

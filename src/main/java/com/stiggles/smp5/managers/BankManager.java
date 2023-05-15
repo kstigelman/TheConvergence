@@ -104,9 +104,14 @@ public class BankManager {
 
         try {
             Database db = main.getDatabase();
+            if (db.getConnection() == null)
+                return;
+
             ResultSet rs = db.query("SELECT * FROM bank;");
+
             if (rs == null)
                 return;
+
             while (rs.next ()) {
                 UUID uuid = UUID.fromString(rs.getString(1));
                 int balance = rs.getInt (2);
@@ -125,8 +130,9 @@ public class BankManager {
             int balance = mapElement.getBalance();
             String uuid = mapElement.getOwner().toString();
             try {
-                main.getDatabase().execute(
-                        "UPDATE bank SET coins = " + balance + " WHERE uuid = '" + uuid + "');"
+                Database db = main.getDatabase();
+                db.execute(
+                        "UPDATE bank SET balance = " + balance + " WHERE uuid = '" + uuid + "';"
                 );
             } catch (SQLException e) {
                 Bukkit.getConsoleSender().sendMessage("Failed to update");

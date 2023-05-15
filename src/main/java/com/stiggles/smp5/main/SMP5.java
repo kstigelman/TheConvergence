@@ -23,9 +23,11 @@ import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.event.CitizensEnableEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -65,11 +67,15 @@ public class SMP5 extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
-        if(getServer().getPluginManager().getPlugin("Citizens") == null || !getServer().getPluginManager().getPlugin("Citizens").isEnabled()) {
-            getLogger().log(Level.SEVERE, "Citizens 2.0 not found or not enabled");
-            getServer().getPluginManager().disablePlugin(this);
+
+        if (getServer ().getPluginManager ().getPlugin ("Citizens") == null || !getServer ().getPluginManager ().getPlugin ("Citizens").isEnabled()) {
+            getLogger ().log (Level.SEVERE, "Citizens 2.0 not found or not enabled");
+            getServer ().getPluginManager ().disablePlugin (this);
             return;
         }
+
+        this.getConfig().options().copyDefaults();
+        this.saveDefaultConfig();
         //Use CitizensAPI
 
         instance = this;
@@ -81,8 +87,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         catch (SQLException e) {
             Bukkit.getConsoleSender().sendMessage("NVTECH: Failed to connect to database.");
         }
-        getConfig().options().copyDefaults();
-        saveDefaultConfig();
+
 
         if (Bukkit.getWorld ("world") == null) {
             Bukkit.getConsoleSender().sendMessage("NVTECH: Could not load world.");
@@ -210,7 +215,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         //npcs.add (new Ned(this, "Ned", new Location(Bukkit.getWorld("world"), 0, 0, 0)));
 
         npcs.add (new Starry (this, "Starry", new Location(Bukkit.getWorld("world"), -708.5, 67, -1110.5)));
-        npcs.add (new EggDONTTake(this, "Francis Smurf", new Location(Bukkit.getWorld("world"), 4, 0, 0)));
+        npcs.add (new EggDONTTake(this, "Francis Smurf", new Location(Bukkit.getWorld("world"), 82.5, 101, 755.5)));
         npcs.add (new DremBot (this, "Drem-Bot", new Location(Bukkit.getWorld("world"), 1154.5, 74, 127.5)));
         npcs.add (new DungeonKeeper(this, "Dungeon Keeper", new Location(Bukkit.getWorld("world"), 1135.5, 78, 156.5)));
         npcs.add (new Mister8Bit(this, "Luke the Fisherman", new Location(Bukkit.getWorld("world"), 774.5, 77, -596.5)));
@@ -218,7 +223,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         npcs.add (new Astronomer(this, "The Astronomer", new Location(Bukkit.getWorld("world"), -900.5, 120, -1113.5)));
         npcs.add (new Inventor(this, "The Inventor", new Location(Bukkit.getWorld("world"), 1149.5, 74, 120.5)));
         npcs.add (new Philippe(this, "Sir Philippe Alfred", new Location(Bukkit.getWorld("world"), 1128.5, 71, 118.5)));
-        npcs.add (new Baggins (this, "Mr. Orangeflips", new Location(Bukkit.getWorld("world"), 20, 0, 0)));
+        npcs.add (new Baggins (this, "Mr. Orangeflips", new Location(Bukkit.getWorld("world"), 99.5, 92, 757.5)));
         npcs.add (new Drem (this, "Captain Beast", new Location(Bukkit.getWorld("world"), 1675.5, 107, -1133.5)));
         npcs.add (new Beachman (this, "Beach Man", new Location (Bukkit.getWorld("world"), -1480.5, 63, 1024.5)));
         npcs.add (new Chickens (this, "Gabe", new Location (Bukkit.getWorld("world"), 788.5, 83, -422.5)));
