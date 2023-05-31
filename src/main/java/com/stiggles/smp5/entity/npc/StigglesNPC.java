@@ -14,6 +14,7 @@ import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -57,13 +58,12 @@ public abstract class StigglesNPC {
 
         ri = main.getRandom();
 
-        //npc = CitizensAPI.getNPCRegistry().getNPC(Bukkit.getEntity());
         //if (npc == null) {
-            npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, name);
-        //    Bukkit.getConsoleSender().sendMessage("Created NPC " + name + " with id " + npc.getId());
-       // }
+        npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, name);
+          // Bukkit.getConsoleSender().sendMessage("Created NPC " + name + " with id " + npc.getId());
+        //}
         //else
-          //  Bukkit.getConsoleSender().sendMessage("Found NPC " + name + " in registry with id " + npc.getId());
+        //  Bukkit.getConsoleSender().sendMessage("Found NPC " + name + " in registry with id " + npc.getId());
 
         NPCManager.registerNewNPC(this);
         setName (name);

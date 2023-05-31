@@ -14,8 +14,8 @@ public class Database {
     private Connection connection = null;
     private PriorityQueue<String> statements = new PriorityQueue<>();
 
-    public Database () {
-        File file = new File ("plugins/smp5/host.txt");
+    public Database() {
+        File file = new File("plugins/smp5/host.txt");
         try {
             Scanner scanner = new Scanner(file);
             for (int i = 0; i < 5; ++i) {
@@ -24,12 +24,12 @@ public class Database {
                 else
                     HOST_INFO[i] = "";
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             Bukkit.getConsoleSender().sendMessage("Failed to fetch host from " + FILEPATH + ". Shutting down...");
             Bukkit.getServer().shutdown();
         }
     }
+
     public void connect() throws SQLException {
         connection = DriverManager.getConnection(
                 "jdbc:mysql://" + HOST_INFO[0] + ":" + HOST_INFO[1] + "/" + HOST_INFO[2] + "?useSSL=false",
@@ -37,6 +37,10 @@ public class Database {
                 HOST_INFO[4]
         );
         Bukkit.getConsoleSender().sendMessage("Successfully connected to Stiggles DB");
+    }
+
+    public boolean isConnectionNull() {
+        return connection == null;
     }
     public boolean isConnected() { return connection != null; }
 

@@ -17,7 +17,6 @@ import java.util.UUID;
  * The player is limited to 1 firework use every 5 minutes to discourage
  */
 public class ElytraEventListener implements Listener {
-
     private SMP5 main;
     private final HashMap<UUID, LocalDateTime> timeSinceUsed;
 
@@ -33,10 +32,12 @@ public class ElytraEventListener implements Listener {
     public void OnPlayerInteract (PlayerInteractEvent e) {
         Player p = e.getPlayer();
         if (p.isGliding() && e.hasItem() && e.getItem().getType().equals (Material.FIREWORK_ROCKET)) {
-            if (!timeSinceUsed.get(p.getUniqueId()).isBefore(LocalDateTime.now().minusSeconds(COOLDOWN_IN_SECONDS))) {
-                p.sendMessage(ChatColor.RED + "[WINGSUIT]: Fuel use is still on cooldown!");
-                e.setCancelled(true);
-                return;
+            if (timeSinceUsed.get (p.getUniqueId()) != null) {
+                if (!timeSinceUsed.get(p.getUniqueId()).isBefore(LocalDateTime.now().minusSeconds(COOLDOWN_IN_SECONDS))) {
+                    p.sendMessage(ChatColor.RED + "[WINGSUIT]: Fuel use is still on cooldown!");
+                    e.setCancelled(true);
+                    return;
+                }
             }
             timeSinceUsed.put (p.getUniqueId(), LocalDateTime.now ());
             p.sendMessage(ChatColor.GRAY + "[WINGSUIT]: Recharged. Fuel use on cooldown for five minutes.");

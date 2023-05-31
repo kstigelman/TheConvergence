@@ -23,6 +23,8 @@ import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.event.CitizensEnableEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -55,7 +57,7 @@ public class SMP5 extends JavaPlugin implements Listener {
     public static SMP5 getInstance() {
         return instance;
     }
-
+    Convergence c;
     private Database database;
     private PlayerManager playerManager;
     private ArrayList<UUID> registeredUUIDs;
@@ -213,7 +215,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         CitizensAPI.getNPCRegistry().deregisterAll();
         npcs = new ArrayList<>();
         //npcs.add (new Ned(this, "Ned", new Location(Bukkit.getWorld("world"), 0, 0, 0)));
-
+        c = new Convergence(new Location (Bukkit.getWorld ("world"), 0, 100, 0), 1);
         npcs.add (new Starry (this, "Starry", new Location(Bukkit.getWorld("world"), -708.5, 67, -1110.5)));
         npcs.add (new EggDONTTake(this, "Francis Smurf", new Location(Bukkit.getWorld("world"), 82.5, 101, 755.5)));
         npcs.add (new DremBot (this, "Drem-Bot", new Location(Bukkit.getWorld("world"), 1154.5, 74, 127.5)));
