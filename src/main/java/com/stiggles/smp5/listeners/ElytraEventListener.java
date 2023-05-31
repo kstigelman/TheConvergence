@@ -8,6 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.UUID;
@@ -30,12 +31,14 @@ public class ElytraEventListener implements Listener {
 
     @EventHandler
     public void OnPlayerInteract (PlayerInteractEvent e) {
+
         Player p = e.getPlayer();
+
         if (p.isGliding() && e.hasItem() && e.getItem().getType().equals (Material.FIREWORK_ROCKET)) {
             LocalDateTime ldt = timeSinceUsed.get (p.getUniqueId());
             if (ldt != null) {
                 if (!ldt.isBefore(LocalDateTime.now().minusSeconds(COOLDOWN_IN_SECONDS))) {
-                    p.sendMessage(ChatColor.RED + "[WINGSUIT]: Fuel use is still on cooldown!");
+                    p.sendMessage(ChatColor.RED + "[WINGSUIT]: Fuel use is still on cooldown! " + (COOLDOWN_IN_SECONDS - Duration.between (timeSinceUsed.get (p.getUniqueId ()), LocalDateTime.now ()).getSeconds ()) + "s");
                     e.setCancelled(true);
                     return;
                 }
