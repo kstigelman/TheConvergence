@@ -32,8 +32,9 @@ public class ElytraEventListener implements Listener {
     public void OnPlayerInteract (PlayerInteractEvent e) {
         Player p = e.getPlayer();
         if (p.isGliding() && e.hasItem() && e.getItem().getType().equals (Material.FIREWORK_ROCKET)) {
-            if (timeSinceUsed.get (p.getUniqueId()) != null) {
-                if (!timeSinceUsed.get(p.getUniqueId()).isBefore(LocalDateTime.now().minusSeconds(COOLDOWN_IN_SECONDS))) {
+            LocalDateTime ldt = timeSinceUsed.get (p.getUniqueId());
+            if (ldt != null) {
+                if (!ldt.isBefore(LocalDateTime.now().minusSeconds(COOLDOWN_IN_SECONDS))) {
                     p.sendMessage(ChatColor.RED + "[WINGSUIT]: Fuel use is still on cooldown!");
                     e.setCancelled(true);
                     return;

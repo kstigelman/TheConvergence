@@ -1,22 +1,49 @@
 package com.stiggles.smp5.listeners;
 
+import com.stiggles.smp5.main.SMP5;
+import com.stiggles.smp5.managers.BankManager;
+import com.stiggles.smp5.managers.Bounty;
+import org.bukkit.Bukkit;
 import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+
 public class BountyListeners implements Listener {
 
+    private SMP5 main;
+
+    public BountyListeners (SMP5 main) {
+        this.main = main;
+    }
 
     @EventHandler
-    public void OnPlayerDeath (PlayerDeathEvent e) {
-        //Return if player was killed by a mob
-        if (e.getEntity ().getKiller () == null)
+    public void OnPlayerKill (PlayerDeathEvent e) {
+        if (e.getEntity().getKiller() == null)
             return;
-        Player victim = e.getEntity ();
-        Player killer = victim.getKiller ();
+        if (e.getEntity().equals (e.getEntity().getKiller()))
+            return;
 
+        Player victim = e.getEntity();
+        Player killer = victim.getKiller();
+        try {
+            main.getDatabase().execute("INSERT INTO kills VALUES ('" +
+                    killer.getUniqueId() + "', '" +
+                    victim.getUniqueId() + "', '" +
+                    LocalDateTime.now().format(main.getFormatter()) + "');"
+            );
+        }
+        catch (SQLException x) {
+            Bukkit.getConsoleSender().sendMessage("BountyListeners: Could not insert player kill");
+        }
+        BankManager.deposit(killer, Bounty.calculateBounty(victim));
+        Bounty.update (victim.getUniqueId());
+        Bounty.update (killer.getUniqueId());
+    }
         /* TO-DO:
          * if player is bountyLeader
          * then
@@ -25,7 +52,6 @@ public class BountyListeners implements Listener {
          *      Reset bounty on victim
          *      Update bounty for killer
          */
-    }
 
 
 }

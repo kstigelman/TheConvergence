@@ -57,7 +57,7 @@ public class Database {
     }
     public void disconnect() throws SQLException {
         if (isConnected())
-                connection.close();
+            connection.close();
     }
 
     public void runQueue () throws SQLException {

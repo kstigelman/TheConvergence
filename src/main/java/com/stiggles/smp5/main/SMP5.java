@@ -233,6 +233,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         npcs.add (new DrTrog (this, "Dr. Trog", new Location(Bukkit.getWorld ("world"), 1489.5, 136, -1475.5)));
         npcs.add (new Morabito (this, "Mr. Morabito", new Location(Bukkit.getWorld("world"), -751.5, 66,-1427.5)));
         npcs.add (new Mole (this, "Mole 'a Quacks", new Location(Bukkit.getWorld("world"), 73.5, 111, 774.5)));
+        npcs.add (new Tiger (this, "Tigerfist", new Location (Bukkit.getWorld("world"), 47.5, 93, 818.5)));
         //Nouveau 52, 132, 746
         //Tiger 45.5, 93, 818.5
     }
