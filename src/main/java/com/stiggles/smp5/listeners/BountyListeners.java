@@ -41,8 +41,8 @@ public class BountyListeners implements Listener {
             Bukkit.getConsoleSender().sendMessage("BountyListeners: Could not insert player kill");
         }
         BankManager.deposit(killer, Bounty.calculateBounty(victim));
-        Bounty.update (victim.getUniqueId());
         Bounty.update (killer.getUniqueId());
+        Bounty.update (victim.getUniqueId());
     }
         /* TO-DO:
          * if player is bountyLeader

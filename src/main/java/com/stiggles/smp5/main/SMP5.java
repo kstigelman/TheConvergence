@@ -17,19 +17,16 @@ import com.stiggles.smp5.entity.npc.dialoguenpc.*;
 import com.stiggles.smp5.entity.npc.shopnpcs.*;
 import com.stiggles.smp5.listeners.*;
 import com.stiggles.smp5.managers.BankManager;
+import com.stiggles.smp5.managers.Bounty;
 import com.stiggles.smp5.managers.MobKillListener;
 import com.stiggles.smp5.player.StigglesPlayer;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.event.CitizensEnableEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -61,7 +58,7 @@ public class SMP5 extends JavaPlugin implements Listener {
     private Database database;
     private PlayerManager playerManager;
     private ArrayList<UUID> registeredUUIDs;
-
+    private Bounty bounty = new Bounty(this);
     private ArrayList<StigglesNPC> npcs;
     public HashMap<String, StigglesPlayer> online_players;
     //private Plugin plugin = SMP5.getPlugin(SMP5.class);
@@ -102,21 +99,21 @@ public class SMP5 extends JavaPlugin implements Listener {
         playerManager = new PlayerManager();
         bankManager = new BankManager(this);
 
-        //LOAD Registered player (UUIDS) from database
-        try {
-            ResultSet rs = database.query("SELECT * FROM player;");
-            if (rs != null) {
-                while (rs.next()) {
-                    UUID uuid = UUID.fromString(rs.getString(1));
-                    registeredUUIDs.add(uuid);
+        if (database.isConnected()) {
+            //LOAD Registered player (UUIDS) from database
+            try {
+                ResultSet rs = database.query("SELECT * FROM player;");
+                if (rs != null) {
+                    while (rs.next()) {
+                        UUID uuid = UUID.fromString(rs.getString(1));
+                        registeredUUIDs.add(uuid);
+                    }
+                    rs.close();
                 }
-                rs.close();
+            } catch (SQLException e) {
+                Bukkit.getConsoleSender().sendMessage("NVTECH: Failed to fetch players");
             }
         }
-        catch (SQLException e) {
-            Bukkit.getConsoleSender().sendMessage("NVTECH: Failed to fetch players");
-        }
-
         Bukkit.getConsoleSender().sendMessage("Adding NPC");
         /*
             This is the lobby setup stuff
@@ -140,19 +137,18 @@ public class SMP5 extends JavaPlugin implements Listener {
         //Update world database
         BankManager.onDisable();
         //database.runQueue();
-        try {
-            database.runQueue ();
+        if (database.isConnected()) {
+            try {
+                database.runQueue();
 
-            if (database != null)
-                database.disconnect ();
+                if (database != null)
+                    database.disconnect();
+            } catch (SQLException e) {
+                Bukkit.getConsoleSender().sendMessage("Failed to close db");
+            }
         }
-        catch (SQLException e) {
-            Bukkit.getConsoleSender().sendMessage("Failed to close db");
-        }
-
         //bankManager.onDisable();
 
-        Bukkit.getServer().shutdown();
     }
 
     public DateTimeFormatter getFormatter() {return formatter; }
@@ -197,7 +193,7 @@ public class SMP5 extends JavaPlugin implements Listener {
     public void registerEvents () {
         PluginManager manager = Bukkit.getPluginManager();
 
-        manager.registerEvents(new LogEventListener(this), this);
+
         //manager.registerEvents(this, this);
         //manager.registerEvents (new ConnectionListener(this), this);
         //Bukkit.getPluginManager().registerEvents (packetListener, this);
@@ -206,6 +202,11 @@ public class SMP5 extends JavaPlugin implements Listener {
         manager.registerEvents(new ElytraEventListener(this), this);
         //manager.registerEvents(new DungeonListener(this), this);
         manager.registerEvents(new MobKillListener(), this);
+
+        if (database.isConnected()) {
+            manager.registerEvents(new LogEventListener(this), this);
+            manager.registerEvents(new BountyListeners(this), this);
+        }
     }
 
     /**

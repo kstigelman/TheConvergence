@@ -101,6 +101,8 @@ public class BankManager {
             coinAmounts.put (key, coins.getInt (key));
 
         //Load the CoinBank from database
+        if (!main.getDatabase().isConnected())
+            return;
 
         try {
             Database db = main.getDatabase();
@@ -125,6 +127,7 @@ public class BankManager {
     }
     public static void onDisable () {
         //Save to database
+        if (!main.getDatabase().isConnected())
         for (java.util.Map.Entry<UUID, CoinBank> uuidCoinBankEntry : banks.entrySet()) {
             CoinBank mapElement = uuidCoinBankEntry.getValue();
             int balance = mapElement.getBalance();
