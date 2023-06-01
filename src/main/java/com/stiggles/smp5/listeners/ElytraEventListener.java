@@ -13,9 +13,10 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.UUID;
 
-/**
- * Checks if the player is attempting to use a firework while using an Elytra.
- * The player is limited to 1 firework use every 5 minutes to discourage
+/** ElytraEventListener:
+ *    Checks if the player is attempting to use a firework while using an Elytra.
+ *    The player is limited to 1 firework use every 5 minutes to discourage use
+ *    of flight as a means of travel.
  */
 public class ElytraEventListener implements Listener {
     private SMP5 main;

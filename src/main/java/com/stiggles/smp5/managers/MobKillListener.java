@@ -14,6 +14,9 @@ import org.bukkit.event.entity.EntityDeathEvent;
 public class MobKillListener implements Listener {
     @EventHandler
     public void OnEntityDeath (EntityDeathEvent e) {
+        if (e.getEntity() instanceof Player)
+            return;
+
         Player killer = e.getEntity().getKiller();
 
         if (killer == null)
@@ -22,7 +25,6 @@ public class MobKillListener implements Listener {
         String killedEntity = e.getEntity().getClass().getName();
         String[] parts = killedEntity.split ("entity.Craft");
 
-        Bukkit.getConsoleSender().sendMessage(parts[0] + ", " + parts[1]);
         Integer reward = BankManager.getAmount(parts[1]);
         Bukkit.getConsoleSender().sendMessage("Reward " + reward);
         if (reward == null || reward == 0)

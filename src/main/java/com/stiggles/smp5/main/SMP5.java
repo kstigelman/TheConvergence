@@ -58,7 +58,7 @@ public class SMP5 extends JavaPlugin implements Listener {
     private Database database;
     private PlayerManager playerManager;
     private ArrayList<UUID> registeredUUIDs;
-    private Bounty bounty = new Bounty(this);
+
     private ArrayList<StigglesNPC> npcs;
     public HashMap<String, StigglesPlayer> online_players;
     //private Plugin plugin = SMP5.getPlugin(SMP5.class);
@@ -98,6 +98,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         online_players = new HashMap<>();
         playerManager = new PlayerManager();
         bankManager = new BankManager(this);
+        Bounty.initializeMap(this);
 
         if (database.isConnected()) {
             //LOAD Registered player (UUIDS) from database

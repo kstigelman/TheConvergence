@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
+import java.util.HashMap;
 import java.util.UUID;
 
 public class Bounty {
@@ -17,74 +18,104 @@ public class Bounty {
     private static SMP5 main;
     private static Database db;
     private static UUID leader;
+    private static final HashMap<UUID, Integer> killstreak = new HashMap<>();
 
     public Bounty (SMP5 main) {
         this.main = main;
         db = main.getDatabase();
     }
-    public static void update (UUID uuid) {
-        calculateBounty(uuid);
+    public static void initializeMap (SMP5 smp_main) {
+        main = smp_main;
+        db = main.getDatabase();
+
+        try {
+            ResultSet rs = db.query("SELECT uuid FROM player;");
+
+            if (rs != null) {
+                while (rs.next()) {
+                    String uuid = rs.getString(1);
+                    ResultSet lastDeath = db.query ("(SELECT DISTINCT timestamp FROM kills WHERE victim ='" + uuid +"' ORDER BY timestamp desc);");
+                    String prev = "";
+
+                    if (lastDeath != null && lastDeath.next ())
+                        prev = lastDeath.getString(1);
+
+                    ResultSet kills =  db.query("SELECT COUNT(killer) FROM kills WHERE killer = '" + uuid + "' AND timestamp > '" + prev + "'");
+
+                    if (kills != null && kills.next ())
+                        killstreak.put (UUID.fromString(uuid), kills.getInt(1));
+
+                    /*ResultSet deaths = db.query("SELECT COUNT(victim) FROM kills WHERE victim = '" + uuid + "';");
+
+                    int kR = 0;
+                    int dR = 0;
+
+                    if (kills != null && deaths != null) {
+                        if (kills.next ())
+                            kR = kills.getInt(1);
+                        if (deaths.next ())
+                            dR = deaths.getInt(1);
+
+                        if (kR == 0 && dR == 0) {
+                            killstreak.put(UUID.fromString(uuid), 50);
+                            return;
+                        }
+                    }
+                    if (kills != null && kills.next ())
+                        amounts.put (UUID.fromString(uuid), kills.getInt(1) * 50);*/
+                }
+            }
+        }
+        catch (SQLException e) {
+            Bukkit.getConsoleSender().sendMessage("Bounty: Could not calculate bounty");
+        }
         findLeader();
+    }
+    public static void update (Player p, int newAmount) {
+        setKillstreak (p, newAmount);
+
+        if (newAmount > getKillstreak(p))
+            leader = p.getUniqueId();
+
+        if (p != null)
+            setTabName(p);
+    }
+    public static void update (UUID uuid, int newAmount) {
+        setKillstreak (uuid, newAmount);
+        if (newAmount > getKillstreak(leader))
+            leader = uuid;
+
         Player p = Bukkit.getPlayer(uuid);
 
         if (p != null)
             setTabName(p);
     }
     public static void setTabName (Player p) {
+        if (p == null)
+            return;
         String thisLeader = "";
-        if (leader.equals(p.getUniqueId()))
-            thisLeader = ChatColor.RED + ChatColor.BOLD.toString() + "LEADER";
-        p.setPlayerListFooter(ChatColor.GOLD + String.valueOf(calculateBounty(p)) + "g" + thisLeader);
+        if (leader != null && leader.equals(p.getUniqueId()))
+            thisLeader = ChatColor.RED + ChatColor.BOLD.toString() + " LEADER";
+        p.setPlayerListName(p.getDisplayName() + " " + ChatColor.GOLD + getBounty(p) + "c" + thisLeader);
     }
-    public static int calculateBounty (Player p) {
-        return calculateBounty(p.getUniqueId());
+    public static int getBounty (Player p) {
+        return getBounty(p.getUniqueId());
     }
 
-    public static int calculateBounty (UUID uuid) {
-        //TO-DO: Check if player's death is more recent than their death.
-        try {
-            //ResultSet lastDeath = db.query ("(SELECT DISTINCT timestamp FROM kills WHERE victim ='" + uuid +"' ORDER BY timestamp desc);");
-            ResultSet kills =  db.query("SELECT count (killer) FROM kills WHERE killer = '" + uuid + "' AND timestamp > (SELECT DISTINCT timestamp FROM kills WHERE victim ='" + uuid + "' ORDER BY timestamp desc);");
-            ResultSet deaths = db.query("SELECT count (victim) FROM kills WHERE victim = '" + uuid + "'");
-
-            //For a brand new player, the starting bounty is 50 coins
-            int kR = 0;
-            int dR = 0;
-
-            if (kills != null && deaths != null) {
-                if (kills.next ())
-                    kR = kills.getInt(1);
-                if (deaths.next ())
-                    dR = deaths.getInt(1);
-
-                if (kR == 0 && dR == 0)
-                    return 50;
-            }
-            if (kills != null)
-                if (kills.next ())
-                    return kills.getInt(1) * 50;
-
-        }
-        catch (SQLException e) {
-            Bukkit.getConsoleSender().sendMessage("Bounty: Could not calculate bounty");
-        }
-        return 0;
-        /*int kR = 0;
-          int dR = 0;
-          if (kills != null && deaths != null) {
-              if (kills.next ())
-                  kR = kills.getInt(1);
-
-              if (deaths.next ())
-                dR = kills.getInt(1);
-
-              if (dR >= 3 * kR)
-                 kR = 0;
-
-              if (kR == 0 && dR == 0)
-                 kR = 1;
-         }
-         total = (50 * kR) / (dR + 1);*/
+    public static int getBounty (UUID uuid) {
+        return getKillstreak(uuid) * 50;
+    }
+    public static int getKillstreak (Player p) {
+        return getKillstreak(p.getUniqueId());
+    }
+    public static int getKillstreak (UUID uuid) {
+        return killstreak.get (uuid);
+    }
+    public static void setKillstreak (Player p, int amount) {
+        setKillstreak(p.getUniqueId(), amount);
+    }
+    public static void setKillstreak (UUID uuid, int amount) {
+        killstreak.put (uuid, amount);
     }
 
     public static UUID findLeader () {
@@ -98,7 +129,7 @@ public class Bounty {
             if (rs != null) {
                 while (rs.next()) {
                     UUID playerUUID = UUID.fromString(rs.getString(1));
-                    int bounty = calculateBounty(playerUUID);
+                    int bounty = getBounty(playerUUID);
                     if (bounty > max) {
                         max = bounty;
                         leader = playerUUID;

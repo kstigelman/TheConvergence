@@ -3,6 +3,7 @@ package com.stiggles.smp5.listeners;
 import com.stiggles.smp5.main.Database;
 import com.stiggles.smp5.main.SMP5;
 import com.stiggles.smp5.managers.BankManager;
+import com.stiggles.smp5.managers.Bounty;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -50,6 +51,7 @@ public class LogEventListener implements Listener {
         Player p = e.getPlayer();
         //Check if player has joined the server before
         log (e.getPlayer(), "LOGIN");
+        Bounty.setTabName (p);
 
         if (registeredUUIDs.contains(p.getUniqueId())) {
             e.setJoinMessage(ChatColor.LIGHT_PURPLE + p.getName() + " has entered The Convergence");
