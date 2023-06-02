@@ -128,6 +128,7 @@ public class BankManager {
     public static void onDisable () {
         //Save to database
         if (!main.getDatabase().isConnected())
+            return;
         for (java.util.Map.Entry<UUID, CoinBank> uuidCoinBankEntry : banks.entrySet()) {
             CoinBank mapElement = uuidCoinBankEntry.getValue();
             int balance = mapElement.getBalance();

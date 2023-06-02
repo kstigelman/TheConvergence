@@ -16,6 +16,8 @@ import xyz.xenondevs.invui.item.builder.ItemBuilder;
 import xyz.xenondevs.invui.item.impl.AbstractItem;
 import xyz.xenondevs.invui.item.impl.SimpleItem;
 
+import java.util.Arrays;
+
 public class Drem extends ShopNPC {
 
     int interactCounter = 0;
@@ -184,7 +186,27 @@ public class Drem extends ShopNPC {
         );
         //setRotation (110, 0);
     }
+    @Override
+    public void onInteract (Player player) {
+        if (player.getInventory().getItemInMainHand().hasItemMeta()) {
+            ItemMeta im = player.getInventory().getItemInMainHand().getItemMeta();
+            if (im != null && im.hasDisplayName() && im.getDisplayName().contains (ChatColor.LIGHT_PURPLE + "Philippe's Letter")) {
+                player.getInventory().getItemInMainHand().setAmount (0);
+                sendMessage(player, "What's this?");
+                Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "Wh- what?"), 40);
+                Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "This letter explains why Nouveau hates me so much."), 80);
+                Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "I have gone by Captain Beast for years, but my real name is Drem. I am not the same Drem that this Philippe guy has written about, but I can tell Philippe truly trusted me. He needs my help."), 140);
+                Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "I will protect the people of this world against Nouveau. We will bring him to justice."), 240);
+                player.sendMessage(ChatColor.WHITE + "You have completed the quest " + ChatColor.GREEN + "Natalie's Redemption");
 
+                return;
+            }
+        }
+        interactDialogue (player);
+        createGUI (player);
+        showGUI (player);
+        talk (player);
+    }
     @Override
     public void interactDialogue(Player player) {
         String msg = "";
@@ -203,7 +225,7 @@ public class Drem extends ShopNPC {
 
     @Override
     public void createGUI(Player player) {
-        AbstractItem lockedSlot = new Locked ("Find the Captain's logbook");
+        AbstractItem lockedSlot = new Locked ("? ? ?");
         /* if (player has visited ruins)
              lockedSlot = new Pendant(4000); */
 

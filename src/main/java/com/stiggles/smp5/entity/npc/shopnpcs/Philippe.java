@@ -3,16 +3,21 @@ package com.stiggles.smp5.entity.npc.shopnpcs;
 import com.stiggles.smp5.entity.npc.ShopNPC;
 import com.stiggles.smp5.main.SMP5;
 import org.bukkit.*;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.builder.ItemBuilder;
 import xyz.xenondevs.invui.item.impl.AbstractItem;
 import xyz.xenondevs.invui.item.impl.SimpleItem;
+
+import java.util.Arrays;
 
 public class Philippe extends ShopNPC {
     private class Helmet extends StigglesBaseItem {
@@ -116,7 +121,7 @@ public class Philippe extends ShopNPC {
         }
 
         public ItemProvider getItemProvider() {
-            return new ItemBuilder(Material.BONE_BLOCK).addLoreLines(getCost());
+            return new ItemBuilder(item).addLoreLines(getCost());
         }
 
         @Override
@@ -216,7 +221,33 @@ public class Philippe extends ShopNPC {
         sendMessage(player, "Désolé. You don't have money for that.");
         return false;
     }
-
+    @Override
+    public void onInteract (Player player) {
+        if (player.getInventory().getItemInMainHand().hasItemMeta()) {
+            ItemMeta im = player.getInventory().getItemInMainHand().getItemMeta();
+            if (im != null && im.hasDisplayName() && im.getDisplayName().contains (ChatColor.DARK_GRAY + "Natalie's Breath (Decayed)")) {
+                player.getInventory().getItemInMainHand().setAmount (0);
+                sendMessage(player, "...");
+                Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "Where did you find that?"), 40);
+                Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "That sword belonged to an old friend of mine, named Drem."), 80);
+                Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "People around here say they think they've seen him in the mountains up north. At least, someone that looks like him."), 160);
+                Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "Please, take this letter. If you happen to see my friend, give this to him. Thank you."), 240);
+                ItemStack book = new ItemStack(Material.PAPER);
+                ItemMeta bookMeta = book.getItemMeta();
+                bookMeta.setDisplayName(ChatColor.LIGHT_PURPLE + "Philippe's Letter");
+                bookMeta.setLore (Arrays.asList(ChatColor.BLUE + "Quest Item", ChatColor.GRAY + ChatColor.ITALIC.toString() + "Written to Drem.",
+                        ChatColor.GRAY + ChatColor.ITALIC.toString() + "People claim to have seen a man that looks ",
+                        ChatColor.GRAY + ChatColor.ITALIC.toString() + "like " + ChatColor.RED + "Drem" + ChatColor.GRAY + ChatColor.ITALIC + " somewhere in the mountains."));
+                book.setItemMeta(bookMeta);
+                player.getInventory().addItem(book);
+                return;
+            }
+        }
+        interactDialogue (player);
+        createGUI (player);
+        showGUI (player);
+        talk (player);
+    }
     @Override
     public void interactDialogue(Player player) {
         int n = main.getRandom() % 3;

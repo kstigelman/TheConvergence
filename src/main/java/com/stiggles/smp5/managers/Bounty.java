@@ -35,18 +35,26 @@ public class Bounty {
                 while (rs.next()) {
                     String uuid = rs.getString(1);
                     ResultSet lastDeath = db.query ("(SELECT DISTINCT timestamp FROM kills WHERE victim ='" + uuid +"' ORDER BY timestamp desc);");
-                    String prev = "";
 
-                    if (lastDeath != null && lastDeath.next ())
-                        prev = lastDeath.getString(1);
+                    ResultSet kills;
+                    if (lastDeath.next()) {
+                        String prev = lastDeath.getString(1);
+                        kills =  db.query("SELECT COUNT(killer) FROM kills WHERE killer = '" + uuid + "' AND timestamp > '" + prev + "';");
+                    }
+                    else {
+                        kills =  db.query("SELECT COUNT(killer) FROM kills WHERE killer = '" + uuid + "';");
+                    }
 
-                    ResultSet kills =  db.query("SELECT COUNT(killer) FROM kills WHERE killer = '" + uuid + "' AND timestamp > '" + prev + "'");
-
-                    if (kills != null && kills.next ())
+                    if (kills.next ())
                         killstreak.put (UUID.fromString(uuid), kills.getInt(1));
+                    else
+                        killstreak.put (UUID.fromString(uuid), 0);
 
-                    /*ResultSet deaths = db.query("SELECT COUNT(victim) FROM kills WHERE victim = '" + uuid + "';");
+                    kills.close ();
+                    lastDeath.close ();
+                    //ResultSet deaths = db.query("SELECT COUNT(victim) FROM kills WHERE victim = '" + uuid + "';");
 
+                            /*
                     int kR = 0;
                     int dR = 0;
 
@@ -64,7 +72,9 @@ public class Bounty {
                     if (kills != null && kills.next ())
                         amounts.put (UUID.fromString(uuid), kills.getInt(1) * 50);*/
                 }
+                rs.close ();
             }
+
         }
         catch (SQLException e) {
             Bukkit.getConsoleSender().sendMessage("Bounty: Could not calculate bounty");
@@ -126,17 +136,15 @@ public class Bounty {
             LocalDateTime oneWeekAgo = LocalDateTime.now().minusWeeks(1);
             ResultSet rs = db.query("SELECT DISTINCT uuid FROM log WHERE log_time > '" + oneWeekAgo.format(main.getFormatter()) + "';");
             //For each UUID in the results, calculate the bounty for that player.
-            if (rs != null) {
-                while (rs.next()) {
-                    UUID playerUUID = UUID.fromString(rs.getString(1));
-                    int bounty = getBounty(playerUUID);
-                    if (bounty > max) {
-                        max = bounty;
-                        leader = playerUUID;
-                    }
+            while (rs.next()) {
+                UUID playerUUID = UUID.fromString(rs.getString(1));
+                int bounty = getBounty(playerUUID);
+                if (bounty > max) {
+                    max = bounty;
+                    leader = playerUUID;
                 }
-                rs.close();
             }
+            rs.close();
         }
         catch (SQLException e) {
             Bukkit.getConsoleSender().sendMessage("Bounty: Could not compute bounty leader");

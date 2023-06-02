@@ -24,6 +24,7 @@ import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.event.CitizensEnableEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -135,6 +136,9 @@ public class SMP5 extends JavaPlugin implements Listener {
     @Override
     public void onDisable() {
         instance = null;
+
+        for (Player p : Bukkit.getOnlinePlayers())
+            p.kickPlayer("Server is shutting down!");
         //Update world database
         BankManager.onDisable();
         //database.runQueue();
@@ -170,6 +174,32 @@ public class SMP5 extends JavaPlugin implements Listener {
 
         //Check if player is registered already
         Player p = e.getPlayer();
+
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+            int timeElapsed = 0;
+            boolean inc = true;
+            @Override
+            public void run() {
+                Bukkit.getConsoleSender().sendMessage("Spawning..." + timeElapsed);
+                Bukkit.getWorld ("world").spawnParticle(Particle.VILLAGER_ANGRY,
+                        new Location(p.getWorld(),
+                                p.getLocation().getX() + Math.cos (Math.toRadians(timeElapsed * 10)),
+                                p.getLocation().getY() + (timeElapsed * 0.025),
+                                p.getLocation().getZ() + Math.sin (Math.toRadians(timeElapsed * 10))), 2, 0.1, 0.1, 0.1, null);
+                if (inc) {
+                    ++timeElapsed;
+                    if (timeElapsed > 72)
+                        inc = false;
+                }
+                else {
+                    --timeElapsed;
+                    if (timeElapsed <= 0)
+                        inc = true;
+                }
+
+
+            }
+        }, 0, 2);
         /*
         if (!registeredUUIDs.contains(p.getUniqueId())) {
             //Register player record
@@ -194,7 +224,7 @@ public class SMP5 extends JavaPlugin implements Listener {
     public void registerEvents () {
         PluginManager manager = Bukkit.getPluginManager();
 
-
+        manager.registerEvents(new OnArmorStandInteract(), this);
         //manager.registerEvents(this, this);
         //manager.registerEvents (new ConnectionListener(this), this);
         //Bukkit.getPluginManager().registerEvents (packetListener, this);
@@ -203,11 +233,19 @@ public class SMP5 extends JavaPlugin implements Listener {
         manager.registerEvents(new ElytraEventListener(this), this);
         //manager.registerEvents(new DungeonListener(this), this);
         manager.registerEvents(new MobKillListener(), this);
+        //manager.registerEvents(this, this);
 
-        if (database.isConnected()) {
-            manager.registerEvents(new LogEventListener(this), this);
-            manager.registerEvents(new BountyListeners(this), this);
+        try {
+            database.connect();
+            if (database.isConnected()) {
+                manager.registerEvents(new LogEventListener(this), this);
+                manager.registerEvents(new BountyListeners(this), this);
+            }
         }
+        catch (SQLException e) {
+
+        }
+
     }
 
     /**
@@ -218,6 +256,8 @@ public class SMP5 extends JavaPlugin implements Listener {
         npcs = new ArrayList<>();
         //npcs.add (new Ned(this, "Ned", new Location(Bukkit.getWorld("world"), 0, 0, 0)));
         c = new Convergence(new Location (Bukkit.getWorld ("world"), 0, 100, 0), 1);
+        //particle dust 0.71 0.33 0.79 1 -1.90 71.00 -0.00 0.1 0.5 0.1 1 10
+
         npcs.add (new Starry (this, "Starry", new Location(Bukkit.getWorld("world"), -708.5, 67, -1110.5)));
         npcs.add (new EggDONTTake(this, "Francis Smurf", new Location(Bukkit.getWorld("world"), 82.5, 101, 755.5)));
         npcs.add (new DremBot (this, "Drem-Bot", new Location(Bukkit.getWorld("world"), 1154.5, 74, 127.5)));
@@ -235,9 +275,9 @@ public class SMP5 extends JavaPlugin implements Listener {
         npcs.add (new DrTrog (this, "Dr. Trog", new Location(Bukkit.getWorld ("world"), 1489.5, 136, -1475.5)));
         npcs.add (new Morabito (this, "Mr. Morabito", new Location(Bukkit.getWorld("world"), -751.5, 66,-1427.5)));
         npcs.add (new Mole (this, "Mole 'a Quacks", new Location(Bukkit.getWorld("world"), 73.5, 111, 774.5)));
-        npcs.add (new Tiger (this, "Tigerfist", new Location (Bukkit.getWorld("world"), 47.5, 93, 818.5)));
+        npcs.add (new Tiger (this, "Tigerfist", new Location (Bukkit.getWorld("world"), 45.5, 93, 818.5)));
+        npcs.add (new Nouveau(this, "Nouveau", new Location (Bukkit.getWorld("sanctuary"), 8.5, -59, 8.5)));
         //Nouveau 52, 132, 746
-        //Tiger 45.5, 93, 818.5
     }
     public void registerCommands () {
         //Bukkit.getPluginCommand("coins").setExecutor(new CoinCommand());

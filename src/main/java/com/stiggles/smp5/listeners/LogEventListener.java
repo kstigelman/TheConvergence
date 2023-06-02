@@ -6,12 +6,15 @@ import com.stiggles.smp5.managers.BankManager;
 import com.stiggles.smp5.managers.Bounty;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -51,9 +54,16 @@ public class LogEventListener implements Listener {
         Player p = e.getPlayer();
         //Check if player has joined the server before
         log (e.getPlayer(), "LOGIN");
-        Bounty.setTabName (p);
+
+
+        if (p.getWorld().getName().equals("sanctuary")) {
+            p.teleport(Bukkit.getWorld("world").getSpawnLocation());
+            p.setInvisible(false);
+            p.removePotionEffect(PotionEffectType.BLINDNESS);
+        }
 
         if (registeredUUIDs.contains(p.getUniqueId())) {
+
             e.setJoinMessage(ChatColor.LIGHT_PURPLE + p.getName() + " has entered The Convergence");
             return;
         }
@@ -72,6 +82,12 @@ public class LogEventListener implements Listener {
         BankManager.addPlayer (p);
         Bukkit.getConsoleSender().sendMessage("Added " + p.getName () + "to bank");
         e.setJoinMessage(ChatColor.LIGHT_PURPLE + p.getName() + " has fallen into The Convergence");
+
+        Bounty.setKillstreak(p, 1);
+        Bounty.setTabName (p);
+
+        if (Bukkit.getWorld ("sanctuary") != null)
+            cutscene (p);
     }
 
     @EventHandler
@@ -89,6 +105,7 @@ public class LogEventListener implements Listener {
 
         try {
             Database db = main.getDatabase();
+            db.connect();
             db.execute(
                     "INSERT INTO log VALUES ('"
                             + p.getUniqueId() + "', '"
@@ -103,5 +120,10 @@ public class LogEventListener implements Listener {
         catch (SQLException event) {
             Bukkit.getConsoleSender().sendMessage("NVTECH: Failed to log player " + logType);
         }
+    }
+    public void cutscene (Player p) {
+        p.teleport(new Location (Bukkit.getWorld("sanctuary"), 8.5, -59, 6.5));
+        p.setInvisible(true);
+        p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10000000, 1, true));
     }
 }

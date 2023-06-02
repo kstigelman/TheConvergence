@@ -59,3 +59,10 @@ create table kills (
   foreign key (killer) references player (uuid),
   foreign key (victim) references player (uuid)
 );
+create table quest (
+    name      varchar(32),
+    uuid      char(36),
+    timestamp char(19),
+    primary key (name, uuid),
+    foreign key (uuid) references player (uuid)
+);

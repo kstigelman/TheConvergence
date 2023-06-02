@@ -256,6 +256,16 @@ public abstract class StigglesNPC {
         p.playSound(p.getLocation(), sound, 1.f, voice);
     }
 
+    public void speak (Player p, String message, Sound sound) {
+        sendMessage(p, message);
+        playSound(p, sound);
+    }
+
+    public void speakLater (Player p, String message, Sound sound, int delay) {
+        Bukkit.getScheduler().runTaskLater(main, () -> {
+            speak (p, message, sound);
+        }, delay);
+    }
     /** Set the NPC to hold a certain item.
      *
      * @param item The item stack the NPC should hold.

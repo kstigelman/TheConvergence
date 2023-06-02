@@ -4,18 +4,18 @@ import com.stiggles.smp5.entity.npc.ShopNPC;
 import com.stiggles.smp5.main.SMP5;
 import com.stiggles.smp5.managers.BankManager;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
+import org.bukkit.block.data.type.Tripwire;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.item.impl.AbstractItem;
@@ -25,29 +25,43 @@ import xyz.xenondevs.invui.item.builder.ItemBuilder;
 import xyz.xenondevs.invui.item.impl.SimpleItem;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class DungeonKeeper extends ShopNPC {
 
-    private class Moonshine extends AbstractItem {
-
-        public ItemProvider getItemProvider () {
-            return new ItemBuilder(Material.ENDER_CHEST)
-                    .setDisplayName(ChatColor.DARK_PURPLE + ChatColor.BOLD.toString() + "Item Collection")
-                    .addLoreLines ("Get back your lost items... for a price...");
+    private class BaseKey extends StigglesBaseItem {
+        public BaseKey(int price) {
+            super(price);
+            item = new ItemStack (Material.TRIPWIRE_HOOK);
+            ItemMeta meta = item.getItemMeta();
+            meta.setDisplayName(ChatColor.BOLD + ChatColor.DARK_RED.toString() + "Cave Dungeon Key");
+            meta.setLore(Arrays.asList(ChatColor.GRAY + "One-time access to a dungeon."));
+            item.setItemMeta(meta);
+        }
+        public ItemProvider getItemProvider() {
+            return new ItemBuilder(item).addLoreLines(getCost());
         }
 
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
-            if (!items.isEmpty()) {
-                if (BankManager.hasSufficientFunds(player, 50)) {
-                    CreateInventoryChest(new Location(Bukkit.getWorld(getWorldName()), -5, -60, 25));
-                    BankManager.withdraw(player, 50);
-                    sendMessage(player, "Heh.");
-                }
-                else {
-                    sendMessage(player, "That price isn't gonna cut it.");
-                }
-            }
+            handleTrade(player, this);
+        }
+    }
+    private class Locked extends AbstractItem {
+        String lore;
+        public Locked (String description) {
+            lore = description;
+        }
+        @Override
+        public ItemProvider getItemProvider() {
+            return new ItemBuilder(Material.LIGHT_GRAY_STAINED_GLASS_PANE)
+                    .setDisplayName(ChatColor.RED.toString() + ChatColor.BOLD + "LOCKED")
+                    .addLoreLines(ChatColor.RED + lore);
+        }
+
+        @Override
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
+            playSound (player, Sound.ENTITY_VILLAGER_NO);
         }
     }
     ArrayList<ItemStack> items = new ArrayList<>();
@@ -63,7 +77,7 @@ public class DungeonKeeper extends ShopNPC {
                 "ajL5e3ePRfYgqZCwXAAfup8aSC4CJr2oi1JqDKZ1v6W4mB801djE37Vn6fT7KFa+foWEd/QXgT1OWGcoSVYILHSah9Q5yXjE5oPqERI4oO17VdFL35hDMUHx8HefVFlOgaYq4h7yxBsL9ygbJRM9mpTu5Rum3FBVurhCfnA6AzYly20gEfSmMkyM2wFpoSBAXRxJXVEa+qRdWtepkKbudCPbQJZf1GIEpJGZqv/fQBooFeL/E4qkX5o5ryBYpDSidq4LAiXfMMv75BEXTW9JsSShA0BhcMf+THzGPOOhhYubowG6VIVPfVdpH3j310uX20vl9zubNip3v/uZLUuMX5pRZKIb/AUbDaPjGHJ53uEoqd23qL+fd9D9n2aUCsESDh/QnExcskkO0pyaMy1zM7LJoBaTewFfO2MncGY1V62spbHQ49qjQFgem1xaOGO1WiLI4s+Y5dfAOsBXe7rlD7aDeBsFC0RItDqHvUt1zwwLtCalrhrXOcz3IxMX+Sf5wO1XmMyZDmPefM9GiWwI+kBN2ZO8ZjO1diTJepyS5FhCzLc4zCfrJ3z15tP6Rcmw5p2p1PaFmOGyexhDPVANVMkiQB0vqiJUqURzYXgel6AqEqkTQo3byUqV6qdIi7faf4giB0+s/qPC32PYJxxvJUyiHVnWj8olTLX0W7L/nrw="
         );
     }
-
+/*
     @Override
     public void onInteract(Player p) {
             if (!items.isEmpty()) {
@@ -82,26 +96,23 @@ public class DungeonKeeper extends ShopNPC {
             else {
                 this.sendMessage(p,"Welcome to the dungeon. Good luck...");
             }
-    }
+    }*/
 
     @Override
     public void interactDialogue(Player p) {
-
+        sendMessage(p,"Heh. How's it goin'?");
     }
     @Override
     public void createGUI (Player player) {
         gui = Gui.normal()
                 .setStructure(
                         "# # # # # # # # #",
-                        "# . a . b . c . #",
-                        "# . . . . . . . #",
+                        "# x x x a x x x #",
                         "# # # # # # # # #")
                 .addIngredient ('#', new SimpleItem(new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE)))
-                .addIngredient('a', new SimpleItem(new ItemBuilder(Material.ENDER_CHEST)))
-                .addIngredient('b', new SimpleItem(new ItemBuilder(Material.DIAMOND_SWORD)))
-                .addIngredient('c', new SimpleItem(new ItemBuilder(Material.IRON_PICKAXE)))
+                .addIngredient('a', new BaseKey (100))
+                .addIngredient('x', new SimpleItem (new ItemBuilder(Material.WHITE_STAINED_GLASS_PANE)))
                 .build ();
-
     }
     public void createPlayerInventory () {
         
