@@ -43,10 +43,11 @@ public class BountyListeners implements Listener {
             Bukkit.getConsoleSender().sendMessage("BountyListeners: Could not insert player kill");
         }
         int reward = Bounty.getBounty(victim);
-        BankManager.deposit (killer, reward);
-        killer.sendMessage (ChatColor.GOLD + "You were rewarded " + reward + " coins for killing " + victim.getName() + "!");
-
-        Bounty.update (killer, Bounty.getKillstreak(killer));
+        if (reward != 0) {
+            BankManager.deposit(killer, reward);
+            killer.sendMessage(ChatColor.GOLD + "You were rewarded " + reward + " coins for killing " + victim.getName() + "!");
+        }
+        Bounty.update (killer, Bounty.getKillstreak(killer) + 1);
         Bounty.update (killer, 0);
     }
         /* TO-DO:

@@ -20,6 +20,11 @@ public class OnArmorStandInteract implements Listener {
     @EventHandler
     public void onPlayerInteract (PlayerArmorStandManipulateEvent e) {
         ArmorStand entity = e.getRightClicked ();
+        if (entity.getName().contains ("convergence")) {
+            e.setCancelled(true);
+            e.getPlayer().sendMessage(ChatColor.GRAY + "This looks like a strange substance...");
+            return;
+        }
         if (entity.getName().contains("drem_sword")) {
             e.setCancelled(true);
             if (e.getPlayer().getInventory().firstEmpty() == -1)
@@ -50,6 +55,7 @@ public class OnArmorStandInteract implements Listener {
             {Pose:{RightArm:[90f,90f,0f]},ShowArms:1b,Invisible:1b,NoBasePlate:1b,CustomName:'[{"text":"drem_sword"}]',
             Invulnerable:1b,NoGravity:1b,PersistenceRequired:1b,HandItems:[{id:stone_sword,Count:1}],HandDropChances:[0f]}
              */
+
         }
     }
     public ItemStack getSword () {

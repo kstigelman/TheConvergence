@@ -7,6 +7,7 @@ import com.stiggles.smp5.managers.Bounty;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Statistic;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,6 +21,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 /**
@@ -30,12 +32,13 @@ public class LogEventListener implements Listener {
 
     private SMP5 main;
     private final ArrayList<UUID> registeredUUIDs;
-
+    private final HashMap<UUID, LocalDateTime> logTimes;
     public LogEventListener (SMP5 main) {
         this.main = main;
 
         //Load all players that have previously joined the server
         registeredUUIDs = new ArrayList<>();
+        logTimes = new HashMap<>();
         try {
             Database db = main.getDatabase();
             ResultSet rs = db.query("SELECT uuid FROM player;");
@@ -53,23 +56,24 @@ public class LogEventListener implements Listener {
     public void onPlayerJoin (PlayerJoinEvent e) {
         Player p = e.getPlayer();
         //Check if player has joined the server before
-        log (e.getPlayer(), "LOGIN");
 
-
-        if (p.getWorld().getName().equals("sanctuary")) {
-            p.teleport(Bukkit.getWorld("world").getSpawnLocation());
-            p.setInvisible(false);
-            p.removePotionEffect(PotionEffectType.BLINDNESS);
-        }
-
+        logTimes.put (p.getUniqueId(), LocalDateTime.now());
         if (registeredUUIDs.contains(p.getUniqueId())) {
-
+            log (e.getPlayer(), "LOGIN");
             e.setJoinMessage(ChatColor.LIGHT_PURPLE + p.getName() + " has entered The Convergence");
+            if (p.getWorld().getName().equals("sanctuary")) {
+                p.teleport(Bukkit.getWorld("world").getSpawnLocation());
+                //p.setInvisible(false);
+                p.removePotionEffect(PotionEffectType.INVISIBILITY);
+                p.removePotionEffect(PotionEffectType.BLINDNESS);
+                p.removePotionEffect(PotionEffectType.SLOW);
+            }
             return;
         }
         //New player
         try {
             Database db = main.getDatabase();
+            db.connect ();
             //Register player record
             db.execute("INSERT INTO player VALUES ('" + p.getUniqueId() + "', '" + p.getName() + "', " + 0 + ");");
             //Register bank record
@@ -86,13 +90,15 @@ public class LogEventListener implements Listener {
         Bounty.setKillstreak(p, 1);
         Bounty.setTabName (p);
 
+        log (e.getPlayer(), "LOGIN");
+
         if (Bukkit.getWorld ("sanctuary") != null)
             cutscene (p);
     }
 
     @EventHandler
     public void onPlayerLeave (PlayerQuitEvent e) {
-        e.setQuitMessage(ChatColor.DARK_PURPLE + e.getPlayer().getName() + " has left The Convergence");
+        e.setQuitMessage(ChatColor.LIGHT_PURPLE + e.getPlayer().getName() + " has left The Convergence");
         log (e.getPlayer(), "LOGOUT");
     }
 
@@ -116,14 +122,21 @@ public class LogEventListener implements Listener {
                             + p.getLocation().getBlockY() + ", "
                             + p.getLocation().getBlockZ() + ");"
             );
+            if (logType.equals ("LOGOUT")) {
+                int time = p.getStatistic(Statistic.PLAY_ONE_MINUTE) / 20;
+                db.execute("UPDATE player SET playtime = " + time + " WHERE uuid = '" + p.getUniqueId() + "';");
+            }
         }
         catch (SQLException event) {
             Bukkit.getConsoleSender().sendMessage("NVTECH: Failed to log player " + logType);
         }
+
     }
     public void cutscene (Player p) {
         p.teleport(new Location (Bukkit.getWorld("sanctuary"), 8.5, -59, 6.5));
-        p.setInvisible(true);
+        //p.setInvisible(true);
         p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10000000, 1, true));
+        p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 10000000, 10, true));
+        p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 10000000, 10, true));
     }
 }

@@ -25,6 +25,7 @@ import net.citizensnpcs.api.event.CitizensEnableEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.WorldCreator;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -92,6 +93,9 @@ public class SMP5 extends JavaPlugin implements Listener {
         if (Bukkit.getWorld ("world") == null) {
             Bukkit.getConsoleSender().sendMessage("NVTECH: Could not load world.");
             Bukkit.getServer().shutdown();
+        }
+        if (Bukkit.getWorld ("sanctuary") == null) {
+            new WorldCreator("sanctuary").createWorld();
         }
 
 
@@ -255,7 +259,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         CitizensAPI.getNPCRegistry().deregisterAll();
         npcs = new ArrayList<>();
         //npcs.add (new Ned(this, "Ned", new Location(Bukkit.getWorld("world"), 0, 0, 0)));
-        c = new Convergence(new Location (Bukkit.getWorld ("world"), 0, 100, 0), 1);
+        //c = new Convergence(new Location (Bukkit.getWorld ("world"), 0, 100, 0), 1);
         //particle dust 0.71 0.33 0.79 1 -1.90 71.00 -0.00 0.1 0.5 0.1 1 10
 
         npcs.add (new Starry (this, "Starry", new Location(Bukkit.getWorld("world"), -708.5, 67, -1110.5)));

@@ -37,12 +37,20 @@ public class Bounty {
                     ResultSet lastDeath = db.query ("(SELECT DISTINCT timestamp FROM kills WHERE victim ='" + uuid +"' ORDER BY timestamp desc);");
 
                     ResultSet kills;
+
                     if (lastDeath.next()) {
                         String prev = lastDeath.getString(1);
                         kills =  db.query("SELECT COUNT(killer) FROM kills WHERE killer = '" + uuid + "' AND timestamp > '" + prev + "';");
                     }
                     else {
                         kills =  db.query("SELECT COUNT(killer) FROM kills WHERE killer = '" + uuid + "';");
+                        //No kills & no deaths == New player
+                        if (kills.next () && kills.getInt(1) == 0) {
+                            killstreak.put (UUID.fromString(uuid), 1);
+                            kills.close ();
+                            lastDeath.close ();
+                            return;
+                        }
                     }
 
                     if (kills.next ())
