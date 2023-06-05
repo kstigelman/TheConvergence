@@ -190,15 +190,15 @@ public class Drem extends ShopNPC {
     public void onInteract (Player player) {
         if (player.getInventory().getItemInMainHand().hasItemMeta()) {
             ItemMeta im = player.getInventory().getItemInMainHand().getItemMeta();
-            if (im != null && im.hasDisplayName() && im.getDisplayName().contains (ChatColor.LIGHT_PURPLE + "Philippe's Letter")) {
+            if (im != null && im.hasDisplayName() && im.getDisplayName().contains (ChatColor.LIGHT_PURPLE + "Drem's Logbook")) {
                 player.getInventory().getItemInMainHand().setAmount (0);
                 sendMessage(player, "What's this?");
-                Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "Wh- what?"), 40);
-                Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "This letter explains why Nouveau hates me so much."), 80);
-                Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "I have gone by Captain Beast for years, but my real name is Drem. I am not the same Drem that this Philippe guy has written about, but I can tell Philippe truly trusted me. He needs my help."), 140);
-                Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "I will protect the people of this world against Nouveau. We will bring him to justice."), 240);
+                Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "Wh- what?"), 60);
+                Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "But how? This is not mine..."), 120);
+                Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "I have gone by Captain Beast for years, but my real name is Drem. But I did not write this book, yet the author claims to be Drem as well. There are things about me written in here that I have never shared with anyone."), 180);
+                Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "This explains why Nouveau hates me so much. His greatest enemy was me. Another version of me."), 240);
+                        Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "I will protect the people of this world against Nouveau. We will bring him to justice."), 300);
                 player.sendMessage(ChatColor.WHITE + "You have completed the quest " + ChatColor.GREEN + "Natalie's Redemption");
-
                 return;
             }
         }

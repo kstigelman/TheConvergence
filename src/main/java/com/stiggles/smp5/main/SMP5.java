@@ -146,16 +146,18 @@ public class SMP5 extends JavaPlugin implements Listener {
         //Update world database
         BankManager.onDisable();
         //database.runQueue();
-        if (database.isConnected()) {
-            try {
+        try {
+            database.connect();
+            if (database.isConnected()) {
                 database.runQueue();
 
                 if (database != null)
                     database.disconnect();
-            } catch (SQLException e) {
-                Bukkit.getConsoleSender().sendMessage("Failed to close db");
             }
+        } catch (SQLException e) {
+            Bukkit.getConsoleSender().sendMessage("Failed to close db");
         }
+
         //bankManager.onDisable();
 
     }
@@ -278,8 +280,11 @@ public class SMP5 extends JavaPlugin implements Listener {
         npcs.add (new Bear (this, "BearSharken", new Location (Bukkit.getWorld("world"), 540.5, 92, -912.5)));
         npcs.add (new DrTrog (this, "Dr. Trog", new Location(Bukkit.getWorld ("world"), 1489.5, 136, -1475.5)));
         npcs.add (new Morabito (this, "Mr. Morabito", new Location(Bukkit.getWorld("world"), -751.5, 66,-1427.5)));
-        npcs.add (new Mole (this, "Mole 'a Quacks", new Location(Bukkit.getWorld("world"), 73.5, 111, 774.5)));
+        npcs.add (new Mole (this, "Mole 'a Quacks", new Location(Bukkit.getWorld("world"), 71.5, 111, 784.5)));
         npcs.add (new Tiger (this, "Tigerfist", new Location (Bukkit.getWorld("world"), 45.5, 93, 818.5)));
+        npcs.add (new Alejandro(this, "Alejandro", new Location (Bukkit.getWorld("world"), 1252.5, 98, 1487.5)));
+        npcs.add (new Ralph (this, "Ralph", new Location(Bukkit.getWorld("world"), 1250.5, 93, 1492)));
+
         npcs.add (new Nouveau(this, "Nouveau", new Location (Bukkit.getWorld("sanctuary"), 8.5, -59, 8.5)));
         //Nouveau 52, 132, 746
     }

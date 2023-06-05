@@ -37,6 +37,35 @@ public class Mole extends ShopNPC {
             handleTrade(player, this);
         }
     }
+    private class Coral extends StigglesBaseItem {
+        public Coral (int price) {
+            super (price);
+
+            Material material;
+            int n = ri % 10;
+            if (n == 0)
+                material = Material.BRAIN_CORAL_FAN;
+            else if (n == 1)
+                material = Material.BUBBLE_CORAL_FAN;
+            else if (n == 2)
+                material = Material.HORN_CORAL_FAN;
+            else if (n == 3)
+                material = Material.FIRE_CORAL_FAN;
+            else
+                material = Material.TUBE_CORAL_FAN;
+
+            item = new ItemStack(material);
+        }
+        @Override
+        public ItemProvider getItemProvider() {
+            return new ItemBuilder (item).addLoreLines(ChatColor.BLUE + "Cost: " + ChatColor.GOLD + cost + " Gold");
+        }
+
+        @Override
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent inventoryClickEvent) {
+            handleTrade(player, this);
+        }
+    }
     private class Kelp extends StigglesBaseItem {
         public Kelp (int price) {
             super (price);
@@ -52,7 +81,21 @@ public class Mole extends ShopNPC {
             handleTrade(player, this);
         }
     }
+    private class Pickle extends StigglesBaseItem {
+        public Pickle (int price) {
+            super (price);
+            item = new ItemStack(Material.SEA_PICKLE);
+        }
+        @Override
+        public ItemProvider getItemProvider() {
+            return new ItemBuilder(item).addLoreLines(this.getCost());
+        }
 
+        @Override
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent inventoryClickEvent) {
+            handleTrade(player, this);
+        }
+    }
 
     private class Slimeball extends StigglesBaseItem {
         public Slimeball (int price) {
@@ -143,7 +186,7 @@ public class Mole extends ShopNPC {
 
     @Override
     public void createGUI(Player player) {
-        AbstractItem lockedSlot = new Locked("Find the Morabito's hideout.");
+        //AbstractItem lockedSlot = new Locked("Find the Morabito's hideout.");
         /* if (player has visited morabito hideout)
             lockedSlot = new Dagger (1000);*/
 
@@ -155,11 +198,11 @@ public class Mole extends ShopNPC {
                 .addIngredient ('#', new SimpleItem(new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE)))
                 .addIngredient( 'a', new EnergyDrink (80))
                 .addIngredient( 'b', new Slimeball (10))
-                .addIngredient( 'c', new Kelp (10))
-                .addIngredient( 'd', new Quartz (15))
+                .addIngredient( 'c', new Kelp (20))
+                .addIngredient( 'd', new Pickle (15))
                 .addIngredient( 'e', new StainedGlass (9))
-                .addIngredient( 'f', new Locked ("To be added"))
-                .addIngredient( 'g', lockedSlot)
+                .addIngredient( 'f', new Coral (40))
+                .addIngredient( 'g', new Locked ("To be added"))
                 .build ();
     }
 }

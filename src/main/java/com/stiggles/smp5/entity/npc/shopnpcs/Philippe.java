@@ -231,11 +231,11 @@ public class Philippe extends ShopNPC {
                 Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "Where did you find that?"), 40);
                 Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "That sword belonged to an old friend of mine, named Drem."), 80);
                 Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "People around here say they think they've seen him in the mountains up north. At least, someone that looks like him."), 160);
-                Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "Please, take this letter. If you happen to see my friend, give this to him. Thank you."), 240);
-                ItemStack book = new ItemStack(Material.PAPER);
+                Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "Please, take this logbook. If you happen to see my friend, give this to him. Thank you."), 240);
+                ItemStack book = new ItemStack(Material.BOOK);
                 ItemMeta bookMeta = book.getItemMeta();
-                bookMeta.setDisplayName(ChatColor.LIGHT_PURPLE + "Philippe's Letter");
-                bookMeta.setLore (Arrays.asList(ChatColor.BLUE + "Quest Item", ChatColor.GRAY + ChatColor.ITALIC.toString() + "Written to Drem.",
+                bookMeta.setDisplayName(ChatColor.LIGHT_PURPLE + "Drem's Logbook");
+                bookMeta.setLore (Arrays.asList(ChatColor.BLUE + "Quest Item", ChatColor.GRAY + ChatColor.ITALIC.toString() + "Authored by Drem.",
                         ChatColor.GRAY + ChatColor.ITALIC.toString() + "People claim to have seen a man that looks ",
                         ChatColor.GRAY + ChatColor.ITALIC.toString() + "like " + ChatColor.RED + "Drem" + ChatColor.GRAY + ChatColor.ITALIC + " somewhere in the mountains."));
                 book.setItemMeta(bookMeta);
