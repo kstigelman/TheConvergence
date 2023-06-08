@@ -46,9 +46,12 @@ public class BountyListeners implements Listener {
         if (reward != 0) {
             BankManager.deposit(killer, reward);
             killer.sendMessage(ChatColor.GOLD + "You were rewarded " + reward + " coins for killing " + victim.getName() + "!");
+            Bounty.update (killer, Bounty.getKillstreak(killer) + 1);
+            Bounty.update (victim, 0);
         }
-        Bounty.update (killer, Bounty.getKillstreak(killer) + 1);
-        Bounty.update (killer, 0);
+        //if (Bounty.getKillstreak(killer) == null)
+
+
     }
         /* TO-DO:
          * if player is bountyLeader

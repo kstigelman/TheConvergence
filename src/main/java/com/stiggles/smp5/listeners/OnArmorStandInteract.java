@@ -35,8 +35,9 @@ public class OnArmorStandInteract implements Listener {
             for (ItemStack i : e.getPlayer().getInventory()) {
                 if (i == null || !i.hasItemMeta())
                     break;
-                if (i.getItemMeta().hasDisplayName() && i.getItemMeta().getDisplayName().contains(ChatColor.DARK_GRAY + "Natalie's Breath (Decayed)"))
+                if (i.getItemMeta().getLocalizedName().equals("nats_breath"))
                     return;
+                    //    getName().contains(ChatColor.DARK_GRAY + "Natalie's Breath (Decayed)"))
             }
             e.getPlayer().sendMessage(ChatColor.ITALIC + ChatColor.GRAY.toString() + "You have found the sword of Natalie's Breath! It looks decayed...");
             e.getPlayer().getInventory().addItem(getSword());
@@ -62,6 +63,7 @@ public class OnArmorStandInteract implements Listener {
         ItemStack item = new ItemStack(Material.STONE_SWORD);
         ItemMeta im = item.getItemMeta();
         im.setDisplayName(ChatColor.DARK_GRAY + "Natalie's Breath (Decayed)");
+        im.setLocalizedName("nats_breath");
         im.setLore (Arrays.asList(ChatColor.BLUE + "Quest Item", ChatColor.GRAY + ChatColor.ITALIC.toString() + "Belonged to a hero from long ago.",
                 ChatColor.GRAY + ChatColor.ITALIC.toString() + "Perhaps there is someone who knows more about it?"));
         if (im instanceof Damageable)

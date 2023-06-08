@@ -14,7 +14,12 @@ public class ChangeWorldCommand implements CommandExecutor{
                 return false;
 
             Player p = (Player) sender;
-            p.teleport(Bukkit.getWorld(args[0]).getBlockAt((int) 43.5, -42, (int) 190.5).getLocation());
+            if (!p.isOp())
+                return false;
+            if (Bukkit.getWorld (args[0]) == null)
+                return false;
+
+            p.teleport(Bukkit.getWorld(args[0]).getSpawnLocation());
             return true;
         }
         return false;

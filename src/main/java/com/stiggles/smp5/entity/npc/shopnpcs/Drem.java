@@ -2,6 +2,7 @@ package com.stiggles.smp5.entity.npc.shopnpcs;
 
 import com.stiggles.smp5.entity.npc.ShopNPC;
 import com.stiggles.smp5.main.SMP5;
+import com.stiggles.smp5.stats.Quest;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -149,12 +150,25 @@ public class Drem extends ShopNPC {
             if (meta == null)
                 return;
             meta.setLocalizedName("pendant");
+            meta.setLore(Arrays.asList (
+                    ChatColor.BLUE + "Special Item",
+                    ChatColor.GRAY + "She was a symbol of justice.",
+                    "",
+                    ChatColor.GOLD + "Right click " + ChatColor.GRAY + "to spawn a horse on demand.",
+                    ChatColor.GRAY + "This item will be consumed after use"
+            ));
             item.setItemMeta(meta);
         }
         public ItemProvider getItemProvider () {
             return new ItemBuilder(Material.CHARCOAL)
                     .setDisplayName(ChatColor.DARK_PURPLE + "Natalie's Pendant")
-                    .addLoreLines(getCost());
+                    .addLoreLines(getCost())
+                    .addLoreLines(ChatColor.BLUE + "Special Item")
+                    .addLoreLines (ChatColor.GRAY + "She was a symbol of justice.")
+                    .addLoreLines("")
+                    .addLoreLines(ChatColor.GOLD + "Right click " + ChatColor.GRAY + "to spawn a horse on demand.")
+                    .addLoreLines(ChatColor.GRAY + "This item will be consumed after use");
+
         }
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
@@ -190,21 +204,27 @@ public class Drem extends ShopNPC {
     public void onInteract (Player player) {
         if (player.getInventory().getItemInMainHand().hasItemMeta()) {
             ItemMeta im = player.getInventory().getItemInMainHand().getItemMeta();
-            if (im != null && im.hasDisplayName() && im.getDisplayName().contains (ChatColor.LIGHT_PURPLE + "Drem's Logbook")) {
+            if (im != null && im.getLocalizedName().equals("drem_book")) {
                 player.getInventory().getItemInMainHand().setAmount (0);
                 sendMessage(player, "What's this?");
                 Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "Wh- what?"), 60);
                 Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "But how? This is not mine..."), 120);
                 Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "I have gone by Captain Beast for years, but my real name is Drem. But I did not write this book, yet the author claims to be Drem as well. There are things about me written in here that I have never shared with anyone."), 180);
                 Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "This explains why Nouveau hates me so much. His greatest enemy was me. Another version of me."), 240);
-                        Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "I will protect the people of this world against Nouveau. We will bring him to justice."), 300);
-                player.sendMessage(ChatColor.WHITE + "You have completed the quest " + ChatColor.GREEN + "Natalie's Redemption");
+                Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "I will protect the people of this world against Nouveau. We will bring him to justice."), 300);
+
+                if (Quest.isQuestComplete(player, Quest.QuestName.NATALIES_REDEMPTION))
+                    Bukkit.getScheduler().runTaskLater(main, () -> Quest.questComplete(player, Quest.QuestName.NATALIES_REDEMPTION), 340);
+                return;
+            }
+            if (im != null && im.getLocalizedName().equals("nats_breath")) {
+                sendMessage(player, "Natalie's Breath? I mean, I had a horse named Natalie once. But what's this sword got to do with anything? Get out.");
                 return;
             }
         }
         interactDialogue (player);
         createGUI (player);
-        showGUI (player);
+        //showGUI (player);
         talk (player);
     }
     @Override
@@ -225,9 +245,12 @@ public class Drem extends ShopNPC {
 
     @Override
     public void createGUI(Player player) {
+        if (!Quest.isQuestComplete(player, Quest.QuestName.NATALIES_REDEMPTION))
+            return;
+
         AbstractItem lockedSlot = new Locked ("? ? ?");
-        /* if (player has visited ruins)
-             lockedSlot = new Pendant(4000); */
+        /* if (player has visited ruins)*/
+        lockedSlot = new Pendant(4000);
 
         gui = Gui.normal()
                 .setStructure(

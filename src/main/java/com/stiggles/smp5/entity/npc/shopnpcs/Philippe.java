@@ -225,7 +225,7 @@ public class Philippe extends ShopNPC {
     public void onInteract (Player player) {
         if (player.getInventory().getItemInMainHand().hasItemMeta()) {
             ItemMeta im = player.getInventory().getItemInMainHand().getItemMeta();
-            if (im != null && im.hasDisplayName() && im.getDisplayName().contains (ChatColor.DARK_GRAY + "Natalie's Breath (Decayed)")) {
+            if (im != null && im.hasDisplayName() && im.getLocalizedName().equals("nats_breath")) {
                 player.getInventory().getItemInMainHand().setAmount (0);
                 sendMessage(player, "...");
                 Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "Where did you find that?"), 40);
@@ -235,6 +235,7 @@ public class Philippe extends ShopNPC {
                 ItemStack book = new ItemStack(Material.BOOK);
                 ItemMeta bookMeta = book.getItemMeta();
                 bookMeta.setDisplayName(ChatColor.LIGHT_PURPLE + "Drem's Logbook");
+                bookMeta.setLocalizedName("drem_book");
                 bookMeta.setLore (Arrays.asList(ChatColor.BLUE + "Quest Item", ChatColor.GRAY + ChatColor.ITALIC.toString() + "Authored by Drem.",
                         ChatColor.GRAY + ChatColor.ITALIC.toString() + "People claim to have seen a man that looks ",
                         ChatColor.GRAY + ChatColor.ITALIC.toString() + "like " + ChatColor.RED + "Drem" + ChatColor.GRAY + ChatColor.ITALIC + " somewhere in the mountains."));

@@ -24,6 +24,9 @@ public class Bounty {
         this.main = main;
         db = main.getDatabase();
     }
+    public static void addToMap (Player p) {
+        killstreak.put (p.getUniqueId(), 1);
+    }
     public static void initializeMap (SMP5 smp_main) {
         main = smp_main;
         db = main.getDatabase();
@@ -40,23 +43,25 @@ public class Bounty {
 
                     if (lastDeath.next()) {
                         String prev = lastDeath.getString(1);
+                        //Has a previous death
                         kills =  db.query("SELECT COUNT(killer) FROM kills WHERE killer = '" + uuid + "' AND timestamp > '" + prev + "';");
+
+                        if (kills.next () && kills.getInt(1) == 0)
+                            killstreak.put (UUID.fromString(uuid), 0);
+                        else
+                            killstreak.put (UUID.fromString(uuid), kills.getInt(1));
                     }
                     else {
                         kills =  db.query("SELECT COUNT(killer) FROM kills WHERE killer = '" + uuid + "';");
                         //No kills & no deaths == New player
                         if (kills.next () && kills.getInt(1) == 0) {
                             killstreak.put (UUID.fromString(uuid), 1);
-                            kills.close ();
-                            lastDeath.close ();
-                            return;
+                        }
+                        else {
+                            //No deaths BUT kills
+                            killstreak.put(UUID.fromString(uuid), kills.getInt(1));
                         }
                     }
-
-                    if (kills.next ())
-                        killstreak.put (UUID.fromString(uuid), kills.getInt(1));
-                    else
-                        killstreak.put (UUID.fromString(uuid), 0);
 
                     kills.close ();
                     lastDeath.close ();
@@ -87,16 +92,13 @@ public class Bounty {
         catch (SQLException e) {
             Bukkit.getConsoleSender().sendMessage("Bounty: Could not calculate bounty");
         }
-        findLeader();
+        //findLeader();
     }
     public static void update (Player p, int newAmount) {
         setKillstreak (p, newAmount);
-
-        if (newAmount > getKillstreak(p))
-            leader = p.getUniqueId();
-
-        if (p != null)
-            setTabName(p);
+        setTabName(p);
+        //if (newAmount > getKillstreak(p))
+        //    leader = p.getUniqueId();
     }
     public static void update (UUID uuid, int newAmount) {
         setKillstreak (uuid, newAmount);
@@ -127,6 +129,8 @@ public class Bounty {
         return getKillstreak(p.getUniqueId());
     }
     public static int getKillstreak (UUID uuid) {
+        if (killstreak.get (uuid) == null)
+            return 0;
         return killstreak.get (uuid);
     }
     public static void setKillstreak (Player p, int amount) {

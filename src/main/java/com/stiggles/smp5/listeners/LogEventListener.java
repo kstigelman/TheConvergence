@@ -5,10 +5,7 @@ import com.stiggles.smp5.main.SMP5;
 import com.stiggles.smp5.managers.BankManager;
 import com.stiggles.smp5.managers.Bounty;
 import net.md_5.bungee.api.ChatColor;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Statistic;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -61,10 +58,13 @@ public class LogEventListener implements Listener {
         if (registeredUUIDs.contains(p.getUniqueId())) {
             log (e.getPlayer(), "LOGIN");
             e.setJoinMessage(ChatColor.LIGHT_PURPLE + p.getName() + " has entered The Convergence");
+            Bounty.setTabName(p);
             if (p.getWorld().getName().equals("sanctuary")) {
                 p.teleport(Bukkit.getWorld("world").getSpawnLocation());
+
                 //p.setInvisible(false);
-                p.removePotionEffect(PotionEffectType.INVISIBILITY);
+                p.setGameMode(GameMode.SURVIVAL);
+                p.setInvisible(false);
                 p.removePotionEffect(PotionEffectType.BLINDNESS);
                 p.removePotionEffect(PotionEffectType.SLOW);
             }
@@ -82,6 +82,8 @@ public class LogEventListener implements Listener {
         catch (SQLException event) {
             Bukkit.getConsoleSender().sendMessage("NVTECH: Failed to register new player.");
         }
+        Bounty.addToMap(p);
+        Bounty.setTabName(p);
         registeredUUIDs.add (p.getUniqueId());
         BankManager.addPlayer (p);
         Bukkit.getConsoleSender().sendMessage("Added " + p.getName () + "to bank");
@@ -134,9 +136,10 @@ public class LogEventListener implements Listener {
     }
     public void cutscene (Player p) {
         p.teleport(new Location (Bukkit.getWorld("sanctuary"), 8.5, -59, 6.5));
-        //p.setInvisible(true);
+        p.setInvisible(true);
+        p.setGameMode(GameMode.ADVENTURE);
         p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10000000, 1, true));
         p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 10000000, 10, true));
-        p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 10000000, 10, true));
+
     }
 }

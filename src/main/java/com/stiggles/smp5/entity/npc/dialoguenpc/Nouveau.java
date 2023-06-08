@@ -23,6 +23,7 @@ public class Nouveau extends StigglesNPC {
         setSkin ("ewogICJ0aW1lc3RhbXAiIDogMTY4NTc5OTE4NDkyMiwKICAicHJvZmlsZUlkIiA6ICJlN2E1OWU2Yzk1NTY0M2IxYTYxZGI2NzNkNTA3ZjE5OSIsCiAgInByb2ZpbGVOYW1lIiA6ICJZSmNhdCIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS82MmU4MjdlOTE2ZmYyMGRkZWI5NGMxOTg3NjIzODhiZGY1MTAxNDcyOTNkMDgxMTI5NjFmNjZjOTI4YTA5YWViIgogICAgfQogIH0KfQ==",
                 "mjRahcbWZUC+cMYk7J3fnHJd5zHR3h5mbdsKGIJi8FuYrKDbx/zrrgKOWRHMHok61lEwcdN/eBY0yfZNxP9KxmmyZzgogLOqezPQcu/4iHJA7nw6EnzBxcq2CfcnGGJBdcBQcgFNGI3I+JCqh/pp9YzmmZqTrf4vLV0LQWszs2O8Rooe9TaS4ho2qf0awlMVDjTyzO5c81fRTeEl/9n/Z2uWvgwbCaQP1eqTeLnyGxZqMHB3k+NlvlOLE3jGGBX3HosbFtZ3SUxIwpm5N6HAB9c/gAEyTiO2OD6zSmT8CJ+hPNxuvprKJk6wHASX0m/b6aCnAYTNOdxu7O4jBoJQwpp0wcpSSGI5IvhDL4Jvk5XcfF31OpqvIc/BBr5ZqIvBaHQLWBo4EEv7yEv8HWFxePfEnJbl2gzN+QyKa3rHtk+BV28KeZFmKeL7OF6hvDvYpzYdfPhil9/ZB2HQw+o5dWk4dsssJ40ey/nXmB3QtEQCFeJ8XsUdXm3pTykulSAtQZKeAEEK1Fb+/xP1jt322eHqoB6WMhdL8Okc7LeYczfFUv3wJO9QumO8F+WtKm4vjy3gMLEl2VpEMqh9V0wXo/ry45AbtDCgjgm63eB0TMTks4GdxUmjw84IWdTLfrgf0gYeTeCKUBS9uQHis2Fnq/L6lawpO4B7AsjXxedS7j8="
         );
+        setNameColor(ChatColor.DARK_PURPLE);
     }
     @Override
     public void interactDialogue(Player player) {
@@ -61,10 +62,10 @@ public class Nouveau extends StigglesNPC {
         speakLater (player, ChatColor.BOLD + "GO.", Sound.ENTITY_WITHER_SKELETON_HURT, elapsedTime + 1060);
         Bukkit.getScheduler().runTaskLater(main, () -> {
             player.teleport (Bukkit.getWorld ("world").getSpawnLocation());
-            //player.setInvisible(false);
-            player.removePotionEffect(PotionEffectType.INVISIBILITY);
+            player.setInvisible(false);
             player.removePotionEffect(PotionEffectType.BLINDNESS);
             player.removePotionEffect(PotionEffectType.SLOW);
+            player.setGameMode(GameMode.SURVIVAL);
         }, elapsedTime + 1200);
     }
 
