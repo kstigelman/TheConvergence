@@ -1,5 +1,6 @@
 # Stiggles Season 5
 Spigot plugin for the 5th iteration of the Stiggles Minecraft Server, launched 6/9/23.
+Developed by Kyler Stigelman and Kael Hufford
 _______________________________________________
 
 ### Features:
