@@ -4,11 +4,13 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -25,6 +27,24 @@ public class OnArmorStandInteract implements Listener {
             e.getPlayer().sendMessage(ChatColor.GRAY + "This looks like a strange substance...");
             return;
         }
+        if (entity.getName().contains ("morabito")) {
+            e.setCancelled(true);
+            if (e.getPlayer().getInventory().firstEmpty() == -1)
+                return;
+            if (e.getHand().equals(EquipmentSlot.OFF_HAND))
+                return;
+
+            for (ItemStack i : e.getPlayer().getInventory()) {
+                if (i == null || !i.hasItemMeta())
+                    continue;
+                if (i.getItemMeta().getLocalizedName().equals("recipe"))
+                    return;
+            }
+            e.getPlayer().sendMessage(ChatColor.GRAY.toString() + "You have found the Secret Recipe! Someone was looking for this...");
+            e.getPlayer().getInventory().addItem(getRecipe());
+                //    getName().contains(ChatColor.DARK_GRAY + "Natalie's Breath (Decayed)"))
+
+        }
         if (entity.getName().contains("drem_sword")) {
             e.setCancelled(true);
             if (e.getPlayer().getInventory().firstEmpty() == -1)
@@ -34,8 +54,9 @@ public class OnArmorStandInteract implements Listener {
 
             for (ItemStack i : e.getPlayer().getInventory()) {
                 if (i == null || !i.hasItemMeta())
-                    break;
-                if (i.getItemMeta().getLocalizedName().equals("nats_breath"))
+                    continue;
+
+                if (i.getItemMeta().hasLocalizedName() && i.getItemMeta().getLocalizedName().equals("nats_breath"))
                     return;
                     //    getName().contains(ChatColor.DARK_GRAY + "Natalie's Breath (Decayed)"))
             }
@@ -70,6 +91,18 @@ public class OnArmorStandInteract implements Listener {
             ((Damageable) im).setDamage(128);
         im.setUnbreakable(true);
         im.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "generic.attackDamage", 0.0, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlot.HAND));
+        item.setItemMeta(im);
+        return item;
+    }
+    public ItemStack getRecipe () {
+        ItemStack item = new ItemStack(Material.PAPER);
+        ItemMeta im = item.getItemMeta();
+        im.setDisplayName(ChatColor.GOLD + "Moonshine Secret Recipe");
+        im.setLocalizedName("recipe");
+        im.setLore (Arrays.asList(ChatColor.BLUE + "Quest Item", ChatColor.GRAY + "Spectral Saloon's famous recipe.",
+                ChatColor.GRAY + ChatColor.ITALIC.toString() + "It looks like it was written in a code, so it is unreadable to you."));
+        im.addEnchant(Enchantment.VANISHING_CURSE, 1, true);
+        im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         item.setItemMeta(im);
         return item;
     }

@@ -97,11 +97,19 @@ public class DungeonKeeper extends ShopNPC {
                 this.sendMessage(p,"Welcome to the dungeon. Good luck...");
             }
     }*/
+@Override
+public void onInteract (Player player) {
+    interactDialogue (player);
+    createGUI (player);
+    //showGUI (player);
+    talk (player);
+}
 
     @Override
     public void interactDialogue(Player p) {
-        sendMessage(p,"Heh. How's it goin'?");
+        sendMessage(p,"Heh. How's it goin'? I don't have anything to sell right now.");
     }
+
     @Override
     public void createGUI (Player player) {
         gui = Gui.normal()

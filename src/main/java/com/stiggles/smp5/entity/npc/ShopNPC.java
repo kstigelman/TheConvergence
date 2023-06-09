@@ -50,6 +50,8 @@ public abstract class ShopNPC extends StigglesNPC {
 
     @Override
     public void onInteract (Player player) {
+        if (checkQuestItems(player))
+            return;
         interactDialogue (player);
         createGUI (player);
         showGUI (player);
@@ -59,7 +61,7 @@ public abstract class ShopNPC extends StigglesNPC {
     public abstract void createGUI (Player player);
     public boolean handleTrade (Player player, StigglesBaseItem item) {
         if (BankManager.withdraw(player, item.cost)) {
-            player.getInventory().addItem(item.getItemProvider().get());
+            player.getInventory().addItem(item.item);
             playSound (player, Sound.ENTITY_VILLAGER_TRADE);
             return true;
         }

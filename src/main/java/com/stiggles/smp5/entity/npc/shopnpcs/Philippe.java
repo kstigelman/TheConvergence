@@ -222,34 +222,6 @@ public class Philippe extends ShopNPC {
         return false;
     }
     @Override
-    public void onInteract (Player player) {
-        if (player.getInventory().getItemInMainHand().hasItemMeta()) {
-            ItemMeta im = player.getInventory().getItemInMainHand().getItemMeta();
-            if (im != null && im.hasDisplayName() && im.getLocalizedName().equals("nats_breath")) {
-                player.getInventory().getItemInMainHand().setAmount (0);
-                sendMessage(player, "...");
-                Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "Where did you find that?"), 40);
-                Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "That sword belonged to an old friend of mine, named Drem."), 80);
-                Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "People around here say they think they've seen him in the mountains up north. At least, someone that looks like him."), 160);
-                Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "Please, take this logbook. If you happen to see my friend, give this to him. Thank you."), 240);
-                ItemStack book = new ItemStack(Material.BOOK);
-                ItemMeta bookMeta = book.getItemMeta();
-                bookMeta.setDisplayName(ChatColor.LIGHT_PURPLE + "Drem's Logbook");
-                bookMeta.setLocalizedName("drem_book");
-                bookMeta.setLore (Arrays.asList(ChatColor.BLUE + "Quest Item", ChatColor.GRAY + ChatColor.ITALIC.toString() + "Authored by Drem.",
-                        ChatColor.GRAY + ChatColor.ITALIC.toString() + "People claim to have seen a man that looks ",
-                        ChatColor.GRAY + ChatColor.ITALIC.toString() + "like " + ChatColor.RED + "Drem" + ChatColor.GRAY + ChatColor.ITALIC + " somewhere in the mountains."));
-                book.setItemMeta(bookMeta);
-                player.getInventory().addItem(book);
-                return;
-            }
-        }
-        interactDialogue (player);
-        createGUI (player);
-        showGUI (player);
-        talk (player);
-    }
-    @Override
     public void interactDialogue(Player player) {
         int n = main.getRandom() % 3;
         if (n == 0)
@@ -276,5 +248,16 @@ public class Philippe extends ShopNPC {
                 .addIngredient( 'f', new Boots (140))
                 .addIngredient( 'g', new Locked ("To be added"))
                 .build ();
+    }
+
+    public boolean checkQuestItems (Player player) {
+        if (player.getInventory().getItemInMainHand().hasItemMeta()) {
+            ItemMeta im = player.getInventory().getItemInMainHand().getItemMeta();
+            if (im != null && im.hasDisplayName() && im.getLocalizedName().equals("nats_breath")) {
+                sendMessage(player, "A sword named Natalie's Breath? Quoi? Where I am from, there is the legend of a creature, a pegasus, named Natalie. Legend says that even a drop this creature's breath has the power to heal any disease. No one I know has ever seen her, though.");
+                return true;
+            }
+        }
+        return false;
     }
 }

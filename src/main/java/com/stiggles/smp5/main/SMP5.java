@@ -11,6 +11,7 @@ package com.stiggles.smp5.main;
 import com.stiggles.smp5.commands.ChangeWorldCommand;
 import com.stiggles.smp5.commands.CoinCommand;
 import com.stiggles.smp5.commands.NPCCommand;
+import com.stiggles.smp5.commands.ToggleCoinChat;
 import com.stiggles.smp5.dungeons.DungeonStartCommand;
 import com.stiggles.smp5.entity.npc.*;
 import com.stiggles.smp5.entity.npc.dialoguenpc.*;
@@ -63,6 +64,7 @@ public class SMP5 extends JavaPlugin implements Listener {
 
     private ArrayList<StigglesNPC> npcs;
     public HashMap<String, StigglesPlayer> online_players;
+    private ArrayList<String> toggled = new ArrayList<>();
     //private Plugin plugin = SMP5.getPlugin(SMP5.class);
     Random random = new Random(System.currentTimeMillis());
 
@@ -166,6 +168,7 @@ public class SMP5 extends JavaPlugin implements Listener {
     public Database getDatabase() { return database; }
     public PlayerManager getPlayerManager() { return playerManager; }
     public int getRandom () { return random.nextInt(); }
+    public ArrayList<String> getToggledChatPlayers () { return toggled; }
 
     public static SMP5 getPlugin () {
         return instance;
@@ -202,8 +205,6 @@ public class SMP5 extends JavaPlugin implements Listener {
                     if (timeElapsed <= 0)
                         inc = true;
                 }
-
-
             }
         }, 0, 2);
         /*
@@ -238,7 +239,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         manager.registerEvents(new CitizensRightClickEvent(this), this);
         manager.registerEvents(new ElytraEventListener(this), this);
         //manager.registerEvents(new DungeonListener(this), this);
-        manager.registerEvents(new MobKillListener(), this);
+        manager.registerEvents(new MobKillListener(this), this);
         //manager.registerEvents(this, this);
 
         try {
@@ -297,5 +298,6 @@ public class SMP5 extends JavaPlugin implements Listener {
         Bukkit.getPluginCommand ("world").setExecutor (new ChangeWorldCommand ());
         Bukkit.getPluginCommand("start-dungeon").setExecutor (new DungeonStartCommand());
         Bukkit.getPluginCommand("coins").setExecutor(new CoinCommand());
+        Bukkit.getPluginCommand("togglecoin").setExecutor(new ToggleCoinChat(this));
     }
 }

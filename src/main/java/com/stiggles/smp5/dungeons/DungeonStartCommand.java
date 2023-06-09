@@ -26,6 +26,8 @@ public class DungeonStartCommand implements CommandExecutor, Listener {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (!move)
+            return false;
         if(sender instanceof Player) {
             Player p = (Player) sender;
                 if(sender.isOp()) {

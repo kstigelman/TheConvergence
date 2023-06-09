@@ -184,6 +184,8 @@ public abstract class StigglesNPC {
      */
 
     public void onInteract (Player player) {
+        if (checkQuestItems(player))
+            return;
         interactDialogue(player);
         talk (player);
     }
@@ -235,6 +237,7 @@ public abstract class StigglesNPC {
 
         p.spigot().sendMessage(new BaseComponent[]{clickable});
     }
+
     /** Get the NPC's entity ID.
      *
      * @return The ID.
@@ -298,5 +301,9 @@ public abstract class StigglesNPC {
      */
     public String getWorldName () {
         return worldName;
+    }
+
+    public boolean checkQuestItems (Player player) {
+        return false;
     }
 }

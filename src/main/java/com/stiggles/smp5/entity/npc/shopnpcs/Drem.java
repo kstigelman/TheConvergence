@@ -205,17 +205,19 @@ public class Drem extends ShopNPC {
         if (player.getInventory().getItemInMainHand().hasItemMeta()) {
             ItemMeta im = player.getInventory().getItemInMainHand().getItemMeta();
             if (im != null && im.getLocalizedName().equals("drem_book")) {
-                player.getInventory().getItemInMainHand().setAmount (0);
-                sendMessage(player, "What's this?");
-                Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "Wh- what?"), 60);
-                Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "But how? This is not mine..."), 120);
-                Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "I have gone by Captain Beast for years, but my real name is Drem. But I did not write this book, yet the author claims to be Drem as well. There are things about me written in here that I have never shared with anyone."), 180);
-                Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "This explains why Nouveau hates me so much. His greatest enemy was me. Another version of me."), 240);
-                Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "I will protect the people of this world against Nouveau. We will bring him to justice."), 300);
+                if (!Quest.isQuestComplete(player, Quest.QuestName.NATALIES_REDEMPTION)) {
+                    player.getInventory().getItemInMainHand().setAmount(0);
+                    sendMessage(player, "What's this?");
+                    Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "Wh- what?"), 60);
+                    Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "But how? This is not mine..."), 120);
+                    Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "I have gone by Captain Beast for years, but my real name is Drem. But I did not write this book, yet the author claims to be Drem as well. There are things about me written in here that I have never shared with anyone."), 180);
+                    Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "This explains why Nouveau hates me so much. His greatest enemy was me. Another version of me."), 240);
+                    Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "I will protect the people of this world against Nouveau. We will bring him to justice."), 300);
 
-                if (Quest.isQuestComplete(player, Quest.QuestName.NATALIES_REDEMPTION))
-                    Bukkit.getScheduler().runTaskLater(main, () -> Quest.questComplete(player, Quest.QuestName.NATALIES_REDEMPTION), 340);
-                return;
+
+                    Bukkit.getScheduler().runTaskLater(main, () -> Quest.questComplete(player, Quest.QuestName.NATALIES_REDEMPTION, "Natalie's Redemption", 0), 340);
+                    return;
+                }
             }
             if (im != null && im.getLocalizedName().equals("nats_breath")) {
                 sendMessage(player, "Natalie's Breath? I mean, I had a horse named Natalie once. But what's this sword got to do with anything? Get out.");
@@ -223,8 +225,10 @@ public class Drem extends ShopNPC {
             }
         }
         interactDialogue (player);
-        createGUI (player);
-        //showGUI (player);
+        if (Quest.isQuestComplete(player, Quest.QuestName.NATALIES_REDEMPTION)) {
+            createGUI(player);
+            showGUI (player);
+        }
         talk (player);
     }
     @Override
@@ -245,12 +249,9 @@ public class Drem extends ShopNPC {
 
     @Override
     public void createGUI(Player player) {
-        if (!Quest.isQuestComplete(player, Quest.QuestName.NATALIES_REDEMPTION))
-            return;
-
-        AbstractItem lockedSlot = new Locked ("? ? ?");
+        //AbstractItem lockedSlot = new Locked ("? ? ?");
         /* if (player has visited ruins)*/
-        lockedSlot = new Pendant(4000);
+        //lockedSlot = new Pendant(4000);
 
         gui = Gui.normal()
                 .setStructure(
@@ -264,7 +265,7 @@ public class Drem extends ShopNPC {
                 .addIngredient( 'd', new DragonBreath(400))
                 .addIngredient( 'e', new Vlad (1800))
                 .addIngredient( 'f', new BoomBow (3500))
-                .addIngredient( 'g', lockedSlot)
+                .addIngredient( 'g', new Pendant (4000))
                 .build ();
     }
 }

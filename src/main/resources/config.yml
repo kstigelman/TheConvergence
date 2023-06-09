@@ -7,6 +7,7 @@ Skeleton: 3
 Piglin: 3
 SkeletonHorse: 3
 Silverfish: 3
+Endermite: 3
 Phantom: 3
 Pillager: 3
 Vindicator: 3
@@ -23,8 +24,8 @@ PiglinBrute: 5
 Vex: 20
 Ravager: 20
 Evoker: 20
-ElderGuardian: 20
-EnderDragon: 50
-Wither: 50
-Warden: 50
+ElderGuardian: 50
+EnderDragon: 150
+Wither: 200
+Warden: 200
 

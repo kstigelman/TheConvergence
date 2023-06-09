@@ -11,4 +11,8 @@ commands:
   start-dungeon:
     description: Teleports the player to the dungeon and begins the event.
   coins:
-    description: Find the amount of coins you currently have
+    description: Displays the amount of coins you currently have
+    aliases: c
+  togglecoin:
+    description: Toggles the reward message for killing mobs on/off
+    aliases: tc

@@ -3,6 +3,7 @@ package com.stiggles.smp5.entity.npc.shopnpcs;
 import com.stiggles.smp5.entity.npc.ShopNPC;
 import com.stiggles.smp5.main.SMP5;
 
+import com.stiggles.smp5.stats.Quest;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -105,16 +106,20 @@ public class Astronomer extends ShopNPC {
         }
     }
     private class Locked extends AbstractItem {
+        String lore;
+        public Locked (String description) {
+            lore = description;
+        }
         @Override
         public ItemProvider getItemProvider() {
             return new ItemBuilder(Material.RED_STAINED_GLASS_PANE)
                     .setDisplayName(ChatColor.RED.toString() + ChatColor.BOLD + "LOCKED")
-                    .addLoreLines(ChatColor.RED + "Investigate the crater in the mesa");
+                    .addLoreLines(ChatColor.RED + lore);
         }
 
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
-            playSound (player, Sound.ENTITY_VILLAGER_NO);
+            playSound(player, Sound.ENTITY_VILLAGER_NO);
         }
     }
 
@@ -146,11 +151,13 @@ public class Astronomer extends ShopNPC {
             sendMessage(player, "Welcome to my observatory.");
     }
 
+
     @Override
     public void createGUI(Player player) {
-        AbstractItem lockedSlot = new Locked ();
+        AbstractItem lockedSlot = new Locked("Trade will be unlocked once the Ender Dragon is killed");
+        AbstractItem lockedSlot2 = new Locked ("? ? ?");
         if (player.getStatistic(Statistic.FISH_CAUGHT) >= 1000)
-            lockedSlot = new LunarBoots (3500, "lunar_boots");
+            lockedSlot2 = new LunarBoots (3500, "lunar_boots");
 
         gui = Gui.normal()
                 .setStructure(
@@ -161,10 +168,13 @@ public class Astronomer extends ShopNPC {
                 .addIngredient( 'a', new Endstone (40))
                 .addIngredient( 'b', new PurpurBlock(30))
                 .addIngredient( 'c', new ChorusFruit(85))
-                .addIngredient( 'd', new ShulkerShell(1000))
-                .addIngredient( 'e', new EndRod(75))
-                .addIngredient( 'f', new DragonHead(2000))
-                .addIngredient( 'g', lockedSlot)
+                .addIngredient( 'd', lockedSlot)
+                .addIngredient( 'e', lockedSlot)
+                .addIngredient( 'f', lockedSlot)
+                //.addIngredient( 'd', new ShulkerShell(1000))
+                //.addIngredient( 'e', new EndRod(75))
+                //.addIngredient( 'f', new DragonHead(2000))
+                .addIngredient( 'g', lockedSlot2)
                 .build ();
     }
 }

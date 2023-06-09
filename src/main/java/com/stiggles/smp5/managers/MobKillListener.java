@@ -1,5 +1,6 @@
 package com.stiggles.smp5.managers;
 
+import com.stiggles.smp5.main.SMP5;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -12,6 +13,11 @@ import org.bukkit.event.entity.EntityDeathEvent;
  *    Listener: EntityDeathEvent
  */
 public class MobKillListener implements Listener {
+
+    private SMP5 main;
+    public MobKillListener (SMP5 main) {
+        this.main = main;
+    }
     @EventHandler
     public void OnEntityDeath (EntityDeathEvent e) {
         if (e.getEntity() instanceof Player)
@@ -26,12 +32,15 @@ public class MobKillListener implements Listener {
         String[] parts = killedEntity.split ("entity.Craft");
 
         Integer reward = BankManager.getAmount(parts[1]);
-        Bukkit.getConsoleSender().sendMessage("Reward " + reward);
+        //Bukkit.getConsoleSender().sendMessage("Reward " + reward);
         if (reward == null || reward == 0)
             return;
             //reward = BankManager.getAmount ("Default");
 
         if (!BankManager.deposit(killer, reward))
+            return;
+
+        if (main.getToggledChatPlayers().contains(killer.getName()))
             return;
 
         killer.sendMessage(ChatColor.GOLD + "+" + reward + " coins");

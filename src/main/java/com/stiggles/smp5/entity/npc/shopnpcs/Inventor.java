@@ -6,6 +6,7 @@ import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import xyz.xenondevs.invui.gui.Gui;
@@ -88,6 +89,40 @@ public class Inventor extends ShopNPC {
             handleTrade(player, this);
         }
     }
+    private class Quartz extends StigglesBaseItem {
+        public Quartz (int price) {
+            super (price);
+            item = new ItemStack(Material.QUARTZ);
+        }
+        public ItemProvider getItemProvider () {
+            return new ItemBuilder(item)
+                    .addLoreLines(this.getCost());
+        }
+        @Override
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
+            handleTrade(player, this);
+        }
+    }
+    private class Piston extends StigglesBaseItem {
+        public Piston (int price) {
+            super (price);
+            int n = ri % 2;
+            if (ri == 0)
+                item = new ItemStack(Material.PISTON);
+            else {
+                item = new ItemStack(Material.STICKY_PISTON);
+                price = price + 5;
+            }
+        }
+        public ItemProvider getItemProvider () {
+            return new ItemBuilder(item)
+                    .addLoreLines(this.getCost());
+        }
+        @Override
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
+            handleTrade(player, this);
+        }
+    }
     private class Elytra extends StigglesBaseItem {
         public Elytra (int price) {
             super (price);
@@ -153,7 +188,7 @@ public class Inventor extends ShopNPC {
 
     @Override
     public void createGUI(Player player) {
-        AbstractItem lockedSlot = new Locked ("Kill the Ender Dragon");
+        AbstractItem lockedSlot = new Locked ("Trade will be unlocked once the Ender Dragon is killed");
         //Also check if player has visited all locations
 
         //Advancement a = Bukkit.getAdvancement(new NamespacedKey(main, "minecraft:end/kill_dragon"));
@@ -165,16 +200,16 @@ public class Inventor extends ShopNPC {
         gui = Gui.normal()
                 .setStructure(
                         "# # # # # # # # #",
-                        "# a b c d e f g #",
+                        "# # b c d e f # #",
                         "# # # # # # # # #")
                 .addIngredient ('#', new SimpleItem(new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE)))
-                .addIngredient( 'a', new Stone (3))
-                .addIngredient( 'b', new Redstone(10))
-                .addIngredient( 'c', new ChorusFruit(85))
-                .addIngredient( 'd', new Elytra (6464))
-                .addIngredient( 'e', new EndRod(75))
-                .addIngredient( 'f', new DragonHead(2000))
-                .addIngredient( 'g', lockedSlot)
+                .addIngredient( 'b', new Stone (3))
+                .addIngredient( 'c', new Redstone(10))
+                .addIngredient( 'd', new Quartz(40))
+                .addIngredient( 'e', new Piston (20))
+                .addIngredient( 'f', lockedSlot)
+                //.addIngredient( 'f', new DragonHead(2000))
+                //.addIngredient( 'g', lockedSlot)
                 .build ();
     }
 }

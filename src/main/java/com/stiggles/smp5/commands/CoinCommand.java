@@ -15,8 +15,26 @@ public class CoinCommand implements CommandExecutor {
         if (sender instanceof Player) {
             Player p = (Player) sender;
             if (args.length > 0) {
-
                 if (p.isOp()) {
+                    if (args.length >= 3) {
+                        if (args[0].equals("give")) {
+                            Player argPlayer = Bukkit.getPlayer(args[0]);
+                            if (argPlayer != null) {
+                                try {
+                                    int amount = Integer.parseInt(args[3]);
+                                    BankManager.deposit(argPlayer, amount);
+                                    p.sendMessage("Added " + amount + " to " + argPlayer.getName());
+                                    return true;
+                                }
+                                catch (NumberFormatException e) {
+                                    p.sendMessage(ChatColor.RED + args[3] + " is not a number!");
+                                    return false;
+                                }
+                            }
+                            p.sendMessage(ChatColor.RED + "Account does not exist!");
+                            return false;
+                        }
+                    }
                     Player argPlayer = Bukkit.getPlayer(args[0]);
                     if (argPlayer != null) {
                         p.sendMessage(args[0] + " has " + BankManager.getBalance(argPlayer)+ " coins.");
@@ -32,6 +50,25 @@ public class CoinCommand implements CommandExecutor {
             return true;
         }
         if (args.length > 0) {
+            if (args.length >= 3) {
+                if (args[0].equals("give")) {
+                    Player argPlayer = Bukkit.getPlayer(args[0]);
+                    if (argPlayer != null) {
+                        try {
+                            int amount = Integer.parseInt(args[3]);
+                            BankManager.deposit(argPlayer, amount);
+                            Bukkit.getConsoleSender().sendMessage("Added " + amount + " to " + argPlayer.getName());
+                            return true;
+                        }
+                        catch (NumberFormatException e) {
+                            Bukkit.getConsoleSender().sendMessage(args[3] + " is not a number!");
+                            return false;
+                        }
+                    }
+                    Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "Account does not exist!");
+                    return false;
+                }
+            }
             Player argPlayer = Bukkit.getPlayer(args[0]);
             if (argPlayer != null) {
                 Bukkit.getConsoleSender().sendMessage(args[0] + " has " + BankManager.getBalance(argPlayer)+ " coins.");

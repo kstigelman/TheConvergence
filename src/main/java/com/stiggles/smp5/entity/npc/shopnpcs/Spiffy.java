@@ -3,11 +3,13 @@ package com.stiggles.smp5.entity.npc.shopnpcs;
 import com.stiggles.smp5.Colors;
 import com.stiggles.smp5.entity.npc.ShopNPC;
 import com.stiggles.smp5.main.SMP5;
+import com.stiggles.smp5.stats.Quest;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
@@ -18,6 +20,8 @@ import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.builder.ItemBuilder;
 import xyz.xenondevs.invui.item.impl.SimpleItem;
+
+import java.util.Arrays;
 import java.util.Random;
 
 public class Spiffy extends ShopNPC {
@@ -162,8 +166,17 @@ public class Spiffy extends ShopNPC {
     }
 
     @Override
+    public void onInteract (Player player) {
+        if (checkQuestItem(player))
+            return;
+        interactDialogue (player);
+        createGUI(player);
+        showGUI (player);
+        talk (player);
+    }
+    @Override
     public void createGUI(Player player) {
-        AbstractItem lockedSlot = new Locked("Find the Morabito's hideout.");
+        AbstractItem lockedSlot = new Locked("Complete quest [That devious Morabito...]");
         /* if (player has visited morabito hideout)
             lockedSlot = new Dagger (1000);*/
 
@@ -181,5 +194,22 @@ public class Spiffy extends ShopNPC {
                 .addIngredient( 'f', new Locked ("To be added"))
                 .addIngredient( 'g', lockedSlot)
                 .build ();
+    }
+
+    public boolean checkQuestItem (Player player) {
+        if (player.getInventory().getItemInMainHand().hasItemMeta()) {
+            ItemMeta im = player.getInventory().getItemInMainHand().getItemMeta();
+            if (im != null && im.hasDisplayName() && im.getLocalizedName().equals("recipe")) {
+                if (!Quest.isQuestComplete(player, Quest.QuestName.MORABITO_RECIPE)) {
+                    player.getInventory().getItemInMainHand().setAmount(0);
+                    sendMessage(player, "You got it??? Thank you so much!");
+                    Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "Now I can make the moonshine taste right. Here... I'll give you some money for helping me out, but here's some free moonshine also!"), 40);
+                    Bukkit.getScheduler().runTaskLater(main, () -> player.getInventory().addItem(), 40);
+                    Bukkit.getScheduler().runTaskLater(main, () -> Quest.questComplete(player, Quest.QuestName.MORABITO_RECIPE, "That devious Morabito...", 50), 40);
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

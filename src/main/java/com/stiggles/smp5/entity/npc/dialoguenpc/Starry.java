@@ -2,12 +2,15 @@ package com.stiggles.smp5.entity.npc.dialoguenpc;
 
 import com.stiggles.smp5.entity.npc.StigglesNPC;
 import com.stiggles.smp5.main.SMP5;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
@@ -18,6 +21,7 @@ import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.builder.ItemBuilder;
 import xyz.xenondevs.invui.item.impl.SimpleItem;
 import javax.swing.*;
+import java.util.Arrays;
 import java.util.Random;
 
 public class Starry extends StigglesNPC {
@@ -59,12 +63,14 @@ public class Starry extends StigglesNPC {
                 "p8OLoYFlwB1OOERA6obVq+km/EfyEV/qTEpc6yayvRxXdN4eE9j45aBmap5W0ulJoL0By4yd5AhySLJHCBFCUt9fCuBZQkxT7foI2ZRSMRk3U/f4Pm6oH10Gi8OqOtJc+aH3A7L3HdCZXijjZtIUsN2/fF4Jvs01JQuN+e0PHP10KcwBygdR93U3euDD+xheURYx7DNb3wbSIpPELj6Wp4TpGHL83LmPcKBbSJag9dIA80jiScjNq74whrDmzyObsDR1Umo77pkiCjqvGV9pIZIMIwNzU112DHENPJFcFhTyuNO7W+dpjYh+pSpBAXa06xBwzoXsMeqEVwUqpFLFy+BV/mgL4wnXTbPZfDxXNVneUs+2y+/nY3Fgbk9sKwf952xff9ProEXI9tjAMAbA3/ZUHmFv9b5quHJ9YhnfqIf48Fw4GX/pfw0eMhRyN8LwyKB97Y7arjOWm7h4BNoYJIwvZvSP+nGDiNKl2FqbWAFGpLPRf145pD0vIQ/CewAg/tV2tfoEC01d8HvpnnotWoRmCgIWVq0j9OcBVFxme8c9u4+b50XEpbiRLPGpBPkfk4EW4oF6tLw6SuhdcOTfKx9yjY4tOZeWiBDp1yX3/ZByzclIdfbhIqbmsoAu7zojRX0rfRrLVxaWLhrO225eC1SHSfGnZ7iLIcn5h4g2D40="
         );
     }
-
+/*
     @Override
     public void onInteract (Player player) {
+        if (checkQuestItems(player))
+            return;
        interactDialogue (player);
     }
-
+*/
     public void interactDialogue (Player player) {
         String msg = "Welcome to the Spectral Saloon!";
 
@@ -78,5 +84,30 @@ public class Starry extends StigglesNPC {
             msg += " We're happy to have you!";
 
         sendMessage (player, msg);
+    }
+
+    public boolean checkQuestItems (Player player) {
+        if (player.getInventory().getItemInMainHand().hasItemMeta()) {
+            ItemMeta im = player.getInventory().getItemInMainHand().getItemMeta();
+            if (im != null && im.hasDisplayName() && im.getLocalizedName().equals("nats_breath")) {
+                player.getInventory().getItemInMainHand().setAmount (0);
+                sendMessage(player, "...");
+                Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "Where did you find that?"), 40);
+                Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "That sword belonged to an old hero from my home. His name was Drem."), 80);
+                Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "People around here say they think they've seen him living alone in the mountains up north. At least, someone that looks like him."), 160);
+                Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "Please, take this logbook of his. If you happen to see Drem, give this to him. Thank you."), 240);
+                ItemStack book = new ItemStack(Material.BOOK);
+                ItemMeta bookMeta = book.getItemMeta();
+                bookMeta.setDisplayName(ChatColor.LIGHT_PURPLE + "Drem's Logbook");
+                bookMeta.setLocalizedName("drem_book");
+                bookMeta.setLore (Arrays.asList(ChatColor.BLUE + "Quest Item", ChatColor.GRAY + ChatColor.ITALIC.toString() + "Authored by Drem.",
+                        ChatColor.GRAY + ChatColor.ITALIC.toString() + "People claim to have seen a man that looks ",
+                        ChatColor.GRAY + ChatColor.ITALIC.toString() + "like " + ChatColor.RED + "Drem" + ChatColor.GRAY + ChatColor.ITALIC + " somewhere in the mountains."));
+                book.setItemMeta(bookMeta);
+                player.getInventory().addItem(book);
+                return true;
+            }
+        }
+        return false;
     }
 }
