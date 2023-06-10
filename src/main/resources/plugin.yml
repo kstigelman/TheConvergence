@@ -16,3 +16,9 @@ commands:
   togglecoin:
     description: Toggles the reward message for killing mobs on/off
     aliases: tc
+  o:
+    description: Open/close the server for admin access only.
+  smm:
+    description: For admin use only
+  get-items:
+    description: Admin only

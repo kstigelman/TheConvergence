@@ -4,6 +4,7 @@ import com.stiggles.smp5.main.Database;
 import com.stiggles.smp5.main.SMP5;
 import com.stiggles.smp5.managers.BankManager;
 import com.stiggles.smp5.managers.Bounty;
+import com.stiggles.smp5.stats.Quest;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -51,17 +52,24 @@ public class LogEventListener implements Listener {
     }
     @EventHandler
     public void onPlayerJoin (PlayerJoinEvent e) {
+        /*if (!main.isOpen() && !e.getPlayer().isOp()) {
+            e.getPlayer().kickPlayer(ChatColor.RED + "Server is not yet open!");
+            return;
+        }*/
         Player p = e.getPlayer();
         //Check if player has joined the server before
 
-        logTimes.put (p.getUniqueId(), LocalDateTime.now());
+        //logTimes.put (p.getUniqueId(), LocalDateTime.now());
         if (registeredUUIDs.contains(p.getUniqueId())) {
             log (e.getPlayer(), "LOGIN");
             e.setJoinMessage(ChatColor.LIGHT_PURPLE + p.getName() + " has entered The Convergence");
             Bounty.setTabName(p);
-            if (p.getWorld().getName().equals("sanctuary")) {
-                p.teleport(Bukkit.getWorld("world").getSpawnLocation());
 
+            if (p.getWorld().getName().equals("sanctuary")) {
+                if (!Quest.isQuestComplete(p, Quest.QuestName.NOUVEAU_INTRO))
+                    return;
+
+                p.teleport(Bukkit.getWorld("world").getSpawnLocation());
                 //p.setInvisible(false);
                 p.setGameMode(GameMode.SURVIVAL);
                 p.setInvisible(false);
@@ -100,6 +108,9 @@ public class LogEventListener implements Listener {
 
     @EventHandler
     public void onPlayerLeave (PlayerQuitEvent e) {
+        //if (!main.isOpen() && !e.getPlayer().isOp())
+         //   return;
+
         e.setQuitMessage(ChatColor.LIGHT_PURPLE + e.getPlayer().getName() + " has left The Convergence");
         log (e.getPlayer(), "LOGOUT");
     }

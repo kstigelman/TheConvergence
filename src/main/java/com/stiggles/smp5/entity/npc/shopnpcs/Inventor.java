@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 import xyz.xenondevs.invui.gui.Gui;
@@ -20,6 +21,7 @@ public class Inventor extends ShopNPC {
     private class Stone extends StigglesBaseItem {
         public Stone (int price) {
             super (price);
+            item = new ItemStack(Material.STONE);
         }
         public ItemProvider getItemProvider () {
             return new ItemBuilder(Material.STONE).addLoreLines(getCost());
@@ -32,6 +34,7 @@ public class Inventor extends ShopNPC {
     private class Redstone extends StigglesBaseItem {
         public Redstone (int price) {
             super (price);
+            item = new ItemStack(Material.REDSTONE);
         }
         public ItemProvider getItemProvider () {
             return new ItemBuilder(Material.REDSTONE).addLoreLines(getCost());
@@ -44,6 +47,7 @@ public class Inventor extends ShopNPC {
     private class ChorusFruit extends StigglesBaseItem {
         public ChorusFruit (int price) {
             super (price);
+            item = new ItemStack(Material.CHORUS_FRUIT);
         }
         public ItemProvider getItemProvider () {
             return new ItemBuilder(Material.CHORUS_FLOWER).addLoreLines(getCost());
@@ -126,10 +130,14 @@ public class Inventor extends ShopNPC {
     private class Elytra extends StigglesBaseItem {
         public Elytra (int price) {
             super (price);
+            item = new ItemStack(Material.ELYTRA);
+            ItemMeta im = item.getItemMeta();
+            im.setDisplayName (ChatColor.LIGHT_PURPLE + "Alas Wingsuit");
+            item.setItemMeta(im);
         }
         public ItemProvider getItemProvider () {
             return new ItemBuilder(Material.ELYTRA)
-                    .setDisplayName(ChatColor.LIGHT_PURPLE + "Wingsuit")
+                    .setDisplayName(ChatColor.LIGHT_PURPLE + "Alas Wingsuit")
                     .addLoreLines(getCost());
         }
 
@@ -184,6 +192,10 @@ public class Inventor extends ShopNPC {
             sendMessage(player, "Hi there.");
         else
             sendMessage(player, "Welcome to my workshop.");
+
+        if (player.getName().contains ("Fleury87")) {
+            sendMessage(player, "Interesting... I knew it. I knew this world was part of some multiversal anomaly.");
+        }
     }
 
     @Override

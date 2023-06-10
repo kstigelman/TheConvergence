@@ -42,9 +42,12 @@ public class NPCCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        main.registerEvents();
-        main.createNPCs();
+        if (sender.isOp()) {
+            main.registerEvents();
+            main.createNPCs();
+        }
         return true;
+
     }
 }
     /*

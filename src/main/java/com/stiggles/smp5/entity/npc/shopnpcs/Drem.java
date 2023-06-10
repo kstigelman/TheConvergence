@@ -40,6 +40,7 @@ public class Drem extends ShopNPC {
     private class Saddle extends StigglesBaseItem {
         public Saddle (int price) {
             super (price);
+            item = new ItemStack(Material.SADDLE);
         }
         public ItemProvider getItemProvider () {
             return new ItemBuilder(Material.SADDLE)
@@ -85,6 +86,10 @@ public class Drem extends ShopNPC {
     private class DragonBreath extends StigglesBaseItem {
         public DragonBreath (int price) {
             super (price);
+            item = new ItemStack(Material.DRAGON_BREATH);
+            ItemMeta im = item.getItemMeta();
+            im.setDisplayName(ChatColor.DARK_PURPLE + "Natalie's Breath");
+            item.setItemMeta(im);
         }
         public ItemProvider getItemProvider () {
             return new ItemBuilder(Material.DRAGON_BREATH)
@@ -233,6 +238,9 @@ public class Drem extends ShopNPC {
     }
     @Override
     public void interactDialogue(Player player) {
+        if (player.getName().contains ("YoDrem")) {
+            sendMessage(player, "Impossible, are you trying to taunt me??? How do you know who I am??? Get out of here. Now.");
+        }
         String msg = "";
         if (interactCounter == 0)
             msg = "Hello?";
@@ -264,8 +272,8 @@ public class Drem extends ShopNPC {
                 .addIngredient( 'c', new Warhorn(300))
                 .addIngredient( 'd', new DragonBreath(400))
                 .addIngredient( 'e', new Vlad (1800))
-                .addIngredient( 'f', new BoomBow (3500))
-                .addIngredient( 'g', new Pendant (4000))
+                .addIngredient( 'f', new Pendant (4000))
+                .addIngredient( 'g', new Locked ("? ? ?"))
                 .build ();
     }
 }

@@ -133,6 +133,10 @@ public class Baggins extends ShopNPC {
             sendMessage(player, "Hello!");
         else
             sendMessage(player, "I'm selling some valuables, if you wish!");
+
+        if (player.getName().contains ("Baggins2003")) {
+            sendMessage(player, "Wait, if I'm you, and you're me... huh?? Wow, the multiverse is real!");
+        }
     }
 
     @Override

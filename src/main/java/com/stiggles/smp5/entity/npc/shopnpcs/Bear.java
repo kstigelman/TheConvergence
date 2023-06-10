@@ -53,6 +53,7 @@ public class Bear extends ShopNPC {
     private class Bones extends StigglesBaseItem {
         public Bones (int price) {
             super (price);
+            item = new ItemStack(Material.BONE_BLOCK);
         }
         public ItemProvider getItemProvider () {
             return new ItemBuilder(Material.BONE_BLOCK).addLoreLines(getCost());
@@ -65,6 +66,7 @@ public class Bear extends ShopNPC {
     private class Leather extends StigglesBaseItem {
         public Leather (int price) {
             super (price);
+            item = new ItemStack(Material.LEATHER);
         }
         public ItemProvider getItemProvider () {
             return new ItemBuilder(Material.LEATHER).addLoreLines(getCost());
@@ -93,6 +95,7 @@ public class Bear extends ShopNPC {
     private class Podzol extends StigglesBaseItem {
         public Podzol (int price) {
             super (price);
+            item = new ItemStack(Material.PODZOL);
         }
         public ItemProvider getItemProvider () {
             return new ItemBuilder(Material.PODZOL).addLoreLines(getCost());
@@ -140,6 +143,11 @@ public class Bear extends ShopNPC {
 
     @Override
     public void interactDialogue(Player player) {
+        if (player.getName().contains ("BearSharken")) {
+            sendMessage(player, "Hmmm. Strange. It appears there are two of us.");
+            return;
+        }
+
         int n = main.getRandom() % 2;
         if (n == 0)
             sendMessage(player, "Hello.");

@@ -230,6 +230,10 @@ public class Philippe extends ShopNPC {
             sendMessage(player, "Welcome to Holland!");
         else
             sendMessage(player, "Bienvenue en Hollande!");
+
+        if (player.getName().contains ("PhilippeAlfred")) {
+            sendMessage(player, "Quoi? Are you me? I didn't expect this today.");
+        }
     }
 
     @Override

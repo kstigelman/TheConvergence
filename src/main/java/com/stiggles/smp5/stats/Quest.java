@@ -17,18 +17,26 @@ public class Quest {
     private final static SMP5 main = SMP5.getPlugin();
 
     public enum QuestName {
+        NOUVEAU_INTRO,
         NATALIES_REDEMPTION,
         MORABITO_RECIPE
     }
     public static void questComplete (Player p, QuestName q, String questMessage, int amount) {
        try {
             Database db = main.getDatabase();
-            p.sendMessage(ChatColor.WHITE + "You have completed the quest " + ChatColor.GREEN + q);
+
+           if (q.equals(QuestName.NOUVEAU_INTRO)) {
+               db.execute ("INSERT INTO quest VALUES ('" + q + "', '" + p.getUniqueId() + "', '" + LocalDateTime.now().format(main.getFormatter()) + "');");
+               return;
+           }
+            p.sendMessage(ChatColor.WHITE + "You have completed the quest " + ChatColor.GREEN + questMessage);
+
             p.playSound(p, Sound.UI_TOAST_CHALLENGE_COMPLETE, 1.f, 1.f);
             if (amount != 0) {
-                p.sendMessage(ChatColor.GOLD + "+" + amount + "coins");
+                p.sendMessage(ChatColor.GOLD + "+" + amount + " coins");
                 BankManager.deposit(p, amount);
             }
+
             db.execute ("INSERT INTO quest VALUES ('" + q + "', '" + p.getUniqueId() + "', '" + LocalDateTime.now().format(main.getFormatter()) + "');");
        }
         catch (SQLException e) {

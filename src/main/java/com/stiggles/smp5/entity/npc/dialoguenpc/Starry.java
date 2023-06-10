@@ -74,6 +74,12 @@ public class Starry extends StigglesNPC {
     public void interactDialogue (Player player) {
         String msg = "Welcome to the Spectral Saloon!";
 
+
+        if (player.getName().contains ("Starry_Phoenix")) {
+            msg += "Wait-- you're me!?!? How?";
+            sendMessage(player, msg);
+            return;
+        }
         int ni =  main.getRandom() % 9;
 
         if (ni <= 2)

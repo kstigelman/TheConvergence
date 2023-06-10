@@ -20,5 +20,8 @@ public class DremBot extends StigglesNPC {
     @Override
     public void interactDialogue(Player player) {
         sendMessage(player, ChatColor.GRAY + "bzzz-- Hello there-- " + player.getName () + " -- my name is-- Drem-Bot.");
+        if (player.getName().contains ("YoDrem")) {
+            sendMessage(player, "Interesting. You are me, but human.");
+        }
     }
 }

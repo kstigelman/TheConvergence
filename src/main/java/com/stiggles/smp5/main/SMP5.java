@@ -8,14 +8,21 @@
  */
 package com.stiggles.smp5.main;
 
-import com.stiggles.smp5.commands.ChangeWorldCommand;
-import com.stiggles.smp5.commands.CoinCommand;
-import com.stiggles.smp5.commands.NPCCommand;
-import com.stiggles.smp5.commands.ToggleCoinChat;
+import com.stiggles.smp5.commands.*;
 import com.stiggles.smp5.dungeons.DungeonStartCommand;
+import com.stiggles.smp5.entity.Entities;
+import com.stiggles.smp5.entity.monsters.KillMagmaBoss;
 import com.stiggles.smp5.entity.npc.*;
 import com.stiggles.smp5.entity.npc.dialoguenpc.*;
 import com.stiggles.smp5.entity.npc.shopnpcs.*;
+import com.stiggles.smp5.items.Pickaxes;
+import com.stiggles.smp5.items.Swords;
+import com.stiggles.smp5.items.armor.AnarchysWardrobe;
+import com.stiggles.smp5.items.armor.PeacesSymphony;
+import com.stiggles.smp5.items.armor.runArmorCheck;
+import com.stiggles.smp5.items.bows.BoomBow;
+import com.stiggles.smp5.items.bows.GlowBow;
+import com.stiggles.smp5.items.crafting.CustomCrafting;
 import com.stiggles.smp5.listeners.*;
 import com.stiggles.smp5.managers.BankManager;
 import com.stiggles.smp5.managers.Bounty;
@@ -67,6 +74,8 @@ public class SMP5 extends JavaPlugin implements Listener {
     private ArrayList<String> toggled = new ArrayList<>();
     //private Plugin plugin = SMP5.getPlugin(SMP5.class);
     Random random = new Random(System.currentTimeMillis());
+
+    boolean open = false;
 
     @Override
     public void onEnable() {
@@ -135,7 +144,7 @@ public class SMP5 extends JavaPlugin implements Listener {
                     registerCommands();
                     createNPCs();
                 }
-            }.runTaskLater(this, 20);
+            }.runTaskLater(this, 5);
         }
     }
 
@@ -173,6 +182,9 @@ public class SMP5 extends JavaPlugin implements Listener {
     public static SMP5 getPlugin () {
         return instance;
     }
+
+    public boolean isOpen () { return open; }
+    public void setOpen (boolean b) { open = b; }
     @EventHandler
     public void onCitizensEnable(CitizensEnableEvent ev) {
         Bukkit.getConsoleSender().sendMessage("NV: Citizens Plugin enabled");
@@ -240,6 +252,19 @@ public class SMP5 extends JavaPlugin implements Listener {
         manager.registerEvents(new ElytraEventListener(this), this);
         //manager.registerEvents(new DungeonListener(this), this);
         manager.registerEvents(new MobKillListener(this), this);
+        manager.registerEvents(new NetherListener(), this);
+        manager.registerEvents(new KillMagmaBoss(this), this);
+
+        //Accent's plugin stuff
+        runArmorCheck armorCheck = new runArmorCheck(this);
+        CustomCrafting cc = new CustomCrafting(this);
+        Bukkit.getPluginManager().registerEvents(new Swords(), this);
+        Bukkit.getPluginManager().registerEvents(new BoomBow(), this);
+        Bukkit.getPluginManager().registerEvents(new GlowBow(), this);
+        Bukkit.getPluginManager().registerEvents(new Pickaxes(), this);
+        Bukkit.getPluginManager().registerEvents(new AnarchysWardrobe(), this);
+        Bukkit.getPluginManager().registerEvents(new PeacesSymphony(), this);
+        Bukkit.getPluginManager().registerEvents(new Entities(), this);
         //manager.registerEvents(this, this);
 
         try {
@@ -296,8 +321,11 @@ public class SMP5 extends JavaPlugin implements Listener {
         //Load important database variables
         Bukkit.getPluginCommand ("loadcitizens").setExecutor (new NPCCommand (this));
         Bukkit.getPluginCommand ("world").setExecutor (new ChangeWorldCommand ());
-        Bukkit.getPluginCommand("start-dungeon").setExecutor (new DungeonStartCommand());
+        Bukkit.getPluginCommand("o").setExecutor(new OpenWorldCommand(this));
+        //Bukkit.getPluginCommand("start-dungeon").setExecutor (new DungeonStartCommand());
         Bukkit.getPluginCommand("coins").setExecutor(new CoinCommand());
         Bukkit.getPluginCommand("togglecoin").setExecutor(new ToggleCoinChat(this));
+        Bukkit.getPluginCommand("smm").setExecutor(new SendMultiMessage (this));
+        Bukkit.getPluginCommand("get-items").setExecutor(new GetItems());
     }
 }

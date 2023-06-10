@@ -18,5 +18,10 @@ public class Tiger extends StigglesNPC {
     @Override
     public void interactDialogue(Player player) {
         sendMessage(player, "Welcome to the Community Chest!");
+
+        if (player.getName().contains ("ItsTigerFist")) {
+            sendMessage(player, "Hold up, WHAT??? ARE YOU ME???");
+        }
+
     }
 }

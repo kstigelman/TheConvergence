@@ -9,6 +9,8 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.item.ItemProvider;
@@ -20,6 +22,7 @@ public class Astronomer extends ShopNPC {
     private class ShulkerShell extends StigglesBaseItem {
         public ShulkerShell (int price) {
             super (price);
+            item = new ItemStack(Material.SHULKER_SHELL);
         }
         public ItemProvider getItemProvider () {
             return new ItemBuilder(Material.SHULKER_SHELL).addLoreLines(getCost());
@@ -32,6 +35,7 @@ public class Astronomer extends ShopNPC {
     private class Endstone extends StigglesBaseItem {
         public Endstone (int price) {
             super (price);
+            item = new ItemStack(Material.END_STONE);
         }
         public ItemProvider getItemProvider () {
             return new ItemBuilder(Material.END_STONE).addLoreLines(getCost());
@@ -44,6 +48,7 @@ public class Astronomer extends ShopNPC {
     private class ChorusFruit extends StigglesBaseItem {
         public ChorusFruit (int price) {
             super (price);
+            item = new ItemStack(Material.CHORUS_FRUIT);
         }
         public ItemProvider getItemProvider () {
             return new ItemBuilder(Material.CHORUS_FLOWER).addLoreLines(getCost());
@@ -56,6 +61,7 @@ public class Astronomer extends ShopNPC {
     private class PurpurBlock extends StigglesBaseItem {
         public PurpurBlock (int price) {
             super (price);
+            item = new ItemStack(Material.PURPUR_BLOCK);
         }
         public ItemProvider getItemProvider () {
             return new ItemBuilder(Material.PURPUR_BLOCK).addLoreLines(getCost());
@@ -68,6 +74,7 @@ public class Astronomer extends ShopNPC {
     private class EndRod extends StigglesBaseItem {
         public EndRod (int price) {
             super (price);
+            item = new ItemStack(Material.END_ROD);
         }
         public ItemProvider getItemProvider () {
             return new ItemBuilder(Material.END_ROD).addLoreLines(getCost());
@@ -80,6 +87,7 @@ public class Astronomer extends ShopNPC {
     private class DragonHead extends StigglesBaseItem {
         public DragonHead (int price) {
             super (price);
+            item = new ItemStack(Material.DRAGON_HEAD);
         }
         public ItemProvider getItemProvider () {
             return new ItemBuilder(Material.DRAGON_HEAD).addLoreLines(getCost());
@@ -92,6 +100,10 @@ public class Astronomer extends ShopNPC {
     private class LunarBoots extends StigglesBaseItem {
         public LunarBoots (int price, String localName) {
             super (price, localName);
+            item = new ItemStack(Material.IRON_BOOTS);
+            ItemMeta im = item.getItemMeta();
+            im.setDisplayName(ChatColor.AQUA + "Lunar Boots");
+            im.addEnchant (Enchantment.PROTECTION_FALL, 13, true);
         }
         public ItemProvider getItemProvider () {
             return new ItemBuilder(Material.IRON_BOOTS)

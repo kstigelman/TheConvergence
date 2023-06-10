@@ -23,6 +23,7 @@ public class Mole extends ShopNPC {
     private class EnergyDrink extends StigglesBaseItem {
         public EnergyDrink (int price) {
             super (price);
+            item = getItemProvider().get();
         }
         public ItemProvider getItemProvider () {
             return new PotionBuilder(PotionBuilder.PotionType.NORMAL)
@@ -100,6 +101,7 @@ public class Mole extends ShopNPC {
     private class Slimeball extends StigglesBaseItem {
         public Slimeball (int price) {
             super (price);
+            item = new ItemStack(Material.SLIME_BALL);
         }
         public ItemProvider getItemProvider () {
             return new ItemBuilder(Material.SLIME_BALL)
@@ -110,20 +112,7 @@ public class Mole extends ShopNPC {
             handleTrade(player, this);
         }
     }
-    private class Quartz extends StigglesBaseItem {
-        public Quartz (int price) {
-            super (price);
-            item = new ItemStack(Material.QUARTZ);
-        }
-        public ItemProvider getItemProvider () {
-            return new ItemBuilder(item)
-                    .addLoreLines(this.getCost());
-        }
-        @Override
-        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
-            handleTrade(player, this);
-        }
-    }
+
     private class StainedGlass extends StigglesBaseItem {
         public StainedGlass (int price) {
             super (price);
@@ -184,6 +173,9 @@ public class Mole extends ShopNPC {
     @Override
     public void interactDialogue(Player player) {
         sendMessage(player, "Welcome to Kelprosoft! How can I help you?");
+        if (player.getName().contains ("MoleAQuacks")) {
+            sendMessage(player, "You so look familiar. Do I know you? I think we share a face.");
+        }
     }
 
     @Override

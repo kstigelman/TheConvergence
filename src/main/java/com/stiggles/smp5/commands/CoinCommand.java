@@ -18,16 +18,16 @@ public class CoinCommand implements CommandExecutor {
                 if (p.isOp()) {
                     if (args.length >= 3) {
                         if (args[0].equals("give")) {
-                            Player argPlayer = Bukkit.getPlayer(args[0]);
+                            Player argPlayer = Bukkit.getPlayer(args[1]);
                             if (argPlayer != null) {
                                 try {
-                                    int amount = Integer.parseInt(args[3]);
+                                    int amount = Integer.parseInt(args[2]);
                                     BankManager.deposit(argPlayer, amount);
                                     p.sendMessage("Added " + amount + " to " + argPlayer.getName());
                                     return true;
                                 }
                                 catch (NumberFormatException e) {
-                                    p.sendMessage(ChatColor.RED + args[3] + " is not a number!");
+                                    p.sendMessage(ChatColor.RED + args[2] + " is not a number!");
                                     return false;
                                 }
                             }
@@ -49,19 +49,19 @@ public class CoinCommand implements CommandExecutor {
             p.sendMessage("You have " + ChatColor.GOLD + BankManager.getBalance(p) + " coins.");
             return true;
         }
-        if (args.length > 0) {
+        else if (args.length > 0) {
             if (args.length >= 3) {
                 if (args[0].equals("give")) {
-                    Player argPlayer = Bukkit.getPlayer(args[0]);
+                    Player argPlayer = Bukkit.getPlayer(args[1]);
                     if (argPlayer != null) {
                         try {
-                            int amount = Integer.parseInt(args[3]);
+                            int amount = Integer.parseInt(args[2]);
                             BankManager.deposit(argPlayer, amount);
                             Bukkit.getConsoleSender().sendMessage("Added " + amount + " to " + argPlayer.getName());
                             return true;
                         }
                         catch (NumberFormatException e) {
-                            Bukkit.getConsoleSender().sendMessage(args[3] + " is not a number!");
+                            Bukkit.getConsoleSender().sendMessage(args[2] + " is not a number!");
                             return false;
                         }
                     }

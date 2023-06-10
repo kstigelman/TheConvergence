@@ -19,10 +19,13 @@ import xyz.xenondevs.invui.item.builder.ItemBuilder;
 import xyz.xenondevs.invui.item.impl.AbstractItem;
 import xyz.xenondevs.invui.item.impl.SimpleItem;
 
+import java.util.Arrays;
+
 public class EggDONTTake extends ShopNPC {
     private class RedMushroom extends StigglesBaseItem {
         public RedMushroom (int price) {
             super (price);
+            item = new ItemStack(Material.RED_MUSHROOM);
         }
         public ItemProvider getItemProvider () {
             return new ItemBuilder(Material.RED_MUSHROOM).addLoreLines(getCost());
@@ -35,6 +38,7 @@ public class EggDONTTake extends ShopNPC {
     private class BrownMushroom extends StigglesBaseItem {
         public BrownMushroom (int price) {
             super (price);
+            item = new ItemStack(Material.BROWN_MUSHROOM);
         }
         public ItemProvider getItemProvider () {
             return new ItemBuilder(Material.BROWN_MUSHROOM).addLoreLines(getCost());
@@ -47,6 +51,7 @@ public class EggDONTTake extends ShopNPC {
     private class Mycelium extends StigglesBaseItem {
         public Mycelium  (int price) {
             super (price);
+            item = new ItemStack(Material.MYCELIUM);
         }
         public ItemProvider getItemProvider () {
             return new ItemBuilder(Material.MYCELIUM).addLoreLines(getCost());
@@ -59,6 +64,7 @@ public class EggDONTTake extends ShopNPC {
     private class Stew extends StigglesBaseItem {
         public Stew (int price) {
             super (price);
+            item = new ItemStack(Material.SUSPICIOUS_STEW);
         }
         public ItemProvider getItemProvider () {
             return new ItemBuilder(Material.SUSPICIOUS_STEW).addLoreLines(getCost());
@@ -71,6 +77,7 @@ public class EggDONTTake extends ShopNPC {
     private class Flower extends StigglesBaseItem {
         public Flower (int price) {
             super (price);
+            item = new ItemStack(Material.POPPY);
         }
         public ItemProvider getItemProvider () {
             return new ItemBuilder(Material.POPPY).addLoreLines(getCost());
@@ -84,9 +91,18 @@ public class EggDONTTake extends ShopNPC {
         public Bagel  (int price, String localName) {
             super (price);
             item = new ItemStack(Material.PUMPKIN_PIE);
-            ItemMeta m = item.getItemMeta();
-            m.setDisplayName(ChatColor.GOLD + "Bagel");
-            item.setItemMeta(m);
+            ItemMeta meta = item.getItemMeta();
+            meta.setUnbreakable(false);
+            meta.setDisplayName(ChatColor.WHITE + "Bagel");
+            meta.setLore(Arrays.asList(
+                    ChatColor.GRAY +  "",
+                    ChatColor.YELLOW +  "-- SPECIAL ITEM --",
+                    ChatColor.GRAY + "You eat bagel- yummy",
+                    ChatColor.GRAY.toString() + ChatColor.ITALIC + "Chomp-Chew-Crunch-Chomp-Crunch",
+                    ChatColor.GRAY + "MMMM- Yummy yummy in my tummy"));
+            meta.setLocalizedName("b_a_g_e_l");
+            item.setItemMeta(meta);
+            item.setItemMeta(meta);
         }
         public ItemProvider getItemProvider () {
             return new ItemBuilder(item).addLoreLines(getCost());
@@ -141,21 +157,25 @@ public class EggDONTTake extends ShopNPC {
                 .addIngredient( 'd', new Mycelium(5))
                 .addIngredient( 'e', new Stew (15))
                 .addIngredient( 'f', new Flower (3))
-                .addIngredient( 'g', new Locked ("TBA"))
+                .addIngredient( 'g', new Locked ("? ? ?"))
                 .build ();
     }
     @Override
     public void interactDialogue(Player player) {
         String msg = "";
 
-        int ni = main.getRandom() % 99;
+        int ni = Math.abs (main.getRandom() % 99);
 
         if (ni <= 2)
             sendMessage (player, "Eggs among SUS!");
-        else if (ni <= 54)
+        else if (ni <= 40)
             sendMessage (player, "Don't take eggs when you are given the chance.");
         else
-            sendMessage (player, "Eggs look neat.");
+            sendMessage (player, "Bagels are neat.");
 
+
+        if (player.getName().contains ("Eggscambled")) {
+            sendMessage(player, "Suspicious, just like the stew. Hi me, how are you?");
+        }
     }
 }

@@ -22,13 +22,15 @@ public class Mister8Bit extends ShopNPC {
     private class FishBucket extends StigglesBaseItem {
         public FishBucket (int price) {
             super (price);
+            if (ri % 7 == 0)
+                item = new ItemStack(Material.PUFFERFISH_BUCKET);
+            else
+                item = new ItemStack(Material.TROPICAL_FISH_BUCKET);
         }
 
         @Override
         public ItemProvider getItemProvider() {
-            if (ri % 7 == 0)
-                return new ItemBuilder(Material.PUFFERFISH_BUCKET).addLoreLines(this.getCost());
-            return new ItemBuilder(Material.TROPICAL_FISH_BUCKET).addLoreLines(this.getCost());
+            return new ItemBuilder(item).addLoreLines(getCost());
         }
 
         @Override
@@ -88,7 +90,7 @@ public class Mister8Bit extends ShopNPC {
             super (price);
 
             Material material;
-            int n = ri % 10;
+            int n = Math.abs(ri % 10);
             if (n == 0)
                 material = Material.BRAIN_CORAL_BLOCK;
             else if (n == 1)
@@ -112,7 +114,10 @@ public class Mister8Bit extends ShopNPC {
         }
     }
     private class Sponge extends StigglesBaseItem {
-        public Sponge (int price) { super (price); }
+        public Sponge (int price) {
+            super (price);
+            item = new ItemStack(Material.SPONGE);
+        }
 
         @Override
         public ItemProvider getItemProvider () {
@@ -126,6 +131,7 @@ public class Mister8Bit extends ShopNPC {
     private class PrismarineCrystal extends StigglesBaseItem {
         public PrismarineCrystal (int price) {
             super (price);
+            item = new ItemStack(Material.PRISMARINE_CRYSTALS);
         }
         @Override
         public ItemProvider getItemProvider() {
@@ -141,6 +147,7 @@ public class Mister8Bit extends ShopNPC {
 
         public PrismarineShard () {
             super ();
+            item = new ItemStack(Material.PRISMARINE_SHARD);
         }
         public PrismarineShard (int price) {
             super (price);
@@ -159,16 +166,17 @@ public class Mister8Bit extends ShopNPC {
     private class FishingRod extends StigglesBaseItem {
         public FishingRod () {
             cost = 5000;
-            item = getItemProvider().get();
+            item = new ItemStack(Material.FISHING_ROD);
+            ItemMeta im = item.getItemMeta();
+            im.setDisplayName(ChatColor.BLUE + "The Mage's Fishing Rod");
+            im.addEnchant(Enchantment.LURE, 5, true);
+            im.addEnchant(Enchantment.LUCK, 5, true);
+            im.addEnchant(Enchantment.DAMAGE_ALL, 10, true);
+            im.addEnchant(Enchantment.DURABILITY, 5, true);
+            item.setItemMeta(im);
         }
         public ItemProvider getItemProvider () {
-            return new ItemBuilder(Material.FISHING_ROD)
-                    .setDisplayName(ChatColor.BLUE + "The Mage's Fishing Rod")
-                    .addLoreLines(ChatColor.BLUE + "Cost: " + ChatColor.GOLD + cost + " Gold")
-                    .addEnchantment(Enchantment.LURE, 5, true)
-                    .addEnchantment(Enchantment.LUCK, 5, true)
-                    .addEnchantment(Enchantment.DAMAGE_ALL, 10, true)
-                    .addEnchantment(Enchantment.DURABILITY, 5, true);
+            return new ItemBuilder (item).addLoreLines(getCost());
         }
 
         @Override
@@ -214,11 +222,17 @@ public class Mister8Bit extends ShopNPC {
 
     @Override
     public void interactDialogue(Player player) {
+        if (player.getName().contains ("Mister8Bit")) {
+            sendMessage(player, "Hm. Well, there's two of us now. Let's not talk about this.");
+            return;
+        }
         int n = main.getRandom() % 2;
         if (n == 0)
             sendMessage(player, "Hello.");
         else
             sendMessage(player, "Great day for fishing, isn't it?");
+
+
     }
 
     @Override

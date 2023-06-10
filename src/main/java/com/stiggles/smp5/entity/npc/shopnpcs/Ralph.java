@@ -22,23 +22,7 @@ import xyz.xenondevs.invui.item.impl.AbstractItem;
 import xyz.xenondevs.invui.item.impl.SimpleItem;
 
 public class Ralph extends ShopNPC {
-    private class EnergyDrink extends StigglesBaseItem {
-        public EnergyDrink (int price) {
-            super (price);
-        }
-        public ItemProvider getItemProvider () {
-            return new PotionBuilder(PotionBuilder.PotionType.NORMAL)
-                    .setDisplayName(ChatColor.DARK_GREEN + ChatColor.BOLD.toString() + "Kelprosoft Energy Drink")
-                    .addLoreLines (ChatColor.GREEN + "World-famous Kelprosoft Energy Drink! A favorite of Ed Shearan!")
-                    .addLoreLines(this.getCost())
-                    .addEffect(new PotionEffect(PotionEffectType.CONFUSION, 240, 9))
-                    .addEffect(new PotionEffect(PotionEffectType.SPEED, 200, 4));
-        }
-        @Override
-        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
-            handleTrade(player, this);
-        }
-    }
+
     private class Pickaxe extends StigglesBaseItem {
         public Pickaxe (int price) {
             super(price);

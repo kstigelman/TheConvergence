@@ -29,6 +29,7 @@ public class Spiffy extends ShopNPC {
     private class Moonshine extends StigglesBaseItem {
         public Moonshine (int price) {
             super (price);
+            item = getItemProvider().get();
         }
         public ItemProvider getItemProvider () {
             return new PotionBuilder(PotionBuilder.PotionType.NORMAL)
@@ -49,7 +50,8 @@ public class Spiffy extends ShopNPC {
         public Sand (int price) {
             super (price);
             Material material;
-            int n = ri % 8;
+            int n = Math.abs(ri % 8);
+
             if (n <= 4)
                 material = Material.SAND;
             else
@@ -71,6 +73,7 @@ public class Spiffy extends ShopNPC {
     private class Clay extends StigglesBaseItem {
         public Clay (int price) {
             super (price);
+            item = new ItemStack(Material.TERRACOTTA);
         }
         public ItemProvider getItemProvider () {
             return new ItemBuilder(Material.TERRACOTTA)
@@ -88,7 +91,7 @@ public class Spiffy extends ShopNPC {
             //int n = (ri % 16) + 389;
 
             //material = Material.values()[n];
-            int n = (ri % 16);
+            int n = Math.abs(ri % 16);
 
             material = Material.valueOf((Colors.getColor (n) + "_TERRACOTTA"));
 
@@ -109,7 +112,7 @@ public class Spiffy extends ShopNPC {
             Material material;
             //int n = (ri % 16) + 501;
             //material = Material.values()[n];
-            int n = (ri % 16);
+            int n = Math.abs(ri % 16);
 
             material = Material.valueOf((Colors.getColor (n) + "_GLAZED_TERRACOTTA"));
             item = new ItemStack(material);
@@ -163,6 +166,9 @@ public class Spiffy extends ShopNPC {
     @Override
     public void interactDialogue(Player player) {
         sendMessage(player, "Welcome! How can I help you?");
+        if (player.getName().contains ("Shadowkatcher")) {
+            sendMessage(player, "Are you me??? I can't believe it.");
+        }
     }
 
     @Override
@@ -172,7 +178,8 @@ public class Spiffy extends ShopNPC {
         interactDialogue (player);
         createGUI(player);
         showGUI (player);
-        talk (player);
+        if (!Quest.isQuestComplete(player, Quest.QuestName.MORABITO_RECIPE))
+            talk (player);
     }
     @Override
     public void createGUI(Player player) {
@@ -191,8 +198,8 @@ public class Spiffy extends ShopNPC {
                 .addIngredient( 'c', new Clay (10))
                 .addIngredient( 'd', new ColoredClay(15))
                 .addIngredient( 'e', new GlazedTerracotta(30))
-                .addIngredient( 'f', new Locked ("To be added"))
-                .addIngredient( 'g', lockedSlot)
+                .addIngredient( 'f', new Locked ("? ? ?"))
+                .addIngredient( 'g', new Locked ("? ? ?"))
                 .build ();
     }
 
@@ -204,8 +211,8 @@ public class Spiffy extends ShopNPC {
                     player.getInventory().getItemInMainHand().setAmount(0);
                     sendMessage(player, "You got it??? Thank you so much!");
                     Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "Now I can make the moonshine taste right. Here... I'll give you some money for helping me out, but here's some free moonshine also!"), 40);
-                    Bukkit.getScheduler().runTaskLater(main, () -> player.getInventory().addItem(), 40);
-                    Bukkit.getScheduler().runTaskLater(main, () -> Quest.questComplete(player, Quest.QuestName.MORABITO_RECIPE, "That devious Morabito...", 50), 40);
+                    Bukkit.getScheduler().runTaskLater(main, () -> player.getInventory().addItem(new Moonshine(50).getItemProvider().get()), 60);
+                    Bukkit.getScheduler().runTaskLater(main, () -> Quest.questComplete(player, Quest.QuestName.MORABITO_RECIPE, "That devious Morabito...", 50), 60);
                     return true;
                 }
             }

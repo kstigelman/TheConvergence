@@ -2,6 +2,7 @@ package com.stiggles.smp5.entity.npc.dialoguenpc;
 
 import com.stiggles.smp5.entity.npc.StigglesNPC;
 import com.stiggles.smp5.main.SMP5;
+import com.stiggles.smp5.stats.Quest;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -31,7 +32,10 @@ public class Nouveau extends StigglesNPC {
             return;
         interacted.add (player.getName());
         int elapsedTime = 0;
-        speak (player, "Hello " + player.getName() + ". I bet you didn't expect to see me.", Sound.ENTITY_SKELETON_AMBIENT);
+
+        Quest.questComplete(player, Quest.QuestName.NOUVEAU_INTRO, "Welcome to the Convergence", 0);
+
+        speak (player, "Hello " + player.getName() + ". I bet you didn't expect to see me. I am Emperor Nouveau.", Sound.ENTITY_SKELETON_AMBIENT);
         if (player.getName().contains ("YoDrem")) {
             elapsedTime = 300;
             player.getInventory().addItem(getMcChicken());
@@ -46,11 +50,11 @@ public class Nouveau extends StigglesNPC {
             speakLater(player, "Anyways...", Sound.ENTITY_SKELETON_AMBIENT, 300);
 
         }
-        speakLater (player, "Let's get some things sorted out: I am the reason you are here. Not Mr. Ego. Me. He is the villain. Not me.", Sound.ENTITY_SKELETON_AMBIENT, elapsedTime +80);
+        speakLater (player, "Let's get some things sorted out: I am the reason you are here. Not Mr. Ego. Me. He is the villain. Not me.", Sound.ENTITY_SKELETON_AMBIENT, elapsedTime + 120);
         speakLater (player, "Ego's company is built upon a foundation of lies which I have tried to expose. All he cares about is advancement, without any regard for us.", Sound.ENTITY_SKELETON_AMBIENT, elapsedTime + 200);
-        speakLater (player, "Once again, I am the reason you are here. I saved you from the destruction that Ego would have brought on us all. I made this world to make this our home...", Sound.ENTITY_SKELETON_AMBIENT, elapsedTime + 280);
-        speakLater (player, "...but Ego will not rest. Never. Not until he takes this world from us, the very last thing we have.", Sound.ENTITY_SKELETON_AMBIENT, elapsedTime + 400);
-        speakLater (player, "So... will you join me in a vow to take down Ego no matter the cost?", Sound.ENTITY_SKELETON_AMBIENT, elapsedTime + 560);
+        speakLater (player, "Once again, I am the reason you are here. I saved you from the destruction that Ego would have brought on us all. I made this world to make this our home...", Sound.ENTITY_SKELETON_AMBIENT, elapsedTime + 320);
+        speakLater (player, "...but Ego will not rest. Never. Not until he takes this world from us, the very last thing we have.", Sound.ENTITY_SKELETON_AMBIENT, elapsedTime + 440);
+        speakLater (player, "So... will you join me in a vow to take down Ego no matter the cost?", Sound.ENTITY_SKELETON_AMBIENT, elapsedTime + 580);
         speakLater (player, "...", Sound.ENTITY_SKELETON_AMBIENT, elapsedTime + 620);
         speakLater (player, "I sense hesitation in you. Do you not trust me?", Sound.ENTITY_SKELETON_AMBIENT, elapsedTime + 680);
         speakLater (player, "I see.", Sound.ENTITY_SKELETON_AMBIENT, elapsedTime + 740);
@@ -66,7 +70,7 @@ public class Nouveau extends StigglesNPC {
             player.removePotionEffect(PotionEffectType.BLINDNESS);
             player.removePotionEffect(PotionEffectType.SLOW);
             player.setGameMode(GameMode.SURVIVAL);
-        }, elapsedTime + 1200);
+        }, elapsedTime + 1160);
     }
 
     public ItemStack getMcChicken () {

@@ -211,7 +211,7 @@ public abstract class StigglesNPC {
             while ((dialogue = br.readLine ()) != null)
                 dialogueList.add (dialogue);
 
-            int n = main.getRandom() % dialogueList.size ();
+            int n = Math.abs(main.getRandom()) % dialogueList.size ();
             dialogue = dialogueList.get (n);
         }
         catch (Exception e) {
@@ -220,6 +220,38 @@ public abstract class StigglesNPC {
 
         return "<" + getName () + "> " + dialogue;
     }
+    public ArrayList<String> getDialogues () {
+        String dialogue;
+        try {
+            FileReader fileReader = new FileReader("plugins/smp5/text/" + name + ".txt");
+            BufferedReader br = new BufferedReader(fileReader);
+
+            ArrayList<String> dialogueList = new ArrayList<>();
+            while ((dialogue = br.readLine ()) != null)
+                dialogueList.add (dialogue);
+
+            return dialogueList;
+        }
+        catch (Exception e) {
+            return new ArrayList<>();
+        }
+    }
+
+    public boolean hasDialogue () {
+        try {
+            FileReader fileReader = new FileReader("plugins/smp5/text/" + name + ".txt");
+            BufferedReader br = new BufferedReader(fileReader);
+
+            if (br.readLine () == null) {
+                br.close();
+                return false;
+            }
+            return true;
+        }
+        catch (Exception e) {
+            return false;
+        }
+    }
 
     /** Prompts player in chat with a clickable message so player can talk to the NPC
      *    more if they wish.
@@ -227,13 +259,17 @@ public abstract class StigglesNPC {
      * @param p The player that interacted with the NPC.
      */
     public void talk (Player p) {
-        String dialogue = getDialogue();
+        //String dialogue = getDialogue();
 
-        if (dialogue == null || dialogue.equals(""))
+        //if (dialogue == null || dialogue.equals(""))
+        //    return;
+
+        if (!hasDialogue())
             return;
 
         TextComponent clickable = new TextComponent("§6§l<<CLICK TO TALK MORE>>");
-        clickable.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tellraw " + p.getName() + " \"" + dialogue + "\""));
+        //clickable.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tellraw " + p.getName() + " \"" + dialogue + "\""));
+        clickable.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/smm " + p.getName() + " " + getId ()));
 
         p.spigot().sendMessage(new BaseComponent[]{clickable});
     }
