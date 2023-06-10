@@ -9,8 +9,10 @@
 package com.stiggles.smp5.main;
 
 import com.stiggles.smp5.commands.*;
-import com.stiggles.smp5.dungeons.DungeonStartCommand;
 import com.stiggles.smp5.entity.Entities;
+import com.stiggles.smp5.entity.lostMerchant.InventoryManager;
+import com.stiggles.smp5.entity.lostMerchant.LostMerchant;
+import com.stiggles.smp5.entity.lostMerchant.MerchantListener;
 import com.stiggles.smp5.entity.monsters.KillMagmaBoss;
 import com.stiggles.smp5.entity.npc.*;
 import com.stiggles.smp5.entity.npc.dialoguenpc.*;
@@ -66,6 +68,7 @@ public class SMP5 extends JavaPlugin implements Listener {
     }
     Convergence c;
     private Database database;
+
     private PlayerManager playerManager;
     private ArrayList<UUID> registeredUUIDs;
 
@@ -74,6 +77,9 @@ public class SMP5 extends JavaPlugin implements Listener {
     private ArrayList<String> toggled = new ArrayList<>();
     //private Plugin plugin = SMP5.getPlugin(SMP5.class);
     Random random = new Random(System.currentTimeMillis());
+    LostMerchant merchant = new LostMerchant();
+    InventoryManager inventoryManager = new InventoryManager();
+    MerchantListener merchantListener = new MerchantListener(this);
 
     boolean open = false;
 
@@ -327,5 +333,12 @@ public class SMP5 extends JavaPlugin implements Listener {
         Bukkit.getPluginCommand("togglecoin").setExecutor(new ToggleCoinChat(this));
         Bukkit.getPluginCommand("smm").setExecutor(new SendMultiMessage (this));
         Bukkit.getPluginCommand("get-items").setExecutor(new GetItems());
+    }
+
+    public static int rollNumber(int min, int max){
+        Random rand = new Random();
+        int randomNumber = rand.nextInt(max - min + 1) + min;
+
+        return randomNumber;
     }
 }

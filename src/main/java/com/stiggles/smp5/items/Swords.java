@@ -81,7 +81,10 @@ public class Swords implements Listener {
         if (item == null) {
             return false;
         } else {
-            return (item.getItemMeta().getLocalizedName().equals("emerald_dagger"));
+            if(item.hasItemMeta()){
+                return (item.getItemMeta().getLocalizedName().equals("emerald_dagger"));
+            }
+            return false;
         }
     }
     private boolean hasSharpV(ItemStack item) {
@@ -122,7 +125,10 @@ public class Swords implements Listener {
         if (item == null){
             return false;
         } else {
-            return (item.getItemMeta().getLocalizedName().equals("magma_cutlass"));
+            if(item.hasItemMeta()){
+                return (item.getItemMeta().getLocalizedName().equals("magma_cutlass"));
+            }
+            return false;
         }
     }
 

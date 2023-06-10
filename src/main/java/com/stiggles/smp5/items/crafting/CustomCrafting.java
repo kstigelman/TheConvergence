@@ -35,6 +35,7 @@ public class CustomCrafting {
 
         ItemStack finalItem = new ItemStack(Material.EMERALD);
         ItemMeta finalMeta = finalItem.getItemMeta();
+        finalMeta.addEnchant(Enchantment.DAMAGE_ALL, 5, true);
         finalMeta.setUnbreakable(true);
         finalMeta.setDisplayName(ChatColor.GREEN + "Emerald Dagger");
         finalMeta.setLore(Arrays.asList(
