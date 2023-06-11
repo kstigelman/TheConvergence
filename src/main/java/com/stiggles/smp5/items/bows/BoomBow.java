@@ -48,7 +48,7 @@ public class BoomBow implements Listener {
         PersistentDataContainer container = e.getEntity().getPersistentDataContainer();
         if (!container.has(boomKey, PersistentDataType.STRING)) return;
         if (container.get(boomKey, PersistentDataType.STRING).equals("boom_arrow")) {
-            e.getEntity().getWorld().createExplosion(e.getEntity().getLocation(), 1.5f, false, false);
+            e.getEntity().getWorld().createExplosion(e.getEntity().getLocation(), 2.25f, false, false);
             e.getEntity().remove();
         }
     }

@@ -34,6 +34,7 @@ public class GlowBow implements Listener {
         meta.setUnbreakable(true);
         meta.setDisplayName((ChatColor.WHITE + "Recon Bow"));
         meta.setLore(Arrays.asList(
+                ChatColor.GRAY +  "I, am the hunter!",
                 ChatColor.GRAY +  "",
                 ChatColor.GOLD +  "-- SPECIAL ITEM --",
                 ChatColor.GRAY + "This bow scans nearby entities",
