@@ -32,25 +32,27 @@ import com.stiggles.smp5.managers.MobKillListener;
 import com.stiggles.smp5.player.StigglesPlayer;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.event.CitizensEnableEvent;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Particle;
-import org.bukkit.WorldCreator;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.profile.PlayerProfile;
+import org.bukkit.profile.PlayerTextures;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Level;
 
 public class SMP5 extends JavaPlugin implements Listener {
@@ -347,4 +349,36 @@ public class SMP5 extends JavaPlugin implements Listener {
 
         return randomNumber;
     }
+
+    @EventHandler
+    public void interact(PlayerInteractEvent event){
+
+        Location potLocation = new Location(Bukkit.getWorld("world"), -147, 46, 864);
+
+        if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
+            if (event.getClickedBlock().getType().equals(Material.DECORATED_POT) && event.getClickedBlock().getLocation().equals(potLocation)){
+                ItemStack wheel = new ItemStack(Material.PLAYER_HEAD);
+                SkullMeta skullMeta = (SkullMeta) wheel.getItemMeta();
+                skullMeta.setDisplayName(ChatColor.WHITE + "Scubas Wheel");
+                skullMeta.setLore(Arrays.asList(ChatColor.BLUE + "Quest Item", ChatColor.GRAY + ChatColor.ITALIC.toString() + "A wheel that was once on a ship."));
+                skullMeta.setLocalizedName("scuba_ship_wheel");
+
+                PlayerProfile p = Bukkit.createPlayerProfile(UUID.randomUUID());
+                try {
+                    PlayerTextures pt = p.getTextures();
+                    pt.setSkin(new URL("https://textures.minecraft.net/texture/6b60171a946b630f46b7b626f4a780bd1a2de9ae3b2bc8a67b6f5bd970eb7"
+                    ));
+                    p.setTextures(pt);
+                }
+                catch (MalformedURLException e) {
+
+                }
+                skullMeta.setOwnerProfile(p);
+                wheel.setItemMeta(skullMeta);
+
+                event.getPlayer().getInventory().addItem(wheel);
+            }
+        }
+    }
+
 }

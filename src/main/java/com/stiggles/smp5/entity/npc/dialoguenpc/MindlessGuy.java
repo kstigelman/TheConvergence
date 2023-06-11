@@ -2,16 +2,16 @@ package com.stiggles.smp5.entity.npc.dialoguenpc;
 
 import com.stiggles.smp5.entity.npc.StigglesNPC;
 import com.stiggles.smp5.main.SMP5;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.profile.PlayerProfile;
+import org.bukkit.profile.PlayerTextures;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.UUID;
 
@@ -27,7 +27,7 @@ public class MindlessGuy extends StigglesNPC {
 
     @Override
     public void interactDialogue(Player player) {
-        int ni = main.getRandom() % 4;
+        int ni = main.getRandom() % 3;
 
         if (ni <= 1) {
             sendMessage(player, "Sup?");
@@ -37,6 +37,7 @@ public class MindlessGuy extends StigglesNPC {
                 speakLater(player, "Well, I like your confidence and determination.", Sound.ENTITY_VILLAGER_CELEBRATE, 60);
                 speakLater(player, "Here's your reward, take it as gift for following through with the quest.", Sound.ENTITY_VILLAGER_CELEBRATE, 60);
                 speakLater(player, "Take it to the desert, there, you'll find a wizard. Give it to him.", Sound.ENTITY_VILLAGER_CELEBRATE, 120);
+                player.getInventory().addItem(netherArtifact());
             } else {
                 sendMessage(player, "Just movin around, nothin to see here.");
             }
@@ -50,7 +51,17 @@ public class MindlessGuy extends StigglesNPC {
         skullMeta.setLore(Arrays.asList(ChatColor.BLUE + "Quest Item", ChatColor.GRAY + ChatColor.ITALIC.toString() + "The beginning of a new quest..."));
         skullMeta.setLocalizedName("nether_artifact");
 
-        PlayerProfile profile = new PlayerProfile(UUID.randomUUID(), null);
+        PlayerProfile p = Bukkit.createPlayerProfile(UUID.randomUUID());
+        try {
+            PlayerTextures pt = p.getTextures();
+            pt.setSkin(new URL("http://textures.minecraft.net/texture/cda26e1cfe392326ee12a4ba658710927cc988f8c150a2ee7886340068b531a4"
+            ));
+            p.setTextures(pt);
+        }
+        catch (MalformedURLException e) {
+
+        }
+        skullMeta.setOwnerProfile(p);
 
 
         netherArtifact.setItemMeta(skullMeta);
