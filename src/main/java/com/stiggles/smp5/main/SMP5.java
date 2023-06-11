@@ -39,7 +39,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -375,8 +377,18 @@ public class SMP5 extends JavaPlugin implements Listener {
                 }
                 skullMeta.setOwnerProfile(p);
                 wheel.setItemMeta(skullMeta);
+                ItemStack pendant = new ItemStack(Material.HEART_OF_THE_SEA);
+                ItemMeta pendantMeta = pendant.getItemMeta();
+                pendantMeta.setDisplayName(ChatColor.AQUA+"The Friend's Pendant");
+                pendantMeta.setLore(Arrays.asList(ChatColor.BLUE + "Quest Item", ChatColor.GRAY + ChatColor.ITALIC.toString() + "Once was the center of a great friendship,",
+                        ChatColor.GRAY + ChatColor.ITALIC.toString() + "now it's just a relic of a memory..."));
+                pendantMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+                pendantMeta.setLocalizedName("the_friends_pendant");
 
-                event.getPlayer().getInventory().addItem(wheel);
+                pendant.setItemMeta(pendantMeta);
+                if (event.getPlayer().getInventory().contains(pendant)){
+                    event.getPlayer().getInventory().addItem(wheel);
+                }
             }
         }
     }
