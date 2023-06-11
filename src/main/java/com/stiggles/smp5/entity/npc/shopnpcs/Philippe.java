@@ -258,7 +258,7 @@ public class Philippe extends ShopNPC {
         if (player.getInventory().getItemInMainHand().hasItemMeta()) {
             ItemMeta im = player.getInventory().getItemInMainHand().getItemMeta();
             if (im != null && im.hasDisplayName() && im.getLocalizedName().equals("nats_breath")) {
-                sendMessage(player, "A sword named Natalie's Breath? Quoi? Where I am from, there is the legend of a creature, a pegasus, named Natalie. Legend says that even a drop this creature's breath has the power to heal any disease. No one I know has ever seen her, though.");
+                sendMessage(player, "A sword named Natalie's Breath? Quoi? Where I am from, there is the legend of a creature, named Natalie. Legend says that even a drop this creature's breath has the power to heal any disease. No one I know has ever seen her, though.");
                 return true;
             }
         }

@@ -271,6 +271,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new AnarchysWardrobe(), this);
         Bukkit.getPluginManager().registerEvents(new PeacesSymphony(), this);
         Bukkit.getPluginManager().registerEvents(new Entities(), this);
+        Bukkit.getPluginManager().registerEvents(new EndEyeListener(), this);
         //manager.registerEvents(this, this);
 
         try {

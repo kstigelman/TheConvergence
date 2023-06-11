@@ -101,14 +101,14 @@ public class Starry extends StigglesNPC {
                 Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "Where did you find that?"), 40);
                 Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "That sword belonged to an old hero from my home. His name was Drem."), 80);
                 Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "People around here say they think they've seen him living alone in the mountains up north. At least, someone that looks like him."), 160);
-                Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "Please, take this logbook of his. If you happen to see Drem, give this to him. Thank you."), 240);
+                Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "Please, take this journal entry of mine. If you happen to see Drem, please give this to him. Thank you."), 240);
                 ItemStack book = new ItemStack(Material.BOOK);
                 ItemMeta bookMeta = book.getItemMeta();
-                bookMeta.setDisplayName(ChatColor.LIGHT_PURPLE + "Drem's Logbook");
+                bookMeta.setDisplayName(ChatColor.YELLOW + "Starry's Journal: Drem vs Nouveau");
                 bookMeta.setLocalizedName("drem_book");
-                bookMeta.setLore (Arrays.asList(ChatColor.BLUE + "Quest Item", ChatColor.GRAY + ChatColor.ITALIC.toString() + "Authored by Drem.",
+                bookMeta.setLore (Arrays.asList(ChatColor.BLUE + "Quest Item", ChatColor.GRAY + ChatColor.ITALIC.toString() + "Authored by Starry. It details the battle between Drem and Nouveau.",
                         ChatColor.GRAY + ChatColor.ITALIC.toString() + "People claim to have seen a man that looks ",
-                        ChatColor.GRAY + ChatColor.ITALIC.toString() + "like " + ChatColor.RED + "Drem" + ChatColor.GRAY + ChatColor.ITALIC + " somewhere in the mountains."));
+                        ChatColor.GRAY + ChatColor.ITALIC.toString() + "like " + ChatColor.RED + "Drem" + ChatColor.GRAY + ChatColor.ITALIC + " somewhere in the snowy mountains."));
                 book.setItemMeta(bookMeta);
                 player.getInventory().addItem(book);
                 return true;

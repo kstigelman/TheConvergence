@@ -65,6 +65,10 @@ public class CustomSpawns {
                     p.getWorld().getBiome(p.getLocation()).equals(Biome.SNOWY_PLAINS) ||
                     p.getWorld().getBiome(p.getLocation()).equals(Biome.SNOWY_SLOPES) ||
                     p.getWorld().getBiome(p.getLocation()).equals(Biome.SNOWY_TAIGA)) {
+
+                if (Math.abs (main.getRandom()) % 4 == 0)
+                    return;
+
                 Location center = p.getLocation();
                 double range = 75;
                 double x = center.getX() + (Math.random() * range * 2 - range);

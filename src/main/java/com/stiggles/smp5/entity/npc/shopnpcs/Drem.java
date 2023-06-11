@@ -220,7 +220,7 @@ public class Drem extends ShopNPC {
                     Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "I will protect the people of this world against Nouveau. We will bring him to justice."), 300);
 
 
-                    Bukkit.getScheduler().runTaskLater(main, () -> Quest.questComplete(player, Quest.QuestName.NATALIES_REDEMPTION, "Natalie's Redemption", 0), 340);
+                    Bukkit.getScheduler().runTaskLater(main, () -> Quest.questComplete(player, Quest.QuestName.NATALIES_REDEMPTION, "Natalie's Redemption", 200), 340);
                     return;
                 }
             }
