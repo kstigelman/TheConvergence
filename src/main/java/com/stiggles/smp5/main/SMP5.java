@@ -316,6 +316,11 @@ public class SMP5 extends JavaPlugin implements Listener {
         npcs.add (new Tiger (this, "Tigerfist", new Location (Bukkit.getWorld("world"), 45.5, 93, 818.5)));
         npcs.add (new Alejandro(this, "Alejandro", new Location (Bukkit.getWorld("world"), 1252.5, 98, 1487.5)));
         npcs.add (new Ralph (this, "Ralph", new Location(Bukkit.getWorld("world"), 1250.5, 93, 1492)));
+        npcs.add (new MaskedStranger(this, "Masked Stranger", new Location(Bukkit.getWorld("world"), -772.5, 157, 1381.5)));
+        npcs.add (new Scubadiver(this, "Scuba Diver", new Location(Bukkit.getWorld("world"), 1505.5, 73, -1279.5)));
+        npcs.add(new Shrek(this, "Shrek", new Location(Bukkit.getWorld("world"), 739.5, 66, 1162.5)));
+        npcs.add(new MindlessGuy(this, "Mindless Guy", new Location(Bukkit.getWorld("world"), 28.5, 91, 855.5)));
+        npcs.add(new NetherWizard(this, "Wondrous Wizard", new Location(Bukkit.getWorld("world"), -976.5, 67, -278.5)));
 
         npcs.add (new Nouveau(this, "Nouveau", new Location (Bukkit.getWorld("sanctuary"), 8.5, -59, 8.5)));
         //Nouveau 52, 132, 746

@@ -101,7 +101,7 @@ public class Pickaxes implements Listener {
     public void entityDamage(EntityDamageByEntityEvent e) {
         if (e.getDamager() instanceof Player){
             Player p = (Player) e.getDamager();
-            if (p.getInventory().getItemInMainHand().getItemMeta().getLocalizedName().equals("warden_weakness")
+            if (p.getInventory().getItemInMainHand().hasItemMeta() && p.getInventory().getItemInMainHand().getItemMeta().getLocalizedName().equals("warden_weakness")
                     && e.getEntity().getType().equals(EntityType.WARDEN)){
 
                 int experience = p.getExpToLevel();

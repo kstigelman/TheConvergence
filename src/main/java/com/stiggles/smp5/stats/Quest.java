@@ -19,7 +19,8 @@ public class Quest {
     public enum QuestName {
         NOUVEAU_INTRO,
         NATALIES_REDEMPTION,
-        MORABITO_RECIPE
+        MORABITO_RECIPE,
+        THE_GOOD_HUNT
     }
     public static void questComplete (Player p, QuestName q, String questMessage, int amount) {
        try {
