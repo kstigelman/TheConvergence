@@ -49,9 +49,9 @@ public class CustomSpawns {
         for (Player p : Bukkit.getOnlinePlayers()){
             if (p.getWorld().getName().equals("world_nether")) {
                 p.sendMessage(ChatColor.RED+"The Blazing Beast has spawned! Take this opportunity to acquire a rare and unique custom item!");
-                p.playSound(p, Sound.ENTITY_ENDER_DRAGON_AMBIENT, 15, .1F);
-                p.playSound(p, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE, 15, .01F);
-                p.playSound(p, Sound.ENTITY_ENDER_DRAGON_GROWL, 15, .1F);
+                p.playSound(p, Sound.ENTITY_ENDER_DRAGON_AMBIENT, 12, .1F);
+                p.playSound(p, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE, 12, .01F);
+                p.playSound(p, Sound.ENTITY_ENDER_DRAGON_GROWL, 12, .1F);
             }
         }
 

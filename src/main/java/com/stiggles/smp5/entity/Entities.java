@@ -241,20 +241,20 @@ public class Entities implements Listener {
         Attributable mobAt = blazeIng;
         AttributeInstance attributeDamage = mobAt.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);
         AttributeInstance attributeHealth = mobAt.getAttribute(Attribute.GENERIC_MAX_HEALTH);
-        attributeDamage.setBaseValue(22);
-        attributeHealth.setBaseValue(21);
-        blazeIng.setHealth(20);
+        attributeDamage.setBaseValue(50);
+        attributeHealth.setBaseValue(750);
+        blazeIng.setHealth(750);
 
         new BukkitRunnable(){
             public void run(){
                 if(!blazeIng.isDead()) {
-                    for (Entity entity : blazeIng.getNearbyEntities(256, 256, 256)){
+                    for (Entity entity : blazeIng.getNearbyEntities(180, 180, 180)){
                         if (entity instanceof Player) {
                             Player p = (Player) entity;
                             blazeIng.setTarget(p);
                         }
                     }
-                    for (Entity entity : blazeIng.getNearbyEntities(20, 256, 20)){
+                    for (Entity entity : blazeIng.getNearbyEntities(20, 180, 20)){
                         if (entity instanceof Player){
                             Player p = (Player) entity;
                             blazeIng.setTarget(p);
@@ -272,7 +272,7 @@ public class Entities implements Listener {
         new BukkitRunnable(){
             public void run(){
                 if(!blazeIng.isDead()) {
-                    for (Entity entity : blazeIng.getNearbyEntities(256, 32, 256)){
+                    for (Entity entity : blazeIng.getNearbyEntities(90, 32, 90)){
                         if (entity instanceof Player) {
                             Player p = (Player) entity;
                             blazeIng.setTarget(p);
@@ -287,7 +287,7 @@ public class Entities implements Listener {
                         if (entity instanceof Player){
                             Player p = (Player) entity;
                             p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10, 0, false, false));
-                            p.getWorld().createExplosion(p.getLocation(), 5, false, false);
+                            p.getWorld().createExplosion(p.getLocation(), 2, false, false);
 
                         }
                     }
@@ -295,7 +295,7 @@ public class Entities implements Listener {
                     cancel();
                 }
             }
-        }.runTaskTimer(plugin, 0, 20*15);
+        }.runTaskTimer(plugin, 0, 20*20);
         new BukkitRunnable(){
             public void run(){
                 if(!blazeIng.isDead()) {
@@ -307,14 +307,14 @@ public class Entities implements Listener {
                     Location randomLocation = new Location(center.getWorld(), x, y, z);
                     randomLocation.getWorld().strikeLightningEffect(randomLocation);
                     new BukkitRunnable() { public void run() {
-                        randomLocation.getWorld().createExplosion(randomLocation, 5, false, false);
+                        randomLocation.getWorld().createExplosion(randomLocation, 4, false, false);
                     }
                     }.runTaskLater(plugin, 60);
                 } else {
                     cancel();
                 }
             }
-        }.runTaskTimer(plugin, 0, 200);
+        }.runTaskTimer(plugin, 0, 250);
     }
 
 

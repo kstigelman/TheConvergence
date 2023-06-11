@@ -24,20 +24,20 @@ public class Scubadiver extends StigglesNPC {
 
     @Override
     public void interactDialogue(Player player) {
-        int ni = main.getRandom() % 4;
+        int ni = main.getRandom() % 5;
 
         if (ni <= 1) {
             sendMessage(player, "blub blub blurb blub?");
         } else if (ni <= 3) {
             sendMessage(player, "blub blurb blub blub blub blurb blub!");
         } else {
-            if (player.getInventory().getItemInMainHand().hasItemMeta() && player.getInventory().getItemInMainHand().getItemMeta().getLocalizedName().equals("the_friends_pendant")) {
+            /*if (player.getInventory().getItemInMainHand().hasItemMeta() && player.getInventory().getItemInMainHand().getItemMeta().getLocalizedName().equals("the_friends_pendant")) {
                 sendMessage(player, "Wow, I have NOT seen that thing in years!");
                 speakLater(player, "Where did you get tha- wait you went to HIM for help?!", Sound.BLOCK_BUBBLE_COLUMN_WHIRLPOOL_INSIDE, 60);
                 speakLater(player, "You must REALLY be desperate then. Anyways, I know what you want, but it'll cost you.", Sound.BLOCK_BUBBLE_COLUMN_WHIRLPOOL_INSIDE, 100);
                 speakLater(player, "Maybe you can do some archaeology for me, how does that sound?", Sound.BLOCK_BUBBLE_COLUMN_WHIRLPOOL_INSIDE, 100);
                 speakLater(player, "Maybe you can bring me back some artifact of importance?", Sound.BLOCK_BUBBLE_COLUMN_WHIRLPOOL_INSIDE, 100);
-                speakLater(player, "I've got it! Not to long ago I lost something in the depths of the start of this new beginning, bring it back to me and then we can continue.", Sound.BLOCK_BUBBLE_COLUMN_WHIRLPOOL_INSIDE, 100);
+                speakLater(player, "I've got it! Not to long ago I lost something in the depths of this new beginning, bring it back to me and then we can continue.", Sound.BLOCK_BUBBLE_COLUMN_WHIRLPOOL_INSIDE, 100);
 
             } else if (player.getInventory().getItemInMainHand().hasItemMeta() && player.getInventory().getItemInMainHand().getItemMeta().getLocalizedName().equals("scuba_ship_wheel")){
                 sendMessage(player, "There she is... my old ships wheel! Never needed it, but thanks for getting it!");
@@ -47,8 +47,8 @@ public class Scubadiver extends StigglesNPC {
                 speakLater(player, "Then it was found near a little settlement, I cannot remember the name of it, but I do know this, the person who houses it is a huge mess.", Sound.BLOCK_BUBBLE_COLUMN_WHIRLPOOL_INSIDE, 200);
 
             } else {
+             */
                 sendMessage(player, "Blub, blub blurb Blub blub blub blurb blub blub blub blub blub blub!");
-            }
         }
     }
 }

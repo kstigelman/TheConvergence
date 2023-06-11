@@ -26,20 +26,24 @@ public class MaskedStranger extends StigglesNPC {
 
     @Override
     public void interactDialogue(Player player) {
-        int ni = main.getRandom() % 4;
+        int ni = main.getRandom() % 5;
 
-        if (ni <= 1)
-            sendMessage (player, "What do you want?");
-        else if (ni <= 3)
-            sendMessage (player, "Leave me alone- just go.");
-        else
-            sendMessage (player, "Fine, ill give in...");
-            speakLater(player, "I understand that you may be seeking a hunting experience.", Sound.ENTITY_VILLAGER_TRADE, 20);
-            speakLater(player, "I myself have not pursued this activity in quite some time, but I do recall the terrain being quite barren and dangerous.", Sound.ENTITY_VILLAGER_TRADE, 80);
-            speakLater(player, "Last I heard, my friend went scuba diving.", Sound.ENTITY_VILLAGER_TRADE, 80);
-            speakLater(player, "If your daring enough to continue the hunt, you may want to check in with him...", Sound.ENTITY_VILLAGER_TRADE, 40);
-            speakLater(player, "You'll need this to assure him your safe to talk to- now scram!", Sound.ENTITY_VILLAGER_TRADE, 80);
+        if (ni <= 1) {
+            sendMessage(player, "What do you want?");
+        } else if (ni <= 3) {
+            sendMessage(player, "Leave me alone- just go.");
+        } else {
+            /*
+            sendMessage(player, "Fine, ill give in...");
+            speakLater(player, "I understand that you may be seeking a hunting experience.", Sound.ENTITY_VILLAGER_TRADE, 100);
+            speakLater(player, "I myself have not pursued this activity in quite some time, but I do recall the terrain being quite barren and dangerous.", Sound.ENTITY_VILLAGER_TRADE, 160);
+            speakLater(player, "Last I heard, my friend went scuba diving.", Sound.ENTITY_VILLAGER_TRADE, 160);
+            speakLater(player, "If your daring enough to continue the hunt, you may want to check in with him...", Sound.ENTITY_VILLAGER_TRADE, 120);
+            speakLater(player, "You'll need this to assure him your safe to talk to- now scram!", Sound.ENTITY_VILLAGER_TRADE, 160);
             player.getInventory().addItem(theFriendsPendant());
+             */
+            sendMessage(player, "SCRAM!");
+        }
     }
 
 

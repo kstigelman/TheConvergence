@@ -33,6 +33,7 @@ import com.stiggles.smp5.player.StigglesPlayer;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.event.CitizensEnableEvent;
 import org.bukkit.*;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -355,10 +356,11 @@ public class SMP5 extends JavaPlugin implements Listener {
     @EventHandler
     public void interact(PlayerInteractEvent event){
 
-        Location potLocation = new Location(Bukkit.getWorld("world"), -147, 46, 864);
+        Location potLocation = new Location(Bukkit.getWorld("world"), -144, 43, 865);
 
         if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
-            if (event.getClickedBlock().getType().equals(Material.DECORATED_POT) && event.getClickedBlock().getLocation().equals(potLocation)){
+            Block block = event.getClickedBlock();
+            if (block.getType().equals(Material.SUSPICIOUS_SAND) && block.getX() == -144 && block.getY() == 43 && block.getZ() == 865){
                 ItemStack wheel = new ItemStack(Material.PLAYER_HEAD);
                 SkullMeta skullMeta = (SkullMeta) wheel.getItemMeta();
                 skullMeta.setDisplayName(ChatColor.WHITE + "Scubas Wheel");
@@ -377,18 +379,7 @@ public class SMP5 extends JavaPlugin implements Listener {
                 }
                 skullMeta.setOwnerProfile(p);
                 wheel.setItemMeta(skullMeta);
-                ItemStack pendant = new ItemStack(Material.HEART_OF_THE_SEA);
-                ItemMeta pendantMeta = pendant.getItemMeta();
-                pendantMeta.setDisplayName(ChatColor.AQUA+"The Friend's Pendant");
-                pendantMeta.setLore(Arrays.asList(ChatColor.BLUE + "Quest Item", ChatColor.GRAY + ChatColor.ITALIC.toString() + "Once was the center of a great friendship,",
-                        ChatColor.GRAY + ChatColor.ITALIC.toString() + "now it's just a relic of a memory..."));
-                pendantMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-                pendantMeta.setLocalizedName("the_friends_pendant");
-
-                pendant.setItemMeta(pendantMeta);
-                if (event.getPlayer().getInventory().contains(pendant)){
-                    event.getPlayer().getInventory().addItem(wheel);
-                }
+                event.getPlayer().getInventory().addItem(wheel);
             }
         }
     }
