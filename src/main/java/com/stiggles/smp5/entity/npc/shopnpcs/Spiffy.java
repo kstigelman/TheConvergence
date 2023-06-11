@@ -193,11 +193,11 @@ public class Spiffy extends ShopNPC {
                         "# a b c d e f g #",
                         "# # # # # # # # #")
                 .addIngredient ('#', new SimpleItem(new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE)))
-                .addIngredient( 'a', new Moonshine(50))
-                .addIngredient( 'b', new Sand (10))
-                .addIngredient( 'c', new Clay (10))
-                .addIngredient( 'd', new ColoredClay(15))
-                .addIngredient( 'e', new GlazedTerracotta(30))
+                .addIngredient( 'a', new Moonshine(40))
+                .addIngredient( 'b', new Sand (2))
+                .addIngredient( 'c', new Clay (2))
+                .addIngredient( 'd', new ColoredClay(3))
+                .addIngredient( 'e', new GlazedTerracotta(6))
                 .addIngredient( 'f', new Locked ("? ? ?"))
                 .addIngredient( 'g', new Locked ("? ? ?"))
                 .build ();

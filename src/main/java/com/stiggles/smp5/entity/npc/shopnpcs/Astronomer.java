@@ -168,8 +168,8 @@ public class Astronomer extends ShopNPC {
     public void createGUI(Player player) {
         AbstractItem lockedSlot = new Locked("Trade will be unlocked once the Ender Dragon is killed");
         AbstractItem lockedSlot2 = new Locked ("? ? ?");
-        if (player.getStatistic(Statistic.FISH_CAUGHT) >= 1000)
-            lockedSlot2 = new LunarBoots (3500, "lunar_boots");
+        //if (player.getStatistic(Statistic.FISH_CAUGHT) >= 1000)
+        //    lockedSlot2 = new LunarBoots (3500, "lunar_boots");
 
         gui = Gui.normal()
                 .setStructure(

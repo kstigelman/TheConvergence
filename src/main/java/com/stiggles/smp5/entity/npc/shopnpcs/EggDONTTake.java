@@ -151,12 +151,12 @@ public class EggDONTTake extends ShopNPC {
                         "# a b c d e f g #",
                         "# # # # # # # # #")
                 .addIngredient ('#', new SimpleItem(new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE)))
-                .addIngredient( 'a', new Bagel (15, "bagel"))
-                .addIngredient( 'b', new RedMushroom(4))
-                .addIngredient( 'c', new BrownMushroom(4))
+                .addIngredient( 'a', new Bagel (5, "bagel"))
+                .addIngredient( 'b', new RedMushroom(2))
+                .addIngredient( 'c', new BrownMushroom(2))
                 .addIngredient( 'd', new Mycelium(5))
-                .addIngredient( 'e', new Stew (15))
-                .addIngredient( 'f', new Flower (3))
+                .addIngredient( 'e', new Stew (7))
+                .addIngredient( 'f', new Flower (1))
                 .addIngredient( 'g', new Locked ("? ? ?"))
                 .build ();
     }

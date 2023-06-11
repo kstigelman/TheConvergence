@@ -194,7 +194,7 @@ public class Mole extends ShopNPC {
                 .addIngredient( 'b', new Slimeball (10))
                 .addIngredient( 'c', new Kelp (20))
                 .addIngredient( 'd', new Pickle (15))
-                .addIngredient( 'e', new StainedGlass (9))
+                .addIngredient( 'e', new StainedGlass (6))
                 .addIngredient( 'f', new Coral (40))
                 .addIngredient( 'g', new Locked ("To be added"))
                 .build ();

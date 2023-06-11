@@ -147,12 +147,12 @@ public class Baggins extends ShopNPC {
                         "# a b c d e f g #",
                         "# # # # # # # # #")
                 .addIngredient ('#', new SimpleItem(new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE)))
-                .addIngredient( 'a', new Copper (20))
-                .addIngredient( 'b', new Amethyst (8))
-                .addIngredient( 'c', new Iron (40))
-                .addIngredient( 'd', new Gold (50))
-                .addIngredient( 'e', new Diamond (100))
-                .addIngredient( 'f', new Lapis(30))
+                .addIngredient( 'a', new Copper (7))
+                .addIngredient( 'b', new Amethyst (7))
+                .addIngredient( 'c', new Iron (30))
+                .addIngredient( 'd', new Gold (40))
+                .addIngredient( 'e', new Diamond (80))
+                .addIngredient( 'f', new Lapis(12))
                 .addIngredient( 'g', new Bell (100))
                 .build ();
     }

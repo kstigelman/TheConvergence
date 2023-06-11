@@ -244,12 +244,12 @@ public class Philippe extends ShopNPC {
                         "# a b c d e f g #",
                         "# # # # # # # # #")
                 .addIngredient ('#', new SimpleItem(new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE)))
-                .addIngredient( 'a', new Sword (80))
-                .addIngredient( 'b', new Arrow (75))
-                .addIngredient( 'c', new Helmet (180))
-                .addIngredient( 'd', new Chestplate(300))
-                .addIngredient( 'e', new Leggings (260))
-                .addIngredient( 'f', new Boots (140))
+                .addIngredient( 'a', new Sword (50))
+                .addIngredient( 'b', new Arrow (40))
+                .addIngredient( 'c', new Helmet (130))
+                .addIngredient( 'd', new Chestplate(220))
+                .addIngredient( 'e', new Leggings (195))
+                .addIngredient( 'f', new Boots (105))
                 .addIngredient( 'g', new Locked ("To be added"))
                 .build ();
     }

@@ -163,13 +163,13 @@ public class Bear extends ShopNPC {
                         "# a b c d e f g #",
                         "# # # # # # # # #")
                 .addIngredient ('#', new SimpleItem(new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE)))
-                .addIngredient( 'a', new Veggie(2))
-                .addIngredient( 'b', new Seeds (2))
-                .addIngredient( 'c', new Leather(9))
-                .addIngredient( 'd', new Logs (5))
+                .addIngredient( 'a', new Veggie(1))
+                .addIngredient( 'b', new Seeds (1))
+                .addIngredient( 'c', new Leather(3))
+                .addIngredient( 'd', new Logs (2))
                 .addIngredient( 'e', new Podzol(5))
-                .addIngredient( 'f', new Wool(9))
-                .addIngredient( 'g', new Bones (12))
+                .addIngredient( 'f', new Wool(2))
+                .addIngredient( 'g', new Bones (9))
                 .build ();
     }
 }

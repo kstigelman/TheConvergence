@@ -215,9 +215,9 @@ public class Inventor extends ShopNPC {
                         "# # b c d e f # #",
                         "# # # # # # # # #")
                 .addIngredient ('#', new SimpleItem(new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE)))
-                .addIngredient( 'b', new Stone (3))
+                .addIngredient( 'b', new Stone (2))
                 .addIngredient( 'c', new Redstone(10))
-                .addIngredient( 'd', new Quartz(40))
+                .addIngredient( 'd', new Quartz(15))
                 .addIngredient( 'e', new Piston (20))
                 .addIngredient( 'f', lockedSlot)
                 //.addIngredient( 'f', new DragonHead(2000))

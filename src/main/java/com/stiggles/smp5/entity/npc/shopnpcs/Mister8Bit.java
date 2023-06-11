@@ -247,12 +247,12 @@ public class Mister8Bit extends ShopNPC {
                         "# a b c d e f g #",
                         "# # # # # # # # #")
                 .addIngredient ('#', new SimpleItem(new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE)))
-                .addIngredient( 'a', new FishBucket (100))
-                .addIngredient( 'b', new CoralBlock (80))
-                .addIngredient( 'c', new Cram (5))
-                .addIngredient( 'd', new Sponge (700))
-                .addIngredient( 'e', new PrismarineCrystal(40))
-                .addIngredient( 'f', new PrismarineShard(40))
+                .addIngredient( 'a', new FishBucket (80))
+                .addIngredient( 'b', new CoralBlock (60))
+                .addIngredient( 'c', new Cram (2))
+                .addIngredient( 'd', new Sponge (300))
+                .addIngredient( 'e', new PrismarineCrystal(5))
+                .addIngredient( 'f', new PrismarineShard(5))
                 .addIngredient( 'g', lockedSlot)
                 .build ();
     }
