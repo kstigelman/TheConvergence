@@ -129,8 +129,10 @@ public class SMP5 extends JavaPlugin implements Listener {
 
         if (database.isConnected()) {
             //LOAD Registered player (UUIDS) from database
+            Bukkit.getPluginManager().registerEvents(new LogEventListener(this), this);
             try {
                 ResultSet rs = database.query("SELECT * FROM player;");
+                //ResultSet rs = database.query("SELECT * FROM player_info;");
                 if (rs != null) {
                     while (rs.next()) {
                         UUID uuid = UUID.fromString(rs.getString(1));
@@ -282,7 +284,6 @@ public class SMP5 extends JavaPlugin implements Listener {
         try {
             database.connect();
             if (database.isConnected()) {
-                manager.registerEvents(new LogEventListener(this), this);
                 manager.registerEvents(new BountyListeners(this), this);
             }
         }
@@ -327,6 +328,8 @@ public class SMP5 extends JavaPlugin implements Listener {
         npcs.add(new Shrek(this, "Shrek", new Location(Bukkit.getWorld("world"), 739.5, 66, 1162.5)));
         npcs.add(new MindlessGuy(this, "Mindless Guy", new Location(Bukkit.getWorld("world"), 28.5, 91, 855.5)));
         npcs.add(new NetherWizard(this, "Wondrous Wizard", new Location(Bukkit.getWorld("world"), -976.5, 67, -278.5)));
+
+        npcs.add (new Anarcho(this, "Anarcho", new Location(Bukkit.getWorld("world_nether"), 550.5, 221, 236.5)));
 
         npcs.add (new Nouveau(this, "Nouveau", new Location (Bukkit.getWorld("sanctuary"), 8.5, -59, 8.5)));
         //Nouveau 52, 132, 746

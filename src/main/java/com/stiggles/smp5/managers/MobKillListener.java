@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.inventory.ItemStack;
 
 /** Rewards player with coins after they kill a mob. Reward amounts are stored in config file.
  *    Listener: EntityDeathEvent
@@ -36,6 +37,13 @@ public class MobKillListener implements Listener {
         if (reward == null || reward == 0)
             return;
             //reward = BankManager.getAmount ("Default");
+
+        if (parts[1].equals("Warden")) {
+            ItemStack mainHand = killer.getInventory().getItemInMainHand();
+            if (mainHand.hasItemMeta() && mainHand.getItemMeta().hasLocalizedName() && mainHand.getItemMeta().getLocalizedName().equals("warden_weakness")) {
+                reward = 20;
+            }
+        }
 
         if (!BankManager.deposit(killer, reward))
             return;

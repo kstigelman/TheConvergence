@@ -3,16 +3,20 @@ package com.stiggles.smp5.entity.npc.shopnpcs;
 import com.stiggles.smp5.entity.npc.ShopNPC;
 import com.stiggles.smp5.main.SMP5;
 
+import com.stiggles.smp5.stats.Quest;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.builder.ItemBuilder;
 import xyz.xenondevs.invui.item.impl.SimpleItem;
+
+import java.util.Arrays;
 
 public class Baggins extends ShopNPC {
     private class Iron extends StigglesBaseItem {
@@ -155,5 +159,24 @@ public class Baggins extends ShopNPC {
                 .addIngredient( 'f', new Lapis(12))
                 .addIngredient( 'g', new Bell (100))
                 .build ();
+    }
+
+    public boolean checkQuestItems (Player player) {
+        if (Quest.isQuestComplete(player, Quest.QuestName.APPLE_A_DAY))
+            return false;
+
+        if (player.getInventory().getItemInMainHand().hasItemMeta()) {
+            ItemStack item = player.getInventory().getItemInMainHand();
+
+            if (item.getType().equals(Material.APPLE) && item.getAmount() == 64) {
+                sendMessage(player, "Oh, thank you so much!");
+                Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "Next time those pesky doctors show up at my door, they won't know what hit them... quite literally."), 40);
+                Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "Here's the reward I promise you."), 100);
+                Bukkit.getScheduler().runTaskLater(main, () -> player.getInventory().addItem(new ItemStack(Material.ENCHANTED_GOLDEN_APPLE)), 100);
+                Bukkit.getScheduler().runTaskLater(main, () -> Quest.questComplete(player, Quest.QuestName.APPLE_A_DAY, "Doctoral Defense", 30), 100);
+                return true;
+            }
+        }
+        return false;
     }
 }

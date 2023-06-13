@@ -1,26 +1,25 @@
 package com.stiggles.smp5.main;
 
 import com.stiggles.smp5.listeners.CustomPlayer;
+import com.stiggles.smp5.player.StigglesPlayer;
+import org.bukkit.Statistic;
+import org.bukkit.plugin.Plugin;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.UUID;
 
 public class PlayerManager {
 
-    private HashMap<UUID, CustomPlayer> customPlayers = new HashMap<>();
+    private HashMap<UUID, StigglesPlayer> players = new HashMap<>();
 
-
-    public CustomPlayer getCustomPlayer(UUID uuid) {
-        return customPlayers.get(uuid);
+    public StigglesPlayer getStigglesPlayer(UUID uuid) {
+        return players.get(uuid);
     }
-
-    public void addCustomPlayer(UUID uuid, CustomPlayer player){
-        customPlayers.put(uuid, player);
+    public void addStigglesPlayer(UUID uuid, StigglesPlayer player){
+        players.put(uuid, player);
     }
-
-
-    public void removeCustomPlayer(UUID uuid) {
-        customPlayers.remove(uuid);
+    public void removeStigglesPlayer (UUID uuid) {
+        players.remove(uuid);
     }
-
 }

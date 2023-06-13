@@ -33,6 +33,7 @@ public class Bounty {
 
         try {
             ResultSet rs = db.query("SELECT uuid FROM player;");
+            //ResultSet rs = db.query("SELECT uuid FROM player_info;");
 
             if (rs != null) {
                 while (rs.next()) {

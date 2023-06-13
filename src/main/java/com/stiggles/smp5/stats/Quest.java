@@ -20,7 +20,9 @@ public class Quest {
         NOUVEAU_INTRO,
         NATALIES_REDEMPTION,
         MORABITO_RECIPE,
-        THE_GOOD_HUNT
+        THE_GOOD_HUNT,
+        WARDEN_KILL,
+        APPLE_A_DAY
     }
     public static void questComplete (Player p, QuestName q, String questMessage, int amount) {
        try {

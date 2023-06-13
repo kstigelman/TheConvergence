@@ -1,17 +1,21 @@
 package com.stiggles.smp5.items;
 
 
+import com.stiggles.smp5.stats.Quest;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Warden;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -85,6 +89,8 @@ public class Pickaxes implements Listener {
                 ChatColor.GOLD +  "-- SPECIAL ITEM --",
                 ChatColor.GRAY + "Deals double your experience as",
                 ChatColor.GRAY +  "damage to the warden.",
+                ChatColor.GRAY + "Reduces the amount of coins you",
+                ChatColor.GRAY + "earn from killing the warden.",
                 ChatColor.GRAY +  "",
                 ChatColor.GRAY + "When paired with fortune III,",
                 ChatColor.GRAY + "the pickaxe allows anywhere from",
@@ -108,6 +114,21 @@ public class Pickaxes implements Listener {
                 e.setDamage(experience/2);
             }
         }
+    }
+
+    @EventHandler
+    public void onEntityDeath (EntityDeathEvent e) {
+        if (!(e.getEntity() instanceof Warden))
+            return;
+
+        if (e.getEntity().getKiller() == null)
+            return;
+
+        Player p = e.getEntity().getKiller();
+        if (Quest.isQuestComplete(p, Quest.QuestName.WARDEN_KILL))
+            return;
+        Bukkit.getWorld(e.getEntity().getWorld().toString()).dropItem(e.getEntity().getLocation(), giveWardenWeaknessPickaxe());
+        Quest.questComplete(p, Quest.QuestName.WARDEN_KILL, p.getName() + ", Slayer of Wardens", 0);
     }
     @EventHandler
     public void breakBlock(BlockBreakEvent e) {

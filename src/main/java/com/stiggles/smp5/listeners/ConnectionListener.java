@@ -2,6 +2,7 @@ package com.stiggles.smp5.listeners;
 
 import com.stiggles.smp5.main.SMP5;
 import com.stiggles.smp5.managers.BankManager;
+import com.stiggles.smp5.player.StigglesPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,7 +15,7 @@ import java.sql.SQLException;
 public class ConnectionListener implements Listener {
 
     private SMP5 main;
-    private CustomPlayer customPlayer;
+    private StigglesPlayer customPlayer;
 
     public ConnectionListener (SMP5 main) {
         this.main = main;
@@ -29,7 +30,7 @@ public class ConnectionListener implements Listener {
 
         try {
             CustomPlayer playerData = new CustomPlayer(main, player);
-            main.getPlayerManager().addCustomPlayer(player.getUniqueId(), playerData);
+            //main.getPlayerManager().addStigglesPlayer(player.getUniqueId(), playerData);
 
         } catch (SQLException ex) {
             //If we get an error about PlayerQuitEvent, we need to make sure that playerLeave () knows that the player
@@ -43,7 +44,7 @@ public class ConnectionListener implements Listener {
     public void onPlayerQuit (PlayerQuitEvent e) {
         //main.packetListener.stop (e.getPlayer());
 
-        customPlayer = main.getPlayerManager().getCustomPlayer(e.getPlayer().getUniqueId());
+        customPlayer = main.getPlayerManager().getStigglesPlayer(e.getPlayer().getUniqueId());
 
         if (customPlayer == null)
             return;
@@ -56,12 +57,12 @@ public class ConnectionListener implements Listener {
         int z = Math.round((int) e.getPlayer().getLocation().getZ());
         int c = BankManager.getBalance(e.getPlayer());
 
-        customPlayer.setLogOffWorld(w);
-        customPlayer.setLogOffX(x);
-        customPlayer.setLogOffY(y);
-        customPlayer.setLogOffZ(z);
-        customPlayer.setCoins(c);
+        //customPlayer.setLogOffWorld(w);
+        //customPlayer.setLogOffX(x);
+        //customPlayer.setLogOffY(y);
+        //customPlayer.setLogOffZ(z);
+        //customPlayer.setCoins(c);
 
-        main.getPlayerManager().removeCustomPlayer(e.getPlayer().getUniqueId());
+        main.getPlayerManager().removeStigglesPlayer(e.getPlayer().getUniqueId());
     }
 }
