@@ -169,6 +169,7 @@ public class Baggins extends ShopNPC {
             ItemStack item = player.getInventory().getItemInMainHand();
 
             if (item.getType().equals(Material.APPLE) && item.getAmount() == 64) {
+                item.setAmount(0);
                 sendMessage(player, "Oh, thank you so much!");
                 Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "Next time those pesky doctors show up at my door, they won't know what hit them... quite literally."), 40);
                 Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "Here's the reward I promise you."), 100);

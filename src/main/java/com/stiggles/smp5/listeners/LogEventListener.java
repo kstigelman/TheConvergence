@@ -140,7 +140,7 @@ public class LogEventListener implements Listener {
                 int time = p.getStatistic(Statistic.PLAY_ONE_MINUTE) / 20;
                 db.execute("UPDATE player SET playtime = " + time + " WHERE uuid = '" + p.getUniqueId() + "';");
                 db.execute("UPDATE bank SET balance = " + BankManager.getBalance(p) + " WHERE uuid = '" + p.getUniqueId() + "';");
-                db.execute("UPDATE player_info SET balance = " + BankManager.getBalance(p) + " WHERE uuid = '" + p.getUniqueId() + "';");
+                //db.execute("UPDATE player_info SET balance = " + BankManager.getBalance(p) + " WHERE uuid = '" + p.getUniqueId() + "';");
                 /*db.execute(
                         "UPDATE bank SET balance = " + BankManager.getBalance(p) + " WHERE uuid = '" + p.getUniqueId() + "';"
                 );*/
