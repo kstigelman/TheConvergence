@@ -93,6 +93,38 @@ public class CustomSpawns {
         }
     }
 
+
+    public static void spawnWitherSkeleton () {
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            //We only want to spawn these in the nether
+            if (!p.getWorld().getName().equals("world_nether")) {
+                break;
+            }
+            Location location = p.getLocation();
+            if (!location.getWorld().getBlockAt(location.getBlockX(), location.getBlockY() - 1, location.getBlockZ()).getType().equals(Material.NETHER_BRICK)) {
+                break;
+            }
+            if (Math.abs (main.getRandom()) % 2 == 0) {
+                return;
+            }
+
+            Location center = p.getLocation();
+            double range = 75;
+            double x = center.getX() + (Math.random() * range * 2 - range);
+            double y = center.getY();
+            double z = center.getZ() + (Math.random() * range * 2 - range);
+            Location lowRandomLocation = new Location(center.getWorld(), x, y, z);
+            y = lowRandomLocation.getWorld().getHighestBlockYAt(lowRandomLocation) + 2;
+            Location highestRandomLocation = new Location(center.getWorld(), x, y, z);
+
+            if (!highestRandomLocation.getBlock().getType().equals(Material.NETHER_BRICK)) {
+                return;
+            }
+
+            Bukkit.getWorld(p.getWorld().getName()).spawnEntity(highestRandomLocation, EntityType.WITHER_SKELETON);
+        }
+    }
+
     private static void groupLighning(Location location) {
         new BukkitRunnable() { public void run() {
             Bukkit.getWorld("world_nether").strikeLightning(location);

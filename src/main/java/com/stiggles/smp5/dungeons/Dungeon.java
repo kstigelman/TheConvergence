@@ -7,10 +7,7 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.ItemFrame;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -21,8 +18,13 @@ import java.util.*;
 
 public class Dungeon implements Listener {
 
+
+    //To be added
     private static int BASE_DIFFICULTY = 1;
     private static int difficulty = 1;
+
+
+
     public static final int MAX_PLAYER_COUNT = 4;
     private int dungeonID;
     //World spawn-- This should not change.
@@ -66,8 +68,6 @@ public class Dungeon implements Listener {
         started = false;
 
         //END OF DUNGEON START MANAGER CONSTRUCTOR
-
-
         dungeonID = id;
         worldSpawn = world_spawn;
         world = worldSpawn.getWorld();
@@ -243,6 +243,10 @@ public class Dungeon implements Listener {
         for (Player p : players)
             p.sendMessage(msg);
     }
+    public void sendPlayersSound (Sound sound, float volume, float pitch) {
+        for (Player p : players)
+            p.playSound(p, sound, 1, 1);
+    }
 
     public int getTime () { return timer; }
 
@@ -295,6 +299,7 @@ public class Dungeon implements Listener {
             ++room;
         }
     }
+
 
     public void goToNextRoom () {
         ++currentRoom;
@@ -631,6 +636,8 @@ public class Dungeon implements Listener {
         current.openExit();
         timerActive = true;
         setDifficulty();
+        for (Player p : alivePlayers)
+            p.teleport(new Location(world, 43.5, -42, 190.5));
         //rooms.get(currentRoom).update();
         //Remove barriers at entrance
     }
@@ -686,7 +693,7 @@ public class Dungeon implements Listener {
         private final Material TRIGGER_BLOCK = Material.BROWN_GLAZED_TERRACOTTA;
         private final Material ENTRANCE_BLOCK = Material.WHITE_GLAZED_TERRACOTTA;
         private final Material EXIT_BLOCK = Material.BLACK_GLAZED_TERRACOTTA;
-        protected Material fillType = Material.BLUE_WOOL;
+        protected Material fillType = Material.POLISHED_DEEPSLATE;
         protected byte doorOffset = 3;
 
         private final Cuboid boundary;
@@ -895,6 +902,7 @@ public class Dungeon implements Listener {
             if (!triggered)
                 if(checkPlayer(alivePlayers.get(0), trigger))
                     onTrigger();
+
             //if(checkAllPlayers(trigger));
             /*if (checkAllPlayers(next.trigger)) { //Next time you work on this, you are gonna work here. The way oyu implemented this
                                                 //Does not require using next. So, figure out how to check only current trigger. (Look in dungeon.update)
@@ -902,6 +910,13 @@ public class Dungeon implements Listener {
                 finished = true;
                 next.onTrigger();
             }*/
+        }
+        public boolean containsAllPlayers () {
+            for (Player p : alivePlayers) {
+                if (!boundary.contains(p.getLocation()))
+                    return false;
+            }
+            return true;
         }
         public abstract void onPlayerEnter(Player player);
         public void onTrigger () {
@@ -1034,6 +1049,8 @@ public class Dungeon implements Listener {
         public void update() {
             if (!started)
                 return;
+            if (!containsAllPlayers())
+                return;
             /*if (!triggered)
                 onTrigger();*/
             super.update();
@@ -1043,6 +1060,7 @@ public class Dungeon implements Listener {
         public FillerRoom(Cuboid boundary) {
             super(boundary);
             setType(RoomType.FILLER);
+            openExit ();
         }
 
         @Override
@@ -1052,6 +1070,8 @@ public class Dungeon implements Listener {
 
         @Override
         public void resetRoom() {
+            openEntrance();
+            openExit();
         }
     }
     protected class FindRoom extends DungeonRoom {
@@ -1091,6 +1111,8 @@ public class Dungeon implements Listener {
 
         @Override
         public void update() {
+            if (!containsAllPlayers())
+                return;
         }
     }
     protected class CollectionRoom extends DungeonRoom {
@@ -1106,15 +1128,19 @@ public class Dungeon implements Listener {
         }
         @Override
         public void update() {
+            if (!containsAllPlayers())
+                return;
         }
     }
     protected class TargetRoom extends SpawnerDungeonRoom {
-        public ArrayList<Block> targetBlocks;
-
+        public HashMap<Block, Boolean> targetBlocks;
+        private int count = 0;
+        private int startTime = 0;
+        private boolean open = false;
         public TargetRoom(Cuboid boundary) {
             super(boundary);
             setType(RoomType.TARGET);
-            targetBlocks = new ArrayList<>();
+            targetBlocks = new HashMap<>();
             getTargetBlocks();
             openEntrance();
             closeExit();
@@ -1122,48 +1148,61 @@ public class Dungeon implements Listener {
 
         @Override
         public void onPlayerEnter(Player player) {
-            spawnMobs();
+            startTime = timer;
         }
 
         @Override
         public void resetRoom() {
-            for (Block block : targetBlocks)
-                block.setType(Material.NETHER_WART_BLOCK);
+            for (Block block : targetBlocks.keySet())
+                block.setType(Material.TARGET);
             openEntrance();
             closeExit();
         }
 
         public void getTargetBlocks() {
             for (Block block : getBoundary())
-                if (block.getType().equals(Material.NETHER_WART_BLOCK))
-                    targetBlocks.add(block);
+                if (block.getType().equals(Material.TARGET))
+                    targetBlocks.put (block, false);
             Bukkit.getConsoleSender().sendMessage("Found " + targetBlocks.size() + " blocks");
         }
 
         public boolean checkTargets() {
-            int count = 0;
-            for (Block block : targetBlocks)
-                if (block.getType().equals(Material.REDSTONE_BLOCK))
-                    ++count;
+            for (Block block : targetBlocks.keySet()) {
+                if (targetBlocks.get (block))
+                    continue;
 
-            Bukkit.getConsoleSender().sendMessage(count + "/" + targetBlocks.size() + " targets hit");
+                Collection<Entity> c = world.getNearbyEntities(block.getLocation(), 0.8, 0.8, 0.8);
+                if (c.isEmpty())
+                    continue;
+
+                for (Entity e : c) {
+                    if (e instanceof Arrow) {
+                        targetBlocks.put (block, true);
+                        ++count;
+                        sendPlayersMessage("Hit a target! " + count + "/" + targetBlocks.size());
+                        sendPlayersSound(Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
+                        break;
+                    }
+                }
+            }
             return count == targetBlocks.size();
         }
 
         public void onHitAllTargets() {
-            for (Block b : targetBlocks)
-                b.setType(Material.NETHER_WART_BLOCK);
             targetBlocks.clear();
-
             openExit();
             sendPlayersMessage(ChatColor.GREEN + "An entrance has opened!");
+            sendPlayersSound(Sound.ENTITY_PLAYER_LEVELUP, 1, 1.5f);
+            open = true;
         }
 
         @Override
         public void update() {
+            super.update ();
             if (!targetBlocks.isEmpty() && checkTargets())
                 onHitAllTargets();
-            super.update ();
+            if (!open && (timer - startTime) % 12 == 0)
+                spawnMobs();
         }
     }
     protected class MobRoom extends SpawnerDungeonRoom {
@@ -1175,27 +1214,32 @@ public class Dungeon implements Listener {
             timeBetweenWaves = 0;
 
             openEntrance();
-            openExit();
+            closeExit();
         }
 
         @Override
         public void onPlayerEnter(Player player) {
             if (!hasSpawned())
                 spawnMobs();
+            openExit ();
         }
+
 
         @Override
         public void resetRoom() {
             openEntrance();
-            openExit();
+            closeExit ();
         }
     }
     protected class WaveRoom extends SpawnerDungeonRoom {
         public WaveRoom(Cuboid boundary) {
+            this (boundary, 5, 8);
+        }
+        public WaveRoom(Cuboid boundary, int count, int timeBetween) {
             super(boundary);
             setType(RoomType.WAVE);
-            waveCount = 5;
-            timeBetweenWaves = 8;
+            waveCount = count;
+            timeBetweenWaves = timeBetween;
             openEntrance();
             openExit();
         }
@@ -1215,7 +1259,6 @@ public class Dungeon implements Listener {
         @Override
         public void update() {
             super.update();
-
             if (currentWave != waveCount) {
                 if (countdown <= 0) {
                     spawnNextWave();
@@ -1240,13 +1283,26 @@ public class Dungeon implements Listener {
         private final Cuboid bossTrigger;
         private Entity boss;
         private boolean bossSpawned = false;
-        public BossRoom(Cuboid boundary, Cuboid bossTrigger) {
+        private Cuboid bossExit;
+
+        public BossRoom(Cuboid boundary, Cuboid bossTrigger, Cuboid bossExit) {
             super(boundary);
             setType(RoomType.BOSS);
             this.bossTrigger = bossTrigger;
-
+            doorOffset = 8;
+            findEntrance();
+            findExit();
             openEntrance();
-            openExit();
+            closeExit();
+            this.bossExit = bossExit;
+        }
+        public void openBossExit () {
+            for (Block block : bossExit)
+                block.setType(Material.LADDER);
+        }
+        public void closeBossExit () {
+            for (Block block : bossExit)
+                block.setType(Material.AIR);
         }
 
         public void playerTriggerEnter() {
@@ -1265,24 +1321,30 @@ public class Dungeon implements Listener {
 
         public void onBossKill () {
             openExit ();
+            Bukkit.getConsoleSender().sendMessage("I am dead!");
             //Run end-game code
         }
         @Override
         public void onPlayerEnter(Player player) {
+            closeEntrance();
+            closeExit();
         }
         public void onBossTriggerEnter (Player p) {
             spawnBoss ();
             bossSpawned = true;
+
         }
 
         @Override
         public void resetRoom() {
             openEntrance();
-            openExit();
+            closeExit();
         }
 
         public void spawnBoss () {
             boss = DungeonMobs.spawnKnightBoss (bossTrigger.getCenter());
+            for (Player p : alivePlayers)
+                p.sendTitle("Knight of the Dungeon", null, 10, 60, 10);
         }
 
         @Override
@@ -1295,11 +1357,9 @@ public class Dungeon implements Listener {
                         return;
                     }
                 }
-            }
-            if (boss == null)
                 return;
-
-            if (boss.isDead())
+            }
+            if (boss == null || boss.isDead())
                 onBossKill ();
         }
     }

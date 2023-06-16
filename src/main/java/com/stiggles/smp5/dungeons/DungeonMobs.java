@@ -225,20 +225,23 @@ public class DungeonMobs implements Listener {
             public void run(){
                 if(!boss.isDead()) {
                     if(boss.getTarget() == null){
-                        for (Entity entity : boss.getNearbyEntities(40,40,40)){
-                            if (entity instanceof Player){
-                                Player p = (Player) entity;
-                                boss.setTarget(p);
-                            }
-                        }
                         for (Entity entity : boss.getNearbyEntities(5,5,5)){
                             if (entity instanceof Player){
                                 Player p = (Player) entity;
                                 boss.setTarget(p);
+                                return;
+                            }
+                        }
+                        for (Entity entity : boss.getNearbyEntities(20,20,20)){
+                            if (entity instanceof Player){
+                                Player p = (Player) entity;
+                                boss.setTarget(p);
+                                return;
                             }
                         }
                     }
                 } else {
+                    
                     cancel();
                 }
             }
@@ -249,7 +252,11 @@ public class DungeonMobs implements Listener {
                 int attackNumber = rollNumber(1,2);
                 if(!boss.isDead()) {
                     if(boss.getTarget() != null) {
-                        for (Entity entity : boss.getNearbyEntities(40, 40, 40)) {
+                        if (boss.getNearbyEntities(20, 20, 20).size() >= 20)
+                            return;
+                        for (Entity entity : boss.getNearbyEntities(20, 20, 20)) {
+                            if (! (entity instanceof Player))
+                                return;
                             if (attackNumber >= 2) {
                                 if (entity.equals(boss.getTarget())) {
                                     Zombie guard = location.getWorld().spawn(location, Zombie.class);

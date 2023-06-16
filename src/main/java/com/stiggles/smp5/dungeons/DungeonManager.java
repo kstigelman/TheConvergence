@@ -2,7 +2,9 @@ package com.stiggles.smp5.dungeons;
 
 
 import com.stiggles.smp5.main.SMP5;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -10,9 +12,9 @@ import java.util.HashMap;
 
 public class DungeonManager {
 
-    private static SMP5 main;
+    private static SMP5 main = SMP5.getPlugin(SMP5.class);
 
-    private static HashMap<String, Dungeon> dungeons;
+    private static HashMap<String, Dungeon> dungeons = new HashMap<>();
     private static String[] dungeonNames = {"testdungeon"};
 
     public DungeonManager (SMP5 main) {
@@ -100,6 +102,9 @@ public class DungeonManager {
         if (name.equals ("testdungeon")) {
             int i = dungeons.size();
             dungeons.put ("testdungeon", new TestDungeon (main, i));
+            for (Entity e: Bukkit.getWorld ("testdungeon").getLivingEntities()) {
+                e.remove();
+            }
         }
         //return null;
     }

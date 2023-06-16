@@ -9,10 +9,13 @@
 package com.stiggles.smp5.main;
 
 import com.stiggles.smp5.commands.*;
+import com.stiggles.smp5.dungeons.DungeonManager;
+import com.stiggles.smp5.dungeons.DungeonStartCommand;
 import com.stiggles.smp5.entity.Entities;
 import com.stiggles.smp5.entity.lostMerchant.InventoryManager;
 import com.stiggles.smp5.entity.lostMerchant.LostMerchant;
 import com.stiggles.smp5.entity.lostMerchant.MerchantListener;
+import com.stiggles.smp5.entity.monsters.CustomSpawns;
 import com.stiggles.smp5.entity.monsters.KillMagmaBoss;
 import com.stiggles.smp5.entity.npc.*;
 import com.stiggles.smp5.entity.npc.dialoguenpc.*;
@@ -119,15 +122,19 @@ public class SMP5 extends JavaPlugin implements Listener {
         if (Bukkit.getWorld ("sanctuary") == null) {
             new WorldCreator("sanctuary").createWorld();
         }
+        if (Bukkit.getWorld ("testdungeon") == null) {
+            new WorldCreator("testdungeon").createWorld();
+        }
 
 
         registeredUUIDs = new ArrayList<>();
         online_players = new HashMap<>();
         playerManager = new PlayerManager();
         bankManager = new BankManager(this);
-        Bounty.initializeMap(this);
+
 
         if (database.isConnected()) {
+            Bounty.initializeMap(this);
             //LOAD Registered player (UUIDS) from database
             Bukkit.getPluginManager().registerEvents(new LogEventListener(this), this);
             try {
@@ -164,9 +171,10 @@ public class SMP5 extends JavaPlugin implements Listener {
     @Override
     public void onDisable() {
         instance = null;
-
-        for (Player p : Bukkit.getOnlinePlayers())
-            p.kickPlayer("Server is shutting down!");
+        if (database.isConnected()) {
+            for (Player p : Bukkit.getOnlinePlayers())
+                p.kickPlayer("Server is shutting down!");
+        }
         //Update world database
         BankManager.onDisable();
         //database.runQueue();
@@ -280,6 +288,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new Entities(), this);
         Bukkit.getPluginManager().registerEvents(new EndEyeListener(), this);
         //manager.registerEvents(this, this);
+        Bukkit.getScheduler().runTaskLater(this, CustomSpawns::spawnWitherSkeleton, 20 * 60);
 
         try {
             database.connect();
@@ -342,7 +351,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         Bukkit.getPluginCommand ("loadcitizens").setExecutor (new NPCCommand (this));
         Bukkit.getPluginCommand ("world").setExecutor (new ChangeWorldCommand ());
         Bukkit.getPluginCommand("o").setExecutor(new OpenWorldCommand(this));
-        //Bukkit.getPluginCommand("start-dungeon").setExecutor (new DungeonStartCommand());
+        Bukkit.getPluginCommand("start-dungeon").setExecutor (new DungeonStartCommand());
         Bukkit.getPluginCommand("coins").setExecutor(new CoinCommand());
         Bukkit.getPluginCommand("togglecoin").setExecutor(new ToggleCoinChat(this));
         Bukkit.getPluginCommand("smm").setExecutor(new SendMultiMessage (this));

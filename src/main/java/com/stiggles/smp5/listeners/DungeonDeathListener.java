@@ -19,7 +19,7 @@ public class DungeonDeathListener implements Listener {
 
     @EventHandler
     public void OnPlayerDeath (PlayerDeathEvent e) {
-        if (main.inDungeon) {
+        /*if (main.inDungeon) {
             if (e.getDrops().isEmpty ())
                 return;
 
@@ -29,6 +29,6 @@ public class DungeonDeathListener implements Listener {
 
             e.getDrops().clear();
 
-        }
+        }*/
     }
  }

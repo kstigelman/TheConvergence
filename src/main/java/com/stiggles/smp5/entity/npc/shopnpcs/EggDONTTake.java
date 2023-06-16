@@ -87,6 +87,19 @@ public class EggDONTTake extends ShopNPC {
             handleTrade(player, this);
         }
     }
+    private class Egg extends StigglesBaseItem {
+        public Egg (int price) {
+            super (price);
+            item = new ItemStack(Material.EGG);
+        }
+        public ItemProvider getItemProvider () {
+            return new ItemBuilder(Material.EGG).addLoreLines(getCost());
+        }
+        @Override
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
+            handleTrade(player, this);
+        }
+    }
     private class Bagel extends StigglesBaseItem {
         public Bagel  (int price, String localName) {
             super (price);
@@ -156,7 +169,7 @@ public class EggDONTTake extends ShopNPC {
                 .addIngredient( 'c', new BrownMushroom(2))
                 .addIngredient( 'd', new Mycelium(5))
                 .addIngredient( 'e', new Stew (7))
-                .addIngredient( 'f', new Flower (1))
+                .addIngredient( 'f', new Egg (20))
                 .addIngredient( 'g', new Locked ("? ? ?"))
                 .build ();
     }
