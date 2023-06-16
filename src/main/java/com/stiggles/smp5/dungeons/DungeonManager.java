@@ -26,6 +26,12 @@ public class DungeonManager {
 
         d.start();
     }
+    public static boolean initializeDungeon (Player p, String dungeonName) {
+        //Make p host of the dungeon,
+        //return true if success
+        //false if dungeon exists already started (Someone else is hosting)
+        return true;
+    }
     public static boolean addPlayer (Player player, String dungeonName) {
         if (dungeonName == null) {
             player.sendMessage(ChatColor.RED + "Error: The dungeon name was null. Please contact an administrator.");

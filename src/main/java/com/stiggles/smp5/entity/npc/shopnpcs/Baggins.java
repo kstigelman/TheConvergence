@@ -165,7 +165,7 @@ public class Baggins extends ShopNPC {
         if (Quest.isQuestComplete(player, Quest.QuestName.APPLE_A_DAY))
             return false;
 
-        if (player.getInventory().getItemInMainHand().hasItemMeta()) {
+        if (player.getInventory().getItemInMainHand() != null) {
             ItemStack item = player.getInventory().getItemInMainHand();
 
             if (item.getType().equals(Material.APPLE) && item.getAmount() == 64) {

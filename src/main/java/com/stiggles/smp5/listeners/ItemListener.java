@@ -1,14 +1,18 @@
 package com.stiggles.smp5.listeners;
 
+import com.stiggles.smp5.dungeons.DungeonManager;
+import com.stiggles.smp5.dungeons.locations.GateCuboids;
 import com.stiggles.smp5.main.SMP5;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -20,6 +24,8 @@ public class ItemListener implements Listener {
     public ItemListener (SMP5 main) {
         this.main = main;
     }
+
+
 
     @EventHandler
     public void onPlayerInteract (PlayerInteractEvent e) {
@@ -60,6 +66,18 @@ public class ItemListener implements Listener {
         else if (localName.equals("glow_bow")) {
 
         }
+        else if (localName.equals ("cave_key")) {
+            e.setCancelled(true);
+            if (GateCuboids.getCaveGate().contains(e.getPlayer().getLocation())) {
+                e.getItem().setAmount(0);
+                e.getPlayer().sendMessage(ChatColor.DARK_GRAY + "The gate to the Cave Dungeon begins to open...");
+                e.getPlayer().playSound(e.getPlayer(), Sound.ENTITY_ENDER_DRAGON_DEATH, 1, 0);
+                Bukkit.getScheduler().runTaskLater(main, () -> {
+                    DungeonManager.addPlayer(e.getPlayer(), "testdungeon");
+                }, 40);
+            }
+        }
+
 
         /*PersistentDataContainer meta = e.getItem ().getItemMeta ().getPersistentDataContainer ();
 
