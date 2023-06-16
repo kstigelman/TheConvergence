@@ -44,8 +44,6 @@ public class DungeonStartCommand implements CommandExecutor, Listener {
                                 DungeonManager.addPlayer(p, "testdungeon");
                                 p.getInventory().clear();
                                 p.getInventory().addItem(new ItemStack(Material.IRON_SWORD));
-                                p.getInventory().addItem(new ItemStack(Material.IRON_HELMET));
-                                p.getInventory().addItem(new ItemStack(Material.IRON_CHESTPLATE));
                                 p.getInventory().addItem(new ItemStack(Material.IRON_LEGGINGS));
                                 p.getInventory().addItem(new ItemStack(Material.IRON_BOOTS));
                                 p.getInventory().addItem(new ItemStack(Material.SHIELD));

@@ -11,6 +11,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.inventory.ItemStack;
@@ -86,9 +87,9 @@ public class DungeonMobs implements Listener {
         Attributable mobAt = mob;
         AttributeInstance attributeDamage = mobAt.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);
         AttributeInstance attributeHealth = mobAt.getAttribute(Attribute.GENERIC_MAX_HEALTH);
-        attributeDamage.setBaseValue(10);
-        attributeHealth.setBaseValue(25);
-        mob.setHealth(10);
+        attributeDamage.setBaseValue(5);
+        attributeHealth.setBaseValue(30);
+        mob.setHealth(30);
 
         new BukkitRunnable(){
             public void run(){
@@ -115,9 +116,9 @@ public class DungeonMobs implements Listener {
         Attributable mobAt = mob;
         AttributeInstance attributeDamage = mobAt.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);
         AttributeInstance attributeHealth = mobAt.getAttribute(Attribute.GENERIC_MAX_HEALTH);
-        attributeDamage.setBaseValue(10);
-        attributeHealth.setBaseValue(25);
-        mob.setHealth(10);
+        attributeDamage.setBaseValue(5);
+        attributeHealth.setBaseValue(30);
+        mob.setHealth(30);
 
         new BukkitRunnable(){
             public void run(){
@@ -146,8 +147,8 @@ public class DungeonMobs implements Listener {
         AttributeInstance attributeDamage = mobAt.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);
         AttributeInstance attributeHealth = mobAt.getAttribute(Attribute.GENERIC_MAX_HEALTH);
         attributeDamage.setBaseValue(20);
-        attributeHealth.setBaseValue(25);
-        mob.setHealth(20);
+        attributeHealth.setBaseValue(35);
+        mob.setHealth(35);
 
 
         new BukkitRunnable(){
@@ -181,9 +182,9 @@ public class DungeonMobs implements Listener {
         Attributable mobAt = mob;
         AttributeInstance attributeDamage = mobAt.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);
         AttributeInstance attributeHealth = mobAt.getAttribute(Attribute.GENERIC_MAX_HEALTH);
-        attributeDamage.setBaseValue(10);
-        attributeHealth.setBaseValue(15);
-        mob.setHealth(15);
+        attributeDamage.setBaseValue(5);
+        attributeHealth.setBaseValue(30);
+        mob.setHealth(30);
 
 
         new BukkitRunnable(){
@@ -620,6 +621,13 @@ public class DungeonMobs implements Listener {
                     ((Player) p).addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 200, 2, true, false, true));
                 }
             }
+        }
+    }
+
+    @EventHandler
+    public void onOuchy(EntityDamageByEntityEvent e){
+        if (!(e.getDamager() instanceof Player)){
+            e.setCancelled(true);
         }
     }
 }

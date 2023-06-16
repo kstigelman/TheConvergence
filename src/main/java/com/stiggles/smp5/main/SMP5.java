@@ -312,33 +312,40 @@ public class SMP5 extends JavaPlugin implements Listener {
         //c = new Convergence(new Location (Bukkit.getWorld ("world"), 0, 100, 0), 1);
         //particle dust 0.71 0.33 0.79 1 -1.90 71.00 -0.00 0.1 0.5 0.1 1 10
 
-        npcs.add (new Starry (this, "Starry", new Location(Bukkit.getWorld("world"), -708.5, 67, -1110.5)));
-        npcs.add (new EggDONTTake(this, "Francis Smurf", new Location(Bukkit.getWorld("world"), 82.5, 101, 755.5)));
-        npcs.add (new DremBot (this, "Drem-Bot", new Location(Bukkit.getWorld("world"), 1154.5, 74, 127.5)));
-        npcs.add (new DungeonKeeper(this, "Dungeon Keeper", new Location(Bukkit.getWorld("world"), 1135.5, 78, 156.5)));
-        npcs.add (new Mister8Bit(this, "Luke the Fisherman", new Location(Bukkit.getWorld("world"), 774.5, 77, -596.5)));
-        npcs.add (new Spiffy (this, "Spiffy", new Location(Bukkit.getWorld("world"), -709.5, 66, -1121)));
-        npcs.add (new Astronomer(this, "The Astronomer", new Location(Bukkit.getWorld("world"), -900.5, 120, -1113.5)));
-        npcs.add (new Inventor(this, "The Inventor", new Location(Bukkit.getWorld("world"), 1149.5, 74, 120.5)));
-        npcs.add (new Philippe(this, "Sir Philippe Alfred", new Location(Bukkit.getWorld("world"), 1128.5, 71, 118.5)));
-        npcs.add (new Baggins (this, "Mr. Orangeflips", new Location(Bukkit.getWorld("world"), 99.5, 92, 757.5)));
-        npcs.add (new Drem (this, "Captain Beast", new Location(Bukkit.getWorld("world"), 1675.5, 107, -1133.5)));
-        npcs.add (new Beachman (this, "Beach Man", new Location (Bukkit.getWorld("world"), -1480.5, 63, 1024.5)));
-        npcs.add (new Chickens (this, "Gabe", new Location (Bukkit.getWorld("world"), 788.5, 83, -422.5)));
-        npcs.add (new Bear (this, "BearSharken", new Location (Bukkit.getWorld("world"), 540.5, 92, -912.5)));
-        npcs.add (new DrTrog (this, "Dr. Trog", new Location(Bukkit.getWorld ("world"), 1489.5, 136, -1475.5)));
-        npcs.add (new Morabito (this, "Mr. Morabito", new Location(Bukkit.getWorld("world"), -751.5, 66,-1427.5)));
-        npcs.add (new Mole (this, "Mole 'a Quacks", new Location(Bukkit.getWorld("world"), 71.5, 111, 784.5)));
-        npcs.add (new Tiger (this, "Tigerfist", new Location (Bukkit.getWorld("world"), 45.5, 93, 818.5)));
-        npcs.add (new Alejandro(this, "Alejandro", new Location (Bukkit.getWorld("world"), 1252.5, 98, 1487.5)));
-        npcs.add (new Ralph (this, "Ralph", new Location(Bukkit.getWorld("world"), 1250.5, 93, 1492)));
-        npcs.add (new MaskedStranger(this, "Masked Stranger", new Location(Bukkit.getWorld("world"), -772.5, 157, 1381.5)));
-        npcs.add (new Scubadiver(this, "Scuba Diver", new Location(Bukkit.getWorld("world"), 1505.5, 73, -1279.5)));
-        npcs.add(new Shrek(this, "Shrek", new Location(Bukkit.getWorld("world"), 739.5, 66, 1162.5)));
-        npcs.add(new MindlessGuy(this, "Mindless Guy", new Location(Bukkit.getWorld("world"), 28.5, 91, 855.5)));
-        npcs.add(new NetherWizard(this, "Wondrous Wizard", new Location(Bukkit.getWorld("world"), -976.5, 67, -278.5)));
+        World world = Bukkit.getWorld("world");
+        World worldNether = Bukkit.getWorld("world_nether");
+        World worldEnd = Bukkit.getWorld("world_the_end");
 
-        npcs.add (new Anarcho(this, "Anarcho", new Location(Bukkit.getWorld("world_nether"), 550.5, 221, 236.5)));
+        npcs.add (new Starry (this, "Starry", new Location(world, -708.5, 67, -1110.5)));
+        npcs.add (new EggDONTTake(this, "Francis Smurf", new Location(world, 82.5, 101, 755.5)));
+        npcs.add (new DremBot (this, "Drem-Bot", new Location(world, 1154.5, 74, 127.5)));
+        npcs.add (new DungeonKeeper(this, "Dungeon Keeper", new Location(world, 1135.5, 78, 156.5)));
+        npcs.add (new Mister8Bit(this, "Luke the Fisherman", new Location(world, 774.5, 77, -596.5)));
+        npcs.add (new Spiffy (this, "Spiffy", new Location(world, -709.5, 66, -1121)));
+        npcs.add (new Astronomer(this, "The Astronomer", new Location(world, -900.5, 120, -1113.5)));
+        npcs.add (new Inventor(this, "The Inventor", new Location(world, 1149.5, 74, 120.5)));
+        npcs.add (new Philippe(this, "Sir Philippe Alfred", new Location(world, 1128.5, 71, 118.5)));
+        npcs.add (new Baggins (this, "Mr. Orangeflips", new Location(world, 99.5, 92, 757.5)));
+        npcs.add (new Drem (this, "Captain Beast", new Location(world, 1675.5, 107, -1133.5)));
+        npcs.add (new Beachman (this, "Beach Man", new Location (world, -1480.5, 63, 1024.5)));
+        npcs.add (new Chickens (this, "Gabe", new Location (world, 788.5, 83, -422.5)));
+        npcs.add (new Bear (this, "BearSharken", new Location (world, 540.5, 92, -912.5)));
+        npcs.add (new DrTrog (this, "Dr. Trog", new Location(world, 1489.5, 136, -1475.5)));
+        npcs.add (new Morabito (this, "Mr. Morabito", new Location(world, -751.5, 66,-1427.5)));
+        npcs.add (new Mole (this, "Mole 'a Quacks", new Location(world, 71.5, 111, 784.5)));
+        npcs.add (new Tiger (this, "Tigerfist", new Location (world, 45.5, 93, 818.5)));
+        npcs.add (new Alejandro(this, "Alejandro", new Location (world, 1252.5, 98, 1487.5)));
+        npcs.add (new Ralph (this, "Ralph", new Location(world, 1250.5, 93, 1492)));
+        npcs.add (new MaskedStranger(this, "Masked Stranger", new Location(world, -772.5, 157, 1381.5)));
+        npcs.add (new Scubadiver(this, "Scuba Diver", new Location(world, 1505.5, 73, -1279.5)));
+        npcs.add(new Shrek(this, "Shrek", new Location(world, 739.5, 66, 1162.5)));
+        npcs.add(new MindlessGuy(this, "Mindless Guy", new Location(world, 28.5, 91, 855.5)));
+        npcs.add(new NetherWizard(this, "Wondrous Wizard", new Location(world, -976.5, 67, -278.5)));
+        npcs.add(new YetAnotherWanderer(this, "Weary Traveler", new Location(world, -828.5, 69, -726.5)));
+        npcs.add(new AnotherWanderer(this, "Lost Wanderer", new Location(world, -831.5, 67, -736.5)));
+        npcs.add(new leadWanderer(this, "Adventurous Explorer", new Location(world, -835.5, 67, -729.5)));
+
+        npcs.add (new Anarcho(this, "Anarcho", new Location(worldNether, 550.5, 221, 236.5)));
 
         npcs.add (new Nouveau(this, "Nouveau", new Location (Bukkit.getWorld("sanctuary"), 8.5, -59, 8.5)));
         //Nouveau 52, 132, 746
@@ -367,8 +374,9 @@ public class SMP5 extends JavaPlugin implements Listener {
 
     @EventHandler
     public void interact(PlayerInteractEvent event){
+        World world = Bukkit.getWorld("world");
 
-        Location potLocation = new Location(Bukkit.getWorld("world"), -144, 43, 865);
+        Location potLocation = new Location(world, -144, 43, 865);
 
         if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
             Block block = event.getClickedBlock();
