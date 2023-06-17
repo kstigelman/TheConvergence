@@ -343,7 +343,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         npcs.add(new NetherWizard(this, "Wondrous Wizard", new Location(world, -976.5, 67, -278.5)));
         npcs.add(new YetAnotherWanderer(this, "Weary Traveler", new Location(world, -828.5, 70, -726.5)));
         npcs.add(new AnotherWanderer(this, "Lost Wanderer", new Location(world, -831.5, 68, -736.5)));
-        npcs.add(new leadWanderer(this, "Adventurous Explorer", new Location(world, -834.5, 67, -728.5)));
+        npcs.add(new leadWanderer(this, "Adventurous Explorer", new Location(world, -834.5, 68, -728.5)));
         npcs.add(new EndWizzard(this, "End Explorer", new Location(world, 14.5, 92, 781.5)));
         npcs.add(new AndEvenAnotherWanderer(this, "Confused Hiker", new Location(world, -824.5, 70, -735.5)));
 

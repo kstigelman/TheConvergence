@@ -180,12 +180,9 @@ public class Astronomer extends ShopNPC {
                 .addIngredient( 'a', new Endstone (40))
                 .addIngredient( 'b', new PurpurBlock(30))
                 .addIngredient( 'c', new ChorusFruit(85))
-                .addIngredient( 'd', lockedSlot)
-                .addIngredient( 'e', lockedSlot)
-                .addIngredient( 'f', lockedSlot)
-                //.addIngredient( 'd', new ShulkerShell(1000))
-                //.addIngredient( 'e', new EndRod(75))
-                //.addIngredient( 'f', new DragonHead(2000))
+                .addIngredient( 'd', new ShulkerShell(1000))
+                .addIngredient( 'e', new EndRod(75))
+                .addIngredient( 'f', new DragonHead(2000))
                 .addIngredient( 'g', lockedSlot2)
                 .build ();
     }
