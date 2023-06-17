@@ -22,3 +22,5 @@ commands:
     description: For admin use only
   get-items:
     description: Admin only
+  alert:
+    description: Admins only!

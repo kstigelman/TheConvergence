@@ -341,9 +341,10 @@ public class SMP5 extends JavaPlugin implements Listener {
         npcs.add(new Shrek(this, "Shrek", new Location(world, 739.5, 66, 1162.5)));
         npcs.add(new MindlessGuy(this, "Mindless Guy", new Location(world, 28.5, 91, 855.5)));
         npcs.add(new NetherWizard(this, "Wondrous Wizard", new Location(world, -976.5, 67, -278.5)));
-        npcs.add(new YetAnotherWanderer(this, "Weary Traveler", new Location(world, -828.5, 69, -726.5)));
-        npcs.add(new AnotherWanderer(this, "Lost Wanderer", new Location(world, -831.5, 67, -736.5)));
-        npcs.add(new leadWanderer(this, "Adventurous Explorer", new Location(world, -835.5, 67, -729.5)));
+        npcs.add(new YetAnotherWanderer(this, "Weary Traveler", new Location(world, -828.5, 70, -726.5)));
+        npcs.add(new AnotherWanderer(this, "Lost Wanderer", new Location(world, -831.5, 68, -736.5)));
+        npcs.add(new leadWanderer(this, "Adventurous Explorer", new Location(world, -834.5, 67, -728.5)));
+        npcs.add(new EndWizzard(this, "End Explorer", new Location(world, 14.5, 92, 781.5)));
 
         npcs.add (new Anarcho(this, "Anarcho", new Location(worldNether, 550.5, 221, 236.5)));
 
@@ -363,6 +364,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         Bukkit.getPluginCommand("togglecoin").setExecutor(new ToggleCoinChat(this));
         Bukkit.getPluginCommand("smm").setExecutor(new SendMultiMessage (this));
         Bukkit.getPluginCommand("get-items").setExecutor(new GetItems());
+        Bukkit.getPluginCommand("alert").setExecutor(new RestartAlertCommand(this));
     }
 
     public static int rollNumber(int min, int max){

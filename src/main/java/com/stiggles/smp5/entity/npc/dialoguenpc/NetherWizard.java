@@ -32,7 +32,7 @@ public class NetherWizard extends StigglesNPC {
                 sendMessage(player, "Well hello there traveler.");
                 speakLater(player, "Seems like someone was on quite a hunt!", Sound.ENTITY_VILLAGER_CELEBRATE, 60);
                 speakLater(player, "Well, good for you my friend, you've come to the end... for now.", Sound.ENTITY_VILLAGER_CELEBRATE, 80);
-                speakLater(player, "Once the nether opens, that artifact will open numerous opportunities for you.", Sound.ENTITY_VILLAGER_CELEBRATE, 100);
+                speakLater(player, "Now that the nether is open, that artifact will open numerous opportunities for you.", Sound.ENTITY_VILLAGER_CELEBRATE, 100);
                 speakLater(player, "When you enter the nether, go talk to Cryptorg, he'll have a quest for you.", Sound.ENTITY_VILLAGER_CELEBRATE, 120);
                 speakLater(player, "Remember that friend. Now go! Enjoy the world as it is, and have a wonderful life.", Sound.ENTITY_VILLAGER_CELEBRATE, 100);
                 Quest.questComplete(player, Quest.QuestName.THE_GOOD_HUNT, ChatColor.AQUA + "Congrats! You have completed the first part of a difficult quest, now go and explore the rest of this world.", 500);
