@@ -40,6 +40,17 @@ public class BoomBow implements Listener {
     public void onShoot(EntityShootBowEvent e){
         if (e.getBow().getItemMeta().getLocalizedName().equals("boom_bow")){
             e.getProjectile().getPersistentDataContainer().set(boomKey, PersistentDataType.STRING, "boom_arrow");
+            ItemMeta meta = e.getBow().getItemMeta();
+            meta.setUnbreakable(false);
+            meta.setDisplayName((ChatColor.WHITE + "Boom Boom Bow"));
+            meta.setLore(Arrays.asList(
+                    ChatColor.GRAY +  "",
+                    ChatColor.GOLD +  "-- SPECIAL ITEM --",
+                    ChatColor.GRAY + "The arrows shot from this" ,
+                    ChatColor.GRAY + "bow explode on impact!"));
+            meta.setLocalizedName("boom_bow");
+
+            e.getBow().setItemMeta(meta);
         }
     }
 
