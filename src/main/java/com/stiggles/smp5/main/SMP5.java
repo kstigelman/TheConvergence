@@ -345,7 +345,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         npcs.add(new AnotherWanderer(this, "Lost Wanderer", new Location(world, -831.5, 68, -736.5)));
         npcs.add(new leadWanderer(this, "Adventurous Explorer", new Location(world, -834.5, 67, -728.5)));
         npcs.add(new EndWizzard(this, "End Explorer", new Location(world, 14.5, 92, 781.5)));
-        npcs.add(new EndWizzard(this, "Confused Hiker", new Location(world, -824.5, 70, -735.5)));
+        npcs.add(new AndEvenAnotherWanderer(this, "Confused Hiker", new Location(world, -824.5, 70, -735.5)));
 
         npcs.add (new Anarcho(this, "Anarcho", new Location(worldNether, 550.5, 221, 236.5)));
 
