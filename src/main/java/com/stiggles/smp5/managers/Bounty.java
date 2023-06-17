@@ -124,7 +124,7 @@ public class Bounty {
     }
 
     public static int getBounty (UUID uuid) {
-        return getKillstreak(uuid) * 50;
+        return getKillstreak(uuid) * 200;
     }
     public static int getKillstreak (Player p) {
         return getKillstreak(p.getUniqueId());
