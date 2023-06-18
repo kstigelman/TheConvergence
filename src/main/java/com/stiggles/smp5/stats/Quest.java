@@ -22,6 +22,8 @@ public class Quest {
         MORABITO_RECIPE,
         THE_GOOD_HUNT,
         WARDEN_KILL,
+        SMALL_STEP,
+        BLUEPRINTS,
         APPLE_A_DAY
     }
     public static void questComplete (Player p, QuestName q, String questMessage, int amount) {
@@ -32,15 +34,19 @@ public class Quest {
                db.execute ("INSERT INTO quest VALUES ('" + q + "', '" + p.getUniqueId() + "', '" + LocalDateTime.now().format(main.getFormatter()) + "');");
                return;
            }
-            p.sendMessage(ChatColor.WHITE + "You have completed the quest " + ChatColor.GREEN + questMessage);
+           if (questMessage != null) {
+               p.sendMessage(ChatColor.WHITE + "You have completed the quest " + ChatColor.GREEN + questMessage);
 
-            p.playSound(p, Sound.UI_TOAST_CHALLENGE_COMPLETE, 1.f, 1.f);
-            if (amount != 0) {
-                p.sendMessage(ChatColor.GOLD + "+" + amount + " coins");
-                BankManager.deposit(p, amount);
-            }
+               p.playSound(p, Sound.UI_TOAST_CHALLENGE_COMPLETE, 1.f, 1.f);
+           }
+           if (amount != 0) {
+               p.sendMessage(ChatColor.GOLD + "+" + amount + " coins");
+               BankManager.deposit(p, amount);
+           }
 
+            //main.getPlayerManager().getStigglesPlayer(p.getUniqueId()).addQuest(q);
             db.execute ("INSERT INTO quest VALUES ('" + q + "', '" + p.getUniqueId() + "', '" + LocalDateTime.now().format(main.getFormatter()) + "');");
+
        }
         catch (SQLException e) {
             Bukkit.getConsoleSender().sendMessage("Quest: Could not update quest completion for " + p.getUniqueId());

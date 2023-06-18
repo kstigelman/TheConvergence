@@ -31,7 +31,6 @@ public class GlowBow implements Listener {
     private ItemStack getGlowBow(){
         ItemStack bow = new ItemStack(Material.BOW);
         ItemMeta meta = bow.getItemMeta();
-        meta.setUnbreakable(true);
         meta.setDisplayName((ChatColor.WHITE + "Recon Bow"));
         meta.setLore(Arrays.asList(
                 ChatColor.GRAY +  "I, am the hunter!",
@@ -49,7 +48,11 @@ public class GlowBow implements Listener {
         if(!(e.getEntity() instanceof Player)) return;
         if (e.getBow().getItemMeta().getLocalizedName().equals("glow_bow")){
             e.getProjectile().getPersistentDataContainer().set(glowKey, PersistentDataType.STRING, "glow_arrow");
+
+            if (e.getBow().getItemMeta().isUnbreakable())
+                e.getBow().getItemMeta().setUnbreakable(false);
         }
+
     }
 
     @EventHandler

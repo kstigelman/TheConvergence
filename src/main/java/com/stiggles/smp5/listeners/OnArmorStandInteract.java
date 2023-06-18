@@ -1,5 +1,6 @@
 package com.stiggles.smp5.listeners;
 
+import com.stiggles.smp5.main.SMP5;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
@@ -19,13 +20,40 @@ import java.util.Arrays;
 import java.util.UUID;
 
 public class OnArmorStandInteract implements Listener {
+
+    SMP5 main;
+
+    public OnArmorStandInteract (SMP5 main) {
+        this.main = main;
+    }
     @EventHandler
     public void onPlayerInteract (PlayerArmorStandManipulateEvent e) {
         ArmorStand entity = e.getRightClicked ();
         if (entity.getName().contains ("convergence")) {
             e.setCancelled(true);
+            if (e.getPlayer().getInventory().firstEmpty() == -1)
+                return;
+            if (e.getHand().equals(EquipmentSlot.OFF_HAND))
+                return;
+
+            //If has not talked to Dr Trog...
             e.getPlayer().sendMessage(ChatColor.GRAY + "This looks like a strange substance...");
+            int hash = (entity.getLocation().getBlockX() * 3) + (entity.getLocation().getBlockY() * 2) + entity.getLocation().getBlockZ ();
+            main.getPlayerManager().getStigglesPlayer(e.getPlayer().getUniqueId()).addConvergence(hash);
             return;
+            /*
+
+            for (ItemStack i : e.getPlayer().getInventory()) {
+                if (i == null || !i.hasItemMeta())
+                    continue;
+                if (i.getItemMeta().getLocalizedName().equals ("convergence_" + hash))
+                    return;
+
+                e.getPlayer().sendMessage(ChatColor.GRAY + "You found Convergence!");
+                return;
+            }
+            */
+           //e.getPlayer().sendMessage(ChatColor.GRAY + "This looks like a strange substance...");
         }
         if (entity.getName().contains ("morabito")) {
             e.setCancelled(true);
@@ -79,6 +107,24 @@ public class OnArmorStandInteract implements Listener {
              */
 
         }
+        if (entity.getName().contains("meteor")) {
+            e.setCancelled(true);
+            if (e.getPlayer().getInventory().firstEmpty() == -1)
+                return;
+            if (e.getHand().equals(EquipmentSlot.OFF_HAND))
+                return;
+
+            for (ItemStack i : e.getPlayer().getInventory()) {
+                if (i == null || !i.hasItemMeta())
+                    continue;
+
+                if (i.getItemMeta().hasLocalizedName() && i.getItemMeta().getLocalizedName().equals("moon_rocks"))
+                    return;
+                //    getName().contains(ChatColor.DARK_GRAY + "Natalie's Breath (Decayed)"))
+            }
+            e.getPlayer().sendMessage(ChatColor.ITALIC + ChatColor.GRAY.toString() + "You picked up some debris from the meteor strike!");
+            e.getPlayer().getInventory().addItem(getRocks());
+        }
     }
     public ItemStack getSword () {
         ItemStack item = new ItemStack(Material.STONE_SWORD);
@@ -102,6 +148,35 @@ public class OnArmorStandInteract implements Listener {
         im.setLore (Arrays.asList(ChatColor.BLUE + "Quest Item", ChatColor.GRAY + "Spectral Saloon's famous recipe.",
                 ChatColor.GRAY + ChatColor.ITALIC.toString() + "It looks like it was written in a code, so it is unreadable to you."));
         im.addEnchant(Enchantment.VANISHING_CURSE, 1, true);
+        im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        item.setItemMeta(im);
+        return item;
+    }
+    public ItemStack getRocks () {
+        ItemStack item = new ItemStack(Material.END_STONE);
+        ItemMeta im = item.getItemMeta();
+        im.setDisplayName(ChatColor.AQUA + "Meteor Debris");
+        im.setLocalizedName("moon_rocks");
+        im.setLore (Arrays.asList(ChatColor.BLUE + "Quest Item", ChatColor.GRAY + "A piece of the meteor.",
+                ChatColor.GRAY + ChatColor.ITALIC.toString() + "Give this to someone who knows more about the meteor strike."));
+        im.addEnchant(Enchantment.VANISHING_CURSE, 1, true);
+        im.addEnchant(Enchantment.PROTECTION_FALL, 1, true);
+        im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        item.setItemMeta(im);
+        return item;
+    }
+    public ItemStack getConvergence (int hash) {
+        ItemStack item = new ItemStack(Material.AMETHYST_SHARD);
+        ItemMeta im = item.getItemMeta();
+        im.setDisplayName(ChatColor.LIGHT_PURPLE + "Convergence Crystal");
+        im.setLocalizedName("convergence_" + hash);
+        im.setLore (Arrays.asList(ChatColor.BLUE + "Quest Item", ChatColor.GRAY + "A sample of Convergence",
+                ChatColor.DARK_GRAY + "ID: " + hash,
+                ChatColor.GRAY + ChatColor.ITALIC.toString() + "Convergence is a substance created by ",
+                ChatColor.GRAY + ChatColor.ITALIC.toString() + "EGO Labs. They used their research on ",
+                ChatColor.GRAY + ChatColor.ITALIC.toString() + "it to create the world of Convergence."));
+        im.addEnchant(Enchantment.VANISHING_CURSE, 1, true);
+        im.addEnchant(Enchantment.PROTECTION_FALL, 1, true);
         im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         item.setItemMeta(im);
         return item;

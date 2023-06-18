@@ -178,6 +178,13 @@ public abstract class StigglesNPC {
         p.sendMessage(chatColor + "<" + nameColorPrefix + name + ChatColor.WHITE + chatColor + "> " + msg);
     }
 
+    public void sendMessageLater (Player p, String msg, int delay) {
+        Bukkit.getScheduler().runTaskLater(main, () -> {
+            sendMessage(p, msg);
+        }, delay);
+
+    }
+
     /** Event that occurs when the player clicks on the NPC.
      *
      * @param player The player that interacted with the NPC.

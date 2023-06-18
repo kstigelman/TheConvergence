@@ -3,6 +3,7 @@ package com.stiggles.smp5.listeners;
 import com.stiggles.smp5.main.SMP5;
 import com.stiggles.smp5.managers.BankManager;
 import com.stiggles.smp5.managers.Bounty;
+import com.stiggles.smp5.player.StigglesPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -50,14 +51,24 @@ public class BountyListeners implements Listener {
         }
         //Move this line to the if statement below if we decide to reward skulls on bounty kills.
 
+        StigglesPlayer stigglesKiller = main.getPlayerManager().getStigglesPlayer(killer.getUniqueId());
+        StigglesPlayer stigglesVictim = main.getPlayerManager().getStigglesPlayer(victim.getUniqueId());
 
         int reward = Bounty.getBounty(victim);
+        int reward2 = stigglesVictim.getBounty();
+
         if (reward != 0) {
-            BankManager.deposit(killer, reward);
             victim.getWorld().dropItem(victim.getLocation(), getPlayerSkull(victim, killer.getName()));
             killer.sendMessage(ChatColor.GOLD + "You were rewarded " + reward + " coins for killing " + victim.getName() + "!");
+
+            BankManager.deposit(killer, reward);
             Bounty.update (killer, Bounty.getKillstreak(killer) + 1);
             Bounty.update (victim, 0);
+
+            stigglesKiller.deposit(reward2);
+            stigglesKiller.setKillstreak(stigglesKiller.getKillstreak() + 1);
+            stigglesVictim.setKillstreak(0);
+
         }
         //if (Bounty.getKillstreak(killer) == null)
 
@@ -83,3 +94,4 @@ public class BountyListeners implements Listener {
         return skull;
     }
 }
+

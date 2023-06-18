@@ -127,7 +127,7 @@ public class Pickaxes implements Listener {
         Player p = e.getEntity().getKiller();
         if (Quest.isQuestComplete(p, Quest.QuestName.WARDEN_KILL))
             return;
-        Bukkit.getWorld(e.getEntity().getWorld().toString()).dropItem(e.getEntity().getLocation(), giveWardenWeaknessPickaxe());
+        e.getEntity().getWorld().dropItem(e.getEntity().getLocation(), giveWardenWeaknessPickaxe());
         Quest.questComplete(p, Quest.QuestName.WARDEN_KILL, p.getName() + ", Slayer of Wardens", 0);
     }
     @EventHandler

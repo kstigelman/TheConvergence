@@ -27,6 +27,7 @@ public class Bounty {
     public static void addToMap (Player p) {
         killstreak.put (p.getUniqueId(), 1);
     }
+
     public static void initializeMap (SMP5 smp_main) {
         main = smp_main;
         db = main.getDatabase();
