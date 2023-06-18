@@ -360,7 +360,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         Bukkit.getPluginCommand ("world").setExecutor (new ChangeWorldCommand ());
         Bukkit.getPluginCommand("o").setExecutor(new OpenWorldCommand(this));
         Bukkit.getPluginCommand("start-dungeon").setExecutor (new DungeonStartCommand());
-        Bukkit.getPluginCommand("coins").setExecutor(new CoinCommand());
+        Bukkit.getPluginCommand("coins").setExecutor(new CoinCommand(this));
         Bukkit.getPluginCommand("togglecoin").setExecutor(new ToggleCoinChat(this));
         Bukkit.getPluginCommand("smm").setExecutor(new SendMultiMessage (this));
         Bukkit.getPluginCommand("get-items").setExecutor(new GetItems());
