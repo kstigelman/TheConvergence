@@ -16,7 +16,7 @@ public class CustomSpawns {
 
 
 
-    public static void startCountForBlazingBeast(){
+    public void startCountForBlazingBeast(){
         Cuboid beastTower = new Cuboid(
                 new Location(Bukkit.getWorld("world_nether"), 99, 206, 228),
                 new Location(Bukkit.getWorld("world_nether"), 93, 206, 222));
@@ -30,7 +30,10 @@ public class CustomSpawns {
                 }
             }
             }.runTaskLater(main, 20*(60*25));
-            spawnTheBeast();
+            new BukkitRunnable() { public void run() {
+                    spawnTheBeast();
+            }
+            }.runTaskLater(main, 20 * (60L * SMP5.rollNumber(1,3)));
         }
     }
 
@@ -50,9 +53,9 @@ public class CustomSpawns {
         for (Player p : Bukkit.getOnlinePlayers()){
             if (p.getWorld().getName().equals("world_nether")) {
                 p.sendMessage(ChatColor.RED+"The Blazing Beast has spawned! Take this opportunity to acquire a rare and unique custom item!");
-                p.playSound(p, Sound.ENTITY_ENDER_DRAGON_AMBIENT, 12, .1F);
-                p.playSound(p, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE, 12, .01F);
-                p.playSound(p, Sound.ENTITY_ENDER_DRAGON_GROWL, 12, .1F);
+                p.playSound(p, Sound.ENTITY_ENDER_DRAGON_AMBIENT, 10, .1F);
+                p.playSound(p, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE, 10, .01F);
+                p.playSound(p, Sound.ENTITY_ENDER_DRAGON_GROWL, 10, .1F);
             }
         }
 

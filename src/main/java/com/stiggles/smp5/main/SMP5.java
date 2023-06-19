@@ -39,6 +39,7 @@ import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.event.CitizensEnableEvent;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -85,10 +86,7 @@ public class SMP5 extends JavaPlugin implements Listener {
     private ArrayList<String> toggled = new ArrayList<>();
     //private Plugin plugin = SMP5.getPlugin(SMP5.class);
     Random random = new Random(System.currentTimeMillis());
-    LostMerchant merchant = new LostMerchant();
-    InventoryManager inventoryManager = new InventoryManager();
-    MerchantListener merchantListener = new MerchantListener(this);
-
+    private CustomSpawns customSpawns;
     boolean open = false;
 
     @Override
@@ -168,6 +166,15 @@ public class SMP5 extends JavaPlugin implements Listener {
                 }
             }.runTaskLater(this, 5);
         }
+
+        new BukkitRunnable(){
+            public void run(){
+                if (rollNumber(1,3) == 2){
+                    customSpawns.startCountForBlazingBeast();
+                }
+            }
+        }.runTaskTimer(this, 20 * (60 * (60 * 1)), 20 * (60 * (60 * 1)));
+
     }
 
     @Override
