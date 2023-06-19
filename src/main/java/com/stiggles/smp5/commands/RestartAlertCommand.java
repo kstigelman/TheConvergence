@@ -26,10 +26,16 @@ public class RestartAlertCommand implements CommandExecutor {
             if (p.isOp()){
                 for (Player player : Bukkit.getOnlinePlayers()){
                     player.playSound(player, Sound.ITEM_GOAT_HORN_SOUND_0, 1, 2);
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            player.kickPlayer(ChatColor.AQUA + "Server has been restarted due to an update in bug fixes and new additions.");
+                        }
+                    }.runTaskLater(main, 20 * (60));
                 }
-                Bukkit.broadcastMessage(ChatColor.RED    + "==============================================================================================");
-                Bukkit.broadcastMessage(ChatColor.DARK_PURPLE + "|   [Server Restart] Server will be restarted in 1 minute! Please get to a place to stop.    |");
-                Bukkit.broadcastMessage(ChatColor.RED    + "==============================================================================================");
+                Bukkit.broadcastMessage(ChatColor.RED    + " ");
+                Bukkit.broadcastMessage(ChatColor.DARK_PURPLE + "[Server Restart] Server will be restarted in 1 minute! Please get to a place to stop.");
+                Bukkit.broadcastMessage(ChatColor.RED    + " ");
                 new BukkitRunnable() { @Override public void run() { main.shutdownServer(); } }.runTaskLater(main, 22 * (60));
             } else {
                 p.sendMessage(ChatColor.RED +"You do not have permission to use this command!");
@@ -42,11 +48,11 @@ public class RestartAlertCommand implements CommandExecutor {
                     public void run() {
                         player.kickPlayer(ChatColor.AQUA + "Server has been restarted due to an update in bug fixes and new additions.");
                     }
-                }.runTaskLater(main, 21 * (60));
+                }.runTaskLater(main, 20 * (60));
             }
-            Bukkit.broadcastMessage(ChatColor.RED    + "==============================================================================================");
-            Bukkit.broadcastMessage(ChatColor.DARK_PURPLE + "|   [Server Restart] Server will be restarted in 1 minute! Please get to a place to stop.    |");
-            Bukkit.broadcastMessage(ChatColor.RED    + "==============================================================================================");
+            Bukkit.broadcastMessage(ChatColor.RED    + " ");
+            Bukkit.broadcastMessage(ChatColor.DARK_PURPLE + "[Server Restart] Server will be restarted in 1 minute! Please get to a place to stop.");
+            Bukkit.broadcastMessage(ChatColor.RED    + " ");
             new BukkitRunnable() { @Override public void run() { main.shutdownServer(); } }.runTaskLater(main, 22 * (60));
         }
 

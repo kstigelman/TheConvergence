@@ -34,6 +34,10 @@ public class MerchantListener implements Listener {
 
 
     public Inventory getInventory(UUID id){  return inventoryManager.getInventoryFromMap(id);  }
+    public void resetMerchantCheckMap(){
+        merchantCheckList.clear();
+
+    }
     @EventHandler
     public void onInteraction(PlayerInteractAtEntityEvent e){
         if(e.getRightClicked().getType().equals(EntityType.VILLAGER)) {

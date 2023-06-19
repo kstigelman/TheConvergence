@@ -41,6 +41,14 @@ public class InventoryManager {
         return inventory;
     }
 
+    public Map<UUID, Inventory> getMerchantUUIDMap(){
+        return merchantList;
+    }
+    public Inventory getInventoryFromMap(UUID uuid){
+        return merchantList.get(uuid);
+    }
+    public void resetInventoryMapping(){ merchantList.clear(); }
+
         /*
 
       ALL FUNCTIONS BELOW ARE FOR HASHMAP OF MERCHANT INVENTORIES , NOT INVENTORIES THEMSELVES
@@ -80,10 +88,6 @@ public class InventoryManager {
         addItem(inv, item, 49);
     }
 
-    public Map<UUID, Inventory> getMerchantUUIDMap(){
-        return merchantList;
-    }
-
     private void addFrame(Inventory inv) {
         ItemStack frame = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
         ItemMeta frameMeta = frame.getItemMeta();
@@ -95,10 +99,6 @@ public class InventoryManager {
             inv.setItem(i, frame);
         }
 
-    }
-
-    public Inventory getInventoryFromMap(UUID uuid){
-        return merchantList.get(uuid);
     }
 
     /*
@@ -131,6 +131,12 @@ public class InventoryManager {
         }
         return lunarArmor.getMoonShards(SMP5.rollNumber(1,5));
     }
+
+    /***
+     *
+     * Below Are All The Switch-Involved functions relating to implementing Minecraft items.
+     *
+     */
 
     public ItemStack getMinecraftTradeItemsWithTrims(int roll){
         ItemStack item;

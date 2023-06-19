@@ -189,6 +189,36 @@ public class Pickaxes implements Listener {
                         e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
                                 new ItemStack(Material.ANCIENT_DEBRIS, Math.multiplyExact(Math.addExact(1, rollNumber(1,2)), rollNumber(1,2))));
 
+                    } else if (block.equals(Material.WHEAT)) {
+                        e.setDropItems(false);
+                        e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
+                                new ItemStack(Material.GLOWSTONE_DUST, Math.multiplyExact(Math.addExact(rollNumber(1,2), rollNumber(3,4)), rollNumber(2,4))));
+
+                    } else if (block.equals(Material.CARROT)) {
+                        e.setDropItems(false);
+                        e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
+                                new ItemStack(Material.GLOWSTONE_DUST, Math.multiplyExact(Math.addExact(rollNumber(1,2), rollNumber(3,4)), rollNumber(2,4))));
+
+                    } else if (block.equals(Material.SUGAR_CANE)) {
+                        e.setDropItems(false);
+                        e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
+                                new ItemStack(Material.GLOWSTONE_DUST, Math.multiplyExact(Math.addExact(rollNumber(1,2), rollNumber(3,4)), rollNumber(2,4))));
+
+                    } else if (block.equals(Material.NETHER_GOLD_ORE)) {
+                        e.setDropItems(false);
+                        e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
+                                new ItemStack(Material.GLOWSTONE_DUST, Math.multiplyExact(Math.addExact(rollNumber(1,2), rollNumber(3,4)), rollNumber(2,4))));
+
+                    } else if (block.equals(Material.BEETROOT)) {
+                        e.setDropItems(false);
+                        e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
+                                new ItemStack(Material.BEETROOT, Math.multiplyExact(Math.addExact(rollNumber(1,2), rollNumber(3,4)), rollNumber(2,4))));
+
+                    } else if (block.equals(Material.POTATOES)) {
+                        e.setDropItems(false);
+                        e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
+                                new ItemStack(Material.POTATOES
+                                        , Math.multiplyExact(Math.addExact(rollNumber(1,2), rollNumber(3,4)), rollNumber(2,4))));
                     }
                 }
             }
