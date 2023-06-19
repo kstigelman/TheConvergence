@@ -160,7 +160,7 @@ public class Drem extends ShopNPC {
                     ChatColor.GRAY + "She was a symbol of justice.",
                     "",
                     ChatColor.GOLD + "Right click " + ChatColor.GRAY + "to spawn a horse on demand.",
-                    ChatColor.GRAY + "This item will be consumed after use"
+                    ChatColor.GRAY + "This item will be consumed after use."
             ));
             item.setItemMeta(meta);
         }
@@ -172,7 +172,7 @@ public class Drem extends ShopNPC {
                     .addLoreLines (ChatColor.GRAY + "She was a symbol of justice.")
                     .addLoreLines("")
                     .addLoreLines(ChatColor.GOLD + "Right click " + ChatColor.GRAY + "to spawn a horse on demand.")
-                    .addLoreLines(ChatColor.GRAY + "This item will be consumed after use");
+                    .addLoreLines(ChatColor.GRAY + "This item will be consumed after use.");
 
         }
         @Override
@@ -272,7 +272,7 @@ public class Drem extends ShopNPC {
                 .addIngredient( 'c', new Warhorn(300))
                 .addIngredient( 'd', new DragonBreath(200))
                 .addIngredient( 'e', new Vlad (1000))
-                .addIngredient( 'f', new Pendant (2000))
+                .addIngredient( 'f', new Pendant (4000))
                 .addIngredient( 'g', new Locked ("? ? ?"))
                 .build ();
     }

@@ -6,23 +6,27 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-public class Pendant {
+import java.util.List;
+
+public class Pendant implements Listener {
 
     SMP5 main;
-    private static final String tag = "pendant";
+    /*private static final String tag = "pendant";
     private static final String pendantName = ChatColor.LIGHT_PURPLE + "Natalie's Pendant";
     private static ItemStack pendantItem = new ItemStack(Material.CHARCOAL);
-
+    */
     public Pendant (SMP5 main) {
         this.main = main;
-        createItem ();
+        //createItem ();
     }
-
+/*
     private void createItem () {
         ItemStack is = pendantItem;
         ItemMeta im = is.getItemMeta();
@@ -46,9 +50,10 @@ public class Pendant {
 
     public boolean listen (PlayerInteractEvent e) {
         return true;
-    }
+    }*/
 
-    public static void onPlayerInteract (PlayerInteractEvent e) {
+    @EventHandler
+    public void onPlayerInteract (PlayerInteractEvent e) {
 
         Player p = e.getPlayer();
 
@@ -62,6 +67,7 @@ public class Pendant {
         if (!im.getLocalizedName().equals("pendant"))
             return;
 
+
         Horse natalie = p.getWorld().spawn(p.getLocation(), Horse.class);
         natalie.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.3);
         natalie.setJumpStrength(0.7);
@@ -71,7 +77,8 @@ public class Pendant {
         natalie.getInventory().setSaddle(new ItemStack(Material.SADDLE));
         natalie.addPassenger(p);
 
-        if (p.getUniqueId().toString().equals ("5b695380-7377-4843-8d00-2494d92257ea")) {
+        int n = Math.abs (main.getRandom() % 4);
+        if (n == 0 || p.getUniqueId().toString().equals ("5b695380-7377-4843-8d00-2494d92257ea")) {
             natalie.setStyle(Horse.Style.WHITE_DOTS);
             natalie.setColor(Horse.Color.GRAY);
             natalie.setCustomName(ChatColor.DARK_PURPLE + "Natalie");

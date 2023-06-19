@@ -200,7 +200,7 @@ public class Inventor extends ShopNPC {
 
     @Override
     public void createGUI(Player player) {
-        AbstractItem lockedSlot = new Locked ("Trade will be unlocked once the Ender Dragon is killed");
+        AbstractItem lockedSlot = new Locked ("? ? ?");
         //Also check if player has visited all locations
 
         //Advancement a = Bukkit.getAdvancement(new NamespacedKey(main, "minecraft:end/kill_dragon"));

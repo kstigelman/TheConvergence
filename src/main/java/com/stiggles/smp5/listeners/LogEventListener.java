@@ -87,6 +87,8 @@ public class LogEventListener implements Listener {
             db.execute("INSERT INTO player VALUES ('" + p.getUniqueId() + "', '" + p.getName() + "', " + 0 + ");");
             //Register bank record
             db.execute("INSERT INTO bank VALUES ('" + p.getUniqueId() + "', " + 0 + ");");
+
+            main.getPlayerManager().addStigglesPlayer(e.getPlayer().getUniqueId(), new StigglesPlayer (main, e.getPlayer()));
         }
         catch (SQLException event) {
             Bukkit.getConsoleSender().sendMessage("NVTECH: Failed to register new player.");
@@ -114,6 +116,7 @@ public class LogEventListener implements Listener {
 
         e.setQuitMessage(ChatColor.LIGHT_PURPLE + e.getPlayer().getName() + " has left The Convergence");
         log (e.getPlayer(), "LOGOUT");
+        main.getPlayerManager().removeStigglesPlayer(e.getPlayer().getUniqueId());
     }
 
     public void log (Player p, String logType){
@@ -138,12 +141,9 @@ public class LogEventListener implements Listener {
             );
             if (logType.equals ("LOGOUT")) {
                 int time = p.getStatistic(Statistic.PLAY_ONE_MINUTE) / 20;
-                db.execute("UPDATE player SET playtime = " + time + " WHERE uuid = '" + p.getUniqueId() + "';");
+                //db.execute("UPDATE player SET playtime = " + time + " WHERE uuid = '" + p.getUniqueId() + "';");
+                //db.execute("UPDATE player_info SET playtime = " + time + " WHERE uuid = '" + p.getUniqueId() + "';");
                 db.execute("UPDATE bank SET balance = " + BankManager.getBalance(p) + " WHERE uuid = '" + p.getUniqueId() + "';");
-                //db.execute("UPDATE player_info SET balance = " + BankManager.getBalance(p) + " WHERE uuid = '" + p.getUniqueId() + "';");
-                /*db.execute(
-                        "UPDATE bank SET balance = " + BankManager.getBalance(p) + " WHERE uuid = '" + p.getUniqueId() + "';"
-                );*/
             }
         }
         catch (SQLException event) {

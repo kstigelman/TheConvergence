@@ -31,7 +31,6 @@ public class GlowBow implements Listener {
     private ItemStack getGlowBow(){
         ItemStack bow = new ItemStack(Material.BOW);
         ItemMeta meta = bow.getItemMeta();
-        meta.setUnbreakable(true);
         meta.setDisplayName((ChatColor.WHITE + "Recon Bow"));
         meta.setLore(Arrays.asList(
                 ChatColor.GRAY +  "I, am the hunter!",
@@ -49,20 +48,11 @@ public class GlowBow implements Listener {
         if(!(e.getEntity() instanceof Player)) return;
         if (e.getBow().getItemMeta().getLocalizedName().equals("glow_bow")){
             e.getProjectile().getPersistentDataContainer().set(glowKey, PersistentDataType.STRING, "glow_arrow");
-            ItemMeta meta = e.getBow().getItemMeta();
-            meta.setUnbreakable(false);
-            meta.setDisplayName((ChatColor.WHITE + "Recon Bow"));
-            meta.setLore(Arrays.asList(
-                    ChatColor.GRAY +  "I, am the hunter!",
-                    ChatColor.GRAY +  "",
-                    ChatColor.GOLD +  "-- SPECIAL ITEM --",
-                    ChatColor.GRAY + "This bow scans nearby entities",
-                    ChatColor.GRAY + "within a 10x10x10 block radius",
-                    ChatColor.GRAY + "then makes them GLOW for 10 seconds"));
-            meta.setLocalizedName("glow_bow");
 
-            e.getBow().setItemMeta(meta);
+            if (e.getBow().getItemMeta().isUnbreakable())
+                e.getBow().getItemMeta().setUnbreakable(false);
         }
+
     }
 
     @EventHandler
@@ -71,8 +61,13 @@ public class GlowBow implements Listener {
         if (!container.has(glowKey, PersistentDataType.STRING)) return;
         if (container.get(glowKey, PersistentDataType.STRING).equals("glow_arrow")) {
             for (Entity entity : e.getEntity().getNearbyEntities(20,20,20)){
-                if (entity instanceof Mob){
-                    ((Mob) entity).addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 10, 10, true, false, true));
+                if (entity.equals(uuidShot)){
+                    if (entity instanceof Mob) {
+                        ((Mob) entity).addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 100, 10, true, false, true));
+
+                    } else if (entity instanceof Player){
+                        ((Player) entity).addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 100, 10, true, false, true));
+                    }
                 }
             }
         }

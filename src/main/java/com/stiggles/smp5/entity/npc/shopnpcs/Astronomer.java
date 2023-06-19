@@ -18,6 +18,8 @@ import xyz.xenondevs.invui.item.builder.ItemBuilder;
 import xyz.xenondevs.invui.item.impl.AbstractItem;
 import xyz.xenondevs.invui.item.impl.SimpleItem;
 
+import java.util.Arrays;
+
 public class Astronomer extends ShopNPC {
     private class ShulkerShell extends StigglesBaseItem {
         public ShulkerShell (int price) {
@@ -185,5 +187,32 @@ public class Astronomer extends ShopNPC {
                 .addIngredient( 'f', new DragonHead(2000))
                 .addIngredient( 'g', lockedSlot2)
                 .build ();
+    }
+
+    public boolean checkQuestItems (Player player) {
+        if (player.getInventory().getItemInMainHand().hasItemMeta()) {
+            ItemMeta im = player.getInventory().getItemInMainHand().getItemMeta();
+            if (im != null && im.hasDisplayName() && im.getLocalizedName().equals("moon_rocks")) {
+                player.getInventory().getItemInMainHand().setAmount(0);
+                sendMessage(player, "Ah, how interesting... these samples reveal so much. Let me process those samples quick...");
+                sendMessageLater(player, "Hmmm, just as I predicted. That meteor had traces of Convergence within it, and it seems to have anti-gravity properties. Did you happen to notice that the impact site had lighter gravity?", 80);
+                sendMessageLater(player, "It appears that Convergence may different effects based on what other elements it is mixed with.", 160);
+                sendMessageLater(player, "Here, I will give you this processed sample. Can you take it to Dr. Trog of EGO Labs? He may find it useful for his research...", 200);
+                Bukkit.getScheduler().runTaskLater (main, () -> player.getInventory().addItem(getDust()), 200);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public ItemStack getDust () {
+        ItemStack i = new ItemStack(Material.GLOWSTONE);
+        ItemMeta im = i.getItemMeta();
+        im.setDisplayName(ChatColor.YELLOW + "Meteor Dust");
+        im.setLore (Arrays.asList(ChatColor.BLUE + "Quest Item", ChatColor.GRAY + ChatColor.ITALIC.toString() + "Processed Meteor Debris",
+                ChatColor.GRAY + ChatColor.ITALIC.toString() + "The Astronomer asked you to deliver this to Dr. Trog."));
+        im.setLocalizedName("moon_dust");
+        i.setItemMeta(im);
+        return i;
     }
 }

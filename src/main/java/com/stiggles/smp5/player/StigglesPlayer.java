@@ -7,6 +7,7 @@ import com.stiggles.smp5.managers.BankManager;
 import com.stiggles.smp5.managers.Bounty;
 import com.stiggles.smp5.stats.Quest;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
@@ -14,7 +15,9 @@ import org.bukkit.entity.Player;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.UUID;
 
@@ -31,7 +34,7 @@ public class StigglesPlayer
 
     private HashSet<String> npcTalks = new HashSet<>();
     private HashSet<Quest.QuestName> questsCompleted = new HashSet<>();
-    private HashSet<Quest.QuestName> convergenceFound = new HashSet<>();
+    private HashSet<Integer> convergenceFound = new HashSet<>();
 
     private int killstreak;
 
@@ -44,6 +47,7 @@ public class StigglesPlayer
         this.player = player;
         this.name = player.getName();
         this.uuid = player.getUniqueId();
+
         killstreak = 0;
         cursed = false;
         chatToggledOn = true;
@@ -51,34 +55,56 @@ public class StigglesPlayer
         Database db = main.getDatabase();
         db.connect ();
 
-        ResultSet rs = db.query(
+        ResultSet info = db.query(
                 "SELECT * FROM player_info WHERE uuid = '" + uuid.toString() + "';"
         );
 
-        if (rs.next()) {
-            killstreak = Bounty.getKillstreak(player);
-            cursed = rs.getBoolean(6);
-            chatToggledOn = rs.getBoolean(7);
+        if (info.next()) {
+            this.coinBank = new CoinBank (player.getUniqueId(), info.getInt(3));
+            killstreak = info.getInt(killstreak);
+            cursed = info.getBoolean(6);
+            chatToggledOn = info.getBoolean(7);
+
+            if (!chatToggledOn)
+                main.getToggledChatPlayers().add(uuid.toString());
+
+            ResultSet cv = db.query(
+                    "SELECT hash_id FROM convergence WHERE uuid = '" + uuid.toString() + "';"
+            );
+            while (cv.next ())
+                convergenceFound.add (cv.getInt(1));
+            cv.close();
+
+            ResultSet quest = db.query(
+                    "SELECT name FROM quest WHERE uuid = '" + uuid.toString() + "';"
+            );
+            while (quest.next ())
+                questsCompleted.add (Quest.QuestName.valueOf(quest.getString(1)));
+            quest.close();
+
+            ResultSet npc = db.query(
+                    "SELECT npc_name FROM npc_talks WHERE uuid = '" + uuid.toString() + "';"
+            );
+            while (npc.next ())
+                npcTalks.add (npc.getString (1));
+            npc.close();
         }
         else {
-            Bounty.addToMap(player);
-            Bounty.setKillstreak(player, 1);
-            Bounty.setTabName(player);
-
-            BankManager.addPlayer (player);
+            killstreak = 1;
+            this.coinBank = new CoinBank (player.getUniqueId(), 0);
 
             main.getDatabase().execute("INSERT INTO player_info VALUES ('" +
-                uuid + "', '" +
-                player.getName () + "', " +
-                0 + ", " +
-                killstreak + ", " +
-                0 + ", " +
-                cursed + ", " +
-                chatToggledOn + ");"
+                uuid + "', '" +                 //uuid
+                player.getName () + "', " +     //name
+                0 + ", " +                      //balance
+                killstreak + ", " +             //killstreak
+                0 + ", " +                      //playtime
+                cursed + ", " +                 //cursed
+                chatToggledOn + ");"            //chatToggledOn
             );
-
         }
-        rs.close ();
+        player.setPlayerListName(player.getDisplayName() + " " + ChatColor.GOLD + getBounty() + "c");
+        info.close ();
         Bukkit.getConsoleSender().sendMessage("Stiggles Player [" + player.getName()+ "]: Failed to register");
 
 
@@ -121,10 +147,24 @@ public class StigglesPlayer
         }*/
     }
 
-
+    public void addQuest (Quest.QuestName q) {
+        questsCompleted.add (q);
+        try {
+            main.getDatabase().execute("INSERT INTO quest VALUES ('" + q.toString() + "', '" + uuid + "', " + LocalDateTime.now().format(main.getFormatter()) + ";");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void addConvergence (int hash_id) {
+        convergenceFound.add(hash_id);
+        try {
+            main.getDatabase().execute("INSERT INTO convergence VALUES ('" + uuid + "', " + hash_id + ";");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     public void setKillstreak (int amount) {
         killstreak = amount;
-        Bounty.setKillstreak(player, amount);
         try {
             main.getDatabase().execute("UPDATE player_info SET killstreak = " + killstreak + " WHERE uuid = '" + uuid + "';");
         } catch (SQLException e) {
@@ -141,6 +181,10 @@ public class StigglesPlayer
     }
     public void setChatToggledOn (boolean val) {
         chatToggledOn = val;
+
+        if (!chatToggledOn)
+            main.getToggledChatPlayers().remove (uuid.toString());
+
         try {
             main.getDatabase().execute("UPDATE player_info SET chatToggledOn = " + chatToggledOn + " WHERE uuid = '" + uuid + "';");
         } catch (SQLException e) {
@@ -148,7 +192,7 @@ public class StigglesPlayer
         }
     }
     public void withdraw (int amount) {
-        if (!BankManager.withdraw(player, amount))
+        if (!coinBank.withdraw(amount))
             return;
         try {
             main.getDatabase().execute("UPDATE player_info SET balance = " + getBalance() + " WHERE uuid = '" + uuid + "';");
@@ -157,7 +201,7 @@ public class StigglesPlayer
         }
     }
     public void deposit (int amount) {
-        BankManager.deposit (player, amount);
+        coinBank.deposit (amount);
         try {
             main.getDatabase().execute("UPDATE player_info SET balance = " + getBalance() + " WHERE uuid = '" + uuid + "';");
         } catch (SQLException e) {
@@ -168,16 +212,17 @@ public class StigglesPlayer
         return player;
     }
     public int getBalance () {
-        return BankManager.getBalance(player);
+        return coinBank.getBalance();
     }
     public String getName () {
         return player.getName ();
     }
+    public CoinBank getCoinBank () { return coinBank; }
     public Location getLocation () {
         return player.getLocation ();
     }
     public int getBounty () {
-        return killstreak * 50;
+        return killstreak * 200;
     }
     public int getKillstreak () {
         return killstreak;
@@ -203,9 +248,11 @@ public class StigglesPlayer
     }
     @Override
     public String toString () {
-        return getName () + ": " +
-                          "\n\tLocation: " + getLocation () +
-                          "\n\tCoins: " + getBalance ();
+        return "[" + uuid + "]: " +
+                "\n\tName: " + name +
+                "\n\tLocation: " + getLocation() +
+                "\n\tCoins: " + getBalance() +
+                "\n\tKillstreak: " + killstreak;
     }
 
 

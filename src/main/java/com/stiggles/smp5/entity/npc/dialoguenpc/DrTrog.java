@@ -2,8 +2,11 @@ package com.stiggles.smp5.entity.npc.dialoguenpc;
 
 import com.stiggles.smp5.entity.npc.StigglesNPC;
 import com.stiggles.smp5.main.SMP5;
+import com.stiggles.smp5.stats.Quest;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class DrTrog extends StigglesNPC {
     public DrTrog (SMP5 main, String name, Location location) {
@@ -17,5 +20,25 @@ public class DrTrog extends StigglesNPC {
     @Override
     public void interactDialogue(Player player) {
         sendMessage(player,"Uh, hello?");
+    }
+
+
+    public boolean checkQuestItems (Player player) {
+        if (Quest.isQuestComplete(player, Quest.QuestName.SMALL_STEP))
+            return false;
+        if (player.getInventory().getItemInMainHand().hasItemMeta()) {
+            ItemMeta im = player.getInventory().getItemInMainHand().getItemMeta();
+            if (im != null && im.hasDisplayName() && im.getLocalizedName().equals("moon_dust")) {
+                player.getInventory().getItemInMainHand().setAmount(0);
+                sendMessage(player, "Oh! Was this from The Astronomer? Let me take a look.");
+                sendMessageLater(player, "Wow! This is amazing. This will be useful for what I am building.", 80);
+                sendMessageLater(player, "The machine will need to be able to communicate with 4 other machines that will later be located around the world.", 140);
+                sendMessageLater(player, "Until now, I was worried that the mountainous terrain here would weaken the signals between them.", 200);
+                sendMessageLater(player, "With these samples, I'm sure I can come up with a way to launch my machines into the sky to avoid that problem!", 260);
+                Quest.questComplete(player, Quest.QuestName.SMALL_STEP, "One Small Step...", 50);
+                return true;
+            }
+        }
+        return false;
     }
 }

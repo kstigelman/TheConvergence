@@ -70,3 +70,16 @@ create table quest (
     primary key (name, uuid),
     foreign key (uuid) references player (uuid)
 );
+create table convergence (
+       uuid      char(36),
+       hash_id       int,
+       primary key (uuid, hash_id),
+       foreign key (uuid) references player (uuid)
+);
+create table npc_talks (
+                               uuid char(36),
+                               npc_name varchar (32),
+                               timesTalkedTo int,
+                               primary key (uuid, npc_name),
+                               foreign key (uuid) references player (uuid)
+);
