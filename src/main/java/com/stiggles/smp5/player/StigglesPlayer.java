@@ -246,13 +246,16 @@ public class StigglesPlayer
     public void initializeNewPlayer (SMP5 main, Player p) {
         Database db = main.getDatabase();
     }
+
     @Override
     public String toString () {
         return "[" + uuid + "]: " +
                 "\n\tName: " + name +
                 "\n\tLocation: " + getLocation() +
                 "\n\tCoins: " + getBalance() +
-                "\n\tKillstreak: " + killstreak;
+                "\n\tKillstreak: " + killstreak +
+                "\n\tQuests: " + getQuestsCompleted().toString() +
+                "\n\tNPCs Talked To: " + getNPCsTalkedTo().toString();
     }
 
 

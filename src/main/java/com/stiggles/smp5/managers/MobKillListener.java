@@ -25,7 +25,7 @@ public class MobKillListener implements Listener {
             return;
 
         Player killer = e.getEntity().getKiller();
-
+        //StigglesPlayer sKiller = main.getPlayerManager().getStigglesPlayer (killer.getUniqueId());
         if (killer == null)
             return;
 
@@ -45,6 +45,7 @@ public class MobKillListener implements Listener {
             }
         }
 
+        //if (!sKiller.deposit(reward))
         if (!BankManager.deposit(killer, reward))
             return;
 

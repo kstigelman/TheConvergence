@@ -114,7 +114,7 @@ public class Drem extends ShopNPC {
         public ItemProvider getItemProvider () {
             return new ItemBuilder(Material.CROSSBOW)
                     .setDisplayName(ChatColor.GRAY + "Vladmir")
-                    .addLoreLines("Nouveau's impaling crossbow")
+                    .addLoreLines(ChatColor.GRAY + "Belonged to a friend of the Captain's.")
                     .addLoreLines(getCost())
                     .addEnchantment(Enchantment.PIERCING, 5, true);
         }
@@ -165,14 +165,7 @@ public class Drem extends ShopNPC {
             item.setItemMeta(meta);
         }
         public ItemProvider getItemProvider () {
-            return new ItemBuilder(Material.CHARCOAL)
-                    .setDisplayName(ChatColor.DARK_PURPLE + "Natalie's Pendant")
-                    .addLoreLines(getCost())
-                    .addLoreLines(ChatColor.BLUE + "Special Item")
-                    .addLoreLines (ChatColor.GRAY + "She was a symbol of justice.")
-                    .addLoreLines("")
-                    .addLoreLines(ChatColor.GOLD + "Right click " + ChatColor.GRAY + "to spawn a horse on demand.")
-                    .addLoreLines(ChatColor.GRAY + "This item will be consumed after use.");
+            return new ItemBuilder(item);
 
         }
         @Override

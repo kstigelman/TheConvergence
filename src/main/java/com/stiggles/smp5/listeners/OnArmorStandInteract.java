@@ -2,6 +2,7 @@ package com.stiggles.smp5.listeners;
 
 import com.stiggles.smp5.main.SMP5;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
@@ -38,8 +39,7 @@ public class OnArmorStandInteract implements Listener {
 
             //If has not talked to Dr Trog...
             e.getPlayer().sendMessage(ChatColor.GRAY + "This looks like a strange substance...");
-            int hash = (entity.getLocation().getBlockX() * 3) + (entity.getLocation().getBlockY() * 2) + entity.getLocation().getBlockZ ();
-            main.getPlayerManager().getStigglesPlayer(e.getPlayer().getUniqueId()).addConvergence(hash);
+            main.getPlayerManager().getStigglesPlayer(e.getPlayer().getUniqueId()).addConvergence(calculateHash(entity.getLocation()));
             return;
             /*
 
@@ -165,13 +165,13 @@ public class OnArmorStandInteract implements Listener {
         item.setItemMeta(im);
         return item;
     }
-    public ItemStack getConvergence (int hash) {
+    public ItemStack getConvergence (Location loc) {
         ItemStack item = new ItemStack(Material.AMETHYST_SHARD);
         ItemMeta im = item.getItemMeta();
         im.setDisplayName(ChatColor.LIGHT_PURPLE + "Convergence Crystal");
-        im.setLocalizedName("convergence_" + hash);
+        im.setLocalizedName("convergence_" + calculateHash(loc));
         im.setLore (Arrays.asList(ChatColor.BLUE + "Quest Item", ChatColor.GRAY + "A sample of Convergence",
-                ChatColor.DARK_GRAY + "ID: " + hash,
+                ChatColor.DARK_GRAY + "Found at (" + loc.getBlockX() + ", " + loc.getBlockY() + ", " + loc.getBlockZ() + ")",
                 ChatColor.GRAY + ChatColor.ITALIC.toString() + "Convergence is a substance created by ",
                 ChatColor.GRAY + ChatColor.ITALIC.toString() + "EGO Labs. They used their research on ",
                 ChatColor.GRAY + ChatColor.ITALIC.toString() + "it to create the world of Convergence."));
@@ -180,5 +180,9 @@ public class OnArmorStandInteract implements Listener {
         im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         item.setItemMeta(im);
         return item;
+    }
+
+    public int calculateHash (Location location) {
+        return location.getBlockX() + (location.getBlockY() * 2) + (location.getBlockZ() * 3);
     }
 }

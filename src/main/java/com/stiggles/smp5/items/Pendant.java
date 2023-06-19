@@ -64,7 +64,7 @@ public class Pendant implements Listener {
         if (im == null)
             return;
 
-        if (!im.getLocalizedName().equals("pendant"))
+        if (!im.getLocalizedName().contains("pendant"))
             return;
 
 

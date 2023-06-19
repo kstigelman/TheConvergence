@@ -20,6 +20,7 @@ import com.stiggles.smp5.entity.monsters.KillMagmaBoss;
 import com.stiggles.smp5.entity.npc.*;
 import com.stiggles.smp5.entity.npc.dialoguenpc.*;
 import com.stiggles.smp5.entity.npc.shopnpcs.*;
+import com.stiggles.smp5.items.Pendant;
 import com.stiggles.smp5.items.Pickaxes;
 import com.stiggles.smp5.items.Swords;
 import com.stiggles.smp5.items.armor.AnarchysWardrobe;
@@ -287,8 +288,9 @@ public class SMP5 extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new PeacesSymphony(), this);
         Bukkit.getPluginManager().registerEvents(new Entities(), this);
         Bukkit.getPluginManager().registerEvents(new EndEyeListener(), this);
+        Bukkit.getPluginManager().registerEvents(new Pendant(this), this);
         //manager.registerEvents(this, this);
-        Bukkit.getScheduler().runTaskLater(this, CustomSpawns::spawnWitherSkeleton, 20 * 60);
+        Bukkit.getScheduler().runTaskTimer(this, CustomSpawns::spawnWitherSkeleton, 20*30, 20 * 60);
 
         try {
             database.connect();

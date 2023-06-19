@@ -38,9 +38,14 @@ public class BoomBow implements Listener {
     }
     @EventHandler
     public void onShoot(EntityShootBowEvent e){
+        if (!e.getBow().hasItemMeta()) {
+            return;
+        }
         if (e.getBow().getItemMeta().getLocalizedName().equals("boom_bow")){
             e.getProjectile().getPersistentDataContainer().set(boomKey, PersistentDataType.STRING, "boom_arrow");
         }
+        
+        
     }
 
     @EventHandler
