@@ -20,6 +20,8 @@ import com.stiggles.smp5.entity.monsters.KillMagmaBoss;
 import com.stiggles.smp5.entity.npc.*;
 import com.stiggles.smp5.entity.npc.dialoguenpc.*;
 import com.stiggles.smp5.entity.npc.shopnpcs.*;
+import com.stiggles.smp5.events.AllMiscEvents;
+import com.stiggles.smp5.items.Cooldown;
 import com.stiggles.smp5.items.Pendant;
 import com.stiggles.smp5.items.Pickaxes;
 import com.stiggles.smp5.items.Swords;
@@ -94,6 +96,8 @@ public class SMP5 extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
+
+        Cooldown.setupCooldown();
 
         if (getServer ().getPluginManager ().getPlugin ("Citizens") == null || !getServer ().getPluginManager ().getPlugin ("Citizens").isEnabled()) {
             getLogger ().log (Level.SEVERE, "Citizens 2.0 not found or not enabled");
@@ -281,6 +285,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         runArmorCheck armorCheck = new runArmorCheck(this);
         CustomCrafting cc = new CustomCrafting(this);
         Bukkit.getPluginManager().registerEvents(new Swords(), this);
+        Bukkit.getPluginManager().registerEvents(new AllMiscEvents(), this);
         Bukkit.getPluginManager().registerEvents(new BoomBow(), this);
         Bukkit.getPluginManager().registerEvents(new GlowBow(), this);
         Bukkit.getPluginManager().registerEvents(new Pickaxes(), this);

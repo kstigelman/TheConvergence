@@ -2,6 +2,7 @@ package com.stiggles.smp5.entity.lostMerchant;
 
 import com.stiggles.smp5.main.SMP5;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -11,6 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
@@ -97,7 +99,31 @@ public class MerchantListener implements Listener {
         if (e.getView().getTitle().equals(ChatColor.GRAY + "Lost Merchant Shop") && e.getCurrentItem() != null) {
             e.setCancelled(true);
 
+            ItemStack item = e.getClickedInventory().getItem(e.getSlot());
+            Player p = (Player) e.getWhoClicked();
+
+            /***
+             *
+             * All Armor Trims Will Be In This Case Until Next Comment
+             *
+             */
+            if (item.equals(Material.TIDE_ARMOR_TRIM_SMITHING_TEMPLATE)){
+                checkItem(p, Material.TRIDENT, 1, Material.TIDE_ARMOR_TRIM_SMITHING_TEMPLATE,
+                        1);
+            }
+
+        }
+    }
+
+    public void checkItem(Player player, Material materialGiving, int amountGiving,
+                          Material materialReceiving, int amountGetting){
+
+        if(materialReceiving.equals(materialReceiving) &&
+        player.getInventory().containsAtLeast(new ItemStack(materialGiving), amountGiving)){
+            player.getInventory().addItem(new ItemStack(materialReceiving, amountGetting));
         }
     }
 }
 
+    checkItem(p, new ItemStack(Material.TRIDENT), 1,
+        Material.TIDE_ARMOR_TRIM_SMITHING_TEMPLATE, 1);

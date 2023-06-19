@@ -35,7 +35,9 @@ public class GrapplingHook {
         meta.setLore(Arrays.asList(
                 ChatColor.GRAY +  "",
                 ChatColor.AQUA +  "-- SPECIAL ITEM --",
-                ChatColor.AQUA + "Costs: 64 String & Fishing Rod"));
+                ChatColor.AQUA + "Costs: 128 String,",
+                ChatColor.AQUA + "- 1 Fishing Rod",
+                ChatColor.AQUA + "- 1 Tripwire Hook"));
         meta.setLocalizedName("grappling_hook");
         item.setItemMeta(meta);
         return item;

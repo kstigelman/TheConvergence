@@ -60,7 +60,7 @@ public class InventoryManager {
         itemNum = rand.nextInt(10) + 1;
         addItem(inv, getMinecraftTradeItems(itemNum), 28);
         itemNum = rand.nextInt(10) + 1;
-        addItem(inv, getMinecraftTradeItems(itemNum), 30);
+        addItem(inv, getMinecraftTradeItemsWithTrims(itemNum), 30);
         itemNum = rand.nextInt(10) + 1;
         addItem(inv, getMinecraftTradeItems(itemNum), 32);
         itemNum = rand.nextInt(10) + 1;
@@ -132,7 +132,7 @@ public class InventoryManager {
         return lunarArmor.getMoonShards(SMP5.rollNumber(1,5));
     }
 
-    public ItemStack getMinecraftTradeItems(int roll){
+    public ItemStack getMinecraftTradeItemsWithTrims(int roll){
         ItemStack item;
         ItemMeta meta;
         switch (roll) {
@@ -330,7 +330,7 @@ public class InventoryManager {
         return item;
     }
 
-    public ItemStack getMinecraftTradeItemsWithTrims(int roll){
+    public ItemStack getMinecraftTradeItems(int roll){
         ItemStack item;
         ItemMeta meta;
         switch (roll) {
