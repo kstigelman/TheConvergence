@@ -20,7 +20,6 @@ import com.stiggles.smp5.entity.monsters.KillMagmaBoss;
 import com.stiggles.smp5.entity.npc.*;
 import com.stiggles.smp5.entity.npc.dialoguenpc.*;
 import com.stiggles.smp5.entity.npc.shopnpcs.*;
-import com.stiggles.smp5.items.Pendant;
 import com.stiggles.smp5.items.Pickaxes;
 import com.stiggles.smp5.items.Swords;
 import com.stiggles.smp5.items.armor.AnarchysWardrobe;
@@ -115,6 +114,7 @@ public class SMP5 extends JavaPlugin implements Listener {
             Bukkit.getConsoleSender().sendMessage("NVTECH: Failed to connect to database.");
         }
 
+
         if (Bukkit.getWorld ("world") == null) {
             Bukkit.getConsoleSender().sendMessage("NVTECH: Could not load world.");
             Bukkit.getServer().shutdown();
@@ -126,10 +126,12 @@ public class SMP5 extends JavaPlugin implements Listener {
             new WorldCreator("testdungeon").createWorld();
         }
 
+
         registeredUUIDs = new ArrayList<>();
         online_players = new HashMap<>();
         playerManager = new PlayerManager();
         bankManager = new BankManager(this);
+
 
         if (database.isConnected()) {
             Bounty.initializeMap(this);
@@ -285,7 +287,6 @@ public class SMP5 extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new PeacesSymphony(), this);
         Bukkit.getPluginManager().registerEvents(new Entities(), this);
         Bukkit.getPluginManager().registerEvents(new EndEyeListener(), this);
-        Bukkit.getPluginManager().registerEvents(new Pendant(this), this);
         //manager.registerEvents(this, this);
         Bukkit.getScheduler().runTaskLater(this, CustomSpawns::spawnWitherSkeleton, 20 * 60);
 
