@@ -137,6 +137,204 @@ public class InventoryManager {
         ItemMeta meta;
         switch (roll) {
             case 1:
+                item = new ItemStack(Material.TIDE_ARMOR_TRIM_SMITHING_TEMPLATE);
+                meta = item.getItemMeta();
+                item.setItemMeta(meta);
+                meta.setLore(Arrays.asList(
+                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.AQUA + "1 Trident"));
+                item.setItemMeta(meta);
+                return item;
+            case 2:
+                item = new ItemStack(Material.WILD_ARMOR_TRIM_SMITHING_TEMPLATE);
+                meta = item.getItemMeta();
+                item.setItemMeta(meta);
+                meta.setLore(Arrays.asList(
+                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.AQUA + "1 Conduit"));
+                item.setItemMeta(meta);
+                return item;
+            case 3:
+                item = new ItemStack(Material.COAST_ARMOR_TRIM_SMITHING_TEMPLATE);
+                meta = item.getItemMeta();
+                item.setItemMeta(meta);
+                meta.setLore(Arrays.asList(
+                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.AQUA + "57 Bamboo Doors"));
+                item.setItemMeta(meta);
+                return item;
+            case 4:
+                item = new ItemStack(Material.VEX_ARMOR_TRIM_SMITHING_TEMPLATE);
+                meta = item.getItemMeta();
+                item.setItemMeta(meta);
+                meta.setLore(Arrays.asList(
+                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.AQUA + "1 Totem Of Undying"));
+                item.setItemMeta(meta);
+                return item;
+            case 5:
+                item = new ItemStack(Material.EMERALD_ORE, SMP5.rollNumber(2,10));
+                meta = item.getItemMeta();
+                item.setItemMeta(meta);
+                meta.setLore(Arrays.asList(
+                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.AQUA + "7 Cooked Chicken"));
+                item.setItemMeta(meta);
+                return item;
+            case 6:
+                item = new ItemStack(Material.DUNE_ARMOR_TRIM_SMITHING_TEMPLATE);
+                meta = item.getItemMeta();
+                item.setItemMeta(meta);
+                meta.setLore(Arrays.asList(
+                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.AQUA + "16 TNT"));
+                item.setItemMeta(meta);
+                return item;
+            case 7:
+                item = new ItemStack(Material.SNOUT_ARMOR_TRIM_SMITHING_TEMPLATE);
+                meta = item.getItemMeta();
+                item.setItemMeta(meta);
+                meta.setLore(Arrays.asList(
+                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.AQUA + "2 Netherite Scrap"));
+                item.setItemMeta(meta);
+                return item;
+            case 8:
+                item = new ItemStack(Material.SNOW_GOLEM_SPAWN_EGG);
+                meta = item.getItemMeta();
+                item.setItemMeta(meta);
+                meta.setLore(Arrays.asList(
+                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.AQUA + "4 Snow blocks"));
+                item.setItemMeta(meta);
+                return item;
+            case 9:
+                item = new ItemStack(Material.SPIRE_ARMOR_TRIM_SMITHING_TEMPLATE);
+                meta = item.getItemMeta();
+                item.setItemMeta(meta);
+                meta.setLore(Arrays.asList(
+                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.AQUA + "16 Eyes Of Ender"));
+                item.setItemMeta(meta);
+                return item;
+            case 10:
+                item = new ItemStack(Material.LECTERN, SMP5.rollNumber(1,5));
+                meta = item.getItemMeta();
+                item.setItemMeta(meta);
+                meta.setLore(Arrays.asList(
+                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.AQUA + "3 Books"));
+                item.setItemMeta(meta);
+                return item;
+            case 11:
+                item = new ItemStack(Material.SILENCE_ARMOR_TRIM_SMITHING_TEMPLATE);
+                meta = item.getItemMeta();
+                item.setItemMeta(meta);
+                meta.setLore(Arrays.asList(
+                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.AQUA + "20 Sculk Catalysts"));
+                item.setItemMeta(meta);
+                return item;
+            case 12:
+                item = new ItemStack(Material.SENTRY_ARMOR_TRIM_SMITHING_TEMPLATE);
+                meta = item.getItemMeta();
+                item.setItemMeta(meta);
+                meta.setLore(Arrays.asList(
+                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.AQUA + "64 String"));
+                item.setItemMeta(meta);
+                return item;
+            case 13:
+                item = new ItemStack(Material.GOLDEN_APPLE, SMP5.rollNumber(5,10));
+                meta = item.getItemMeta();
+                item.setItemMeta(meta);
+                meta.setLore(Arrays.asList(
+                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.AQUA + "10 Golden Ingots"));
+                item.setItemMeta(meta);
+                return item;
+            case 14:
+                item = new ItemStack(Material.GOLDEN_CARROT, SMP5.rollNumber(5,10));
+                meta = item.getItemMeta();
+                item.setItemMeta(meta);
+                meta.setLore(Arrays.asList(
+                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.AQUA + "7 Golden Nuggets"));
+                item.setItemMeta(meta);
+                return item;
+            case 15:
+                item = new ItemStack(Material.ENDER_EYE, SMP5.rollNumber(1,5));
+                meta = item.getItemMeta();
+                item.setItemMeta(meta);
+                meta.setLore(Arrays.asList(
+                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.AQUA + "6 Ender Pearl"));
+                item.setItemMeta(meta);
+                return item;
+            case 16:
+                item = new ItemStack(Material.ENCHANTING_TABLE);
+                meta = item.getItemMeta();
+                item.setItemMeta(meta);
+                meta.setLore(Arrays.asList(
+                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.AQUA + "2 Obsidian"));
+                item.setItemMeta(meta);
+                return item;
+            case 17:
+                item = new ItemStack(Material.BOW);
+                meta = item.getItemMeta();
+                item.setItemMeta(meta);
+                meta.setLore(Arrays.asList(
+                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.AQUA + "3 String"));
+                item.setItemMeta(meta);
+                return item;
+            case 18:
+                item = new ItemStack(Material.ARROW, SMP5.rollNumber(5,20));
+                meta = item.getItemMeta();
+                item.setItemMeta(meta);
+                meta.setLore(Arrays.asList(
+                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.AQUA + "8 Flint"));
+                item.setItemMeta(meta);
+                return item;
+            case 19:
+                item = new ItemStack(Material.IRON_AXE);
+                meta = item.getItemMeta();
+                item.setItemMeta(meta);
+                meta.setLore(Arrays.asList(
+                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.AQUA + "2 Iron Ingots"));
+                item.setItemMeta(meta);
+                return item;
+            case 20:
+                item = new ItemStack(Material.NETHER_WART, SMP5.rollNumber(5,20));
+                meta = item.getItemMeta();
+                item.setItemMeta(meta);
+                meta.setLore(Arrays.asList(
+                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.AQUA + "3 Blaze Powder"));
+                item.setItemMeta(meta);
+                return item;
+            default:
+                Bukkit.getLogger().log(Level.WARNING, "Please give a value 1<=x<=20!");
+                break;
+        }
+        item = new ItemStack(Material.EMERALD_ORE, SMP5.rollNumber(2,10));
+        meta = item.getItemMeta();
+        item.setItemMeta(meta);
+        meta.setLore(Arrays.asList(
+                ChatColor.GRAY +  "To buy this, it costs",
+                ChatColor.AQUA + "7 Cooked Chicken"));
+        item.setItemMeta(meta);
+        return item;
+    }
+
+    public ItemStack getMinecraftTradeItemsWithTrims(int roll){
+        ItemStack item;
+        ItemMeta meta;
+        switch (roll) {
+            case 1:
                 item = new ItemStack(Material.ROTTEN_FLESH, SMP5.rollNumber(5,20));
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);

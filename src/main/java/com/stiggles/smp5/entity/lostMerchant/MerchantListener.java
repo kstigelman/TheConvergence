@@ -40,11 +40,18 @@ public class MerchantListener implements Listener {
                 if (e.getRightClicked().getCustomName().equals(ChatColor.AQUA + "Merchant Marketeer")) {
                     Villager m = (Villager) e.getRightClicked();
                     if (merchantCheckList.get(m.getUniqueId()) == null) {
-                        inv = inventoryManager.makeInventory(p, 54, ChatColor.GRAY + "Lost Merchant Shop", inv);
-                        inventoryManager.setInvMap(m.getUniqueId(), inv);
-                        merchantCheckList.put(m.getUniqueId(), true);
-                        p.openInventory(inv);
+                        if (SMP5.rollNumber(1,2) == 1){
+                            merchantCheckList.put(m.getUniqueId(), true);
+                            inv = inventoryManager.makeInventory(p, 54, ChatColor.GRAY + "Lost Merchant Shop", inv);
+                            inventoryManager.setInvMap(m.getUniqueId(), inv);
+                            merchantCheckList.put(m.getUniqueId(), true);
+                            p.openInventory(inv);
+                        } else {
+                            merchantCheckList.put(m.getUniqueId(), false);
+                        }
 
+                    } else if (merchantCheckList.get(m.getUniqueId()) == false){
+                        p.sendMessage(ChatColor.RED + "This merchant does not currently have anything in stock! Please try again the next tomorrow.");
                     } else {
                         p.openInventory(inventoryManager.getInventoryFromMap(m.getUniqueId()));
                     }
@@ -79,7 +86,7 @@ public class MerchantListener implements Listener {
                             p.playSound(p, Sound.ENTITY_VILLAGER_CELEBRATE, 1, 1);
                             p.sendMessage(ChatColor.GRAY.toString() + ChatColor.ITALIC + "Merchant Representative whispers to you: My workers also change their location every 10 minutes as well! They may not always be in the same spot!");
                         }
-                    }.runTaskLater(plugin, 160);
+                    }.runTaskLater(plugin, 180);
                 }
             }
         }

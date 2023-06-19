@@ -133,12 +133,4 @@ public class CustomSpawns {
         }.runTaskLater(main, 15);
     }
 
-    private static void resetMerchants(){
-        new BukkitRunnable() { public void run() {  merchantTime(); }}.runTaskTimer(main, 20*30, 20*(60*10));
-    }
-
-    private static void merchantTime() {
-        
-    }
-
 }

@@ -48,9 +48,19 @@ public class GlowBow implements Listener {
         if(!(e.getEntity() instanceof Player)) return;
         if (e.getBow().getItemMeta().getLocalizedName().equals("glow_bow")){
             e.getProjectile().getPersistentDataContainer().set(glowKey, PersistentDataType.STRING, "glow_arrow");
+            ItemMeta meta = e.getBow().getItemMeta();
+            meta.setUnbreakable(false);
+            meta.setDisplayName((ChatColor.WHITE + "Recon Bow"));
+            meta.setLore(Arrays.asList(
+                    ChatColor.GRAY +  "I, am the hunter!",
+                    ChatColor.GRAY +  "",
+                    ChatColor.GOLD +  "-- SPECIAL ITEM --",
+                    ChatColor.GRAY + "This bow scans nearby entities",
+                    ChatColor.GRAY + "within a 10x10x10 block radius",
+                    ChatColor.GRAY + "then makes them GLOW for 10 seconds"));
+            meta.setLocalizedName("glow_bow");
 
-            if (e.getBow().getItemMeta().isUnbreakable())
-                e.getBow().getItemMeta().setUnbreakable(false);
+            e.getBow().setItemMeta(meta);
         }
 
     }
