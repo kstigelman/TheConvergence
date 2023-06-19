@@ -1,4 +1,4 @@
-package com.stiggles.smp5.events;
+package com.stiggles.smp5.listeners;
 
 import com.stiggles.smp5.items.Cooldown;
 import org.bukkit.ChatColor;

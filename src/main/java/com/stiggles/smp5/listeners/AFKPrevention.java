@@ -1,4 +1,4 @@
-package com.stiggles.smp5.events;
+package com.stiggles.smp5.listeners;
 
 import com.stiggles.smp5.main.SMP5;
 import org.bukkit.ChatColor;
@@ -21,7 +21,6 @@ public class AFKPrevention implements Listener {
     Map<UUID, Integer> playerBlocksRan = new HashMap<UUID, Integer>();
     //Map<UUID, Integer> playerTimePlayed = new HashMap<UUID, Integer>();
 
-
     private static SMP5 main;
     public AFKPrevention (SMP5 main) {
         this.main = main;
@@ -34,15 +33,13 @@ public class AFKPrevention implements Listener {
             Player p = e.getPlayer();
             UUID uuid = p.getUniqueId();
 
-
-
             if (playerBlocksWalked.get(uuid) != null && playerBlocksRan.get(uuid) != null) {
                 int playerWalkedBlocks = playerBlocksWalked.get(uuid);
                 int playerRanBlocks = playerBlocksRan.get(uuid);
 
                 if (playerWalkedBlocks <= p.getStatistic(Statistic.WALK_ONE_CM) &&
                         playerRanBlocks <= p.getStatistic(Statistic.SPRINT_ONE_CM)) {
-                    p.kickPlayer(ChatColor.RED + "You are only limited to one hour of being AFK!");
+                    p.kickPlayer(ChatColor.RED + "You've been kicked for being away for to long!");
                 }
 
             } else {
@@ -52,6 +49,6 @@ public class AFKPrevention implements Listener {
 
             }
 
-        }}.runTaskTimer(main, 0, 20*(60*60));
+        }}.runTaskTimer(main, 20*(60*2), 20*(60*60));
     }
 }

@@ -376,7 +376,7 @@ public class InventoryManager {
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
                         ChatColor.GRAY +  "To buy this, it costs",
-                        ChatColor.AQUA + "7 Cooked Chicken"));
+                        ChatColor.AQUA + "8 Cooked Chicken"));
                 item.setItemMeta(meta);
                 return item;
             case 6:
@@ -412,7 +412,7 @@ public class InventoryManager {
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
                         ChatColor.GRAY +  "To buy this, it costs",
-                        ChatColor.AQUA + "6 Brown Mushrooms"));
+                        ChatColor.AQUA + "3 Brown Mushrooms"));
                 item.setItemMeta(meta);
                 return item;
             case 10:
@@ -448,7 +448,7 @@ public class InventoryManager {
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
                         ChatColor.GRAY +  "To buy this, it costs",
-                        ChatColor.AQUA + "10 Golden Ingots"));
+                        ChatColor.AQUA + "10 Gold Ingots"));
                 item.setItemMeta(meta);
                 return item;
             case 14:
@@ -457,7 +457,7 @@ public class InventoryManager {
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
                         ChatColor.GRAY +  "To buy this, it costs",
-                        ChatColor.AQUA + "7 Golden Nuggets"));
+                        ChatColor.AQUA + "7 Gold Nuggets"));
                 item.setItemMeta(meta);
                 return item;
             case 15:
@@ -466,7 +466,7 @@ public class InventoryManager {
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
                         ChatColor.GRAY +  "To buy this, it costs",
-                        ChatColor.AQUA + "6 Ender Pearl"));
+                        ChatColor.AQUA + "3 Ender Pearl"));
                 item.setItemMeta(meta);
                 return item;
             case 16:
@@ -488,7 +488,7 @@ public class InventoryManager {
                 item.setItemMeta(meta);
                 return item;
             case 18:
-                item = new ItemStack(Material.ARROW, SMP5.rollNumber(5,20));
+                item = new ItemStack(Material.ARROW, SMP5.rollNumber(10,30));
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
@@ -497,12 +497,12 @@ public class InventoryManager {
                 item.setItemMeta(meta);
                 return item;
             case 19:
-                item = new ItemStack(Material.IRON_AXE);
+                item = new ItemStack(Material.DIAMOND_AXE);
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
                         ChatColor.GRAY +  "To buy this, it costs",
-                        ChatColor.AQUA + "2 Iron Ingots"));
+                        ChatColor.AQUA + "1 Diamond"));
                 item.setItemMeta(meta);
                 return item;
             case 20:

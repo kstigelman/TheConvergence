@@ -9,7 +9,6 @@
 package com.stiggles.smp5.main;
 
 import com.stiggles.smp5.commands.*;
-import com.stiggles.smp5.dungeons.DungeonManager;
 import com.stiggles.smp5.dungeons.DungeonStartCommand;
 import com.stiggles.smp5.entity.Entities;
 import com.stiggles.smp5.entity.lostMerchant.InventoryManager;
@@ -20,7 +19,7 @@ import com.stiggles.smp5.entity.monsters.KillMagmaBoss;
 import com.stiggles.smp5.entity.npc.*;
 import com.stiggles.smp5.entity.npc.dialoguenpc.*;
 import com.stiggles.smp5.entity.npc.shopnpcs.*;
-import com.stiggles.smp5.events.AllMiscEvents;
+import com.stiggles.smp5.listeners.AllMiscEvents;
 import com.stiggles.smp5.items.Cooldown;
 import com.stiggles.smp5.items.Pendant;
 import com.stiggles.smp5.items.Pickaxes;
@@ -46,9 +45,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -413,5 +410,7 @@ public class SMP5 extends JavaPlugin implements Listener {
             }
         }
     }
+
+    public void shutdownServer(){ Bukkit.shutdown(); }
 
 }

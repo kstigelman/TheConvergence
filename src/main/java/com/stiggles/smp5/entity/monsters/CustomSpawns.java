@@ -16,7 +16,7 @@ public class CustomSpawns {
 
 
 
-    public static void startForBlazingBeast(){
+    public static void startCountForBlazingBeast(){
         Cuboid beastTower = new Cuboid(
                 new Location(Bukkit.getWorld("world_nether"), 99, 206, 228),
                 new Location(Bukkit.getWorld("world_nether"), 93, 206, 222));
@@ -128,7 +128,7 @@ public class CustomSpawns {
 
     private static void groupLighning(Location location) {
         new BukkitRunnable() { public void run() {
-            Bukkit.getWorld("world_nether").strikeLightning(location);
+            location.getWorld().strikeLightning(location);
         }
         }.runTaskLater(main, 15);
     }
