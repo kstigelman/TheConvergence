@@ -64,6 +64,7 @@ public class GlowBow implements Listener {
         }
 
     }
+
     @EventHandler
     public void onLand(ProjectileHitEvent e){
         PersistentDataContainer container = e.getEntity().getPersistentDataContainer();
