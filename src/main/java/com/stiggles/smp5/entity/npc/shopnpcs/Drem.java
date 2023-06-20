@@ -154,6 +154,7 @@ public class Drem extends ShopNPC {
             ItemMeta meta = item.getItemMeta();
             if (meta == null)
                 return;
+            meta.setDisplayName(ChatColor.DARK_PURPLE + "Natalie's Pendant");
             meta.setLocalizedName("pendant");
             meta.setLore(Arrays.asList (
                     ChatColor.BLUE + "Special Item",

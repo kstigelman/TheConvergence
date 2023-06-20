@@ -28,3 +28,5 @@ commands:
     description: Admins only!
   spawn-merchants:
     description: Admins only!
+  get-stats:
+    description: List all your stats!

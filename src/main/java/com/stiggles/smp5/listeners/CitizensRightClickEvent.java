@@ -1,8 +1,10 @@
 package com.stiggles.smp5.listeners;
 
+import com.stiggles.smp5.entity.npc.StigglesNPC;
 import com.stiggles.smp5.main.SMP5;
 import com.stiggles.smp5.managers.NPCManager;
 import net.citizensnpcs.api.event.NPCRightClickEvent;
+import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.Sound;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,6 +18,8 @@ public class CitizensRightClickEvent implements Listener {
     @EventHandler
     public void onRightClick (NPCRightClickEvent e) {
         e.getClicker().playSound(e.getClicker(), Sound.ENTITY_VILLAGER_AMBIENT, 1, 1.5f);
-        NPCManager.getNPC(e.getNPC ().getId()).onInteract(e.getClicker());
+        StigglesNPC npc = NPCManager.getNPC(e.getNPC ().getId());
+        npc.onInteract(e.getClicker());
+        main.getPlayerManager().getStigglesPlayer(e.getClicker().getUniqueId()).addNPC(npc.getName());
     }
 }

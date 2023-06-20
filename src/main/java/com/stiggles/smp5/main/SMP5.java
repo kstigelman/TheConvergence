@@ -130,7 +130,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         registeredUUIDs = new ArrayList<>();
         online_players = new HashMap<>();
         playerManager = new PlayerManager();
-        bankManager = new BankManager(this);
+        //bankManager = new BankManager(this);
 
 
         if (database.isConnected()) {
@@ -138,8 +138,8 @@ public class SMP5 extends JavaPlugin implements Listener {
             //LOAD Registered player (UUIDS) from database
             Bukkit.getPluginManager().registerEvents(new LogEventListener(this), this);
             try {
-                ResultSet rs = database.query("SELECT * FROM player;");
-                //ResultSet rs = database.query("SELECT * FROM player_info;");
+                //ResultSet rs = database.query("SELECT * FROM player;");
+                ResultSet rs = database.query("SELECT uuid FROM player_info;");
                 if (rs != null) {
                     while (rs.next()) {
                         UUID uuid = UUID.fromString(rs.getString(1));
@@ -185,7 +185,7 @@ public class SMP5 extends JavaPlugin implements Listener {
                 p.kickPlayer("Server is shutting down!");
         }
         //Update world database
-        BankManager.onDisable();
+        //BankManager.onDisable();
         //database.runQueue();
         try {
             database.connect();
@@ -381,6 +381,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         Bukkit.getPluginCommand("alert").setExecutor(new RestartAlertCommand(this));
         Bukkit.getPluginCommand("reset-merchants").setExecutor(new ResetMerchants());
         Bukkit.getPluginCommand("spawn-merchants").setExecutor(new SpawnMerchants());
+        Bukkit.getPluginCommand("get-stats").setExecutor(new GetStatsCommand(this));
     }
 
     public static int rollNumber(int min, int max){

@@ -39,7 +39,7 @@ public class OnArmorStandInteract implements Listener {
 
             //If has not talked to Dr Trog...
             e.getPlayer().sendMessage(ChatColor.GRAY + "This looks like a strange substance...");
-            //main.getPlayerManager().getStigglesPlayer(e.getPlayer().getUniqueId()).addConvergence(calculateHash(entity.getLocation()));
+            main.getPlayerManager().getStigglesPlayer(e.getPlayer().getUniqueId()).addConvergence(calculateHash(entity.getLocation()));
             return;
             /*
 

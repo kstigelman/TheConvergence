@@ -32,7 +32,6 @@ public class AnarchysWardrobe implements Listener {
         meta.setUnbreakable(true);
         meta.setColor(Color.fromRGB(166, 0, 199));
         meta.setDisplayName(ChatColor.LIGHT_PURPLE + "Anarchy's Helmet");
-        meta.hasItemFlag(ItemFlag.HIDE_ATTRIBUTES);
         meta.setLore(Arrays.asList(
                 ChatColor.GRAY +  "",
                 ChatColor.LIGHT_PURPLE +  "-- SPECIAL ARMOR --",
@@ -50,7 +49,7 @@ public class AnarchysWardrobe implements Listener {
         AttributeModifier toughnessArmor = new AttributeModifier("generic.armor_toughness", 2, AttributeModifier.Operation.ADD_NUMBER);
         meta.addAttributeModifier(Attribute.GENERIC_ARMOR, genericArmor);
         meta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, toughnessArmor);
-
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         item.setItemMeta(meta);
         return item;
     }
@@ -60,7 +59,6 @@ public class AnarchysWardrobe implements Listener {
         meta.setUnbreakable(true);
         meta.setColor(Color.fromRGB(166, 0, 199));
         meta.setDisplayName(ChatColor.LIGHT_PURPLE + "Anarchy's Chestplate");
-        meta.hasItemFlag(ItemFlag.HIDE_ATTRIBUTES);
         meta.setLore(Arrays.asList(
                 ChatColor.GRAY +  "",
                 ChatColor.LIGHT_PURPLE +  "-- SPECIAL ARMOR --",
@@ -79,7 +77,7 @@ public class AnarchysWardrobe implements Listener {
         AttributeModifier toughnessArmor = new AttributeModifier("generic.armor_toughness", 2, AttributeModifier.Operation.ADD_NUMBER);
         meta.addAttributeModifier(Attribute.GENERIC_ARMOR, genericArmor);
         meta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, toughnessArmor);
-
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         item.setItemMeta(meta);
         return item;
     }
@@ -90,7 +88,6 @@ public class AnarchysWardrobe implements Listener {
         meta.setUnbreakable(true);
         meta.setColor(Color.fromRGB(166, 0, 199));
         meta.setDisplayName(ChatColor.LIGHT_PURPLE + "Anarchy's Leggings");
-        meta.hasItemFlag(ItemFlag.HIDE_ATTRIBUTES);
         meta.setLore(Arrays.asList(
                 ChatColor.GRAY +  "",
                 ChatColor.LIGHT_PURPLE +  "-- SPECIAL ARMOR --",
@@ -109,7 +106,7 @@ public class AnarchysWardrobe implements Listener {
         AttributeModifier toughnessArmor = new AttributeModifier("generic.armor_toughness", 2, AttributeModifier.Operation.ADD_NUMBER);
         meta.addAttributeModifier(Attribute.GENERIC_ARMOR, genericArmor);
         meta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, toughnessArmor);
-
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         item.setItemMeta(meta);
         return item;
     }
@@ -119,7 +116,6 @@ public class AnarchysWardrobe implements Listener {
         meta.setUnbreakable(true);
         meta.setColor(Color.fromRGB(166, 0, 199));
         meta.setDisplayName(ChatColor.LIGHT_PURPLE + "Anarchy's Boots");
-        meta.hasItemFlag(ItemFlag.HIDE_ATTRIBUTES);
         meta.setLore(Arrays.asList(
                 ChatColor.GRAY +  "",
                 ChatColor.LIGHT_PURPLE +  "-- SPECIAL ARMOR --",
@@ -138,7 +134,7 @@ public class AnarchysWardrobe implements Listener {
         AttributeModifier toughnessArmor = new AttributeModifier("generic.armor_toughness", 2, AttributeModifier.Operation.ADD_NUMBER);
         meta.addAttributeModifier(Attribute.GENERIC_ARMOR, genericArmor);
         meta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, toughnessArmor);
-
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         item.setItemMeta(meta);
         return item;
     }

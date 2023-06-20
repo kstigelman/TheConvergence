@@ -2,6 +2,7 @@ package com.stiggles.smp5.commands;
 
 import com.stiggles.smp5.main.SMP5;
 import com.stiggles.smp5.managers.BankManager;
+import com.stiggles.smp5.player.StigglesPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -28,11 +29,11 @@ public class CoinCommand implements CommandExecutor {
                             Player argPlayer = Bukkit.getPlayer(args[1]);
 
                             if (argPlayer != null) {
-                                //StigglesPlayer sPlayer = main.getPlayerManager().getStigglesPlayer (argPlayer.getUniqueId ());
+                                StigglesPlayer sPlayer = main.getPlayerManager().getStigglesPlayer (argPlayer.getUniqueId ());
                                 try {
                                     int amount = Integer.parseInt(args[2]);
-                                    BankManager.deposit(argPlayer, amount);
-                                    //sPlayer.deposit (argPlayer, amount);
+                                    //BankManager.deposit(argPlayer, amount);
+                                    sPlayer.deposit (amount);
                                     p.sendMessage("Added " + amount + " to " + argPlayer.getName());
                                     return true;
                                 }
@@ -47,9 +48,9 @@ public class CoinCommand implements CommandExecutor {
                     }
                     Player argPlayer = Bukkit.getPlayer(args[0]);
                     if (argPlayer != null) {
-                        //StigglesPlayer sPlayer = main.getPlayerManager().getStigglesPlayer (argPlayer.getUniqueId ());
-                        //p.sendMessage(args[0] + " has " + sPlayer.getBalance() + " coins.");
-                        p.sendMessage(args[0] + " has " + BankManager.getBalance(argPlayer)+ " coins.");
+                        StigglesPlayer sPlayer = main.getPlayerManager().getStigglesPlayer (argPlayer.getUniqueId ());
+                        p.sendMessage(args[0] + " has " + sPlayer.getBalance() + " coins.");
+                        //p.sendMessage(args[0] + " has " + BankManager.getBalance(argPlayer)+ " coins.");
                         return true;
                     }
                     p.sendMessage(ChatColor.RED + "Account does not exist!");
@@ -58,7 +59,8 @@ public class CoinCommand implements CommandExecutor {
                 //If they have any other arguments and the player is not opped, just ignore
                 // the arg and return the player's account instead.
             }
-            p.sendMessage("You have " + ChatColor.GOLD + BankManager.getBalance(p) + " coins.");
+            p.sendMessage("You have " + ChatColor.GOLD + main.getPlayerManager().getStigglesPlayer (p.getUniqueId ()).getBalance () + " coins.");
+            //p.sendMessage("You have " + ChatColor.GOLD + BankManager.getBalance(p) + " coins.");
             return true;
         }
         else if (args.length > 0) {
@@ -68,8 +70,9 @@ public class CoinCommand implements CommandExecutor {
                     if (argPlayer != null) {
                         try {
                             int amount = Integer.parseInt(args[2]);
-                            //StigglesPlayer sPlayer = main.getPlayerManager().getStigglesPlayer (argPlayer.getUniqueId ());
-                            BankManager.deposit(argPlayer, amount);
+                            StigglesPlayer sPlayer = main.getPlayerManager().getStigglesPlayer (argPlayer.getUniqueId ());
+                            sPlayer.deposit(amount);
+                           //BankManager.deposit(argPlayer, amount);
                             Bukkit.getConsoleSender().sendMessage("Added " + amount + " to " + argPlayer.getName());
                             return true;
                         }
@@ -84,9 +87,9 @@ public class CoinCommand implements CommandExecutor {
             }
             Player argPlayer = Bukkit.getPlayer(args[0]);
             if (argPlayer != null) {
-                //StigglesPlayer sPlayer = main.getPlayerManager().getStigglesPlayer (argPlayer.getUniqueId ());
-                //p.sendMessage(args[0] + " has " + sPlayer.getBalance() + " coins.");
-                Bukkit.getConsoleSender().sendMessage(args[0] + " has " + BankManager.getBalance(argPlayer)+ " coins.");
+                StigglesPlayer sPlayer = main.getPlayerManager().getStigglesPlayer (argPlayer.getUniqueId ());
+                Bukkit.getConsoleSender().sendMessage(args[0] + " has " + sPlayer.getBalance() + " coins.");
+                //Bukkit.getConsoleSender().sendMessage(args[0] + " has " + BankManager.getBalance(argPlayer)+ " coins.");
                 return true;
             }
             Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "Account does not exist!");

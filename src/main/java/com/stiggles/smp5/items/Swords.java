@@ -11,6 +11,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
@@ -69,6 +70,7 @@ public class Swords implements Listener {
                 ChatColor.AQUA + "Costs: 16 Emerald Blocks"));
         meta.setLocalizedName("emerald_dagger");
         item.setItemMeta(meta);
+
         return item;
     }
     public ItemStack getTheEmeraldDagger(){

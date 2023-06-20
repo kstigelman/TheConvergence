@@ -27,18 +27,18 @@ public class ToggleCoinChat implements CommandExecutor {
         if (commandSender instanceof Player) {
             Player p = (Player) commandSender;
 
-            //StigglesPlayer playerData = main.getPlayerManager().getStigglesPlayer(p.getUniqueId());
-            ArrayList<String> toggled = main.getToggledChatPlayers();
+            StigglesPlayer playerData = main.getPlayerManager().getStigglesPlayer(p.getUniqueId());
+            //ArrayList<String> toggled = main.getToggledChatPlayers();
 
-            /*if (playerData.hasChatToggledOn()) {
+            if (playerData.hasChatToggledOn()) {
                 playerData.setChatToggledOn(false);
                 p.sendMessage("Coin rewards chat is now " + ChatColor.RED + "OFF");
 
             } else {
                 playerData.setChatToggledOn(true);
                 p.sendMessage("Coin rewards chat is now " + ChatColor.GREEN + "ON");
-            }*/
-
+            }
+/*
             if (toggled.contains(p.getName())) {
                 toggled.add (p.getName());
                 p.sendMessage("Coin rewards chat is now " + ChatColor.RED + "OFF");
@@ -47,7 +47,7 @@ public class ToggleCoinChat implements CommandExecutor {
                 toggled.remove (p.getName());
                 p.sendMessage("Coin rewards chat is now " + ChatColor.GREEN + "ON");
             }
-
+*/
             return true;
         }
         //Set global variable for player to false/true

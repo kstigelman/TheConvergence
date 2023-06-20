@@ -61,9 +61,9 @@ public class BountyListeners implements Listener {
             victim.getWorld().dropItem(victim.getLocation(), getPlayerSkull(victim, killer.getName()));
             killer.sendMessage(ChatColor.GOLD + "You were rewarded " + reward + " coins for killing " + victim.getName() + "!");
 
-            BankManager.deposit(killer, reward);
-            Bounty.update (killer, Bounty.getKillstreak(killer) + 1);
-            Bounty.update (victim, 0);
+            //BankManager.deposit(killer, reward);
+            //Bounty.update (killer, Bounty.getKillstreak(killer) + 1);
+            //Bounty.update (victim, 0);
 
             stigglesKiller.deposit(reward2);
             stigglesKiller.setKillstreak(stigglesKiller.getKillstreak() + 1);

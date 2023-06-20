@@ -55,13 +55,13 @@ public class StigglesPlayer
         Database db = main.getDatabase();
         db.connect ();
 
+
         ResultSet info = db.query(
                 "SELECT * FROM player_info WHERE uuid = '" + uuid.toString() + "';"
         );
-
         if (info.next()) {
             this.coinBank = new CoinBank (player.getUniqueId(), info.getInt(3));
-            killstreak = info.getInt(killstreak);
+            killstreak = info.getInt(4);
             cursed = info.getBoolean(6);
             chatToggledOn = info.getBoolean(7);
 
@@ -105,7 +105,8 @@ public class StigglesPlayer
         }
         player.setPlayerListName(player.getDisplayName() + " " + ChatColor.GOLD + getBounty() + "c");
         info.close ();
-        Bukkit.getConsoleSender().sendMessage("Stiggles Player [" + player.getName()+ "]: Failed to register");
+
+        //Bukkit.getConsoleSender().sendMessage("Stiggles Player [" + player.getName()+ "]: Failed to register");
 
 
         //Check if player has joined the server before
@@ -148,7 +149,8 @@ public class StigglesPlayer
     }
 
     public void addQuest (Quest.QuestName q) {
-        questsCompleted.add (q);
+        if (!questsCompleted.add (q))
+            return;
         try {
             main.getDatabase().execute("INSERT INTO quest VALUES ('" + q.toString() + "', '" + uuid + "', " + LocalDateTime.now().format(main.getFormatter()) + ";");
         } catch (SQLException e) {
@@ -156,9 +158,19 @@ public class StigglesPlayer
         }
     }
     public void addConvergence (int hash_id) {
-        convergenceFound.add(hash_id);
+        if (!convergenceFound.add(hash_id))
+            return;
         try {
             main.getDatabase().execute("INSERT INTO convergence VALUES ('" + uuid + "', " + hash_id + ";");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void addNPC (String name) {
+        if (!npcTalks.add(name))
+            return;
+        try {
+            main.getDatabase().execute("INSERT INTO npc_talks VALUES ('" + uuid + "', '" + name + "', 0);");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -191,14 +203,15 @@ public class StigglesPlayer
             e.printStackTrace();
         }
     }
-    public void withdraw (int amount) {
+    public boolean withdraw (int amount) {
         if (!coinBank.withdraw(amount))
-            return;
+            return false;
         try {
             main.getDatabase().execute("UPDATE player_info SET balance = " + getBalance() + " WHERE uuid = '" + uuid + "';");
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return true;
     }
     public void deposit (int amount) {
         coinBank.deposit (amount);
@@ -249,13 +262,12 @@ public class StigglesPlayer
 
     @Override
     public String toString () {
-        return "[" + uuid + "]: " +
-                "\n\tName: " + name +
-                "\n\tLocation: " + getLocation() +
-                "\n\tCoins: " + getBalance() +
-                "\n\tKillstreak: " + killstreak +
-                "\n\tQuests: " + getQuestsCompleted().toString() +
-                "\n\tNPCs Talked To: " + getNPCsTalkedTo().toString();
+        return "[" + uuid + "]:" +
+                "\nName: " + name +
+                "\nCoins: " + getBalance() +
+                "\nKillstreak: " + killstreak +
+                "\nQuests: " + getQuestsCompleted().toString() +
+                "\nNPCs Talked To: " + getNPCsTalkedTo().toString();
     }
 
 

@@ -40,7 +40,7 @@ public class LogEventListener implements Listener {
         logTimes = new HashMap<>();
         try {
             Database db = main.getDatabase();
-            ResultSet rs = db.query("SELECT uuid FROM player;");
+            ResultSet rs = db.query("SELECT uuid FROM player_info;");
             if (rs != null) {
                 while (rs.next())
                     registeredUUIDs.add(UUID.fromString(rs.getString(1)));
@@ -59,12 +59,17 @@ public class LogEventListener implements Listener {
         }*/
         Player p = e.getPlayer();
         //Check if player has joined the server before
-
+        try {
+            main.getPlayerManager().addStigglesPlayer(e.getPlayer().getUniqueId(), new StigglesPlayer(main, e.getPlayer()));
+        }
+        catch (SQLException ex) {
+            Bukkit.getConsoleSender().sendMessage("Failed to add Stiggles Player");
+        }
         //logTimes.put (p.getUniqueId(), LocalDateTime.now());
         if (registeredUUIDs.contains(p.getUniqueId())) {
             log (e.getPlayer(), "LOGIN");
             e.setJoinMessage(ChatColor.LIGHT_PURPLE + p.getName() + " has entered The Convergence");
-            Bounty.setTabName(p);
+            //Bounty.setTabName(p);
 
             if (p.getWorld().getName().equals("sanctuary")) {
                 if (!Quest.isQuestComplete(p, Quest.QuestName.NOUVEAU_INTRO))
@@ -84,24 +89,24 @@ public class LogEventListener implements Listener {
             Database db = main.getDatabase();
             db.connect ();
             //Register player record
-            db.execute("INSERT INTO player VALUES ('" + p.getUniqueId() + "', '" + p.getName() + "', " + 0 + ");");
+            // db.execute("INSERT INTO player VALUES ('" + p.getUniqueId() + "', '" + p.getName() + "', " + 0 + ");");
             //Register bank record
-            db.execute("INSERT INTO bank VALUES ('" + p.getUniqueId() + "', " + 0 + ");");
+            // db.execute("INSERT INTO bank VALUES ('" + p.getUniqueId() + "', " + 0 + ");");
 
-            main.getPlayerManager().addStigglesPlayer(e.getPlayer().getUniqueId(), new StigglesPlayer (main, e.getPlayer()));
+
         }
         catch (SQLException event) {
             Bukkit.getConsoleSender().sendMessage("NVTECH: Failed to register new player.");
         }
-        Bounty.addToMap(p);
-        Bounty.setTabName(p);
+        //Bounty.addToMap(p);
+        //Bounty.setTabName(p);
         registeredUUIDs.add (p.getUniqueId());
-        BankManager.addPlayer (p);
-        Bukkit.getConsoleSender().sendMessage("Added " + p.getName () + "to bank");
+        //BankManager.addPlayer (p);
+        //Bukkit.getConsoleSender().sendMessage("Added " + p.getName () + "to bank");
         e.setJoinMessage(ChatColor.LIGHT_PURPLE + p.getName() + " has fallen into The Convergence");
 
-        Bounty.setKillstreak(p, 1);
-        Bounty.setTabName (p);
+        //Bounty.setKillstreak(p, 1);
+        //Bounty.setTabName (p);
 
         log (e.getPlayer(), "LOGIN");
 
@@ -142,8 +147,8 @@ public class LogEventListener implements Listener {
             if (logType.equals ("LOGOUT")) {
                 int time = p.getStatistic(Statistic.PLAY_ONE_MINUTE) / 20;
                 //db.execute("UPDATE player SET playtime = " + time + " WHERE uuid = '" + p.getUniqueId() + "';");
-                //db.execute("UPDATE player_info SET playtime = " + time + " WHERE uuid = '" + p.getUniqueId() + "';");
-                db.execute("UPDATE bank SET balance = " + BankManager.getBalance(p) + " WHERE uuid = '" + p.getUniqueId() + "';");
+                db.execute("UPDATE player_info SET playtime = " + time + " WHERE uuid = '" + p.getUniqueId() + "';");
+                //db.execute("UPDATE bank SET balance = " + BankManager.getBalance(p) + " WHERE uuid = '" + p.getUniqueId() + "';");
             }
         }
         catch (SQLException event) {
