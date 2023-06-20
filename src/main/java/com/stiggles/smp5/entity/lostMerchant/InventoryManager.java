@@ -20,7 +20,7 @@ import java.util.*;
 import java.util.logging.Level;
 
 public class InventoryManager {
-    Map<UUID, Inventory> merchantList = new HashMap<UUID, Inventory>();
+    static Map<UUID, Inventory> merchantList = new HashMap<UUID, Inventory>();
 
     AnarchysWardrobe anarchysWardrobe = new AnarchysWardrobe();
     PeacesSymphony peacesSymphony = new PeacesSymphony();
@@ -47,7 +47,7 @@ public class InventoryManager {
     public Inventory getInventoryFromMap(UUID uuid){
         return merchantList.get(uuid);
     }
-    public void resetInventoryMapping(){ merchantList.clear(); }
+    public static void resetInventoryMapping(){ merchantList.clear(); }
 
         /*
 

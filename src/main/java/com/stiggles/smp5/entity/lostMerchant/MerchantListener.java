@@ -22,7 +22,7 @@ import java.util.UUID;
 
 public class MerchantListener implements Listener {
     private SMP5 plugin; // Add a reference to the plugin instance
-    Map<UUID, Boolean> merchantCheckList = new HashMap<UUID, Boolean>();
+    static Map<UUID, Boolean> merchantCheckList = new HashMap<UUID, Boolean>();
 
 
     public MerchantListener(SMP5 plugin) {
@@ -34,9 +34,8 @@ public class MerchantListener implements Listener {
 
 
     public Inventory getInventory(UUID id){  return inventoryManager.getInventoryFromMap(id);  }
-    public void resetMerchantCheckMap(){
+    public static void resetMerchantCheckMap(){
         merchantCheckList.clear();
-
     }
     @EventHandler
     public void onInteraction(PlayerInteractAtEntityEvent e){

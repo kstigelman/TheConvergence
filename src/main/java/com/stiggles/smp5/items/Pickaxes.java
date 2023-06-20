@@ -192,7 +192,7 @@ public class Pickaxes implements Listener {
                     } else if (block.equals(Material.WHEAT)) {
                         e.setDropItems(false);
                         e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
-                                new ItemStack(Material.GLOWSTONE_DUST, Math.multiplyExact(Math.addExact(rollNumber(1,2), rollNumber(3,4)), rollNumber(2,4))));
+                                new ItemStack(Material.WHEAT, Math.multiplyExact(Math.addExact(rollNumber(1,2), rollNumber(3,4)), rollNumber(2,4))));
 
                     } else if (block.equals(Material.CARROT)) {
                         e.setDropItems(false);
@@ -209,7 +209,7 @@ public class Pickaxes implements Listener {
                         e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
                                 new ItemStack(Material.GLOWSTONE_DUST, Math.multiplyExact(Math.addExact(rollNumber(1,2), rollNumber(3,4)), rollNumber(2,4))));
 
-                    } else if (block.equals(Material.BEETROOT)) {
+                    } else if (block.equals(Material.BEETROOTS)) {
                         e.setDropItems(false);
                         e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
                                 new ItemStack(Material.BEETROOT, Math.multiplyExact(Math.addExact(rollNumber(1,2), rollNumber(3,4)), rollNumber(2,4))));

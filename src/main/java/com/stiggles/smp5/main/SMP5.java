@@ -298,6 +298,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new Entities(), this);
         Bukkit.getPluginManager().registerEvents(new EndEyeListener(), this);
         Bukkit.getPluginManager().registerEvents(new Pendant(this), this);
+        Bukkit.getPluginManager().registerEvents(new MerchantListener(this), this);
         //manager.registerEvents(this, this);
         Bukkit.getScheduler().runTaskTimer(this, CustomSpawns::spawnWitherSkeleton, 20*30, 20 * 60);
 

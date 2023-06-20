@@ -24,3 +24,5 @@ commands:
     description: Admin only
   alert:
     description: Admins only!
+  reset-merchants:
+    description: Admins only!
