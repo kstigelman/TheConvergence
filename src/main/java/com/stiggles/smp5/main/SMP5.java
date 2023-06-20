@@ -379,6 +379,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         Bukkit.getPluginCommand("get-items").setExecutor(new GetItems());
         Bukkit.getPluginCommand("alert").setExecutor(new RestartAlertCommand(this));
         Bukkit.getPluginCommand("reset-merchants").setExecutor(new ResetMerchants());
+        Bukkit.getPluginCommand("spawn-merchants").setExecutor(new SpawnMerchants());
     }
 
     public static int rollNumber(int min, int max){

@@ -64,20 +64,19 @@ public class GlowBow implements Listener {
         }
 
     }
-
     @EventHandler
     public void onLand(ProjectileHitEvent e){
         PersistentDataContainer container = e.getEntity().getPersistentDataContainer();
         if (!container.has(glowKey, PersistentDataType.STRING)) return;
         if (container.get(glowKey, PersistentDataType.STRING).equals("glow_arrow")) {
             for (Entity entity : e.getEntity().getNearbyEntities(20,20,20)){
-                if (entity.equals(uuidShot)){
-                    if (entity instanceof Mob) {
-                        ((Mob) entity).addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 100, 10, true, false, true));
-
-                    } else if (entity instanceof Player){
-                        ((Player) entity).addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 100, 10, true, false, true));
-                    }
+                if (e.getEntity().getShooter() != null && e.getEntity().equals(e.getEntity().getShooter())) {
+                    continue;
+                }
+                if (entity instanceof Mob) {
+                    ((Mob) entity).addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 100, 10, true, false, true));
+                } else if (entity instanceof Player){
+                    ((Player) entity).addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 100, 10, true, false, true));
                 }
             }
         }
