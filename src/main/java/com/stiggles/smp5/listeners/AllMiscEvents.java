@@ -3,6 +3,7 @@ package com.stiggles.smp5.listeners;
 import com.stiggles.smp5.items.Cooldown;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.entity.FishHook;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

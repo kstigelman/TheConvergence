@@ -1,6 +1,12 @@
 package com.stiggles.smp5.entity.lostMerchant;
 
+import com.stiggles.smp5.items.BAGEL;
+import com.stiggles.smp5.items.GrapplingHook;
+import com.stiggles.smp5.items.Pickaxes;
+import com.stiggles.smp5.items.Swords;
+import com.stiggles.smp5.items.armor.PeacesSymphony;
 import com.stiggles.smp5.main.SMP5;
+import com.sun.nio.sctp.PeerAddressChangeNotification;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -15,6 +21,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import javax.annotation.Nullable;
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -30,6 +38,12 @@ public class MerchantListener implements Listener {
     }
     InventoryManager inventoryManager = new InventoryManager();
     private Inventory inv;
+
+    Pickaxes pickaxes = new Pickaxes();
+    Swords swords = new Swords();
+    BAGEL bagel = new BAGEL();
+    GrapplingHook grapplingHook = new GrapplingHook();
+    PeacesSymphony peacesSymphony = new PeacesSymphony();
 
 
 
@@ -53,6 +67,7 @@ public class MerchantListener implements Listener {
                             p.openInventory(inv);
                         } else {
                             merchantCheckList.put(m.getUniqueId(), false);
+                            p.sendMessage(ChatColor.RED + "This merchant does not currently have anything in stock! Please try again the next tomorrow.");
                         }
 
                     } else if (merchantCheckList.get(m.getUniqueId()) == false){
@@ -66,7 +81,7 @@ public class MerchantListener implements Listener {
                     p.playSound(p, Sound.ENTITY_VILLAGER_CELEBRATE, 1, 1);
                     p.sendMessage(ChatColor.WHITE + "<Merchant Representative> Greetings! I represent the Merchant Coalition, dedicated to helping players and acquiring resources. " +
                             "During your exploration, you'll encounter our many merchants. " +
-                            "Don't forget to pay them a visit! Our trades refresh every 10 minutes, offering new opportunities. \n");
+                            "Don't forget to pay them a visit! Our trades refresh every day, offering new opportunities. \n");
                     new BukkitRunnable() {
                         public void run() {
                             p.playSound(p, Sound.ENTITY_VILLAGER_CELEBRATE, 1, 1);
@@ -81,7 +96,7 @@ public class MerchantListener implements Listener {
                                     "\n [] Grappling Hook" +
                                     "\n [] Smurfs Handy Tool" +
                                     "\n [] Emerald Blade" +
-                                    "\n [] Moon Shards" +
+                                    "\n [] The Entire Peace Armor Set" +
                                     "\n [] Bagels");
                         }
                     }.runTaskLater(plugin, 160);
@@ -102,8 +117,13 @@ public class MerchantListener implements Listener {
         if (e.getView().getTitle().equals(ChatColor.GRAY + "Lost Merchant Shop") && e.getCurrentItem() != null) {
             e.setCancelled(true);
 
-            ItemStack item = e.getClickedInventory().getItem(e.getSlot());
+            if (e.getClickedInventory() == null)
+                return;
+            ItemStack itemStack = e.getClickedInventory().getItem(e.getSlot());
             Player p = (Player) e.getWhoClicked();
+            if (itemStack == null)
+                return;
+            Material item = e.getClickedInventory().getItem(e.getSlot()).getType();
 
             /***
              *
@@ -202,6 +222,37 @@ public class MerchantListener implements Listener {
             } else if (item.equals(Material.NETHER_WART)) {
                 checkItem(p, Material.BLAZE_POWDER, 3, Material.NETHER_WART,
                         e.getCurrentItem().getAmount());
+
+                /***
+                 *
+                 * Custom Item "checkItem" functions are below.
+                 *
+                 */
+
+            } else if (item.equals(Material.PUMPKIN_PIE)) {
+                checkCustomItem(p, Material.WHEAT, 5, bagel.getThatBagel(),
+                        e.getCurrentItem().getAmount());
+            } else if (item.equals(Material.FISHING_ROD)) {
+                checkForGrapplingHook(p, Material.STRING, 128, Material.FISHING_ROD, 1, Material.TRIPWIRE_HOOK, 1,
+                        grapplingHook.getHook(), e.getCurrentItem().getAmount());
+            }  else if (item.equals(Material.NETHERITE_PICKAXE)) {
+                checkCustomItem(p, Material.BLUE_WOOL, 41, pickaxes.giveHandyToolPickaxe(),
+                        e.getCurrentItem().getAmount());
+            }  else if (item.equals(Material.EMERALD)) {
+                checkCustomItem(p, Material.EMERALD_BLOCK, 16, swords.getTheEmeraldDagger(),
+                        e.getCurrentItem().getAmount());
+            }  else if (item.equals(Material.LEATHER_HELMET)) {
+                checkCustomItem(p, Material.NETHERITE_INGOT, 1, peacesSymphony.getPeaceHelmet(),
+                        e.getCurrentItem().getAmount());
+            }  else if (item.equals(Material.LEATHER_CHESTPLATE)) {
+                checkCustomItem(p, Material.NETHERITE_INGOT, 1, peacesSymphony.getPeaceChestplate(),
+                        e.getCurrentItem().getAmount());
+            }  else if (item.equals(Material.LEATHER_LEGGINGS)) {
+                checkCustomItem(p, Material.NETHERITE_INGOT, 1, peacesSymphony.getPeaceLeggings(),
+                        e.getCurrentItem().getAmount());
+            }  else if (item.equals(Material.LEATHER_BOOTS)) {
+                checkCustomItem(p, Material.NETHERITE_INGOT, 1, peacesSymphony.getPeaceBoots(),
+                        e.getCurrentItem().getAmount());
             }
         }
     }
@@ -209,10 +260,45 @@ public class MerchantListener implements Listener {
     public void checkItem(Player player, Material materialGiving, int amountGiving,
                           Material materialReceiving, int amountGetting){
 
-        if(materialReceiving.equals(materialReceiving) &&
-        player.getInventory().containsAtLeast(new ItemStack(materialGiving), amountGiving)){
+        if(player.getInventory().containsAtLeast(new ItemStack(materialGiving), amountGiving)){
             player.getInventory().addItem(new ItemStack(materialReceiving, amountGetting));
-            player.getInventory().removeItem(new ItemStack(materialGiving, amountGetting));
+            player.getInventory().removeItem(new ItemStack(materialGiving, amountGiving));
+        } else {
+            sendErrorMessage(player);
         }
     }
+
+
+    public void checkCustomItem(Player player, Material materialGiving1, int amountGiving1,
+                                ItemStack itemStackGiving, int amountGetting){
+
+        if(player.getInventory().containsAtLeast(new ItemStack(materialGiving1), amountGiving1)){
+            player.getInventory().removeItem(new ItemStack(materialGiving1, amountGetting));
+            player.getInventory().addItem(itemStackGiving);
+
+        } else {
+            sendErrorMessage(player);
+        }
+    }
+
+    public void checkForGrapplingHook(Player player, Material materialGiving1, int amountGiving1, Material materialGiving2,
+                                      int amountGiving2, Material materialGiving3, int amountGiving3,
+                                      ItemStack itemStackGiving, int amountGetting) {
+        if(player.getInventory().containsAtLeast(new ItemStack(materialGiving1), amountGiving1) &&
+                player.getInventory().containsAtLeast(new ItemStack(materialGiving2), amountGiving2) &&
+                player.getInventory().containsAtLeast(new ItemStack(materialGiving3), amountGiving3)){
+            player.getInventory().removeItem(new ItemStack(materialGiving1, amountGetting));
+            player.getInventory().addItem(itemStackGiving);
+
+        } else {
+            sendErrorMessage(player);
+        }
+    }
+
+    private void sendErrorMessage(Player player) {
+        player.sendMessage(ChatColor.RED + "There was an error while attempting to purchase this!");
+        player.sendMessage(ChatColor.RED + "[-] You do not have enough resources.");
+        player.sendMessage(ChatColor.RED + "[-] The item you have attempted to purchase is null. (Contact Developers)");
+    }
+
 }

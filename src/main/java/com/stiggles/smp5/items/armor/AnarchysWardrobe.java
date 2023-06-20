@@ -201,10 +201,10 @@ Slight Speed Increase
 
         if (isAnarchySet(p)){
 
-            p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 40, 0, false, false, true));
-            p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 40, 0, false, false, true));
+            p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 60, 0, false, false, true));
+            p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 60, 0, false, false, true));
 
-            p.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 40, 0, false, false, true));
+            p.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60, 0, false, false, true));
         }
     }
 

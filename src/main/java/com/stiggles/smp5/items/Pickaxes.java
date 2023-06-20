@@ -65,7 +65,7 @@ public class Pickaxes implements Listener {
                 ChatColor.GRAY +  "iron ore, lapis lazuli,",
                 ChatColor.GRAY +  "gold ore, diamond ore, and",
                 ChatColor.GRAY +  "ancient debris, you mine it faster",
-                ChatColor.AQUA + "Costs: 32 Blue Wool"));
+                ChatColor.AQUA + "Costs: 41 Blue Wool"));
         meta.setLocalizedName("smurf_handy_tool");
         item.setItemMeta(meta);
         return item;

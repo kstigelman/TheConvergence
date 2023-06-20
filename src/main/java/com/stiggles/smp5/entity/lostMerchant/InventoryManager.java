@@ -57,7 +57,7 @@ public class InventoryManager {
 
     public void setInvMap(UUID uuid, Inventory inv){
         Random rand = new Random();
-        int itemNum = rand.nextInt(6) + 1;
+        int itemNum = rand.nextInt(8) + 1;
         addItem(inv, getCustomTradeItems(itemNum), 10);
         itemNum = rand.nextInt(10) + 1;
         addItem(inv, getMinecraftTradeItems(itemNum), 12);
@@ -116,21 +116,23 @@ public class InventoryManager {
             //Emerald Blade
             return swords.getTheShopsEmeraldDagger();
         } else if (roll == 3){
-            //Moon Shards
-            return lunarArmor.getShoppingMoonShards(SMP5.rollNumber(1,8));
-        } else if (roll == 4){
-
-            return new ItemStack(Material.BARRIER);
-        } else if (roll == 5){
             //Bagel
             return bagel.getDaShopperBagel();
-        } else if (roll == 6){
+        } else if (roll == 4){
             //Smurf Handy Tool
             return pickaxes.giveShopTool();
+        } else if (roll == 5){
+            return peacesSymphony.getPeaceHelmet();
+        } else if (roll == 6) {
+            return peacesSymphony.getPeaceChestplate();
+        } else if(roll == 7) {
+            return peacesSymphony.getPeaceLeggings();
+        } else if (roll == 8) {
+            return peacesSymphony.getPeaceBoots();
         } else {
-            Bukkit.getLogger().log(Level.WARNING,"Please give a value 1<=x<=6!, Value being given: " + roll);
+            Bukkit.getLogger().log(Level.WARNING,"Please give a value 1<=x<=8!, Value being given: " + roll);
         }
-        return lunarArmor.getMoonShards(SMP5.rollNumber(1,5));
+        return peacesSymphony.getPeaceChestplate();
     }
 
     /***

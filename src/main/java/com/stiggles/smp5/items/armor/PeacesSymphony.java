@@ -29,7 +29,6 @@ public class PeacesSymphony implements Listener {
         meta.setUnbreakable(true);
         meta.setColor(Color.fromRGB(102, 255, 255));
         meta.setDisplayName(ChatColor.AQUA + "The Symphony's Helmet");
-        meta.hasItemFlag(ItemFlag.HIDE_ATTRIBUTES);
         meta.setLore(Arrays.asList(
                 ChatColor.GRAY +  "",
                 ChatColor.AQUA +  "-- SPECIAL ARMOR --",
@@ -48,6 +47,8 @@ public class PeacesSymphony implements Listener {
         meta.addAttributeModifier(Attribute.GENERIC_ARMOR, genericArmor);
         meta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, toughnessArmor);
 
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+
         item.setItemMeta(meta);
         return item;
     }
@@ -57,7 +58,6 @@ public class PeacesSymphony implements Listener {
         meta.setUnbreakable(true);
         meta.setColor(Color.fromRGB(102, 255, 255));
         meta.setDisplayName(ChatColor.AQUA + "The Symphony's Chestplate");
-        meta.hasItemFlag(ItemFlag.HIDE_ATTRIBUTES);
         meta.setLore(Arrays.asList(
                 ChatColor.GRAY +  "",
                 ChatColor.AQUA +  "-- SPECIAL ARMOR --",
@@ -76,6 +76,7 @@ public class PeacesSymphony implements Listener {
         AttributeModifier toughnessArmor = new AttributeModifier("generic.armor_toughness", 2, AttributeModifier.Operation.ADD_NUMBER);
         meta.addAttributeModifier(Attribute.GENERIC_ARMOR, genericArmor);
         meta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, toughnessArmor);
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 
         item.setItemMeta(meta);
         return item;
@@ -87,7 +88,6 @@ public class PeacesSymphony implements Listener {
         meta.setUnbreakable(true);
         meta.setColor(Color.fromRGB(102, 255, 255));
         meta.setDisplayName(ChatColor.AQUA + "The Symphony's Leggings");
-        meta.hasItemFlag(ItemFlag.HIDE_ATTRIBUTES);
         meta.setLore(Arrays.asList(
                 ChatColor.GRAY +  "",
                 ChatColor.AQUA +  "-- SPECIAL ARMOR --",
@@ -106,6 +106,7 @@ public class PeacesSymphony implements Listener {
         AttributeModifier toughnessArmor = new AttributeModifier("generic.armor_toughness", 2, AttributeModifier.Operation.ADD_NUMBER);
         meta.addAttributeModifier(Attribute.GENERIC_ARMOR, genericArmor);
         meta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, toughnessArmor);
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 
 
         item.setItemMeta(meta);
@@ -117,7 +118,6 @@ public class PeacesSymphony implements Listener {
         meta.setUnbreakable(true);
         meta.setColor(Color.fromRGB(102, 255, 255));
         meta.setDisplayName(ChatColor.AQUA + "The Symphony's Boots");
-        meta.hasItemFlag(ItemFlag.HIDE_ATTRIBUTES);
         meta.setLore(Arrays.asList(
                 ChatColor.GRAY +  "",
                 ChatColor.AQUA +  "-- SPECIAL ARMOR --",
@@ -131,6 +131,7 @@ public class PeacesSymphony implements Listener {
                 ChatColor.GRAY + "- Speed I",
                 ChatColor.GRAY + "- Regeneration I"));
         meta.setLocalizedName("symp_boots");
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 
         AttributeModifier genericArmor = new AttributeModifier("generic.armor", 3, AttributeModifier.Operation.ADD_NUMBER);
         AttributeModifier toughnessArmor = new AttributeModifier("generic.armor_toughness", 2, AttributeModifier.Operation.ADD_NUMBER);
