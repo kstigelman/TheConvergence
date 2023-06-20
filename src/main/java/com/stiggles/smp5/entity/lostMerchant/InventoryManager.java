@@ -106,6 +106,7 @@ public class InventoryManager {
       ALL FUNCTIONS BELOW ARE FOR ITEMS BEING ADDED TO THE INVENTORIES, NOT INVENTORIES THEMSELVES
 
      */
+
     public ItemStack getCustomTradeItems(int roll){
         if (roll == 1) {
             //Grappling hook

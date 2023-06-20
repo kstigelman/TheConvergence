@@ -26,3 +26,5 @@ commands:
     description: Admins only!
   reset-merchants:
     description: Admins only!
+  spawn-merchants:
+    description: Admins only!
