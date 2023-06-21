@@ -86,7 +86,7 @@ public class SMP5 extends JavaPlugin implements Listener {
     private ArrayList<String> toggled = new ArrayList<>();
     //private Plugin plugin = SMP5.getPlugin(SMP5.class);
     Random random = new Random(System.currentTimeMillis());
-    private CustomSpawns customSpawns = new CustomSpawns();
+    private CustomSpawns customSpawns;
     boolean open = false;
 
     @Override
@@ -167,6 +167,7 @@ public class SMP5 extends JavaPlugin implements Listener {
             }.runTaskLater(this, 5);
         }
 
+        customSpawns = new CustomSpawns();
         new BukkitRunnable(){
             public void run(){
                 if (rollNumber(1,3) == 2){
@@ -301,6 +302,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new MerchantListener(this), this);
         //manager.registerEvents(this, this);
         Bukkit.getScheduler().runTaskTimer(this, CustomSpawns::spawnWitherSkeleton, 20*30, 20 * 60);
+
 
         try {
             database.connect();
