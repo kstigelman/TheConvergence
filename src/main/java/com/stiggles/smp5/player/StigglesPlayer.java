@@ -57,7 +57,7 @@ public class StigglesPlayer
 
 
         ResultSet info = db.query(
-                "SELECT * FROM player_info WHERE uuid = '" + uuid.toString() + "';"
+                "SELECT * FROM player WHERE uuid = '" + uuid.toString() + "';"
         );
         if (info.next()) {
             this.coinBank = new CoinBank (player.getUniqueId(), info.getInt(3));
@@ -93,7 +93,7 @@ public class StigglesPlayer
             killstreak = 1;
             this.coinBank = new CoinBank (player.getUniqueId(), 0);
 
-            main.getDatabase().execute("INSERT INTO player_info VALUES ('" +
+            main.getDatabase().execute("INSERT INTO player VALUES ('" +
                 uuid + "', '" +                 //uuid
                 player.getName () + "', " +     //name
                 0 + ", " +                      //balance
@@ -152,7 +152,7 @@ public class StigglesPlayer
         if (!questsCompleted.add (q))
             return;
         try {
-            main.getDatabase().execute("INSERT INTO quest VALUES ('" + q.toString() + "', '" + uuid + "', " + LocalDateTime.now().format(main.getFormatter()) + ";");
+            main.getDatabase().execute("INSERT INTO quest VALUES ('" + q.toString() + "', '" + uuid + "', " + LocalDateTime.now().format(main.getFormatter()) + ");");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -161,7 +161,7 @@ public class StigglesPlayer
         if (!convergenceFound.add(hash_id))
             return;
         try {
-            main.getDatabase().execute("INSERT INTO convergence VALUES ('" + uuid + "', " + hash_id + ";");
+            main.getDatabase().execute("INSERT INTO convergence VALUES ('" + uuid + "', " + hash_id + ");");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -178,7 +178,7 @@ public class StigglesPlayer
     public void setKillstreak (int amount) {
         killstreak = amount;
         try {
-            main.getDatabase().execute("UPDATE player_info SET killstreak = " + killstreak + " WHERE uuid = '" + uuid + "';");
+            main.getDatabase().execute("UPDATE player SET killstreak = " + killstreak + " WHERE uuid = '" + uuid + "';");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -186,7 +186,7 @@ public class StigglesPlayer
     public void setCursed (boolean val) {
         cursed = val;
         try {
-            main.getDatabase().execute("UPDATE player_info SET cursed = " + cursed + " WHERE uuid = '" + uuid + "';");
+            main.getDatabase().execute("UPDATE player SET cursed = " + cursed + " WHERE uuid = '" + uuid + "';");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -198,7 +198,7 @@ public class StigglesPlayer
             main.getToggledChatPlayers().remove (uuid.toString());
 
         try {
-            main.getDatabase().execute("UPDATE player_info SET chatToggledOn = " + chatToggledOn + " WHERE uuid = '" + uuid + "';");
+            main.getDatabase().execute("UPDATE player SET chatToggledOn = " + chatToggledOn + " WHERE uuid = '" + uuid + "';");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -207,7 +207,7 @@ public class StigglesPlayer
         if (!coinBank.withdraw(amount))
             return false;
         try {
-            main.getDatabase().execute("UPDATE player_info SET balance = " + getBalance() + " WHERE uuid = '" + uuid + "';");
+            main.getDatabase().execute("UPDATE player SET balance = " + getBalance() + " WHERE uuid = '" + uuid + "';");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -216,7 +216,7 @@ public class StigglesPlayer
     public void deposit (int amount) {
         coinBank.deposit (amount);
         try {
-            main.getDatabase().execute("UPDATE player_info SET balance = " + getBalance() + " WHERE uuid = '" + uuid + "';");
+            main.getDatabase().execute("UPDATE player SET balance = " + getBalance() + " WHERE uuid = '" + uuid + "';");
         } catch (SQLException e) {
             e.printStackTrace();
         }

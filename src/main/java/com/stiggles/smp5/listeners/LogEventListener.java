@@ -40,7 +40,7 @@ public class LogEventListener implements Listener {
         logTimes = new HashMap<>();
         try {
             Database db = main.getDatabase();
-            ResultSet rs = db.query("SELECT uuid FROM player_info;");
+            ResultSet rs = db.query("SELECT uuid FROM player;");
             if (rs != null) {
                 while (rs.next())
                     registeredUUIDs.add(UUID.fromString(rs.getString(1)));
@@ -147,7 +147,7 @@ public class LogEventListener implements Listener {
             if (logType.equals ("LOGOUT")) {
                 int time = p.getStatistic(Statistic.PLAY_ONE_MINUTE) / 20;
                 //db.execute("UPDATE player SET playtime = " + time + " WHERE uuid = '" + p.getUniqueId() + "';");
-                db.execute("UPDATE player_info SET playtime = " + time + " WHERE uuid = '" + p.getUniqueId() + "';");
+                db.execute("UPDATE player SET playtime = " + time + " WHERE uuid = '" + p.getUniqueId() + "';");
                 //db.execute("UPDATE bank SET balance = " + BankManager.getBalance(p) + " WHERE uuid = '" + p.getUniqueId() + "';");
             }
         }

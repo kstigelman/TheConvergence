@@ -273,7 +273,7 @@ public class MerchantListener implements Listener {
                                 ItemStack itemStackGiving, int amountGetting){
 
         if(player.getInventory().containsAtLeast(new ItemStack(materialGiving1), amountGiving1)){
-            player.getInventory().removeItem(new ItemStack(materialGiving1, amountGetting));
+            player.getInventory().removeItem(new ItemStack(materialGiving1, amountGiving1));
             player.getInventory().addItem(itemStackGiving);
 
         } else {
@@ -287,7 +287,9 @@ public class MerchantListener implements Listener {
         if(player.getInventory().containsAtLeast(new ItemStack(materialGiving1), amountGiving1) &&
                 player.getInventory().containsAtLeast(new ItemStack(materialGiving2), amountGiving2) &&
                 player.getInventory().containsAtLeast(new ItemStack(materialGiving3), amountGiving3)){
-            player.getInventory().removeItem(new ItemStack(materialGiving1, amountGetting));
+            player.getInventory().removeItem(new ItemStack(materialGiving1, amountGiving1));
+            player.getInventory().removeItem(new ItemStack(materialGiving2, amountGiving2));
+            player.getInventory().removeItem(new ItemStack(materialGiving3, amountGiving3));
             player.getInventory().addItem(itemStackGiving);
 
         } else {

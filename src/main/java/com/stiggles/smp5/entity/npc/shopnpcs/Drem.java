@@ -26,6 +26,7 @@ public class Drem extends ShopNPC {
     private class Warhorn extends StigglesBaseItem {
         public Warhorn (int price) {
             super (price);
+            item = new ItemStack (Material.GOAT_HORN);
         }
         public ItemProvider getItemProvider () {
             return new ItemBuilder(Material.GOAT_HORN)

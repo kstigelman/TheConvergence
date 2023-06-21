@@ -139,7 +139,7 @@ public class SMP5 extends JavaPlugin implements Listener {
             Bukkit.getPluginManager().registerEvents(new LogEventListener(this), this);
             try {
                 //ResultSet rs = database.query("SELECT * FROM player;");
-                ResultSet rs = database.query("SELECT uuid FROM player_info;");
+                ResultSet rs = database.query("SELECT uuid FROM player;");
                 if (rs != null) {
                     while (rs.next()) {
                         UUID uuid = UUID.fromString(rs.getString(1));
