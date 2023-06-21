@@ -86,7 +86,7 @@ public class SMP5 extends JavaPlugin implements Listener {
     private ArrayList<String> toggled = new ArrayList<>();
     //private Plugin plugin = SMP5.getPlugin(SMP5.class);
     Random random = new Random(System.currentTimeMillis());
-    private CustomSpawns customSpawns;
+    private CustomSpawns customSpawns = new CustomSpawns();
     boolean open = false;
 
     @Override
