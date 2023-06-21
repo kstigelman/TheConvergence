@@ -2,14 +2,12 @@ package com.stiggles.smp5.stats;
 
 import com.stiggles.smp5.main.Database;
 import com.stiggles.smp5.main.SMP5;
-import com.stiggles.smp5.managers.BankManager;
 import com.stiggles.smp5.player.StigglesPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
@@ -25,7 +23,8 @@ public class Quest {
         WARDEN_KILL,
         SMALL_STEP,
         BLUEPRINTS,
-        APPLE_A_DAY
+        APPLE_A_DAY,
+        ACQUIRE_GRAPPLING_HOOK
     }
     public static void questComplete (Player p, QuestName q, String questMessage, int amount) {
        try {

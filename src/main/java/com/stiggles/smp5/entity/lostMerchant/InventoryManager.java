@@ -114,7 +114,7 @@ public class InventoryManager {
 
         } else if (roll == 2) {
             //Emerald Blade
-            return swords.getTheShopsEmeraldDagger();
+            return peacesSymphony.getPeaceChestplate();
         } else if (roll == 3){
             //Bagel
             return bagel.getDaShopperBagel();

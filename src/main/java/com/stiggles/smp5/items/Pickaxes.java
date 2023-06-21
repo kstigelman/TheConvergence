@@ -82,7 +82,7 @@ public class Pickaxes implements Listener {
         */
         ItemStack item = new ItemStack(Material.GOLDEN_PICKAXE);
         ItemMeta meta = item.getItemMeta();
-        meta.setUnbreakable(true);
+        meta.setUnbreakable(false);
         meta.setDisplayName(ChatColor.BLUE + "The Warden's Weakness");
         meta.setLore(Arrays.asList(
                 ChatColor.GRAY +  "",
@@ -101,6 +101,23 @@ public class Pickaxes implements Listener {
 }
     public ItemStack giveWardenWeaknessPickaxe(){
         return getWardenWeaknessPickaxe();
+    }
+
+    public ItemStack hardenedPickaxe(){
+        ItemStack item = new ItemStack(Material.STONE_PICKAXE);
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(ChatColor.AQUA + "Hardened Pickaxe");
+        meta.setLore(Arrays.asList(
+                ChatColor.BLUE + "Quest Item",
+                ChatColor.GRAY + "",
+                ChatColor.GRAY.toString() + ChatColor.ITALIC + "Used by the piglins to mine",
+                ChatColor.GRAY.toString() + ChatColor.ITALIC + "the ores and stones found inside",
+                ChatColor.GRAY.toString() + ChatColor.ITALIC + "the deep nether mines."));
+
+        meta.setLocalizedName("hardened_pickaxe");
+
+        item.setItemMeta(meta);
+        return item;
     }
 
     @EventHandler

@@ -19,15 +19,13 @@ public class SpawnMerchants implements CommandExecutor {
 
         if (commandSender instanceof Player) {
             Player p = (Player) commandSender;
-            if (p.isOp() && !spawned){
-                spawnMerchants();
-                spawned = true;
+            if (p.isOp()){
+                spawnMerchants(p);
             } else {
                 p.sendMessage(ChatColor.RED +"You do not have permission to use this command! That or you've already spawned them.");
             }
         } else {
             if (!spawned){
-                spawnMerchants();
                 spawned = true;
             }
         }
@@ -35,16 +33,9 @@ public class SpawnMerchants implements CommandExecutor {
         return false;
     }
 
-    private void spawnMerchants() {
+    private void spawnMerchants(Player player) {
         World world = Bukkit.getWorld("world");
-        merchant.spawnLostMerchant(new Location(world, 1332, 123, -824));
-        merchant.spawnLostMerchant(new Location(world, -302, 69, 315));
-        merchant.spawnLostMerchant(new Location(world, -904, 72, 1517));
-        merchant.spawnLostMerchant(new Location(world, -903, 72, 701));
-        merchant.spawnLostMerchant(new Location(world, -456, 117, -1195));
-        merchant.spawnLostMerchant(new Location(world, -873, 66, -312));
-        merchant.spawnLostMerchant(new Location(world, 816, 110, 510));
-        merchant.spawnLostMerchant(new Location(world, 1123, 67, -203));
+        merchant.spawnLostMerchant(player.getLocation());
     }
 
 }

@@ -19,11 +19,8 @@ import com.stiggles.smp5.entity.monsters.KillMagmaBoss;
 import com.stiggles.smp5.entity.npc.*;
 import com.stiggles.smp5.entity.npc.dialoguenpc.*;
 import com.stiggles.smp5.entity.npc.shopnpcs.*;
+import com.stiggles.smp5.items.*;
 import com.stiggles.smp5.listeners.AllMiscEvents;
-import com.stiggles.smp5.items.Cooldown;
-import com.stiggles.smp5.items.Pendant;
-import com.stiggles.smp5.items.Pickaxes;
-import com.stiggles.smp5.items.Swords;
 import com.stiggles.smp5.items.armor.AnarchysWardrobe;
 import com.stiggles.smp5.items.armor.PeacesSymphony;
 import com.stiggles.smp5.items.armor.runArmorCheck;
@@ -35,8 +32,12 @@ import com.stiggles.smp5.managers.BankManager;
 import com.stiggles.smp5.managers.Bounty;
 import com.stiggles.smp5.managers.MobKillListener;
 import com.stiggles.smp5.player.StigglesPlayer;
+import com.stiggles.smp5.stats.Quest;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.event.CitizensEnableEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
@@ -87,6 +88,7 @@ public class SMP5 extends JavaPlugin implements Listener {
     //private Plugin plugin = SMP5.getPlugin(SMP5.class);
     Random random = new Random(System.currentTimeMillis());
     private CustomSpawns customSpawns;
+    GrapplingHook grapplingHook = new GrapplingHook();
     boolean open = false;
 
     @Override
@@ -175,6 +177,28 @@ public class SMP5 extends JavaPlugin implements Listener {
                 }
             }
         }.runTaskTimer(this, 20 * (60 * (60 * 1)), 20 * (60 * (60 * 1)));
+
+        /*new BukkitRunnable(){
+            public void run(){
+                for (Player p : Bukkit.getOnlinePlayers()){
+                    if (p.getInventory().contains(grapplingHook.getHook())){
+                        if (Quest.isQuestComplete(p, Quest.QuestName.ACQUIRE_GRAPPLING_HOOK)) {
+                            return;
+                        } else {
+                            TextComponent textComponent = new TextComponent("[With Great Power Comes Great Responsibility]");
+                            textComponent.setColor(net.md_5.bungee.api.ChatColor.DARK_AQUA);
+
+                            // Add hover and click events to the text component
+                            textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                                    new ComponentBuilder(ChatColor.DARK_PURPLE + "With Great Power Comes Great Responsibility \n Acquire a grappling hook through a Merchant Marketeer").create()));
+                            Quest.questComplete(p, Quest.QuestName.ACQUIRE_GRAPPLING_HOOK, net.md_5.bungee.api.ChatColor.WHITE + p.getName() + " has completed the challenge " + textComponent);
+                        }
+                    }
+                }
+            }
+        }.runTaskTimer(this, 20, 20);
+
+         */
 
     }
 
@@ -426,5 +450,7 @@ public class SMP5 extends JavaPlugin implements Listener {
     }
 
     public void shutdownServer(){ Bukkit.shutdown(); }
+
+
 
 }
