@@ -49,6 +49,6 @@ public class AFKPrevention implements Listener {
 
             }
 
-        }}.runTaskTimer(main, 20*(60*2), 20*(60*60));
+        }}.runTaskTimer(main, 20*(60*32), 20*(60*30));
     }
 }

@@ -45,8 +45,6 @@ public class MerchantListener implements Listener {
     GrapplingHook grapplingHook = new GrapplingHook();
     PeacesSymphony peacesSymphony = new PeacesSymphony();
 
-
-
     public Inventory getInventory(UUID id){  return inventoryManager.getInventoryFromMap(id);  }
     public static void resetMerchantCheckMap(){
         merchantCheckList.clear();
