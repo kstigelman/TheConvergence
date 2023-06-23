@@ -1,6 +1,7 @@
 package com.stiggles.smp5.listeners;
 
 import com.stiggles.smp5.main.SMP5;
+import com.stiggles.smp5.player.StigglesPlayer;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -37,23 +38,28 @@ public class OnArmorStandInteract implements Listener {
             if (e.getHand().equals(EquipmentSlot.OFF_HAND))
                 return;
 
-            //If has not talked to Dr Trog...
-            e.getPlayer().sendMessage(ChatColor.GRAY + "This looks like a strange substance...");
-            main.getPlayerManager().getStigglesPlayer(e.getPlayer().getUniqueId()).addConvergence(calculateHash(entity.getLocation()));
-            return;
-            /*
+            StigglesPlayer sp = main.getPlayerManager().getStigglesPlayer(e.getPlayer().getUniqueId());
+            int hash = calculateHash(entity.getLocation());
 
+
+            if (!sp.hasTalkedTo("Dr. Trog")) {
+                e.getPlayer().sendMessage(ChatColor.GRAY + "This looks like a strange substance...");
+                return;
+            }
             for (ItemStack i : e.getPlayer().getInventory()) {
                 if (i == null || !i.hasItemMeta())
                     continue;
-                if (i.getItemMeta().getLocalizedName().equals ("convergence_" + hash))
-                    return;
 
-                e.getPlayer().sendMessage(ChatColor.GRAY + "You found Convergence!");
-                return;
+                if (i.getItemMeta().hasLocalizedName() && i.getItemMeta().getLocalizedName().equals("convergence_" + hash))
+                    return;
             }
-            */
-           //e.getPlayer().sendMessage(ChatColor.GRAY + "This looks like a strange substance...");
+            e.getPlayer().getInventory().addItem(getConvergence(entity.getLocation()));
+
+            if (!sp.hasFoundConvergence (hash)) {
+                e.getPlayer().sendMessage(ChatColor.GRAY + "You have found a Convergence Crystal! Someone may want to see this...");
+                sp.addConvergence(calculateHash(entity.getLocation()));
+            }
+            return;
         }
         if (entity.getName().contains ("morabito")) {
             e.setCancelled(true);

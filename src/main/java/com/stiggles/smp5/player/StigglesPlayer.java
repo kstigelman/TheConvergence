@@ -175,6 +175,12 @@ public class StigglesPlayer
             e.printStackTrace();
         }
     }
+    public boolean hasTalkedTo (String npcName) {
+        return npcTalks.contains (npcName);
+    }
+    public boolean hasFoundConvergence (int hash) {
+        return convergenceFound.contains(hash);
+    }
     public void setKillstreak (int amount) {
         killstreak = amount;
         try {

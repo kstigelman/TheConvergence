@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class Pendant implements Listener {
@@ -25,6 +26,21 @@ public class Pendant implements Listener {
     public Pendant (SMP5 main) {
         this.main = main;
         //createItem ();
+    }
+    public static ItemStack getPendant () {
+        ItemStack item = new ItemStack(Material.CHARCOAL);
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(ChatColor.DARK_PURPLE + "Natalie's Pendant");
+        meta.setLocalizedName("pendant");
+        meta.setLore(Arrays.asList (
+                ChatColor.BLUE + "Special Item",
+                ChatColor.GRAY + "She was a symbol of justice.",
+                "",
+                ChatColor.GOLD + "Right click " + ChatColor.GRAY + "to spawn a horse on demand.",
+                ChatColor.GRAY + "This item will be consumed after use."
+        ));
+        item.setItemMeta(meta);
+        return item;
     }
 /*
     private void createItem () {

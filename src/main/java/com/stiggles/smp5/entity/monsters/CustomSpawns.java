@@ -105,11 +105,12 @@ public class CustomSpawns {
                 break;
             }
             Location location = p.getLocation();
-            if (!location.getWorld().getBlockAt(location.getBlockX(), location.getBlockY() - 1, location.getBlockZ()).getType().equals(Material.NETHER_BRICK)) {
+
+            /*if (!location.getWorld().getBlockAt(location.getBlockX(), location.getBlockY() - 1, location.getBlockZ()).getType().equals(Material.NETHER_BRICK)) {
                 break;
-            }
+            }*/
             if (Math.abs (main.getRandom()) % 2 == 0) {
-                return;
+                break;
             }
 
             Location center = p.getLocation();
@@ -122,7 +123,7 @@ public class CustomSpawns {
             Location highestRandomLocation = new Location(center.getWorld(), x, y, z);
 
             if (!highestRandomLocation.getBlock().getType().equals(Material.NETHER_BRICK)) {
-                return;
+                break;
             }
 
             Bukkit.getWorld(p.getWorld().getName()).spawnEntity(highestRandomLocation, EntityType.WITHER_SKELETON);

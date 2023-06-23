@@ -8,6 +8,7 @@ import com.stiggles.smp5.player.StigglesPlayer;
 import com.stiggles.smp5.stats.Quest;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.*;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -70,6 +71,13 @@ public class LogEventListener implements Listener {
             log (e.getPlayer(), "LOGIN");
             e.setJoinMessage(ChatColor.LIGHT_PURPLE + p.getName() + " has entered The Convergence");
             //Bounty.setTabName(p);
+
+            StigglesPlayer sp = main.getPlayerManager().getStigglesPlayer(p.getUniqueId());
+
+            if (sp.isCursed()) {
+                if (p.getAttribute(Attribute.GENERIC_MAX_HEALTH) != null)
+                    p.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(10);
+            }
 
             if (p.getWorld().getName().equals("sanctuary")) {
                 if (!Quest.isQuestComplete(p, Quest.QuestName.NOUVEAU_INTRO))

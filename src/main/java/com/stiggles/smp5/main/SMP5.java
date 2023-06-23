@@ -326,7 +326,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new MerchantListener(this), this);
         //manager.registerEvents(this, this);
         Bukkit.getScheduler().runTaskTimer(this, CustomSpawns::spawnWitherSkeleton, 20*30, 20 * 60);
-
+        Bukkit.getPluginManager().registerEvents(new CurseListener(this), this);
 
         try {
             database.connect();
@@ -387,6 +387,7 @@ public class SMP5 extends JavaPlugin implements Listener {
 
         npcs.add (new Anarcho(this, "Anarcho", new Location(worldNether, 550.5, 221, 236.5)));
 
+        npcs.add (new TheWanderer(this, "The Wanderer", new Location(Bukkit.getWorld("sanctuary"), 35, -60, 9)));
         npcs.add (new Nouveau(this, "Nouveau", new Location (Bukkit.getWorld("sanctuary"), 8.5, -59, 8.5)));
         //Nouveau 52, 132, 746
     }

@@ -34,7 +34,6 @@ public abstract class ShopNPC extends StigglesNPC {
 
         public StigglesBaseItem(int price, String localName) {
             this (price);
-
         }
         public String getCost () {
             return ChatColor.BLUE + "Cost: " + ChatColor.GOLD + cost + " Gold";
