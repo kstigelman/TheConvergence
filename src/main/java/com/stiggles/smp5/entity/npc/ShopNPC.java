@@ -4,6 +4,7 @@ import com.stiggles.smp5.entity.npc.StigglesNPC;
 import com.stiggles.smp5.main.SMP5;
 import com.stiggles.smp5.managers.BankManager;
 
+import com.stiggles.smp5.player.StigglesPlayer;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 
@@ -34,7 +35,7 @@ public abstract class ShopNPC extends StigglesNPC {
         public StigglesBaseItem(int price, String localName) {
             this (price);
 
-         }
+        }
         public String getCost () {
             return ChatColor.BLUE + "Cost: " + ChatColor.GOLD + cost + " Gold";
         }
@@ -60,7 +61,8 @@ public abstract class ShopNPC extends StigglesNPC {
 
     public abstract void createGUI (Player player);
     public boolean handleTrade (Player player, StigglesBaseItem item) {
-        if (BankManager.withdraw(player, item.cost)) {
+        StigglesPlayer sp = main.getPlayerManager().getStigglesPlayer(player.getUniqueId());
+        if (sp.withdraw(item.cost)) {
             player.getInventory().addItem(item.item);
             playSound (player, Sound.ENTITY_VILLAGER_TRADE);
             return true;
