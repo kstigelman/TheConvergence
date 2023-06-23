@@ -28,8 +28,8 @@ public class MineManager extends StigglesNPC {
 
     @Override
     public void onInteract(Player p) {
-        if (p.getInventory().contains(pickaxes.hardenedPickaxe())) {
-
+        if (p.getInventory().contains(pickaxes.hardenedPickaxe())){
+            sendMessage(p, "I've already given you what you need! Now go...");
         } else {
             sendMessage(p, "Here, take this, you'll need down there depending on what you plan on mining.");
             p.getInventory().addItem(pickaxes.hardenedPickaxe());

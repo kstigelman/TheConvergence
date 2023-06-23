@@ -30,7 +30,7 @@ public class NetheriteMaster extends StigglesNPC {
             speakLater(p, "4 Hardened Diamonds" , Sound.ENTITY_PIGLIN_AMBIENT, 20*4);
             speakLater(p, "2 Toughened Obsidian" , Sound.ENTITY_PIGLIN_AMBIENT, 20*3);
         } else {
-            sendMessage(p, "You dont look ready to mine, come back when you are.");
+            sendMessage(p, "You don't look ready to mine, come back when you are.");
         }
     }
 
