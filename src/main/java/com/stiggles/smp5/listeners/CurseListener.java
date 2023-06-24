@@ -50,7 +50,6 @@ public class CurseListener implements Listener {
     }
     @EventHandler
     public void onPlayerHeal (EntityRegainHealthEvent e) {
-
         if (!(e.getEntity() instanceof Player))
             return;
 
