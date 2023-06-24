@@ -177,7 +177,7 @@ public class OnArmorStandInteract implements Listener {
         im.setDisplayName(ChatColor.LIGHT_PURPLE + "Convergence Crystal");
         im.setLocalizedName("convergence_" + calculateHash(loc));
         im.setLore (Arrays.asList(ChatColor.BLUE + "Quest Item", ChatColor.GRAY + "A sample of Convergence",
-                ChatColor.DARK_GRAY + "Found at (" + loc.getBlockX() + ", " + loc.getBlockY() + ", " + loc.getBlockZ() + ")",
+                ChatColor.DARK_GRAY + "Found at (" + loc.getBlockX() + ", " + (loc.getBlockY() + 2) + ", " + loc.getBlockZ() + ")",
                 ChatColor.GRAY + ChatColor.ITALIC.toString() + "Convergence is a substance created by ",
                 ChatColor.GRAY + ChatColor.ITALIC.toString() + "EGO Labs. They used their research on ",
                 ChatColor.GRAY + ChatColor.ITALIC.toString() + "it to create the world of Convergence."));

@@ -24,7 +24,7 @@ public class CurseListener implements Listener {
         Player player = e.getPlayer();
         StigglesPlayer sp = main.getPlayerManager().getStigglesPlayer(player.getUniqueId());
 
-        if (!sp.isCursed())
+        if (sp == null || !sp.isCursed())
             return;
 
         if (player.getAttribute(Attribute.GENERIC_MAX_HEALTH) == null)
@@ -44,7 +44,7 @@ public class CurseListener implements Listener {
         Player player = (Player) e.getEntity();
         StigglesPlayer sp = main.getPlayerManager().getStigglesPlayer(player.getUniqueId());
 
-        if (!sp.isCursed())
+        if (sp == null || !sp.isCursed())
             return;
 
         if (player.getHealth() <= 4) {
@@ -59,7 +59,7 @@ public class CurseListener implements Listener {
         Player player = (Player) e.getEntity();
         StigglesPlayer sp = main.getPlayerManager().getStigglesPlayer(player.getUniqueId());
 
-        if (!sp.isCursed())
+        if (sp == null || !sp.isCursed())
             return;
 
         if (player.getHealth() > 4)
