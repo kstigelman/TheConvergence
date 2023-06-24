@@ -10,8 +10,6 @@ import org.bukkit.inventory.SmithingInventory;
 
 public class NetheriteUpgrade implements Listener {
 
-    NetheriteQuestItem netheriteQuestItem = new NetheriteQuestItem();
-
     @EventHandler
     public void onUseOfTemplate(PrepareSmithingEvent e){
         SmithingInventory sInv = e.getInventory();
