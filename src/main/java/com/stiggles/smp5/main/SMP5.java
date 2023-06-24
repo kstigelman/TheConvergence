@@ -327,7 +327,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         //manager.registerEvents(this, this);
         Bukkit.getScheduler().runTaskTimer(this, CustomSpawns::spawnWitherSkeleton, 20*30, 20 * 60);
         Bukkit.getPluginManager().registerEvents(new CurseListener(this), this);
-Bukkit.getPluginManager().registerEvents(new NetheriteUpgrade(), this);
+        Bukkit.getPluginManager().registerEvents(new NetheriteUpgrade(), this);
 
         try {
             database.connect();

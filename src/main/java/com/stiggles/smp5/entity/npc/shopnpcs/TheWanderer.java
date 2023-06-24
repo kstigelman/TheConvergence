@@ -49,7 +49,7 @@ public class TheWanderer extends ShopNPC {
                     ChatColor.RED + "Will you accept?"
                     )
             );
-
+            item.setItemMeta (im);
         }
         public ItemProvider getItemProvider () {
             return new ItemBuilder(item);
@@ -82,7 +82,7 @@ public class TheWanderer extends ShopNPC {
             return;
         interactDialogue (player);
         createGUI (player);
-        //showGUI (player);
+        showGUI (player);
         talk (player);
     }
 

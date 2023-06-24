@@ -2,6 +2,7 @@ package com.stiggles.smp5.listeners;
 
 import com.stiggles.smp5.main.SMP5;
 import com.stiggles.smp5.player.StigglesPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -31,10 +32,6 @@ public class CurseListener implements Listener {
             return;
         player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(10);
     }
-    @EventHandler
-    public void onPlayerDeath (PlayerDeathEvent e) {
-
-    }
 
     @EventHandler
     public void onPlayerDamage (EntityDamageEvent e) {
@@ -47,12 +44,13 @@ public class CurseListener implements Listener {
         if (sp == null || !sp.isCursed())
             return;
 
-        if (player.getHealth() <= 4) {
-            player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 1000000 * 20, 1, true));
+        if (player.getHealth() <= 5) {
+            player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, PotionEffect.INFINITE_DURATION, 1, true));
         }
     }
     @EventHandler
     public void onPlayerHeal (EntityRegainHealthEvent e) {
+
         if (!(e.getEntity() instanceof Player))
             return;
 
@@ -62,7 +60,7 @@ public class CurseListener implements Listener {
         if (sp == null || !sp.isCursed())
             return;
 
-        if (player.getHealth() > 4)
+        if (player.getHealth() > 5)
             player.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
     }
 }
