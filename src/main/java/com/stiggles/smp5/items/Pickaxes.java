@@ -242,7 +242,7 @@ public class Pickaxes implements Listener {
         }
     }
     @EventHandler
-    public void playerInCombat(PlayerInteractEvent e){
+    public void playerMining(PlayerInteractEvent e){
         Player p = e.getPlayer();
         if (e.getAction().equals(Action.LEFT_CLICK_BLOCK)){
             if (p.getInventory().getItemInMainHand().getItemMeta() != null) {
@@ -251,6 +251,12 @@ public class Pickaxes implements Listener {
                     if (block.equals(Material.STONE) || block.equals(Material.IRON_ORE) || block.equals(Material.COAL_ORE) || block.equals(Material.GOLD_ORE)
                             || block.equals(Material.LAPIS_ORE) || block.equals(Material.DIAMOND_ORE) || block.equals(Material.ANCIENT_DEBRIS)){
                         p.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 100, 2, false, false, true));
+
+                    }
+                } else if (p.getInventory().getItemInMainHand().getItemMeta().getLocalizedName().equals("hardened_pickaxe")){
+                    Material block = e.getClickedBlock().getBlockData().getMaterial();
+                    if (block.equals(Material.OBSIDIAN) || block.equals(Material.ANCIENT_DEBRIS) && p.getWorld().equals(Bukkit.getWorld("world_nether"))){
+                        p.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 100, 20, false, false, true));
 
                     }
                 }

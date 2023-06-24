@@ -170,7 +170,7 @@ public class MerchantListener implements Listener {
                 checkItem(p, Material.CARROT, 14, Material.POISONOUS_POTATO,
                         e.getCurrentItem().getAmount());
             } else if (item.equals(Material.COBWEB)) {
-                checkItem(p, Material.STRING, 5, Material.COAL,
+                checkItem(p, Material.STRING, 5, Material.COBWEB,
                         e.getCurrentItem().getAmount());
             } else if (item.equals(Material.DEAD_BUSH)) {
                 checkItem(p, Material.STICK, 9, Material.DEAD_BUSH,
