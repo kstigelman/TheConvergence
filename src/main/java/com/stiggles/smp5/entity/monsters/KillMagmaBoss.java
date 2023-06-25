@@ -4,6 +4,7 @@ import com.stiggles.smp5.dungeons.Cuboids.Cuboid;
 import com.stiggles.smp5.main.SMP5;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.SculkSensor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.MagmaCube;
 import org.bukkit.entity.Player;
@@ -22,6 +23,8 @@ public class KillMagmaBoss implements Listener {
     public KillMagmaBoss (SMP5 main) {
         this.main = main;
     }
+
+    CustomSpawns spawns = new CustomSpawns();
     @EventHandler
     public void onKill(EntityDeathEvent e){
         if (e.getEntity().getCustomName() != null && e.getEntity().getCustomName().equals(ChatColor.GOLD + "Blazing Beast") && e.getEntity().getKiller() != null){
@@ -58,7 +61,7 @@ public class KillMagmaBoss implements Listener {
                 for (Block block : beastTower.getBlocks()){
                     block.setType(Material.SOUL_SAND);
                 }
-
+                spawns.startCountForBlazingBeast();
                 killAfterSpawns(e.getEntity().getKiller());
             }
         }
@@ -73,7 +76,7 @@ public class KillMagmaBoss implements Listener {
                     }
                 }
             }
-        }.runTaskLater(main, 5);
+        }.runTaskLater(main, 4);
         new BukkitRunnable() {
             public void run() {
                 for (Entity magma : e.getNearbyEntities(100, 100, 100)) {
@@ -82,7 +85,7 @@ public class KillMagmaBoss implements Listener {
                     }
                 }
             }
-        }.runTaskLater(main, 5);
+        }.runTaskLater(main, 6);
         new BukkitRunnable() {
             public void run() {
                 for (Entity magma : e.getNearbyEntities(100, 100, 100)) {
@@ -91,7 +94,7 @@ public class KillMagmaBoss implements Listener {
                     }
                 }
             }
-        }.runTaskLater(main, 5);
+        }.runTaskLater(main, 8);
         new BukkitRunnable() {
             public void run() {
                 for (Entity magma : e.getNearbyEntities(100, 100, 100)) {
@@ -100,7 +103,7 @@ public class KillMagmaBoss implements Listener {
                     }
                 }
             }
-        }.runTaskLater(main, 5);
+        }.runTaskLater(main, 10);
         new BukkitRunnable() {
             public void run() {
                 for (Entity magma : e.getNearbyEntities(100, 100, 100)) {
@@ -109,7 +112,7 @@ public class KillMagmaBoss implements Listener {
                     }
                 }
             }
-        }.runTaskLater(main, 5);
+        }.runTaskLater(main, 12);
         new BukkitRunnable() {
             public void run() {
                 for (Entity magma : e.getNearbyEntities(100, 100, 100)) {
@@ -118,6 +121,6 @@ public class KillMagmaBoss implements Listener {
                     }
                 }
             }
-        }.runTaskLater(main, 5);
+        }.runTaskLater(main, 14);
     }
 }

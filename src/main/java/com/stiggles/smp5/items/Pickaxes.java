@@ -256,7 +256,7 @@ public class Pickaxes implements Listener {
                 } else if (p.getInventory().getItemInMainHand().getItemMeta().getLocalizedName().equals("hardened_pickaxe")){
                     Material block = e.getClickedBlock().getBlockData().getMaterial();
                     if (block.equals(Material.OBSIDIAN) || block.equals(Material.ANCIENT_DEBRIS) && p.getWorld().equals(Bukkit.getWorld("world_nether"))){
-                        p.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 100, 20, false, false, true));
+                        p.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 20*15, 20, false, false, true));
 
                     }
                 }

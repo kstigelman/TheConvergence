@@ -70,7 +70,6 @@ public class BoomBow implements Listener {
     }
 
     public ItemStack getBoomBowPlayer(Player p){
-        p.getInventory().addItem(getBoomBow());
         return getBoomBow();
     }
 

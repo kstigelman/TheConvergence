@@ -33,7 +33,7 @@ public class CustomSpawns {
             new BukkitRunnable() { public void run() {
                     spawnTheBeast();
             }
-            }.runTaskLater(main, 20 * (60L * SMP5.rollNumber(1,3)));
+            }.runTaskLater(main, ((20*(60*25)) + 20 * (60L * SMP5.rollNumber(1,3))));
         }
     }
 

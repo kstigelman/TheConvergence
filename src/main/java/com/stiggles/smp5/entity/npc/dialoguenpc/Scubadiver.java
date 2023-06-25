@@ -1,6 +1,7 @@
 package com.stiggles.smp5.entity.npc.dialoguenpc;
 
 import com.stiggles.smp5.entity.npc.StigglesNPC;
+import com.stiggles.smp5.items.HuntQuestItems;
 import com.stiggles.smp5.main.SMP5;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -24,31 +25,33 @@ public class Scubadiver extends StigglesNPC {
 
     @Override
     public void interactDialogue(Player player) {
-        int ni = main.getRandom() % 5;
 
-        if (ni <= 1) {
-            sendMessage(player, "blub blub blurb blub?");
-        } else if (ni <= 3) {
-            sendMessage(player, "blub blurb blub blub blub blurb blub!");
+        if (player.getInventory().getItemInMainHand().equals(HuntQuestItems.theFriendsPendant())) {
+            player.getInventory().remove(HuntQuestItems.theFriendsPendant());
+            speak(player, "Wow, I have NOT seen that thing in years!", Sound.BLOCK_BUBBLE_COLUMN_WHIRLPOOL_INSIDE);
+            speakLater(player, "Where did you get tha- wait you went to HIM for help?!", Sound.BLOCK_BUBBLE_COLUMN_WHIRLPOOL_INSIDE, 20*2);
+            speakLater(player, "You must REALLY be desperate then. Anyways, I know what you want, but it'll cost you.", Sound.BLOCK_BUBBLE_COLUMN_WHIRLPOOL_INSIDE, 20*5);
+            speakLater(player, "Maybe you can do some archaeology for me, how does that sound?", Sound.BLOCK_BUBBLE_COLUMN_WHIRLPOOL_INSIDE, 20*9);
+            speakLater(player, "Maybe you can bring me back some artifact of importance?", Sound.BLOCK_BUBBLE_COLUMN_WHIRLPOOL_INSIDE, 20*13);
+            speakLater(player, "I've got it! Not to long ago I lost something in the depths of this new beginning, bring it back to me and then we can continue.", Sound.BLOCK_BUBBLE_COLUMN_WHIRLPOOL_INSIDE, 20*17);
+
+        } else if (player.getInventory().getItemInMainHand().equals(HuntQuestItems.theDiversWheel())){
+            speak(player, "There she is... my old ships wheel! Never needed it, but thanks for getting it!", Sound.BLOCK_BUBBLE_COLUMN_WHIRLPOOL_INSIDE);
+            speakLater(player, "Anyways, yes, back to business. It is said that this artifact once belonged to a very powerful being.", Sound.BLOCK_BUBBLE_COLUMN_WHIRLPOOL_INSIDE, 20*3);
+            speakLater(player, "Have you heard of Cryptorg?", Sound.BLOCK_BUBBLE_COLUMN_WHIRLPOOL_INSIDE, 20*5);
+            speakLater(player, "No? Yes? Either way, the artifact your looking for was thought to be wiped from this world! At least- that's what everyone said...", Sound.BLOCK_BUBBLE_COLUMN_WHIRLPOOL_INSIDE, 20*9);
+            speakLater(player, "Then it was found by a unfamiliar being, dont know who, just know that that species has never been seen again.", Sound.BLOCK_BUBBLE_COLUMN_WHIRLPOOL_INSIDE, 20*13);
+
         } else {
-            /*if (player.getInventory().getItemInMainHand().hasItemMeta() && player.getInventory().getItemInMainHand().getItemMeta().getLocalizedName().equals("the_friends_pendant")) {
-                sendMessage(player, "Wow, I have NOT seen that thing in years!");
-                speakLater(player, "Where did you get tha- wait you went to HIM for help?!", Sound.BLOCK_BUBBLE_COLUMN_WHIRLPOOL_INSIDE, 60);
-                speakLater(player, "You must REALLY be desperate then. Anyways, I know what you want, but it'll cost you.", Sound.BLOCK_BUBBLE_COLUMN_WHIRLPOOL_INSIDE, 100);
-                speakLater(player, "Maybe you can do some archaeology for me, how does that sound?", Sound.BLOCK_BUBBLE_COLUMN_WHIRLPOOL_INSIDE, 100);
-                speakLater(player, "Maybe you can bring me back some artifact of importance?", Sound.BLOCK_BUBBLE_COLUMN_WHIRLPOOL_INSIDE, 100);
-                speakLater(player, "I've got it! Not to long ago I lost something in the depths of this new beginning, bring it back to me and then we can continue.", Sound.BLOCK_BUBBLE_COLUMN_WHIRLPOOL_INSIDE, 100);
+            int ni = main.getRandom() % 5;
 
-            } else if (player.getInventory().getItemInMainHand().hasItemMeta() && player.getInventory().getItemInMainHand().getItemMeta().getLocalizedName().equals("scuba_ship_wheel")){
-                sendMessage(player, "There she is... my old ships wheel! Never needed it, but thanks for getting it!");
-                speakLater(player, "Anyways, yes, back to business. It is said that this artifact once belonged to a very powerful being.", Sound.BLOCK_BUBBLE_COLUMN_WHIRLPOOL_INSIDE, 60);
-                speakLater(player, "Have you heard of Cryptorg?", Sound.BLOCK_BUBBLE_COLUMN_WHIRLPOOL_INSIDE, 140);
-                speakLater(player, "No? Yes? Either way, the artifact your looking for was thought to be wiped from this world! At least- that's what everyone said...", Sound.BLOCK_BUBBLE_COLUMN_WHIRLPOOL_INSIDE, 50);
-                speakLater(player, "Then it was found near a little settlement, I cannot remember the name of it, but I do know this, the person who houses it is a huge mess.", Sound.BLOCK_BUBBLE_COLUMN_WHIRLPOOL_INSIDE, 200);
-
+            if (ni <= 1) {
+                speak(player, "blub blub blurb blub?", Sound.BLOCK_BUBBLE_COLUMN_WHIRLPOOL_INSIDE);
+            } else if (ni <= 3) {
+                speak(player, "blub blurb blub blub blub blurb blub!", Sound.BLOCK_BUBBLE_COLUMN_WHIRLPOOL_INSIDE);
             } else {
-             */
-                sendMessage(player, "Blub, blub blurb Blub blub blub blurb blub blub blub blub blub blub!");
+                speak(player, "Blub, blub blurb Blub blub blub blurb blub blub blub blub blub blub!", Sound.BLOCK_BUBBLE_COLUMN_WHIRLPOOL_INSIDE);
+            }
         }
     }
 }

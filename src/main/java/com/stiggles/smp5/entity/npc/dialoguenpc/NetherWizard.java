@@ -1,12 +1,14 @@
 package com.stiggles.smp5.entity.npc.dialoguenpc;
 
 import com.stiggles.smp5.entity.npc.StigglesNPC;
+import com.stiggles.smp5.items.HuntQuestItems;
 import com.stiggles.smp5.main.SMP5;
 import com.stiggles.smp5.stats.Quest;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Queue;
 
@@ -23,21 +25,27 @@ public class NetherWizard extends StigglesNPC {
 
     @Override
     public void interactDialogue(Player player) {
-        int ni = main.getRandom() % 3;
 
-        if (ni <= 1) {
-            sendMessage(player, "Hello!");
+        if (player.getInventory().getItemInMainHand().equals(HuntQuestItems.getNetherArtifact())){
+            sendMessage(player, "Well hello there traveler.");
+            speakLater(player, "Seems like someone was on quite a hunt!", Sound.ENTITY_VILLAGER_CELEBRATE, 20*3);
+            speakLater(player, "Well, good for you my friend, you've come to the end... for now.", Sound.ENTITY_VILLAGER_CELEBRATE, 20*5);
+            speakLater(player, "Now that the nether is open, that artifact will open numerous opportunities for you.", Sound.ENTITY_VILLAGER_CELEBRATE, 20*8);
+            speakLater(player, "When you enter the nether, go talk to Cryptorg, he'll have a quest for you.", Sound.ENTITY_VILLAGER_CELEBRATE, 20*11);
+            speakLater(player, "Remember that friend. Now go! Enjoy the world as it is, and have a wonderful life.", Sound.ENTITY_VILLAGER_CELEBRATE, 20*14);
+            new BukkitRunnable() { public void run() {
+                Quest.questComplete(player, Quest.QuestName.THE_GOOD_HUNT, ChatColor.LIGHT_PURPLE + "[THE GOOD HUNT]", 500);
+            }
+            }.runTaskLater(main, 20*16);
         } else {
-            if (player.getInventory().getItemInMainHand().hasItemMeta() && player.getInventory().getItemInMainHand().getItemMeta().getLocalizedName().equals("pet_rock")){
-                sendMessage(player, "Well hello there traveler.");
-                speakLater(player, "Seems like someone was on quite a hunt!", Sound.ENTITY_VILLAGER_CELEBRATE, 60);
-                speakLater(player, "Well, good for you my friend, you've come to the end... for now.", Sound.ENTITY_VILLAGER_CELEBRATE, 80);
-                speakLater(player, "Now that the nether is open, that artifact will open numerous opportunities for you.", Sound.ENTITY_VILLAGER_CELEBRATE, 100);
-                speakLater(player, "When you enter the nether, go talk to Cryptorg, he'll have a quest for you.", Sound.ENTITY_VILLAGER_CELEBRATE, 120);
-                speakLater(player, "Remember that friend. Now go! Enjoy the world as it is, and have a wonderful life.", Sound.ENTITY_VILLAGER_CELEBRATE, 100);
-                Quest.questComplete(player, Quest.QuestName.THE_GOOD_HUNT, ChatColor.AQUA + "Congrats! You have completed the first part of a difficult quest, now go and explore the rest of this world.", 500);
-            } else {
+            int ni = main.getRandom() % 4;
+
+            if (ni <= 1) {
+                sendMessage(player, "Hello!");
+            } else if (ni <= 2){
                 sendMessage(player, "What brings you to this portal?");
+            } else {
+                sendMessage(player, "Got anything in your hands for me?");
             }
         }
     }

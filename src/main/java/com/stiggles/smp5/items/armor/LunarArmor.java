@@ -31,7 +31,6 @@ public class LunarArmor {
         meta.setUnbreakable(true);
         meta.setColor(Color.fromRGB(204, 255, 255));
         meta.setDisplayName(ChatColor.AQUA + "Lunar Helmet");
-        meta.hasItemFlag(ItemFlag.HIDE_ATTRIBUTES);
         meta.setLore(Arrays.asList(
                 ChatColor.GRAY +  "",
                 ChatColor.AQUA +  "-- SPECIAL ARMOR --",
@@ -45,6 +44,7 @@ public class LunarArmor {
         meta.setLocalizedName("lunar_helmet");
         AttributeModifier genericArmor = new AttributeModifier("generic.armor", 2, AttributeModifier.Operation.ADD_NUMBER);
         meta.addAttributeModifier(Attribute.GENERIC_ARMOR, genericArmor);
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 
         item.setItemMeta(meta);
         return item;
@@ -70,6 +70,7 @@ public class LunarArmor {
 
         AttributeModifier genericArmor = new AttributeModifier("generic.armor", 6, AttributeModifier.Operation.ADD_NUMBER);
         meta.addAttributeModifier(Attribute.GENERIC_ARMOR, genericArmor);
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 
         item.setItemMeta(meta);
         return item;
@@ -96,6 +97,7 @@ public class LunarArmor {
 
         AttributeModifier genericArmor = new AttributeModifier("generic.armor", 5, AttributeModifier.Operation.ADD_NUMBER);
         meta.addAttributeModifier(Attribute.GENERIC_ARMOR, genericArmor);
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 
 
         item.setItemMeta(meta);
@@ -122,6 +124,7 @@ public class LunarArmor {
 
         AttributeModifier genericArmor = new AttributeModifier("generic.armor", 2, AttributeModifier.Operation.ADD_NUMBER);
         meta.addAttributeModifier(Attribute.GENERIC_ARMOR, genericArmor);
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 
         item.setItemMeta(meta);
         return item;

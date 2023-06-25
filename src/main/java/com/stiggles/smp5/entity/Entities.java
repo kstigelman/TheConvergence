@@ -286,7 +286,7 @@ public class Entities implements Listener {
                     for (Entity entity : blazeIng.getNearbyEntities(32, 32, 32)){
                         if (entity instanceof Player){
                             Player p = (Player) entity;
-                            p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10, 0, false, false));
+                            p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20*10, 1, false, false));
                             p.getWorld().createExplosion(p.getLocation(), 2, false, false);
 
                         }

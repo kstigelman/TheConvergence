@@ -1,6 +1,8 @@
 package com.stiggles.smp5.entity.npc.dialoguenpc;
 
 import com.stiggles.smp5.entity.npc.StigglesNPC;
+import com.stiggles.smp5.items.HuntQuestItems;
+import com.stiggles.smp5.items.NetheriteQuestItems;
 import com.stiggles.smp5.main.SMP5;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -11,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,31 +36,17 @@ public class MaskedStranger extends StigglesNPC {
         } else if (ni <= 3) {
             sendMessage(player, "Leave me alone- just go.");
         } else {
-            /*
             sendMessage(player, "Fine, ill give in...");
-            speakLater(player, "I understand that you may be seeking a hunting experience.", Sound.ENTITY_VILLAGER_TRADE, 100);
-            speakLater(player, "I myself have not pursued this activity in quite some time, but I do recall the terrain being quite barren and dangerous.", Sound.ENTITY_VILLAGER_TRADE, 160);
-            speakLater(player, "Last I heard, my friend went scuba diving.", Sound.ENTITY_VILLAGER_TRADE, 160);
-            speakLater(player, "If your daring enough to continue the hunt, you may want to check in with him...", Sound.ENTITY_VILLAGER_TRADE, 120);
-            speakLater(player, "You'll need this to assure him your safe to talk to- now scram!", Sound.ENTITY_VILLAGER_TRADE, 160);
-            player.getInventory().addItem(theFriendsPendant());
-             */
-            sendMessage(player, "SCRAM!");
+            speakLater(player, "I understand that you may be seeking a hunting experience.", Sound.ENTITY_VILLAGER_TRADE, 20*2);
+            speakLater(player, "I myself have not pursued this activity in quite some time, but I do recall the terrain being quite barren and dangerous.", Sound.ENTITY_VILLAGER_TRADE, 20*5);
+            speakLater(player, "Last I heard, my friend went scuba diving.", Sound.ENTITY_VILLAGER_TRADE, 20*9);
+            speakLater(player, "If your daring enough to continue the hunt, you may want to check in with him...", Sound.ENTITY_VILLAGER_TRADE, 20*12);
+            speakLater(player, "You'll need this to assure him your safe to talk to- now scram!", Sound.ENTITY_VILLAGER_TRADE, 20*16);
+            new BukkitRunnable() { public void run() {
+                player.getInventory().addItem(HuntQuestItems.theFriendsPendant());
+            }
+            }.runTaskLater(main, 20*1);
         }
-    }
-
-
-    private ItemStack theFriendsPendant(){
-        ItemStack pendant = new ItemStack(Material.HEART_OF_THE_SEA);
-        ItemMeta pendantMeta = pendant.getItemMeta();
-        pendantMeta.setDisplayName(ChatColor.AQUA+"The Friend's Pendant");
-        pendantMeta.setLore(Arrays.asList(ChatColor.BLUE + "Quest Item", ChatColor.GRAY + ChatColor.ITALIC.toString() + "Once was the center of a great friendship,",
-                ChatColor.GRAY + ChatColor.ITALIC.toString() + "now it's just a relic of a memory..."));
-        pendantMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        pendantMeta.setLocalizedName("the_friends_pendant");
-
-        pendant.setItemMeta(pendantMeta);
-        return pendant;
     }
 
 }

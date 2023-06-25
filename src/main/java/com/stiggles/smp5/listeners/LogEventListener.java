@@ -70,6 +70,12 @@ public class LogEventListener implements Listener {
         if (registeredUUIDs.contains(p.getUniqueId())) {
             log (e.getPlayer(), "LOGIN");
             e.setJoinMessage(ChatColor.LIGHT_PURPLE + p.getName() + " has entered The Convergence");
+            //Cool SFX, Really just for fun -- accnt
+            for(Player player : Bukkit.getOnlinePlayers()){
+                player.playSound(player, Sound.BLOCK_BEACON_POWER_SELECT, 1, 2);
+            }
+            p.playSound(p, Sound.BLOCK_BEACON_ACTIVATE, 1, 2);
+
             //Bounty.setTabName(p);
 
             StigglesPlayer sp = main.getPlayerManager().getStigglesPlayer(p.getUniqueId());

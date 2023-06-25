@@ -48,7 +48,15 @@ public class GetItems implements CommandExecutor {
                     inv.addItem(grapplingHook.getHook());
                     inv.addItem(bagel.getThatBagel());
                     inv.addItem (pendant);
+                    inv.addItem(HuntQuestItems.theDiversWheel());
+                    inv.addItem(HuntQuestItems.petRock());
+                    inv.addItem(HuntQuestItems.getNetherArtifact());
                     inv.addItem(NetheriteQuestItems.questTemplate());
+                    inv.addItem(NetheriteQuestItems.reinforcedAncientDebris());
+                    inv.addItem(NetheriteQuestItems.hardenedGold());
+                    inv.addItem(NetheriteQuestItems.hardenedDiamond());
+                    inv.addItem(NetheriteQuestItems.toughenedObsidian());
+                    inv.addItem(pickaxes.hardenedPickaxe());
                     peacesSymphony.getItems(p);
                     anarchysWardrobe.getItems(p);
                 }

@@ -2,24 +2,41 @@ package com.stiggles.smp5.listeners;
 
 import com.stiggles.smp5.dungeons.Cuboids.Cuboid;
 import com.stiggles.smp5.items.Cooldown;
+import com.stiggles.smp5.items.HuntQuestItems;
 import com.stiggles.smp5.items.NetheriteQuestItems;
 import com.stiggles.smp5.items.Pickaxes;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.World;
+import com.stiggles.smp5.items.bows.BoomBow;
+import com.stiggles.smp5.main.SMP5;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.FishHook;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerFishEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.profile.PlayerProfile;
+import org.bukkit.profile.PlayerTextures;
+import org.bukkit.scheduler.BukkitRunnable;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.UUID;
 
 public class AllMiscEvents implements Listener {
 
+    HashMap<UUID, Boolean> gottenWheel = new HashMap<>();
+    SMP5 main;
+    public AllMiscEvents (SMP5 main) {
+        this.main = main;
+    }
     Pickaxes pickaxes = new Pickaxes();
 
     Cuboid goldSpot = new Cuboid(
@@ -70,26 +87,92 @@ public class AllMiscEvents implements Listener {
         Block block = e.getBlock();
         if (p.getInventory().getItemInMainHand().equals(pickaxes.hardenedPickaxe())){
             if (e.getBlock().getWorld().equals(Bukkit.getWorld("world_nether"))){
-                World world_nether = p.getWorld();
                 if(checkNetherite(block)) {
                     e.setCancelled(true);
-                    block.getLocation().getWorld().dropItemNaturally(block.getLocation().add(0,1,0), NetheriteQuestItems.reinforcedAncientDebris());
+
+                    if (block.getType().equals(Material.ANCIENT_DEBRIS)) {
+                        p.playSound(p, Sound.BLOCK_DECORATED_POT_SHATTER, 2, 1);
+                        block.getLocation().getWorld().dropItemNaturally(block.getLocation(), NetheriteQuestItems.reinforcedAncientDebris());
+                        block.setType(Material.BEDROCK);
+                        new BukkitRunnable() {
+                            public void run() {
+                                block.setType(Material.ANCIENT_DEBRIS);
+                            }
+                        }.runTaskLater(main, 20 * (60));
+                    }
 
                 } else if(checkNetherGold(block)) {
                     e.setCancelled(true);
-                    block.getLocation().getWorld().dropItemNaturally(block.getLocation().add(0,1,0), NetheriteQuestItems.hardenedGold());
+
+                    if (block.getType().equals(Material.DEEPSLATE_GOLD_ORE)) {
+                        p.playSound(p, Sound.BLOCK_AMETHYST_CLUSTER_BREAK, 2, 1.5F);
+                        block.getLocation().getWorld().dropItemNaturally(block.getLocation(), NetheriteQuestItems.hardenedGold());
+                        block.setType(Material.BEDROCK);
+                        new BukkitRunnable() {
+                            public void run() {
+                                block.setType(Material.DEEPSLATE_GOLD_ORE);
+                            }
+                        }.runTaskLater(main, 20 * (60));
+                    }
 
                 } else if(checkNetherDiamond(block)) {
                     e.setCancelled(true);
-                    block.getLocation().getWorld().dropItemNaturally(block.getLocation().add(0,1,0), NetheriteQuestItems.hardenedDiamond());
+
+                    if (block.getType().equals(Material.DEEPSLATE_DIAMOND_ORE)) {
+                        p.playSound(p, Sound.BLOCK_AMETHYST_CLUSTER_BREAK, 2, 1.5F);
+                        block.getLocation().getWorld().dropItemNaturally(block.getLocation(), NetheriteQuestItems.hardenedDiamond());
+                        block.setType(Material.BEDROCK);
+                        new BukkitRunnable() {
+                            public void run() {
+                                block.setType(Material.DEEPSLATE_DIAMOND_ORE);
+                            }
+                        }.runTaskLater(main, 20 * (60));
+                    }
 
                 } else if(checkOby(block)){
-                    e.setCancelled(true);
-                    block.getLocation().getWorld().dropItemNaturally(block.getLocation().add(0,1,0), NetheriteQuestItems.toughenedObsidian());
+                        e.setCancelled(true);
+                    if (block.getType().equals(Material.OBSIDIAN)) {
+                        p.playSound(p, Sound.BLOCK_DECORATED_POT_SHATTER, 2, 1);
+                        block.getLocation().getWorld().dropItemNaturally(block.getLocation(), NetheriteQuestItems.toughenedObsidian());
+                        block.setType(Material.BEDROCK);
+                        new BukkitRunnable() {
+                            public void run() {
+                                block.setType(Material.OBSIDIAN);
+                            }
+                        }.runTaskLater(main, 20 * (60));
+                    }
 
                 }
 
 
+            }
+        } else {
+            if (e.getBlock().getWorld().equals(Bukkit.getWorld("world_nether"))){
+                if(checkNetherite(block)) {
+                    e.setCancelled(true);
+                    e.setDropItems(false);
+                    p.sendMessage(ChatColor.RED + "You may not break this due to you not having the right pickaxe!");
+                    p.playSound(p, Sound.ENTITY_ENDERMAN_TELEPORT, 1 ,1);
+
+                } else if(checkNetherGold(block)) {
+                    e.setCancelled(true);
+                    e.setDropItems(false);
+                    p.sendMessage(ChatColor.RED + "You may not break this due to you not having the right pickaxe!");
+                    p.playSound(p, Sound.ENTITY_ENDERMAN_TELEPORT, 1 ,1);
+
+                } else if(checkNetherDiamond(block)) {
+                    e.setCancelled(true);
+                    e.setDropItems(false);
+                    p.sendMessage(ChatColor.RED + "You may not break this due to you not having the right pickaxe!");
+                    p.playSound(p, Sound.ENTITY_ENDERMAN_TELEPORT, 1 ,1);
+
+                } else if(checkOby(block)){
+                    e.setCancelled(true);
+                    e.setDropItems(false);
+                    p.sendMessage(ChatColor.RED + "You may not break this due to you not having the right pickaxe!");
+                    p.playSound(p, Sound.ENTITY_ENDERMAN_TELEPORT, 1 ,1);
+
+                }
             }
         }
     }
@@ -125,6 +208,27 @@ public class AllMiscEvents implements Listener {
             }
         }
         return false;
+    }
+
+    @EventHandler
+    public void interact(PlayerInteractEvent event) {
+        Player p = event.getPlayer();
+        if (event.getClickedBlock() != null) {
+            Block block = event.getClickedBlock();
+            if (block.getType().equals(Material.SUSPICIOUS_SAND) && block.getLocation().equals(new Location(Bukkit.getWorld("world"), -144, 43, 865))) { //
+                if (gottenWheel.get(p.getUniqueId()) == null || !gottenWheel.get(p.getUniqueId())) {
+                    if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK) && p.getInventory().getItemInMainHand().equals(new ItemStack(Material.BRUSH))) {
+                        p.sendMessage(ChatColor.DARK_GRAY.toString() + ChatColor.ITALIC + "You've dug up something old and broken... looks- looks like a ships wheel...");
+                        p.getInventory().addItem(HuntQuestItems.theDiversWheel());
+                        gottenWheel.put(p.getUniqueId(), true);
+                    } else {
+                        p.sendMessage(ChatColor.DARK_GRAY.toString() + ChatColor.ITALIC + "You should try using a new, unused and clean item to search here...");
+                    }
+                } else {
+                    p.sendMessage(ChatColor.DARK_GRAY.toString() + ChatColor.ITALIC + "You've already dug up the artifact.");
+                }
+            }
+        }
     }
 
 }

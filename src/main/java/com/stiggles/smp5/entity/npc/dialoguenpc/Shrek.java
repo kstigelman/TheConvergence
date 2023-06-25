@@ -1,6 +1,7 @@
 package com.stiggles.smp5.entity.npc.dialoguenpc;
 
 import com.stiggles.smp5.entity.npc.StigglesNPC;
+import com.stiggles.smp5.items.HuntQuestItems;
 import com.stiggles.smp5.main.SMP5;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -10,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Arrays;
 
@@ -25,32 +27,37 @@ public class Shrek extends StigglesNPC {
 
     @Override
     public void interactDialogue(Player player) {
-        int ni = main.getRandom() % 4;
 
-        if (ni <= 1) {
-            sendMessage(player, "What are you doin in my swamp?!");
-        } else {
-            if (player.getInventory().getItemInMainHand().hasItemMeta() && player.getInventory().getItemInMainHand().getItemMeta().getLocalizedName().equals("scuba_ship_wheel")){
-                sendMessage(player, "Hmm, I aint know what to do with that");
-                speakLater(player, "But I found this cool artifact lookin thing, wanna see it?", Sound.ENTITY_ZOMBIE_VILLAGER_AMBIENT, 60);
-                speakLater(player, "Wait, never mind this mindless guy rambling his mind came by and took it, I think he was heading towards a town of sorts, like a city had a HUGE chest though!", Sound.ENTITY_ZOMBIE_VILLAGER_AMBIENT, 60);
-                speakLater(player, "He gave me rock in return for that artifact, here- take it maybe he'll give it back to you.", Sound.ENTITY_ZOMBIE_VILLAGER_AMBIENT, 60);
+        if (player.getInventory().getItemInMainHand().equals(HuntQuestItems.theDiversWheel())){
+            speak(player, "Hmm, I ain't know what to do with that", Sound.ENTITY_ZOMBIE_VILLAGER_AMBIENT);
+            speakLater(player, "But I found this cool artifact lookin thing, wanna see it?", Sound.ENTITY_ZOMBIE_VILLAGER_AMBIENT, 20*3);
+            speakLater(player, "Wait, never mind this mindless guy rambling his mind came by and took it, I think he was heading towards a town of sorts, I do know that everyone knows of it though!", Sound.ENTITY_ZOMBIE_VILLAGER_AMBIENT, 20*6);
+            speakLater(player, "He gave me rock in return for that artifact, here- take it maybe he'll give it back to you.", Sound.ENTITY_ZOMBIE_VILLAGER_AMBIENT, 20*8);
+            new BukkitRunnable() { public void run() {
+                player.getInventory().addItem(HuntQuestItems.petRock());
+            }
+            }.runTaskLater(main, 20*8);
 
-                player.getInventory().addItem(theFriendsPendant());
+            player.getInventory().addItem(HuntQuestItems.petRock());
+        } else if (player.getInventory().getItemInMainHand().equals(HuntQuestItems.petRock())) {
+            int ni = main.getRandom() % 4;
+
+            if (ni <= 1) {
+                speak(player, "What are you doin in my swamp?!", Sound.ENTITY_ZOMBIE_VILLAGER_AMBIENT);
+            } else if (ni <= 2){
+                speak(player, "Get off my swamp!", Sound.ENTITY_ZOMBIE_VILLAGER_AMBIENT);
             } else {
-                sendMessage(player, "Get off my swamp!");
+                speak(player, "Wait a minute, I just gave you that...", Sound.ENTITY_ZOMBIE_VILLAGER_AMBIENT);
+            }
+        } else {
+            int ni = main.getRandom() % 4;
+
+            if (ni <= 1) {
+                speak(player, "What are you doin in my swamp?!", Sound.ENTITY_ZOMBIE_VILLAGER_AMBIENT);
+            } else {
+                speak(player, "Get off my swamp!", Sound.ENTITY_ZOMBIE_VILLAGER_AMBIENT);
             }
         }
-    }
 
-    private ItemStack theFriendsPendant(){
-        ItemStack pendant = new ItemStack(Material.LIGHT_GRAY_DYE);
-        ItemMeta pendantMeta = pendant.getItemMeta();
-        pendantMeta.setDisplayName(ChatColor.AQUA+"Shrek's Pet Rock");
-        pendantMeta.setLore(Arrays.asList(ChatColor.BLUE + "Quest Item", ChatColor.GRAY + ChatColor.ITALIC.toString() + "Very special pet rock."));
-        pendantMeta.setLocalizedName("pet_rock");
-
-        pendant.setItemMeta(pendantMeta);
-        return pendant;
     }
 }

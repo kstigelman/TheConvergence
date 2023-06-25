@@ -1,14 +1,24 @@
 package com.stiggles.smp5.entity.npc.dialoguenpc.NetheriteQuest;
 
+import com.stiggles.smp5.entity.lostMerchant.InventoryManager;
 import com.stiggles.smp5.entity.npc.StigglesNPC;
+import com.stiggles.smp5.items.NetheriteQuestItems;
 import com.stiggles.smp5.items.Pickaxes;
 import com.stiggles.smp5.main.SMP5;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import xyz.xenondevs.invui.item.impl.controlitem.PageItem;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.HashMap;
+import java.util.UUID;
 
 public class NetheriteMaster extends StigglesNPC {
+
+    HashMap<UUID, Boolean> playersWhomDid = new HashMap<>();
 
     Pickaxes pickaxes = new Pickaxes();
 
@@ -22,15 +32,36 @@ public class NetheriteMaster extends StigglesNPC {
 
     @Override
     public void onInteract(Player p) {
+        Inventory inv = p.getInventory();
         if (p.getInventory().getItemInMainHand().equals(pickaxes.hardenedPickaxe())){
-            sendMessage(p, "Looks like you have what it takes. Well, what are you waiting for?");
-            speakLater(p, "Scared of a little mining? Dont be, just don't hurt anyone..." , Sound.ENTITY_PIGLIN_ADMIRING_ITEM, 20*5);
-            speakLater(p, "Bring me back this exact list, and dont forget anything." , Sound.ENTITY_PIGLIN_ADMIRING_ITEM, 20*5);
-            speakLater(p, "8 Reinforced Ancient Debris and Hardened Gold" , Sound.ENTITY_PIGLIN_AMBIENT, 20*4);
-            speakLater(p, "4 Hardened Diamonds" , Sound.ENTITY_PIGLIN_AMBIENT, 20*4);
-            speakLater(p, "2 Toughened Obsidian" , Sound.ENTITY_PIGLIN_AMBIENT, 20*3);
+            speak(p, "Looks like you have what it takes. Well, what are you waiting for?", Sound.ENTITY_PIGLIN_ADMIRING_ITEM);
+            speakLater(p, "Scared of a little mining? Dont be, just don't hurt anyone..." , Sound.ENTITY_PIGLIN_ADMIRING_ITEM, 20*4);
+            speakLater(p, "Bring me back this exact list, and dont forget anything." , Sound.ENTITY_PIGLIN_ADMIRING_ITEM, 20*6);
+            speakLater(p, "8 Reinforced Ancient Debris and Hardened Gold" , Sound.ENTITY_PIGLIN_AMBIENT, 20*8);
+            speakLater(p, "4 Hardened Diamonds" , Sound.ENTITY_PIGLIN_AMBIENT, 20*8);
+            speakLater(p, "2 Toughened Obsidian" , Sound.ENTITY_PIGLIN_AMBIENT, 20*9);
+        } else if (inv.containsAtLeast(NetheriteQuestItems.hardenedGold(), 8) && inv.containsAtLeast(NetheriteQuestItems.hardenedGold(), 8) &&
+        inv.containsAtLeast(NetheriteQuestItems.hardenedDiamond(), 4) && inv.containsAtLeast(NetheriteQuestItems.toughenedObsidian(), 2)) {
+            speak(p, "Thanks for helping us out.", Sound.ENTITY_PIGLIN_CELEBRATE);
+            speakLater(p, "In return, allow me to give you one of our newly forged Crystallized Upgrade Templates", Sound.ENTITY_PIGLIN_ADMIRING_ITEM, 20*2);
+            new BukkitRunnable() { public void run() {
+                p.getInventory().addItem(NetheriteQuestItems.questTemplate());
+                removeItems(p, NetheriteQuestItems.hardenedGold(), 8);
+                removeItems(p, NetheriteQuestItems.reinforcedAncientDebris(), 8);
+                removeItems(p, NetheriteQuestItems.hardenedDiamond(), 4);
+                removeItems(p, NetheriteQuestItems.toughenedObsidian(), 2);
+            }
+            }.runTaskLater(main, 20*3);
+            speakLater(p, "There you go, for now that's all I have for you, now, leave the mines!", Sound.ENTITY_PIGLIN_BRUTE_ANGRY, 20*7);
+
         } else {
-            sendMessage(p, "You don't look ready to mine, come back when you are.");
+            speak(p, "You don't look ready to mine, come back when you are.", Sound.ENTITY_PIGLIN_ANGRY);
+        }
+    }
+
+    private void removeItems(Player player, ItemStack itemStack, int amount) {
+        for(int i=0 ; i<=amount ; i++){
+            player.getInventory().remove(itemStack);
         }
     }
 

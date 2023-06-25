@@ -18,6 +18,8 @@ import com.stiggles.smp5.entity.monsters.CustomSpawns;
 import com.stiggles.smp5.entity.monsters.KillMagmaBoss;
 import com.stiggles.smp5.entity.npc.*;
 import com.stiggles.smp5.entity.npc.dialoguenpc.*;
+import com.stiggles.smp5.entity.npc.dialoguenpc.NetheriteQuest.MineManager;
+import com.stiggles.smp5.entity.npc.dialoguenpc.NetheriteQuest.NetheriteMaster;
 import com.stiggles.smp5.entity.npc.shopnpcs.*;
 import com.stiggles.smp5.items.*;
 import com.stiggles.smp5.listeners.AllMiscEvents;
@@ -314,7 +316,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         runArmorCheck armorCheck = new runArmorCheck(this);
         CustomCrafting cc = new CustomCrafting(this);
         Bukkit.getPluginManager().registerEvents(new Swords(), this);
-        Bukkit.getPluginManager().registerEvents(new AllMiscEvents(), this);
+        Bukkit.getPluginManager().registerEvents(new AllMiscEvents(this), this);
         Bukkit.getPluginManager().registerEvents(new BoomBow(), this);
         Bukkit.getPluginManager().registerEvents(new GlowBow(), this);
         Bukkit.getPluginManager().registerEvents(new Pickaxes(), this);
@@ -381,12 +383,12 @@ public class SMP5 extends JavaPlugin implements Listener {
         npcs.add(new MindlessGuy(this, "Mindless Guy", new Location(world, 28.5, 91, 855.5)));
         npcs.add(new NetherWizard(this, "Wondrous Wizard", new Location(world, -976.5, 67, -278.5)));
         npcs.add(new YetAnotherWanderer(this, "Weary Traveler", new Location(world, -828.5, 70, -726.5)));
-        npcs.add(new AnotherWanderer(this, "Lost Wanderer", new Location(world, -831.5, 68, -736.5)));
         npcs.add(new leadWanderer(this, "Adventurous Explorer", new Location(world, -834.5, 68, -728.5)));
-        npcs.add(new EndWizzard(this, "End Explorer", new Location(world, 14.5, 92, 781.5)));
-        npcs.add(new AndEvenAnotherWanderer(this, "Confused Hiker", new Location(world, -824.5, 70, -735.5)));
 
         npcs.add (new Anarcho(this, "Anarcho", new Location(worldNether, 550.5, 221, 236.5)));
+        npcs.add(new NetheriteMaster(this, "Netherite Master", new Location(worldNether, -133.5, 168, -26.5)));
+        npcs.add(new MineManager(this, "Mines Overseer", new Location(worldNether, -165.5, 185, 6.5)));
+        npcs.add(new Cryptorg(this, "Cryptorg", new Location(worldNether, -121, 130, -12)));
 
         npcs.add (new TheWanderer(this, "The Wanderer", new Location(Bukkit.getWorld("sanctuary"), 35, -60, 9)));
         npcs.add (new Nouveau(this, "Nouveau", new Location (Bukkit.getWorld("sanctuary"), 8.5, -59, 8.5)));
@@ -417,38 +419,6 @@ public class SMP5 extends JavaPlugin implements Listener {
         int randomNumber = rand.nextInt(max - min + 1) + min;
 
         return randomNumber;
-    }
-
-    @EventHandler
-    public void interact(PlayerInteractEvent event){
-        World world = Bukkit.getWorld("world");
-
-        Location potLocation = new Location(world, -144, 43, 865);
-
-        if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
-            Block block = event.getClickedBlock();
-            if (block.getType().equals(Material.SUSPICIOUS_SAND) && block.getX() == -144 && block.getY() == 43 && block.getZ() == 865){
-                ItemStack wheel = new ItemStack(Material.PLAYER_HEAD);
-                SkullMeta skullMeta = (SkullMeta) wheel.getItemMeta();
-                skullMeta.setDisplayName(ChatColor.WHITE + "Scubas Wheel");
-                skullMeta.setLore(Arrays.asList(ChatColor.BLUE + "Quest Item", ChatColor.GRAY + ChatColor.ITALIC.toString() + "A wheel that was once on a ship."));
-                skullMeta.setLocalizedName("scuba_ship_wheel");
-
-                PlayerProfile p = Bukkit.createPlayerProfile(UUID.randomUUID());
-                try {
-                    PlayerTextures pt = p.getTextures();
-                    pt.setSkin(new URL("https://textures.minecraft.net/texture/6b60171a946b630f46b7b626f4a780bd1a2de9ae3b2bc8a67b6f5bd970eb7"
-                    ));
-                    p.setTextures(pt);
-                }
-                catch (MalformedURLException e) {
-
-                }
-                skullMeta.setOwnerProfile(p);
-                wheel.setItemMeta(skullMeta);
-                event.getPlayer().getInventory().addItem(wheel);
-            }
-        }
     }
 
     public void shutdownServer(){ Bukkit.shutdown(); }
