@@ -37,8 +37,6 @@ public class Shrek extends StigglesNPC {
                 player.getInventory().addItem(HuntQuestItems.petRock());
             }
             }.runTaskLater(main, 20*8);
-
-            player.getInventory().addItem(HuntQuestItems.petRock());
         } else if (player.getInventory().getItemInMainHand().equals(HuntQuestItems.petRock())) {
             int ni = main.getRandom() % 4;
 
@@ -48,6 +46,16 @@ public class Shrek extends StigglesNPC {
                 speak(player, "Get off my swamp!", Sound.ENTITY_ZOMBIE_VILLAGER_AMBIENT);
             } else {
                 speak(player, "Wait a minute, I just gave you that...", Sound.ENTITY_ZOMBIE_VILLAGER_AMBIENT);
+            }
+        } else if (player.getInventory().contains(HuntQuestItems.petRock())) {
+            int ni = main.getRandom() % 4;
+
+            if (ni <= 1) {
+                speak(player, "What are you doin in my swamp?!", Sound.ENTITY_ZOMBIE_VILLAGER_AMBIENT);
+            } else if (ni <= 2){
+                speak(player, "Get off my swamp!", Sound.ENTITY_ZOMBIE_VILLAGER_AMBIENT);
+            } else {
+                speak(player, "Do you have something interesting for me?", Sound.ENTITY_ZOMBIE_VILLAGER_AMBIENT);
             }
         } else {
             int ni = main.getRandom() % 4;

@@ -176,6 +176,11 @@ public class OnArmorStandInteract implements Listener {
         ItemMeta im = item.getItemMeta();
         im.setDisplayName(ChatColor.LIGHT_PURPLE + "Convergence Crystal");
         im.setLocalizedName("convergence_" + calculateHash(loc));
+
+        String stringLocation = ChatColor.DARK_GRAY + "Found at (" + loc.getBlockX() + ", " + (loc.getBlockY() + 2) + ", " + loc.getBlockZ() + ")";
+        if (loc.getWorld().getName().contains("nether"))
+            stringLocation += " in the Nether";
+
         im.setLore (Arrays.asList(ChatColor.BLUE + "Quest Item", ChatColor.GRAY + "A sample of Convergence",
                 ChatColor.DARK_GRAY + "Found at (" + loc.getBlockX() + ", " + (loc.getBlockY() + 2) + ", " + loc.getBlockZ() + ")",
                 ChatColor.GRAY + ChatColor.ITALIC.toString() + "Convergence is a substance created by ",

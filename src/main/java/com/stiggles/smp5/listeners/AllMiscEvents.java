@@ -9,14 +9,18 @@ import com.stiggles.smp5.items.bows.BoomBow;
 import com.stiggles.smp5.main.SMP5;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.FishHook;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.inventory.PrepareAnvilEvent;
+import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -218,7 +222,7 @@ public class AllMiscEvents implements Listener {
             if (block.getType().equals(Material.SUSPICIOUS_SAND) && block.getLocation().equals(new Location(Bukkit.getWorld("world"), -144, 43, 865))) { //
                 if (gottenWheel.get(p.getUniqueId()) == null || !gottenWheel.get(p.getUniqueId())) {
                     if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK) && p.getInventory().getItemInMainHand().equals(new ItemStack(Material.BRUSH))) {
-                        p.sendMessage(ChatColor.DARK_GRAY.toString() + ChatColor.ITALIC + "You've dug up something old and broken... looks- looks like a ships wheel...");
+                        p.sendMessage(ChatColor.DARK_GRAY.toString() + ChatColor.ITALIC + "You've dug up something old and broken... looks- looks like a ship artifact...");
                         p.getInventory().addItem(HuntQuestItems.theDiversWheel());
                         gottenWheel.put(p.getUniqueId(), true);
                     } else {
@@ -228,6 +232,36 @@ public class AllMiscEvents implements Listener {
                     p.sendMessage(ChatColor.DARK_GRAY.toString() + ChatColor.ITALIC + "You've already dug up the artifact.");
                 }
             }
+        }
+    }
+
+    @EventHandler
+    public void prepareAnvil(PrepareAnvilEvent e){
+        if (e.getResult().getItemMeta() != null && e.getResult().getItemMeta().getLocalizedName().equals("warden_weakness")){
+            if (e.getResult().getItemMeta().hasEnchant(Enchantment.DURABILITY) || e.getResult().getItemMeta().hasEnchant(Enchantment.MENDING)){
+                e.setResult(new ItemStack(Material.AIR));
+            }
+
+        }
+        if (e.getInventory().contains(NetheriteQuestItems.hardenedDiamond())) {
+            e.setResult(new ItemStack(Material.AIR));
+            return;
+        }
+        if (e.getInventory().contains (NetheriteQuestItems.hardenedGold())) {
+            e.setResult(new ItemStack(Material.AIR));
+            return;
+        }
+        if (e.getInventory().contains (NetheriteQuestItems.reinforcedAncientDebris())) {
+            e.setResult(new ItemStack(Material.AIR));
+            return;
+        }
+        if (e.getInventory().contains (NetheriteQuestItems.toughenedObsidian())) {
+            e.setResult(new ItemStack(Material.AIR));
+            return;
+        }
+        if (e.getInventory().contains (NetheriteQuestItems.questTemplate())) {
+            e.setResult(new ItemStack(Material.AIR));
+            return;
         }
     }
 

@@ -65,11 +65,11 @@ public class MerchantListener implements Listener {
                             p.openInventory(inv);
                         } else {
                             merchantCheckList.put(m.getUniqueId(), false);
-                            p.sendMessage(ChatColor.RED + "This merchant does not currently have anything in stock! Please try again the next tomorrow.");
+                            p.sendMessage(ChatColor.RED + "This merchant does not currently have anything in stock! Please try again tomorrow.");
                         }
 
                     } else if (merchantCheckList.get(m.getUniqueId()) == false){
-                        p.sendMessage(ChatColor.RED + "This merchant does not currently have anything in stock! Please try again the next tomorrow.");
+                        p.sendMessage(ChatColor.RED + "This merchant does not currently have anything in stock! Please try again tomorrow.");
                     } else {
                         p.openInventory(inventoryManager.getInventoryFromMap(m.getUniqueId()));
                     }
@@ -151,7 +151,7 @@ public class MerchantListener implements Listener {
                 checkItem(p, Material.ENDER_EYE, 16, Material.SPIRE_ARMOR_TRIM_SMITHING_TEMPLATE,
                         1);
             } else if (item.equals(Material.SILENCE_ARMOR_TRIM_SMITHING_TEMPLATE)) {
-                checkItem(p, Material.SCULK_CATALYST, 20, Material.SILENCE_ARMOR_TRIM_SMITHING_TEMPLATE,
+                checkItem(p, Material.SCULK_CATALYST, 30, Material.SILENCE_ARMOR_TRIM_SMITHING_TEMPLATE,
                         1);
             } else if (item.equals(Material.SENTRY_ARMOR_TRIM_SMITHING_TEMPLATE)) {
                 checkItem(p, Material.STRING, 64, Material.SENTRY_ARMOR_TRIM_SMITHING_TEMPLATE,

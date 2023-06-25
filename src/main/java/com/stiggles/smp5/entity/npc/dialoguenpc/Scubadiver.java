@@ -36,11 +36,11 @@ public class Scubadiver extends StigglesNPC {
             speakLater(player, "I've got it! Not to long ago I lost something in the depths of this new beginning, bring it back to me and then we can continue.", Sound.BLOCK_BUBBLE_COLUMN_WHIRLPOOL_INSIDE, 20*17);
 
         } else if (player.getInventory().getItemInMainHand().equals(HuntQuestItems.theDiversWheel())){
-            speak(player, "There she is... my old ships wheel! Never needed it, but thanks for getting it!", Sound.BLOCK_BUBBLE_COLUMN_WHIRLPOOL_INSIDE);
+            speak(player, "There she is... an artifact of my old ship! Thanks for getting it!", Sound.BLOCK_BUBBLE_COLUMN_WHIRLPOOL_INSIDE);
             speakLater(player, "Anyways, yes, back to business. It is said that this artifact once belonged to a very powerful being.", Sound.BLOCK_BUBBLE_COLUMN_WHIRLPOOL_INSIDE, 20*3);
-            speakLater(player, "Have you heard of Cryptorg?", Sound.BLOCK_BUBBLE_COLUMN_WHIRLPOOL_INSIDE, 20*5);
+            speakLater(player, "Have you heard of Cryptorg?", Sound.BLOCK_BUBBLE_COLUMN_WHIRLPOOL_INSIDE, 20*6);
             speakLater(player, "No? Yes? Either way, the artifact your looking for was thought to be wiped from this world! At least- that's what everyone said...", Sound.BLOCK_BUBBLE_COLUMN_WHIRLPOOL_INSIDE, 20*9);
-            speakLater(player, "Then it was found by a unfamiliar being, dont know who, just know that that species has never been seen again.", Sound.BLOCK_BUBBLE_COLUMN_WHIRLPOOL_INSIDE, 20*13);
+            speakLater(player, "Then it was found by a unfamiliar being, dont know who, just know that that species has never been seen again.", Sound.BLOCK_BUBBLE_COLUMN_WHIRLPOOL_INSIDE, 20*14);
 
         } else {
             int ni = main.getRandom() % 5;

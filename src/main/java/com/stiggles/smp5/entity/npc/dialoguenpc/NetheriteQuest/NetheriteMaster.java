@@ -5,6 +5,7 @@ import com.stiggles.smp5.entity.npc.StigglesNPC;
 import com.stiggles.smp5.items.NetheriteQuestItems;
 import com.stiggles.smp5.items.Pickaxes;
 import com.stiggles.smp5.main.SMP5;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -32,36 +33,54 @@ public class NetheriteMaster extends StigglesNPC {
 
     @Override
     public void onInteract(Player p) {
-        Inventory inv = p.getInventory();
-        if (p.getInventory().getItemInMainHand().equals(pickaxes.hardenedPickaxe())){
-            speak(p, "Looks like you have what it takes. Well, what are you waiting for?", Sound.ENTITY_PIGLIN_ADMIRING_ITEM);
-            speakLater(p, "Scared of a little mining? Dont be, just don't hurt anyone..." , Sound.ENTITY_PIGLIN_ADMIRING_ITEM, 20*4);
-            speakLater(p, "Bring me back this exact list, and dont forget anything." , Sound.ENTITY_PIGLIN_ADMIRING_ITEM, 20*6);
-            speakLater(p, "8 Reinforced Ancient Debris and Hardened Gold" , Sound.ENTITY_PIGLIN_AMBIENT, 20*8);
-            speakLater(p, "4 Hardened Diamonds" , Sound.ENTITY_PIGLIN_AMBIENT, 20*8);
-            speakLater(p, "2 Toughened Obsidian" , Sound.ENTITY_PIGLIN_AMBIENT, 20*9);
-        } else if (inv.containsAtLeast(NetheriteQuestItems.hardenedGold(), 8) && inv.containsAtLeast(NetheriteQuestItems.hardenedGold(), 8) &&
-        inv.containsAtLeast(NetheriteQuestItems.hardenedDiamond(), 4) && inv.containsAtLeast(NetheriteQuestItems.toughenedObsidian(), 2)) {
-            speak(p, "Thanks for helping us out.", Sound.ENTITY_PIGLIN_CELEBRATE);
-            speakLater(p, "In return, allow me to give you one of our newly forged Crystallized Upgrade Templates", Sound.ENTITY_PIGLIN_ADMIRING_ITEM, 20*2);
-            new BukkitRunnable() { public void run() {
-                p.getInventory().addItem(NetheriteQuestItems.questTemplate());
-                removeItems(p, NetheriteQuestItems.hardenedGold(), 8);
-                removeItems(p, NetheriteQuestItems.reinforcedAncientDebris(), 8);
-                removeItems(p, NetheriteQuestItems.hardenedDiamond(), 4);
-                removeItems(p, NetheriteQuestItems.toughenedObsidian(), 2);
+        if (playersWhomDid.get(p.getUniqueId()) == null){
+            Inventory inv = p.getInventory();
+            if (p.getInventory().getItemInMainHand().equals(pickaxes.hardenedPickaxe())){
+                speak(p, "Looks like you have what it takes. Well, what are you waiting for?", Sound.ENTITY_PIGLIN_ADMIRING_ITEM);
+                speakLater(p, "Scared of a little mining? Don't be, just don't hurt anyone..." , Sound.ENTITY_PIGLIN_ADMIRING_ITEM, 20*4);
+                speakLater(p, "Bring me back this exact list, and dont forget or add anything, otherwise I'll take it." , Sound.ENTITY_PIGLIN_ADMIRING_ITEM, 20*6);
+                speakLater(p, "8 Reinforced Ancient Debris and Hardened Gold" , Sound.ENTITY_PIGLIN_AMBIENT, 20*9);
+                speakLater(p, "4 Hardened Diamonds" , Sound.ENTITY_PIGLIN_AMBIENT, 20*10);
+                speakLater(p, "2 Toughened Obsidian" , Sound.ENTITY_PIGLIN_AMBIENT, 20*11);
+            } else if (inv.containsAtLeast(NetheriteQuestItems.hardenedGold(), 8) && inv.containsAtLeast(NetheriteQuestItems.hardenedGold(), 8) &&
+                    inv.containsAtLeast(NetheriteQuestItems.hardenedDiamond(), 4) && inv.containsAtLeast(NetheriteQuestItems.toughenedObsidian(), 2)) {
+                speak(p, "Thanks for helping us out.", Sound.ENTITY_PIGLIN_CELEBRATE);
+                speakLater(p, "In return, allow me to give you one of our newly forged Crystallized Upgrade Templates", Sound.ENTITY_PIGLIN_ADMIRING_ITEM, 20*2);
+                new BukkitRunnable() { public void run() {
+                    p.getInventory().remove(NetheriteQuestItems.theEightDebris());
+                    p.getInventory().remove(NetheriteQuestItems.theEightGold());
+                    p.getInventory().remove(NetheriteQuestItems.theFourDiamond());
+                    p.getInventory().remove(NetheriteQuestItems.theTwoOby());
+                    p.getInventory().addItem(NetheriteQuestItems.questTemplate());
+                    playersWhomDid.put(p.getUniqueId(), true);
+
+                    for(ItemStack itemStack : p.getInventory().getContents()){
+                        if (itemStack.getType() != null){
+                            Material material = itemStack.getType();
+                            if (material.equals(Material.ANCIENT_DEBRIS) || material.equals(Material.GOLD_INGOT) || material.equals(Material.DIAMOND)
+                                    || material.equals(Material.OBSIDIAN)){
+                                if (itemStack.isSimilar(NetheriteQuestItems.reinforcedAncientDebris())) {
+                                    p.getInventory().remove(itemStack);
+                                } else if(itemStack.isSimilar(NetheriteQuestItems.hardenedGold())){
+                                    p.getInventory().remove(itemStack);
+                                } else if(itemStack.isSimilar(NetheriteQuestItems.hardenedDiamond())){
+                                    p.getInventory().remove(itemStack);
+                                } else if(itemStack.isSimilar(NetheriteQuestItems.toughenedObsidian())){
+                                    p.getInventory().remove(itemStack);
+                                }
+                            }
+                        }
+                    }
+
+                }
+                }.runTaskLater(main, 20*8);
+                speakLater(p, "There you go, for now that's all I have for you, now, leave the mines!", Sound.ENTITY_PIGLIN_BRUTE_ANGRY, 20*7);
+
+            } else {
+                speak(p, "You don't look ready to mine, come back when you are.", Sound.ENTITY_PIGLIN_ANGRY);
             }
-            }.runTaskLater(main, 20*3);
-            speakLater(p, "There you go, for now that's all I have for you, now, leave the mines!", Sound.ENTITY_PIGLIN_BRUTE_ANGRY, 20*7);
-
         } else {
-            speak(p, "You don't look ready to mine, come back when you are.", Sound.ENTITY_PIGLIN_ANGRY);
-        }
-    }
-
-    private void removeItems(Player player, ItemStack itemStack, int amount) {
-        for(int i=0 ; i<=amount ; i++){
-            player.getInventory().remove(itemStack);
+            p.sendMessage(ChatColor.RED + "You've already done this quest, you may not do it again.");
         }
     }
 

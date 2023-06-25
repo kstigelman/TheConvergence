@@ -28,10 +28,10 @@ public class NetherWizard extends StigglesNPC {
 
         if (player.getInventory().getItemInMainHand().equals(HuntQuestItems.getNetherArtifact())){
             sendMessage(player, "Well hello there traveler.");
-            speakLater(player, "Seems like someone was on quite a hunt!", Sound.ENTITY_VILLAGER_CELEBRATE, 20*3);
-            speakLater(player, "Well, good for you my friend, you've come to the end... for now.", Sound.ENTITY_VILLAGER_CELEBRATE, 20*5);
-            speakLater(player, "Now that the nether is open, that artifact will open numerous opportunities for you.", Sound.ENTITY_VILLAGER_CELEBRATE, 20*8);
-            speakLater(player, "When you enter the nether, go talk to Cryptorg, he'll have a quest for you.", Sound.ENTITY_VILLAGER_CELEBRATE, 20*11);
+            speakLater(player, "Seems like someone was on quite a hunt!", Sound.ENTITY_VILLAGER_CELEBRATE, 20*2);
+            speakLater(player, "Well, good for you my friend, you've come to the end... for now.", Sound.ENTITY_VILLAGER_CELEBRATE, 20*4);
+            speakLater(player, "Now that the nether is open, that artifact will open numerous opportunities for you.", Sound.ENTITY_VILLAGER_CELEBRATE, 20*7);
+            speakLater(player, "When you enter the nether, go talk to Cryptorg, he'll have a quest for you.", Sound.ENTITY_VILLAGER_CELEBRATE, 20*10);
             speakLater(player, "Remember that friend. Now go! Enjoy the world as it is, and have a wonderful life.", Sound.ENTITY_VILLAGER_CELEBRATE, 20*14);
             new BukkitRunnable() { public void run() {
                 Quest.questComplete(player, Quest.QuestName.THE_GOOD_HUNT, ChatColor.LIGHT_PURPLE + "[THE GOOD HUNT]", 500);

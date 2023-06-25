@@ -35,10 +35,10 @@ public class HuntQuestItems {
     public static ItemStack theDiversWheel(){
         ItemStack wheel = new ItemStack(Material.EXPLORER_POTTERY_SHERD);
         ItemMeta itemMeta = wheel.getItemMeta();
-        itemMeta.setDisplayName(ChatColor.WHITE + "Scubas Wheel");
+        itemMeta.setDisplayName(ChatColor.WHITE + "Scuber's Artifact");
         itemMeta.setLore(Arrays.asList(ChatColor.BLUE + "Quest Item",
                 ChatColor.GRAY + ChatColor.ITALIC.toString() + "A shard that is now just a memory of a ship."));
-        itemMeta.setLocalizedName("scuba_ship_wheel");
+        itemMeta.setLocalizedName("scuber_artifact");
 
         wheel.setItemMeta(itemMeta);
         return wheel;

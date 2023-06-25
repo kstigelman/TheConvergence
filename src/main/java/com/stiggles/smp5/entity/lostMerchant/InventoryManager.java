@@ -59,19 +59,19 @@ public class InventoryManager {
         Random rand = new Random();
         int itemNum = rand.nextInt(8) + 1;
         addItem(inv, getCustomTradeItems(itemNum), 10);
-        itemNum = rand.nextInt(10) + 1;
+        itemNum = rand.nextInt(20) + 1;
         addItem(inv, getMinecraftTradeItems(itemNum), 12);
-        itemNum = rand.nextInt(10) + 1;
+        itemNum = rand.nextInt(20) + 1;
         addItem(inv, getMinecraftTradeItems(itemNum), 14);
-        itemNum = rand.nextInt(10) + 1;
+        itemNum = rand.nextInt(20) + 1;
         addItem(inv, getMinecraftTradeItems(itemNum), 16);
-        itemNum = rand.nextInt(10) + 1;
+        itemNum = rand.nextInt(20) + 1;
         addItem(inv, getMinecraftTradeItems(itemNum), 28);
-        itemNum = rand.nextInt(10) + 1;
+        itemNum = rand.nextInt(20) + 1;
         addItem(inv, getMinecraftTradeItemsWithTrims(itemNum), 30);
-        itemNum = rand.nextInt(10) + 1;
+        itemNum = rand.nextInt(20) + 1;
         addItem(inv, getMinecraftTradeItems(itemNum), 32);
-        itemNum = rand.nextInt(10) + 1;
+        itemNum = rand.nextInt(20) + 1;
         addItem(inv, getMinecraftTradeItems(itemNum), 34);
         addFrame(inv);
         addCloseButton(inv, 49);
@@ -241,7 +241,7 @@ public class InventoryManager {
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
                         ChatColor.GRAY +  "To buy this, it costs",
-                        ChatColor.AQUA + "20 Sculk Catalysts"));
+                        ChatColor.AQUA + "30 Sculk Catalysts"));
                 item.setItemMeta(meta);
                 return item;
             case 12:
@@ -434,12 +434,12 @@ public class InventoryManager {
                 item.setItemMeta(meta);
                 return item;
             case 11:
-                item = new ItemStack(Material.SILENCE_ARMOR_TRIM_SMITHING_TEMPLATE);
+                item = new ItemStack(Material.GOLDEN_CARROT, SMP5.rollNumber(10,20));
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
                         ChatColor.GRAY +  "To buy this, it costs",
-                        ChatColor.AQUA + "1 Sculk Catalyst"));
+                        ChatColor.AQUA + "7 Gold Nuggets"));
                 item.setItemMeta(meta);
                 return item;
             case 12:

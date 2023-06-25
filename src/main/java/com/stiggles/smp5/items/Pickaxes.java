@@ -18,6 +18,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -94,8 +95,10 @@ public class Pickaxes implements Listener {
                 ChatColor.GRAY +  "",
                 ChatColor.GRAY + "When paired with fortune III,",
                 ChatColor.GRAY + "the pickaxe allows anywhere from",
-                ChatColor.GRAY +  "2x - 4x drops."));
+                ChatColor.GRAY +  "2x - 4x drops.",
+                ChatColor.GRAY +  "Not Enchantable(With Mending and Unbreaking"));
         meta.setLocalizedName("warden_weakness");
+        ((Damageable) meta).setDamage(16);
         item.setItemMeta(meta);
         return item;
 }
@@ -153,89 +156,117 @@ public class Pickaxes implements Listener {
             Player p = e.getPlayer();
             if (p.getInventory().getItemInMainHand().getItemMeta().getLocalizedName().equals("warden_weakness")
                     && p.getInventory().getItemInMainHand().getItemMeta().hasEnchant(Enchantment.LOOT_BONUS_BLOCKS)){
-                int level = p.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS);
-                if (level == 3){
-                    Material block = e.getBlock().getType();
-                    if (block.equals(Material.COAL_ORE) || block.equals(Material.DEEPSLATE_COAL_ORE)) {
-                        e.setDropItems(false);
-                        e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
-                                new ItemStack(Material.COAL, Math.multiplyExact(Math.addExact(rollNumber(0,2), rollNumber(3,4)), rollNumber(2,4))));
+                if (p.getInventory().getItemInMainHand().getItemMeta().hasEnchant(Enchantment.MENDING) ||
+                        p.getInventory().getItemInMainHand().getItemMeta().hasEnchant(Enchantment.DURABILITY)){
+                    p.sendMessage(ChatColor.RED + "You may no longer use Mending or Unbreaking with your Wardens Weakness!");
+                } else {
+                    int level = p.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS);
+                    if (level == 3) {
+                        ItemMeta meta = p.getInventory().getItemInMainHand().getItemMeta();
+                        int durability = ((Damageable) meta).getDamage();
+                        if (durability >= 17){
+                            ItemMeta newMeta = p.getInventory().getItemInMainHand().getItemMeta();
+                            newMeta.setUnbreakable(false);
+                            newMeta.setDisplayName(ChatColor.BLUE + "The Warden's Weakness");
+                            newMeta.setLore(Arrays.asList(
+                                    ChatColor.GRAY +  "",
+                                    ChatColor.GOLD +  "-- SPECIAL ITEM --",
+                                    ChatColor.GRAY + "Deals double your experience as",
+                                    ChatColor.GRAY +  "damage to the warden.",
+                                    ChatColor.GRAY + "Reduces the amount of coins you",
+                                    ChatColor.GRAY + "earn from killing the warden.",
+                                    ChatColor.GRAY +  "",
+                                    ChatColor.GRAY + "When paired with fortune III,",
+                                    ChatColor.GRAY + "the pickaxe allows anywhere from",
+                                    ChatColor.GRAY +  "2x - 4x drops.",
+                                    ChatColor.GRAY +  "Not Enchantable(With Mending and Unbreaking"));
+                            newMeta.setLocalizedName("warden_weakness");
+                            ((Damageable) newMeta).setDamage(16);
 
-                    } else if (block.equals(Material.DIAMOND_ORE) || block.equals(Material.DEEPSLATE_DIAMOND_ORE)) {
-                        e.setDropItems(false);
-                        e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
-                                new ItemStack(Material.DIAMOND, Math.multiplyExact(Math.addExact(rollNumber(0,1), rollNumber(3,4)), rollNumber(2,4))));
+                            p.getInventory().getItemInMainHand().setItemMeta(newMeta);
+                        }
+                        Material block = e.getBlock().getType();
+                        if (block.equals(Material.COAL_ORE) || block.equals(Material.DEEPSLATE_COAL_ORE)) {
+                            e.setDropItems(false);
+                            e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
+                                    new ItemStack(Material.COAL, Math.multiplyExact(Math.addExact(rollNumber(0, 2), rollNumber(3, 4)), rollNumber(2, 4))));
 
-                    } else if (block.equals(Material.REDSTONE_ORE) || block.equals(Material.DEEPSLATE_REDSTONE_ORE)) {
-                        e.setDropItems(false);
-                        e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
-                                new ItemStack(Material.REDSTONE, Math.multiplyExact(Math.addExact(rollNumber(0,2), rollNumber(3,4)), rollNumber(2,4))));
+                        } else if (block.equals(Material.DIAMOND_ORE) || block.equals(Material.DEEPSLATE_DIAMOND_ORE)) {
+                            e.setDropItems(false);
+                            e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
+                                    new ItemStack(Material.DIAMOND, Math.multiplyExact(Math.addExact(rollNumber(0, 1), rollNumber(3, 4)), rollNumber(2, 4))));
 
-                    } else if (block.equals(Material.EMERALD_ORE) || block.equals(Material.DEEPSLATE_EMERALD_ORE)) {
-                        e.setDropItems(false);
-                        e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
-                                new ItemStack(Material.EMERALD, Math.multiplyExact(Math.addExact(rollNumber(1,2), rollNumber(2,4)), rollNumber(2,4))));
+                        } else if (block.equals(Material.REDSTONE_ORE) || block.equals(Material.DEEPSLATE_REDSTONE_ORE)) {
+                            e.setDropItems(false);
+                            e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
+                                    new ItemStack(Material.REDSTONE, Math.multiplyExact(Math.addExact(rollNumber(0, 2), rollNumber(3, 4)), rollNumber(2, 4))));
 
-                    } else if (block.equals(Material.LAPIS_ORE) || block.equals(Material.DEEPSLATE_LAPIS_ORE)) {
-                        e.setDropItems(false);
-                        e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
-                                new ItemStack(Material.LAPIS_LAZULI, Math.multiplyExact(Math.addExact(rollNumber(2,3), rollNumber(2,4)), rollNumber(2,4))));
+                        } else if (block.equals(Material.EMERALD_ORE) || block.equals(Material.DEEPSLATE_EMERALD_ORE)) {
+                            e.setDropItems(false);
+                            e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
+                                    new ItemStack(Material.EMERALD, Math.multiplyExact(Math.addExact(rollNumber(1, 2), rollNumber(2, 4)), rollNumber(2, 4))));
 
-                    } else if (block.equals(Material.NETHER_QUARTZ_ORE)) {
-                        e.setDropItems(false);
-                        e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
-                                new ItemStack(Material.QUARTZ, Math.multiplyExact(Math.addExact(rollNumber(1,2), rollNumber(3,4)), rollNumber(2,4))));
+                        } else if (block.equals(Material.LAPIS_ORE) || block.equals(Material.DEEPSLATE_LAPIS_ORE)) {
+                            e.setDropItems(false);
+                            e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
+                                    new ItemStack(Material.LAPIS_LAZULI, Math.multiplyExact(Math.addExact(rollNumber(2, 3), rollNumber(2, 4)), rollNumber(2, 4))));
 
-                    } else if (block.equals(Material.MELON)) {
-                        e.setDropItems(false);
-                        e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
-                                new ItemStack(Material.MELON_SLICE, Math.multiplyExact(Math.addExact(rollNumber(1,2), rollNumber(3,4)), rollNumber(2,4))));
+                        } else if (block.equals(Material.NETHER_QUARTZ_ORE)) {
+                            e.setDropItems(false);
+                            e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
+                                    new ItemStack(Material.QUARTZ, Math.multiplyExact(Math.addExact(rollNumber(1, 2), rollNumber(3, 4)), rollNumber(2, 4))));
 
-                    } else if (block.equals(Material.CLAY)) {
-                        e.setDropItems(false);
-                        e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
-                                new ItemStack(Material.CLAY_BALL, Math.multiplyExact(Math.addExact(rollNumber(1,2), rollNumber(3,4)), rollNumber(2,4))));
+                        } else if (block.equals(Material.MELON)) {
+                            e.setDropItems(false);
+                            e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
+                                    new ItemStack(Material.MELON_SLICE, Math.multiplyExact(Math.addExact(rollNumber(1, 2), rollNumber(3, 4)), rollNumber(2, 4))));
 
-                    } else if (block.equals(Material.GLOWSTONE)) {
-                        e.setDropItems(false);
-                        e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
-                                new ItemStack(Material.GLOWSTONE_DUST, Math.multiplyExact(Math.addExact(rollNumber(1,2), rollNumber(3,4)), rollNumber(2,4))));
+                        } else if (block.equals(Material.CLAY)) {
+                            e.setDropItems(false);
+                            e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
+                                    new ItemStack(Material.CLAY_BALL, Math.multiplyExact(Math.addExact(rollNumber(1, 2), rollNumber(3, 4)), rollNumber(2, 4))));
 
-                    } else if (block.equals(Material.ANCIENT_DEBRIS)) {
-                        e.setDropItems(false);
-                        e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
-                                new ItemStack(Material.ANCIENT_DEBRIS, Math.multiplyExact(Math.addExact(1, rollNumber(1,2)), rollNumber(1,2))));
+                        } else if (block.equals(Material.GLOWSTONE)) {
+                            e.setDropItems(false);
+                            e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
+                                    new ItemStack(Material.GLOWSTONE_DUST, Math.multiplyExact(Math.addExact(rollNumber(1, 2), rollNumber(3, 4)), rollNumber(2, 4))));
 
-                    } else if (block.equals(Material.WHEAT)) {
-                        e.setDropItems(false);
-                        e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
-                                new ItemStack(Material.WHEAT, Math.multiplyExact(Math.addExact(rollNumber(1,2), rollNumber(3,4)), rollNumber(2,4))));
+                        } else if (block.equals(Material.ANCIENT_DEBRIS)) {
+                            e.setDropItems(false);
+                            e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
+                                    new ItemStack(Material.ANCIENT_DEBRIS, Math.multiplyExact(Math.addExact(1, rollNumber(1, 2)), rollNumber(1, 2))));
 
-                    } else if (block.equals(Material.CARROT)) {
-                        e.setDropItems(false);
-                        e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
-                                new ItemStack(Material.GLOWSTONE_DUST, Math.multiplyExact(Math.addExact(rollNumber(1,2), rollNumber(3,4)), rollNumber(2,4))));
+                        } else if (block.equals(Material.WHEAT)) {
+                            e.setDropItems(false);
+                            e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
+                                    new ItemStack(Material.WHEAT, Math.multiplyExact(Math.addExact(rollNumber(1, 2), rollNumber(3, 4)), rollNumber(2, 4))));
 
-                    } else if (block.equals(Material.SUGAR_CANE)) {
-                        e.setDropItems(false);
-                        e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
-                                new ItemStack(Material.GLOWSTONE_DUST, Math.multiplyExact(Math.addExact(rollNumber(1,2), rollNumber(3,4)), rollNumber(2,4))));
+                        } else if (block.equals(Material.CARROT)) {
+                            e.setDropItems(false);
+                            e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
+                                    new ItemStack(Material.GLOWSTONE_DUST, Math.multiplyExact(Math.addExact(rollNumber(1, 2), rollNumber(3, 4)), rollNumber(2, 4))));
 
-                    } else if (block.equals(Material.NETHER_GOLD_ORE)) {
-                        e.setDropItems(false);
-                        e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
-                                new ItemStack(Material.GLOWSTONE_DUST, Math.multiplyExact(Math.addExact(rollNumber(1,2), rollNumber(3,4)), rollNumber(2,4))));
+                        } else if (block.equals(Material.SUGAR_CANE)) {
+                            e.setDropItems(false);
+                            e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
+                                    new ItemStack(Material.GLOWSTONE_DUST, Math.multiplyExact(Math.addExact(rollNumber(1, 2), rollNumber(3, 4)), rollNumber(2, 4))));
 
-                    } else if (block.equals(Material.BEETROOTS)) {
-                        e.setDropItems(false);
-                        e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
-                                new ItemStack(Material.BEETROOT, Math.multiplyExact(Math.addExact(rollNumber(1,2), rollNumber(3,4)), rollNumber(2,4))));
+                        } else if (block.equals(Material.NETHER_GOLD_ORE)) {
+                            e.setDropItems(false);
+                            e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
+                                    new ItemStack(Material.GLOWSTONE_DUST, Math.multiplyExact(Math.addExact(rollNumber(1, 2), rollNumber(3, 4)), rollNumber(2, 4))));
 
-                    } else if (block.equals(Material.POTATOES)) {
-                        e.setDropItems(false);
-                        e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
-                                new ItemStack(Material.POTATOES
-                                        , Math.multiplyExact(Math.addExact(rollNumber(1,2), rollNumber(3,4)), rollNumber(2,4))));
+                        } else if (block.equals(Material.BEETROOTS)) {
+                            e.setDropItems(false);
+                            e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
+                                    new ItemStack(Material.BEETROOT, Math.multiplyExact(Math.addExact(rollNumber(1, 2), rollNumber(3, 4)), rollNumber(2, 4))));
+
+                        } else if (block.equals(Material.POTATOES)) {
+                            e.setDropItems(false);
+                            e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(),
+                                    new ItemStack(Material.POTATOES
+                                            , Math.multiplyExact(Math.addExact(rollNumber(1, 2), rollNumber(3, 4)), rollNumber(2, 4))));
+                        }
                     }
                 }
             }

@@ -45,7 +45,7 @@ public class MaskedStranger extends StigglesNPC {
             new BukkitRunnable() { public void run() {
                 player.getInventory().addItem(HuntQuestItems.theFriendsPendant());
             }
-            }.runTaskLater(main, 20*1);
+            }.runTaskLater(main, 20*17);
         }
     }
 

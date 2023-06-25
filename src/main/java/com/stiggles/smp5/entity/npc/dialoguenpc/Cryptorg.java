@@ -23,18 +23,18 @@ public class Cryptorg extends StigglesNPC {
     public void onInteract(Player p) {
         speak(p, "I have no interest in talking to you- overworld being.", Sound.BLOCK_SHROOMLIGHT_BREAK);
         if (p.getInventory().getItemInMainHand().equals(HuntQuestItems.getNetherArtifact())) {
-            speakLater(p, "However... you have something very interesting...", Sound.BLOCK_SHROOMLIGHT_BREAK, 20 * 4);
-            speakLater(p, "Say... where did you get that?", Sound.BLOCK_SHROOMLIGHT_BREAK, 20 * 6);
-            speakLater(p, "A traveler? ... So, how about you hand that over.", Sound.BLOCK_SHROOMLIGHT_BREAK, 20 * 8);
-            speakLater(p, "No? How dare you!", Sound.BLOCK_SHROOMLIGHT_BREAK, 20 * 9);
-            new BukkitRunnable() { public void run() {  p.getInventory().removeItem(HuntQuestItems.getNetherArtifact());  } }.runTaskLater(main, 20 * (140));
+            speakLater(p, "However... you have something very interesting...", Sound.BLOCK_SHROOMLIGHT_BREAK, 20 * 2);
+            speakLater(p, "Say... where did you get that?", Sound.BLOCK_SHROOMLIGHT_BREAK, 20 * 5);
+            speakLater(p, "A traveler? ... So, how about you hand that over.", Sound.BLOCK_SHROOMLIGHT_BREAK, 20 * 7);
+            speakLater(p, "No? How dare you!", Sound.BLOCK_SHROOMLIGHT_BREAK, 20 * 10);
+            new BukkitRunnable() { public void run() {  p.getInventory().removeItem(HuntQuestItems.getNetherArtifact());  } }.runTaskLater(main, 20 * 11);
 
-            speakLater(p, "Looks like you can't handle the power of it...", Sound.BLOCK_SHROOMLIGHT_BREAK, 20 * 11);
-            speakLater(p, "Well, if you want to help my cause, find the rest of those artifacts.", Sound.BLOCK_SHROOMLIGHT_BREAK, 20 * 13);
-            speakLater(p, "When you gather the other 5, come back to me, then we can speak again...", Sound.BLOCK_SHROOMLIGHT_BREAK, 20 * 17);
+            speakLater(p, "Looks like you can't handle the power of it...", Sound.BLOCK_SHROOMLIGHT_BREAK, 20 * 12);
+            speakLater(p, "Well, if you want to help my cause, find the rest of those artifacts.", Sound.BLOCK_SHROOMLIGHT_BREAK, 20 * 15);
+            speakLater(p, "When you gather the other 5, come back to me, then we can speak again...", Sound.BLOCK_SHROOMLIGHT_BREAK, 20 * 18);
 
         } else {
-            speakLater(p, "Show me what I seek, then we can continue to talk.", Sound.BLOCK_SHROOMLIGHT_BREAK, 20 * 3);
+            speakLater(p, "Show me what I seek, then we can continue to talk.", Sound.BLOCK_SHROOMLIGHT_BREAK, 20 * 2);
         }
     }
 
