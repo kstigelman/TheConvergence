@@ -55,18 +55,20 @@ public class NetheriteMaster extends StigglesNPC {
                     playersWhomDid.put(p.getUniqueId(), true);
 
                     for(ItemStack itemStack : p.getInventory().getContents()){
-                        if (itemStack.getType() != null){
-                            Material material = itemStack.getType();
-                            if (material.equals(Material.ANCIENT_DEBRIS) || material.equals(Material.GOLD_INGOT) || material.equals(Material.DIAMOND)
-                                    || material.equals(Material.OBSIDIAN)){
-                                if (itemStack.isSimilar(NetheriteQuestItems.reinforcedAncientDebris())) {
-                                    p.getInventory().remove(itemStack);
-                                } else if(itemStack.isSimilar(NetheriteQuestItems.hardenedGold())){
-                                    p.getInventory().remove(itemStack);
-                                } else if(itemStack.isSimilar(NetheriteQuestItems.hardenedDiamond())){
-                                    p.getInventory().remove(itemStack);
-                                } else if(itemStack.isSimilar(NetheriteQuestItems.toughenedObsidian())){
-                                    p.getInventory().remove(itemStack);
+                        if (itemStack != null) {
+                            if (itemStack.getType() != null) {
+                                Material material = itemStack.getType();
+                                if (material.equals(Material.ANCIENT_DEBRIS) || material.equals(Material.GOLD_INGOT) || material.equals(Material.DIAMOND)
+                                        || material.equals(Material.OBSIDIAN)) {
+                                    if (itemStack.isSimilar(NetheriteQuestItems.reinforcedAncientDebris())) {
+                                        p.getInventory().remove(itemStack);
+                                    } else if (itemStack.isSimilar(NetheriteQuestItems.hardenedGold())) {
+                                        p.getInventory().remove(itemStack);
+                                    } else if (itemStack.isSimilar(NetheriteQuestItems.hardenedDiamond())) {
+                                        p.getInventory().remove(itemStack);
+                                    } else if (itemStack.isSimilar(NetheriteQuestItems.toughenedObsidian())) {
+                                        p.getInventory().remove(itemStack);
+                                    }
                                 }
                             }
                         }
