@@ -120,7 +120,7 @@ public class MetalDetector implements Listener {
                 ChatColor.GRAY + " ",
                 ChatColor.GRAY + "In this mode, it looks for buried treasures",
                 ChatColor.GRAY + "that have loot. When a loot chest is found,",
-                ChatColor.GRAY + "a near by block will glow for 5 seconds before stopping.",
+                ChatColor.GRAY + "it will glow for 5 seconds before not glowing.",
                 ChatColor.GRAY + " ",
                 ChatColor.GRAY.toString() + ChatColor.BOLD + "Radius: 5*4*5",
                 ChatColor.GRAY + " ",
@@ -236,14 +236,19 @@ public class MetalDetector implements Listener {
         Action action = e.getAction();
         Block eventBlock = e.getClickedBlock();
         Player player = e.getPlayer();
-        if (isDetector(player.getInventory().getItemInMainHand())) {
+        Bukkit.getConsoleSender().sendMessage("1");
+        if (checkCooldown(player)) {
+            Bukkit.getConsoleSender().sendMessage("2");
             ItemStack mainHandItem = player.getInventory().getItemInMainHand();
-            if (checkCooldown(player)) {
+            if (isDetector(player.getInventory().getItemInMainHand())) {
+                Bukkit.getConsoleSender().sendMessage("3");
                 if (action.equals(Action.RIGHT_CLICK_BLOCK)) { // Search
+                    Bukkit.getConsoleSender().sendMessage("4");
                     if (getMode(mainHandItem).equals("mineral_mode")) {
+                        Bukkit.getConsoleSender().sendMessage("5");
                         if (eventBlock != null) {
                             Bukkit.getConsoleSender().sendMessage("6");
-                            Cuboid mineralCuboid = getScanedCuboid(eventBlock.getLocation(), 3, 5);
+                            Cuboid mineralCuboid = getScanedCuboid(eventBlock.getLocation(), 5, 5);
                             for (Block block : mineralCuboid.getBlocks()) {
                                 Bukkit.getConsoleSender().sendMessage("7");
 
@@ -255,39 +260,34 @@ public class MetalDetector implements Listener {
                             }
                         }
                     } else if (getMode(mainHandItem).equals("treasure_mode")) {
+                        Bukkit.getConsoleSender().sendMessage("9");
                         if (eventBlock != null) {
+                            Bukkit.getConsoleSender().sendMessage("10");
                             Cuboid treasureCuboid = getScanedCuboid(eventBlock.getLocation(), 5, 5);
                             if (SMP5.rollNumber(1, 3) == 1) { // Change to 5 if seen to be to OP
+                                Bukkit.getConsoleSender().sendMessage("11");
                                 Location center = treasureCuboid.getCenter();
                                 Location lootLocation = getRandomLocation(center, 5, center.getWorld());
                                 makeGlowing(lootLocation);
                                 spawnLoot(lootLocation);
                                 setCooldown(player, 10);
                             } else {
+                                Bukkit.getConsoleSender().sendMessage("12");
                                 setCooldown(player, 5);
                             }
                         }
 
                     }
 
-                    if (eventBlock.getType().equals(Material.DIRT) || eventBlock.getType().equals(Material.GRASS) || eventBlock.getType().equals(Material.DIRT_PATH)){
-                        eventBlock.setType(Material.COARSE_DIRT);
-                        new BukkitRunnable() {
-                            @Override
-                            public void run() {
-                                eventBlock.setType(Material.GRASS_BLOCK);
-                            }
-                        }.runTaskLater(main, 20 * 2);
-                    }
                 } else if (action.equals(Action.LEFT_CLICK_BLOCK) || action.equals(Action.LEFT_CLICK_AIR)) { //Change mode
                     changeMode(mainHandItem, player);
                     if (e.getClickedBlock() != null && e.getClickedBlock().isEmpty()) {
                         e.getClickedBlock().setType(e.getClickedBlock().getType());
                     }
                 }
-            } else {
-                player.playSound(player, Sound.BLOCK_ANVIL_DESTROY, 1, 2);
             }
+        } else {
+            player.sendMessage(ChatColor.RED + "You are currently on a cooldown with using this, please wait!");
         }
     }
 

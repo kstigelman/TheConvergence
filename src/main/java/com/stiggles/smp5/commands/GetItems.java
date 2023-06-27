@@ -13,41 +13,54 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.logging.Handler;
+
 public class GetItems implements CommandExecutor {
-    Pickaxes pickaxes = new Pickaxes();
-    Swords swords = new Swords();
-    BoomBow boomBow = new BoomBow();
-    GlowBow glowBow = new GlowBow();
-    AnarchysWardrobe anarchysWardrobe = new AnarchysWardrobe();
-    PeacesSymphony peacesSymphony = new PeacesSymphony();
-    LunarArmor lunarArmor = new LunarArmor();
-    BAGEL bagel = new BAGEL();
-    GrapplingHook grapplingHook = new GrapplingHook();
-    ItemStack pendant = Pendant.getPendant();
+        Pickaxes pickaxes = new Pickaxes();
+        Swords swords = new Swords();
+        BoomBow boomBow = new BoomBow();
+        GlowBow glowBow = new GlowBow();
+        AnarchysWardrobe anarchysWardrobe = new AnarchysWardrobe();
+        PeacesSymphony peacesSymphony = new PeacesSymphony();
+        LunarArmor lunarArmor = new LunarArmor();
+        BAGEL bagel = new BAGEL();
+        GrapplingHook grapplingHook = new GrapplingHook();
+        ItemStack pendant = Pendant.getPendant();
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        @Override
+        public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (sender instanceof Player) {
-            Player p = (Player) sender;
-            if (p.isOp()) {
-                Inventory inv = p.getInventory();
-                inv.addItem(pickaxes.giveHandyToolPickaxe());
-                inv.addItem(pickaxes.giveWardenWeaknessPickaxe());
-                inv.addItem(swords.getTheEmeraldDagger());
-                inv.addItem(swords.getTheMagmaCutlass());
-                inv.addItem(boomBow.getBoomBowPlayer(p));
-                inv.addItem(glowBow.getGlowBowPlayer());
-                inv.addItem(lunarArmor.getLunarBoots());
-                inv.addItem(lunarArmor.getLunarLeggings());
-                inv.addItem(lunarArmor.getLunarHelmet());
-                inv.addItem(lunarArmor.getLunarChestplate());
-                inv.addItem(lunarArmor.getMoonShards(64));
-                inv.addItem(grapplingHook.getHook());
-                inv.addItem(pendant);
-                inv.addItem(MetalDetector.getTreasureModeDetector());
+            if (sender instanceof Player){
+                Player p = (Player) sender;
+                if (p.isOp()) {
+                    Inventory inv = p.getInventory();
+                    inv.addItem(pickaxes.giveHandyToolPickaxe());
+                    inv.addItem(pickaxes.giveWardenWeaknessPickaxe());
+                    inv.addItem(swords.getTheEmeraldDagger());
+                    inv.addItem(swords.getTheMagmaCutlass());
+                    inv.addItem(boomBow.getBoomBowPlayer(p));
+                    inv.addItem(glowBow.getGlowBowPlayer());
+                    inv.addItem(lunarArmor.getLunarBoots());
+                    inv.addItem(lunarArmor.getLunarLeggings());
+                    inv.addItem(lunarArmor.getLunarHelmet());
+                    inv.addItem(lunarArmor.getLunarChestplate());
+                    inv.addItem(lunarArmor.getMoonShards(64));
+                    inv.addItem(grapplingHook.getHook());
+                    inv.addItem(bagel.getThatBagel());
+                    inv.addItem (pendant);
+                    inv.addItem(HuntQuestItems.theDiversWheel());
+                    inv.addItem(HuntQuestItems.petRock());
+                    inv.addItem(HuntQuestItems.getNetherArtifact());
+                    inv.addItem(NetheriteQuestItems.questTemplate());
+                    inv.addItem(NetheriteQuestItems.reinforcedAncientDebris());
+                    inv.addItem(NetheriteQuestItems.hardenedGold());
+                    inv.addItem(NetheriteQuestItems.hardenedDiamond());
+                    inv.addItem(NetheriteQuestItems.toughenedObsidian());
+                    inv.addItem(pickaxes.hardenedPickaxe());
+                    peacesSymphony.getItems(p);
+                    anarchysWardrobe.getItems(p);
+                }
             }
+            return false;
         }
-        return false;
-    }
 }
