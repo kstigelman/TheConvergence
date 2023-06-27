@@ -11,33 +11,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class CustomSpawns {
+    private static final SMP5 main = SMP5.getPlugin(SMP5.class);
     public static boolean blazingBeastSpawned = false;
-    private static SMP5 main = SMP5.getPlugin(SMP5.class);
 
-
-
-    public void startCountForBlazingBeast(){
-        Cuboid beastTower = new Cuboid(
-                new Location(Bukkit.getWorld("world_nether"), 99, 206, 228),
-                new Location(Bukkit.getWorld("world_nether"), 93, 206, 222));
-        if (!blazingBeastSpawned) {
-            for(Block block : beastTower.getBlocks()){
-                block.setType(Material.BARRIER);
-            }
-            new BukkitRunnable() { public void run() {
-                for(Block block : beastTower.getBlocks()){
-                    block.setType(Material.AIR);
-                }
-            }
-            }.runTaskLater(main, 20*(60*25));
-            new BukkitRunnable() { public void run() {
-                    spawnTheBeast();
-            }
-            }.runTaskLater(main, ((20*(60*25)) + 20 * (60L * SMP5.rollNumber(1,3))));
-        }
-    }
-
-    public static void spawnTheBeast(){
+    public static void spawnTheBeast() {
 
         groupLighning(new Location(Bukkit.getWorld("world_nether"), 96, 206, 225));
         groupLighning(new Location(Bukkit.getWorld("world_nether"), 96, 206, 225));
@@ -50,16 +27,16 @@ public class CustomSpawns {
         groupLighning(new Location(Bukkit.getWorld("world_nether"), 96, 206, 225));
         groupLighning(new Location(Bukkit.getWorld("world_nether"), 96, 206, 225));
 
-        for (Player p : Bukkit.getOnlinePlayers()){
+        for (Player p : Bukkit.getOnlinePlayers()) {
             if (p.getWorld().getName().equals("world_nether")) {
-                p.sendMessage(ChatColor.RED+"The Blazing Beast has spawned! Take this opportunity to acquire a rare and unique custom item!");
+                p.sendMessage(ChatColor.RED + "The Blazing Beast has spawned! Take this opportunity to acquire a rare and unique custom item!");
                 p.playSound(p, Sound.ENTITY_ENDER_DRAGON_AMBIENT, 10, .1F);
                 p.playSound(p, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE, 10, .01F);
                 p.playSound(p, Sound.ENTITY_ENDER_DRAGON_GROWL, 10, .1F);
             }
         }
 
-        Entities.spawnBlazingBeast(new Location(Bukkit.getWorld("world_nether"),96 ,206 ,225));
+        Entities.spawnBlazingBeast(new Location(Bukkit.getWorld("world_nether"), 96, 206, 225));
         blazingBeastSpawned = true;
     }
 
@@ -70,7 +47,7 @@ public class CustomSpawns {
                     p.getWorld().getBiome(p.getLocation()).equals(Biome.SNOWY_SLOPES) ||
                     p.getWorld().getBiome(p.getLocation()).equals(Biome.SNOWY_TAIGA)) {
 
-                if (Math.abs (main.getRandom()) % 4 == 0)
+                if (Math.abs(main.getRandom()) % 4 == 0)
                     return;
 
                 Location center = p.getLocation();
@@ -97,8 +74,7 @@ public class CustomSpawns {
         }
     }
 
-
-    public static void spawnWitherSkeleton () {
+    public static void spawnWitherSkeleton() {
         for (Player p : Bukkit.getOnlinePlayers()) {
             //We only want to spawn these in the nether
             if (!p.getWorld().getName().equals("world_nether")) {
@@ -109,7 +85,7 @@ public class CustomSpawns {
             /*if (!location.getWorld().getBlockAt(location.getBlockX(), location.getBlockY() - 1, location.getBlockZ()).getType().equals(Material.NETHER_BRICK)) {
                 break;
             }*/
-            if (Math.abs (main.getRandom()) % 2 == 0) {
+            if (Math.abs(main.getRandom()) % 2 == 0) {
                 break;
             }
 
@@ -131,10 +107,34 @@ public class CustomSpawns {
     }
 
     private static void groupLighning(Location location) {
-        new BukkitRunnable() { public void run() {
-            location.getWorld().strikeLightning(location);
-        }
+        new BukkitRunnable() {
+            public void run() {
+                location.getWorld().strikeLightning(location);
+            }
         }.runTaskLater(main, 15);
+    }
+
+    public void startCountForBlazingBeast() {
+        Cuboid beastTower = new Cuboid(
+                new Location(Bukkit.getWorld("world_nether"), 99, 206, 228),
+                new Location(Bukkit.getWorld("world_nether"), 93, 206, 222));
+        if (!blazingBeastSpawned) {
+            for (Block block : beastTower.getBlocks()) {
+                block.setType(Material.BARRIER);
+            }
+            new BukkitRunnable() {
+                public void run() {
+                    for (Block block : beastTower.getBlocks()) {
+                        block.setType(Material.AIR);
+                    }
+                }
+            }.runTaskLater(main, 20 * (60 * 25));
+            new BukkitRunnable() {
+                public void run() {
+                    spawnTheBeast();
+                }
+            }.runTaskLater(main, ((20 * (60 * 25)) + 20 * (60L * SMP5.rollNumber(1, 3))));
+        }
     }
 
 }

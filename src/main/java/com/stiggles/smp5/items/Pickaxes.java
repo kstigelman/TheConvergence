@@ -7,7 +7,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Warden;
 import org.bukkit.event.EventHandler;
@@ -28,13 +27,14 @@ import java.util.Random;
 
 public class Pickaxes implements Listener {
 
-    private int rollNumber(int min, int max){
+    private int rollNumber(int min, int max) {
         Random rand = new Random();
         int randomNumber = rand.nextInt(max) + min;
 
         return randomNumber;
     }
-    private ItemStack getHandyToolPickaxe(){
+
+    private ItemStack getHandyToolPickaxe() {
         /*
         Smurfs Handy Tool (Netherite Pickaxe)
         Mines stone, coal ore, iron ore, lapis lazuli, gold ore, diamond ore, and ancient debris 30% faster.
@@ -44,39 +44,44 @@ public class Pickaxes implements Listener {
         meta.setUnbreakable(true);
         meta.setDisplayName(ChatColor.AQUA + "Smurf's Handy Tool");
         meta.setLore(Arrays.asList(
-                ChatColor.GRAY +  "",
-                ChatColor.GOLD +  "-- SPECIAL ITEM --",
+                String.valueOf(ChatColor.GRAY),
+                ChatColor.GOLD + "-- SPECIAL ITEM --",
                 ChatColor.GRAY + "When mining stone, coal ore,",
-                ChatColor.GRAY +  "iron ore, lapis lazuli,",
-                ChatColor.GRAY +  "gold ore, diamond ore, and",
-                ChatColor.GRAY +  "ancient debris, you mine it faster"));
+                ChatColor.GRAY + "iron ore, lapis lazuli,",
+                ChatColor.GRAY + "gold ore, diamond ore, and",
+                ChatColor.GRAY + "ancient debris, you mine it faster"));
         meta.setLocalizedName("smurf_handy_tool");
         item.setItemMeta(meta);
         return item;
     }
-    private ItemStack getSHOPPPERHandyToolPickaxe(){
+
+    private ItemStack getSHOPPPERHandyToolPickaxe() {
         ItemStack item = new ItemStack(Material.NETHERITE_PICKAXE);
         ItemMeta meta = item.getItemMeta();
         meta.setUnbreakable(true);
         meta.setDisplayName(ChatColor.AQUA + "Smurf's Handy Tool");
         meta.setLore(Arrays.asList(
-                ChatColor.GRAY +  "",
-                ChatColor.GOLD +  "-- SPECIAL ITEM --",
+                String.valueOf(ChatColor.GRAY),
+                ChatColor.GOLD + "-- SPECIAL ITEM --",
                 ChatColor.GRAY + "When mining stone, coal ore,",
-                ChatColor.GRAY +  "iron ore, lapis lazuli,",
-                ChatColor.GRAY +  "gold ore, diamond ore, and",
-                ChatColor.GRAY +  "ancient debris, you mine it faster",
+                ChatColor.GRAY + "iron ore, lapis lazuli,",
+                ChatColor.GRAY + "gold ore, diamond ore, and",
+                ChatColor.GRAY + "ancient debris, you mine it faster",
                 ChatColor.AQUA + "Costs: 41 Blue Wool"));
         meta.setLocalizedName("smurf_handy_tool");
         item.setItemMeta(meta);
         return item;
     }
-    public ItemStack giveHandyToolPickaxe(){
+
+    public ItemStack giveHandyToolPickaxe() {
         return getHandyToolPickaxe();
     }
-    public ItemStack giveShopTool(){ return getSHOPPPERHandyToolPickaxe(); }
 
-    private ItemStack getWardenWeaknessPickaxe(){
+    public ItemStack giveShopTool() {
+        return getSHOPPPERHandyToolPickaxe();
+    }
+
+    private ItemStack getWardenWeaknessPickaxe() {
         /*
         Smurfs Handy Tool (Netherite Pickaxe)
         Mines stone, coal ore, iron ore, lapis lazuli, gold ore, diamond ore, and ancient debris 30% faster.
@@ -86,33 +91,34 @@ public class Pickaxes implements Listener {
         meta.setUnbreakable(false);
         meta.setDisplayName(ChatColor.BLUE + "The Warden's Weakness");
         meta.setLore(Arrays.asList(
-                ChatColor.GRAY +  "",
-                ChatColor.GOLD +  "-- SPECIAL ITEM --",
+                String.valueOf(ChatColor.GRAY),
+                ChatColor.GOLD + "-- SPECIAL ITEM --",
                 ChatColor.GRAY + "Deals double your experience as",
-                ChatColor.GRAY +  "damage to the warden.",
+                ChatColor.GRAY + "damage to the warden.",
                 ChatColor.GRAY + "Reduces the amount of coins you",
                 ChatColor.GRAY + "earn from killing the warden.",
-                ChatColor.GRAY +  "",
+                String.valueOf(ChatColor.GRAY),
                 ChatColor.GRAY + "When paired with fortune III,",
                 ChatColor.GRAY + "the pickaxe allows anywhere from",
-                ChatColor.GRAY +  "2x - 4x drops.",
-                ChatColor.GRAY +  "Not Enchantable(With Mending and Unbreaking"));
+                ChatColor.GRAY + "2x - 4x drops.",
+                ChatColor.GRAY + "Not Enchantable(With Mending and Unbreaking"));
         meta.setLocalizedName("warden_weakness");
         ((Damageable) meta).setDamage(16);
         item.setItemMeta(meta);
         return item;
-}
-    public ItemStack giveWardenWeaknessPickaxe(){
+    }
+
+    public ItemStack giveWardenWeaknessPickaxe() {
         return getWardenWeaknessPickaxe();
     }
 
-    public ItemStack hardenedPickaxe(){
+    public ItemStack hardenedPickaxe() {
         ItemStack item = new ItemStack(Material.STONE_PICKAXE);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(ChatColor.AQUA + "Hardened Pickaxe");
         meta.setLore(Arrays.asList(
                 ChatColor.BLUE + "Quest Item",
-                ChatColor.GRAY + "",
+                String.valueOf(ChatColor.GRAY),
                 ChatColor.GRAY.toString() + ChatColor.ITALIC + "Used by the piglins to mine",
                 ChatColor.GRAY.toString() + ChatColor.ITALIC + "the ores and stones found inside",
                 ChatColor.GRAY.toString() + ChatColor.ITALIC + "the deep nether mines."));
@@ -125,19 +131,19 @@ public class Pickaxes implements Listener {
 
     @EventHandler
     public void entityDamage(EntityDamageByEntityEvent e) {
-        if (e.getDamager() instanceof Player){
+        if (e.getDamager() instanceof Player) {
             Player p = (Player) e.getDamager();
             if (p.getInventory().getItemInMainHand().hasItemMeta() && p.getInventory().getItemInMainHand().getItemMeta().getLocalizedName().equals("warden_weakness")
-                    && e.getEntity().getType().equals(EntityType.WARDEN)){
+                    && e.getEntity().getType().equals(EntityType.WARDEN)) {
 
                 int experience = p.getExpToLevel();
-                e.setDamage(experience/2);
+                e.setDamage(experience / 2);
             }
         }
     }
 
     @EventHandler
-    public void onEntityDeath (EntityDeathEvent e) {
+    public void onEntityDeath(EntityDeathEvent e) {
         if (!(e.getEntity() instanceof Warden))
             return;
 
@@ -150,36 +156,37 @@ public class Pickaxes implements Listener {
         e.getEntity().getWorld().dropItem(e.getEntity().getLocation(), giveWardenWeaknessPickaxe());
         Quest.questComplete(p, Quest.QuestName.WARDEN_KILL, p.getName() + ", Slayer of Wardens", 0);
     }
+
     @EventHandler
     public void breakBlock(BlockBreakEvent e) {
-        if (e.getPlayer() != null && e.getPlayer().getInventory().getItemInMainHand().getItemMeta() != null){
+        if (e.getPlayer() != null && e.getPlayer().getInventory().getItemInMainHand().getItemMeta() != null) {
             Player p = e.getPlayer();
             if (p.getInventory().getItemInMainHand().getItemMeta().getLocalizedName().equals("warden_weakness")
-                    && p.getInventory().getItemInMainHand().getItemMeta().hasEnchant(Enchantment.LOOT_BONUS_BLOCKS)){
+                    && p.getInventory().getItemInMainHand().getItemMeta().hasEnchant(Enchantment.LOOT_BONUS_BLOCKS)) {
                 if (p.getInventory().getItemInMainHand().getItemMeta().hasEnchant(Enchantment.MENDING) ||
-                        p.getInventory().getItemInMainHand().getItemMeta().hasEnchant(Enchantment.DURABILITY)){
+                        p.getInventory().getItemInMainHand().getItemMeta().hasEnchant(Enchantment.DURABILITY)) {
                     p.sendMessage(ChatColor.RED + "You may no longer use Mending or Unbreaking with your Wardens Weakness!");
                 } else {
                     int level = p.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS);
                     if (level == 3) {
                         ItemMeta meta = p.getInventory().getItemInMainHand().getItemMeta();
                         int durability = ((Damageable) meta).getDamage();
-                        if (durability >= 17){
+                        if (durability >= 17) {
                             ItemMeta newMeta = p.getInventory().getItemInMainHand().getItemMeta();
                             newMeta.setUnbreakable(false);
                             newMeta.setDisplayName(ChatColor.BLUE + "The Warden's Weakness");
                             newMeta.setLore(Arrays.asList(
-                                    ChatColor.GRAY +  "",
-                                    ChatColor.GOLD +  "-- SPECIAL ITEM --",
+                                    String.valueOf(ChatColor.GRAY),
+                                    ChatColor.GOLD + "-- SPECIAL ITEM --",
                                     ChatColor.GRAY + "Deals double your experience as",
-                                    ChatColor.GRAY +  "damage to the warden.",
+                                    ChatColor.GRAY + "damage to the warden.",
                                     ChatColor.GRAY + "Reduces the amount of coins you",
                                     ChatColor.GRAY + "earn from killing the warden.",
-                                    ChatColor.GRAY +  "",
+                                    String.valueOf(ChatColor.GRAY),
                                     ChatColor.GRAY + "When paired with fortune III,",
                                     ChatColor.GRAY + "the pickaxe allows anywhere from",
-                                    ChatColor.GRAY +  "2x - 4x drops.",
-                                    ChatColor.GRAY +  "Not Enchantable(With Mending and Unbreaking"));
+                                    ChatColor.GRAY + "2x - 4x drops.",
+                                    ChatColor.GRAY + "Not Enchantable(With Mending and Unbreaking"));
                             newMeta.setLocalizedName("warden_weakness");
                             ((Damageable) newMeta).setDamage(16);
 
@@ -272,22 +279,23 @@ public class Pickaxes implements Listener {
             }
         }
     }
+
     @EventHandler
-    public void playerMining(PlayerInteractEvent e){
+    public void playerMining(PlayerInteractEvent e) {
         Player p = e.getPlayer();
-        if (e.getAction().equals(Action.LEFT_CLICK_BLOCK)){
+        if (e.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
             if (p.getInventory().getItemInMainHand().getItemMeta() != null) {
-                if (p.getInventory().getItemInMainHand().getItemMeta().getLocalizedName().equals("smurf_handy_tool")){
+                if (p.getInventory().getItemInMainHand().getItemMeta().getLocalizedName().equals("smurf_handy_tool")) {
                     Material block = e.getClickedBlock().getBlockData().getMaterial();
                     if (block.equals(Material.STONE) || block.equals(Material.IRON_ORE) || block.equals(Material.COAL_ORE) || block.equals(Material.GOLD_ORE)
-                            || block.equals(Material.LAPIS_ORE) || block.equals(Material.DIAMOND_ORE) || block.equals(Material.ANCIENT_DEBRIS)){
+                            || block.equals(Material.LAPIS_ORE) || block.equals(Material.DIAMOND_ORE) || block.equals(Material.ANCIENT_DEBRIS)) {
                         p.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 100, 2, false, false, true));
 
                     }
-                } else if (p.getInventory().getItemInMainHand().getItemMeta().getLocalizedName().equals("hardened_pickaxe")){
+                } else if (p.getInventory().getItemInMainHand().getItemMeta().getLocalizedName().equals("hardened_pickaxe")) {
                     Material block = e.getClickedBlock().getBlockData().getMaterial();
-                    if (block.equals(Material.OBSIDIAN) || block.equals(Material.ANCIENT_DEBRIS) && p.getWorld().equals(Bukkit.getWorld("world_nether"))){
-                        p.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 20*15, 20, false, false, true));
+                    if (block.equals(Material.OBSIDIAN) || block.equals(Material.ANCIENT_DEBRIS) && p.getWorld().equals(Bukkit.getWorld("world_nether"))) {
+                        p.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 20 * 15, 20, false, false, true));
 
                     }
                 }

@@ -16,17 +16,17 @@ import java.util.Arrays;
 import static org.bukkit.Bukkit.getServer;
 
 public class CustomCrafting {
-    public CustomCrafting (SMP5 main) {
+    public CustomCrafting(SMP5 main) {
         ItemStack item = new ItemStack(Material.EMERALD);
         ItemMeta meta = item.getItemMeta();
         meta.setUnbreakable(true);
         meta.setDisplayName(ChatColor.GREEN + "Emerald Dagger");
         meta.setLore(Arrays.asList(
-                ChatColor.GRAY + "",
+                String.valueOf(ChatColor.GRAY),
                 ChatColor.GOLD + "-- SPECIAL ITEM --",
                 ChatColor.GRAY + "Has a random chance to drop",
                 ChatColor.GRAY + "multiple emeralds on a kill. ",
-                ChatColor.GRAY + "",
+                String.valueOf(ChatColor.GRAY),
                 ChatColor.GRAY + "When enchanted with Sharpness V",
                 ChatColor.GRAY + "the dagger unlocks a special",
                 ChatColor.GRAY + "ability."));
@@ -39,11 +39,11 @@ public class CustomCrafting {
         finalMeta.setUnbreakable(true);
         finalMeta.setDisplayName(ChatColor.GREEN + "Emerald Dagger");
         finalMeta.setLore(Arrays.asList(
-                ChatColor.GRAY + "",
+                String.valueOf(ChatColor.GRAY),
                 ChatColor.GOLD + "-- SPECIAL ITEM --",
                 ChatColor.GRAY + "Has a random chance to drop",
                 ChatColor.GRAY + "multiple emeralds on a kill. ",
-                ChatColor.GRAY + "",
+                String.valueOf(ChatColor.GRAY),
                 ChatColor.GRAY + "Since enchanted with Sharpness V,",
                 ChatColor.GRAY + "the dagger deals 15-30 damage"));
         finalMeta.setLocalizedName("emerald_dagger");

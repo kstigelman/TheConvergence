@@ -9,9 +9,11 @@ import org.jetbrains.annotations.NotNull;
 public class OpenWorldCommand implements CommandExecutor {
 
     SMP5 main;
-    public OpenWorldCommand (SMP5 main) {
+
+    public OpenWorldCommand(SMP5 main) {
         this.main = main;
     }
+
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!sender.isOp())
@@ -20,8 +22,7 @@ public class OpenWorldCommand implements CommandExecutor {
         if (main.isOpen()) {
             main.setOpen(false);
             sender.sendMessage("Server is closed");
-        }
-        else {
+        } else {
             main.setOpen(true);
             sender.sendMessage("Server is open");
         }

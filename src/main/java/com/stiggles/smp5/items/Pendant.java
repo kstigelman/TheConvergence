@@ -5,34 +5,35 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Horse;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataType;
 
 import java.util.Arrays;
-import java.util.List;
 
 public class Pendant implements Listener {
 
     SMP5 main;
+
     /*private static final String tag = "pendant";
     private static final String pendantName = ChatColor.LIGHT_PURPLE + "Natalie's Pendant";
     private static ItemStack pendantItem = new ItemStack(Material.CHARCOAL);
     */
-    public Pendant (SMP5 main) {
+    public Pendant(SMP5 main) {
         this.main = main;
         //createItem ();
     }
-    public static ItemStack getPendant () {
+
+    public static ItemStack getPendant() {
         ItemStack item = new ItemStack(Material.CHARCOAL);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(ChatColor.DARK_PURPLE + "Natalie's Pendant");
         meta.setLocalizedName("pendant");
-        meta.setLore(Arrays.asList (
+        meta.setLore(Arrays.asList(
                 ChatColor.BLUE + "Special Item",
                 ChatColor.GRAY + "She was a symbol of justice.",
                 "",
@@ -69,7 +70,7 @@ public class Pendant implements Listener {
     }*/
 
     @EventHandler
-    public void onPlayerInteract (PlayerInteractEvent e) {
+    public void onPlayerInteract(PlayerInteractEvent e) {
 
         Player p = e.getPlayer();
 
@@ -93,8 +94,8 @@ public class Pendant implements Listener {
         natalie.getInventory().setSaddle(new ItemStack(Material.SADDLE));
         natalie.addPassenger(p);
 
-        int n = Math.abs (main.getRandom() % 4);
-        if (n == 0 || p.getUniqueId().toString().equals ("5b695380-7377-4843-8d00-2494d92257ea")) {
+        int n = Math.abs(main.getRandom() % 4);
+        if (n == 0 || p.getUniqueId().toString().equals("5b695380-7377-4843-8d00-2494d92257ea")) {
             natalie.setStyle(Horse.Style.WHITE_DOTS);
             natalie.setColor(Horse.Color.GRAY);
             natalie.setCustomName(ChatColor.DARK_PURPLE + "Natalie");
@@ -102,7 +103,7 @@ public class Pendant implements Listener {
             //natalie.getPersistentDataContainer().set(main.getTagKey(), PersistentDataType.STRING, tag);
         }
 
-        Bukkit.getConsoleSender().sendMessage(p.getName () + " used Natalie's Pendant!");
+        Bukkit.getConsoleSender().sendMessage(p.getName() + " used Natalie's Pendant!");
 
         e.getItem().setAmount(e.getItem().getAmount() - 1);
     }

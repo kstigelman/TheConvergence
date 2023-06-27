@@ -3,7 +3,6 @@ package com.stiggles.smp5.items;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -17,8 +16,8 @@ public class BAGEL {
         meta.setUnbreakable(false);
         meta.setDisplayName(ChatColor.WHITE + "Bagel");
         meta.setLore(Arrays.asList(
-                ChatColor.GRAY +  "",
-                ChatColor.YELLOW +  "-- SPECIAL ITEM --",
+                String.valueOf(ChatColor.GRAY),
+                ChatColor.YELLOW + "-- SPECIAL ITEM --",
                 ChatColor.GRAY + "You eat bagel- yummy",
                 ChatColor.GRAY.toString() + ChatColor.ITALIC + "Chomp-Chew-Crunch-Chomp-Crunch",
                 ChatColor.GRAY + "MMMM- Yummy yummy in my tummy"));
@@ -26,6 +25,7 @@ public class BAGEL {
         item.setItemMeta(meta);
         return item;
     }
+
     //BLUEBERRY BAGEL YUM
     public ItemStack getDaShopperBagel() {
         ItemStack item = new ItemStack(Material.PUMPKIN_PIE);
@@ -33,8 +33,8 @@ public class BAGEL {
         meta.setUnbreakable(false);
         meta.setDisplayName(ChatColor.WHITE + "Bagel");
         meta.setLore(Arrays.asList(
-                ChatColor.GRAY +  "",
-                ChatColor.YELLOW +  "-- SPECIAL ITEM --",
+                String.valueOf(ChatColor.GRAY),
+                ChatColor.YELLOW + "-- SPECIAL ITEM --",
                 ChatColor.GRAY + "You eat bagel- yummy",
                 ChatColor.GRAY.toString() + ChatColor.ITALIC + "Chomp-Chew-Crunch-Chomp-Crunch",
                 ChatColor.AQUA + "Costs: 5 Wheat"));

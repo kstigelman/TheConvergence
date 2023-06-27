@@ -14,17 +14,17 @@ import java.sql.SQLException;
 
 public class ConnectionListener implements Listener {
 
-    private SMP5 main;
+    private final SMP5 main;
     private StigglesPlayer customPlayer;
 
-    public ConnectionListener (SMP5 main) {
+    public ConnectionListener(SMP5 main) {
         this.main = main;
     }
 
     @EventHandler
-    public void onPlayerJoin (PlayerJoinEvent e) {
+    public void onPlayerJoin(PlayerJoinEvent e) {
         //main.packetListener.inject (e.getPlayer());
-        Bukkit.getServer ().broadcastMessage("Injecting packets!");
+        Bukkit.getServer().broadcastMessage("Injecting packets!");
 
         Player player = e.getPlayer();
 
@@ -41,7 +41,7 @@ public class ConnectionListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerQuit (PlayerQuitEvent e) {
+    public void onPlayerQuit(PlayerQuitEvent e) {
         //main.packetListener.stop (e.getPlayer());
 
         customPlayer = main.getPlayerManager().getStigglesPlayer(e.getPlayer().getUniqueId());

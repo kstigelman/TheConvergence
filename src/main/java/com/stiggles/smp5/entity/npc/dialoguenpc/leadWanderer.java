@@ -14,12 +14,12 @@ public class leadWanderer extends StigglesNPC {
     public leadWanderer(SMP5 main, String name, Location location) {
         super(main, name, location);
 
-        setSkin(value,signature);
+        setSkin(value, signature);
     }
 
     @Override
     public void interactDialogue(Player player) {
-            sendMessage(player, "Go on! Explore down the caves, the cry of being trapped can be heard...");
-            speakLater(player, "Remember this: Right, then an immediate Left, then Right-- don't die trying to be a hero...", Sound.ENTITY_VILLAGER_CELEBRATE, 120);
+        sendMessage(player, "Go on! Explore down the caves, the cry of being trapped can be heard...");
+        speakLater(player, "Remember this: Right, then an immediate Left, then Right-- don't die trying to be a hero...", Sound.ENTITY_VILLAGER_CELEBRATE, 120);
     }
 }

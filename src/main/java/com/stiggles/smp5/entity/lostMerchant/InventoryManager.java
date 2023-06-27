@@ -30,24 +30,28 @@ public class InventoryManager {
     Pickaxes pickaxes = new Pickaxes();
     Swords swords = new Swords();
 
-    public Inventory makeInventory(Player player, int size, String title, Inventory inventory){
+    public static void resetInventoryMapping() {
+        merchantList.clear();
+    }
+
+    public Inventory makeInventory(Player player, int size, String title, Inventory inventory) {
         inventory = Bukkit.createInventory(player, size, title);
 
         return inventory;
     }
 
-    public Inventory addItem(Inventory inventory, ItemStack item, int slot){
+    public Inventory addItem(Inventory inventory, ItemStack item, int slot) {
         inventory.setItem(slot, item);
         return inventory;
     }
 
-    public Map<UUID, Inventory> getMerchantUUIDMap(){
+    public Map<UUID, Inventory> getMerchantUUIDMap() {
         return merchantList;
     }
-    public Inventory getInventoryFromMap(UUID uuid){
+
+    public Inventory getInventoryFromMap(UUID uuid) {
         return merchantList.get(uuid);
     }
-    public static void resetInventoryMapping(){ merchantList.clear(); }
 
         /*
 
@@ -55,7 +59,7 @@ public class InventoryManager {
 
      */
 
-    public void setInvMap(UUID uuid, Inventory inv){
+    public void setInvMap(UUID uuid, Inventory inv) {
         Random rand = new Random();
         int itemNum = rand.nextInt(8) + 1;
         addItem(inv, getCustomTradeItems(itemNum), 10);
@@ -91,11 +95,11 @@ public class InventoryManager {
     private void addFrame(Inventory inv) {
         ItemStack frame = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
         ItemMeta frameMeta = frame.getItemMeta();
-        frameMeta.setDisplayName(ChatColor.DARK_GRAY+ " ");
+        frameMeta.setDisplayName(ChatColor.DARK_GRAY + " ");
         frame.setItemMeta(frameMeta);
 
-        for(int i : new int[] {0,1,2,3,4,5,6,7,8,9,11,13,15,17,18,19,20,21,22,23,24,25,26,27,29,
-                31,33,35,36,37,38,39,40,41,42,43,44,45,46,47,48,50,51,52,53}){
+        for (int i : new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 13, 15, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 29,
+                31, 33, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 50, 51, 52, 53}) {
             inv.setItem(i, frame);
         }
 
@@ -107,7 +111,7 @@ public class InventoryManager {
 
      */
 
-    public ItemStack getCustomTradeItems(int roll){
+    public ItemStack getCustomTradeItems(int roll) {
         if (roll == 1) {
             //Grappling hook
             return grapplingHook.getShopHook();
@@ -115,22 +119,22 @@ public class InventoryManager {
         } else if (roll == 2) {
             //Emerald Blade
             return peacesSymphony.getPeaceChestplate();
-        } else if (roll == 3){
+        } else if (roll == 3) {
             //Bagel
             return bagel.getDaShopperBagel();
-        } else if (roll == 4){
+        } else if (roll == 4) {
             //Smurf Handy Tool
             return pickaxes.giveShopTool();
-        } else if (roll == 5){
+        } else if (roll == 5) {
             return peacesSymphony.getPeaceHelmet();
         } else if (roll == 6) {
             return peacesSymphony.getPeaceChestplate();
-        } else if(roll == 7) {
+        } else if (roll == 7) {
             return peacesSymphony.getPeaceLeggings();
         } else if (roll == 8) {
             return peacesSymphony.getPeaceBoots();
         } else {
-            Bukkit.getLogger().log(Level.WARNING,"Please give a value 1<=x<=8!, Value being given: " + roll);
+            Bukkit.getLogger().log(Level.WARNING, "Please give a value 1<=x<=8!, Value being given: " + roll);
         }
         return peacesSymphony.getPeaceChestplate();
     }
@@ -141,7 +145,7 @@ public class InventoryManager {
      *
      */
 
-    public ItemStack getMinecraftTradeItemsWithTrims(int roll){
+    public ItemStack getMinecraftTradeItemsWithTrims(int roll) {
         ItemStack item;
         ItemMeta meta;
         switch (roll) {
@@ -150,7 +154,7 @@ public class InventoryManager {
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
-                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.GRAY + "To buy this, it costs",
                         ChatColor.AQUA + "1 Trident"));
                 item.setItemMeta(meta);
                 return item;
@@ -159,7 +163,7 @@ public class InventoryManager {
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
-                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.GRAY + "To buy this, it costs",
                         ChatColor.AQUA + "1 Conduit"));
                 item.setItemMeta(meta);
                 return item;
@@ -168,7 +172,7 @@ public class InventoryManager {
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
-                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.GRAY + "To buy this, it costs",
                         ChatColor.AQUA + "57 Bamboo Doors"));
                 item.setItemMeta(meta);
                 return item;
@@ -177,16 +181,16 @@ public class InventoryManager {
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
-                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.GRAY + "To buy this, it costs",
                         ChatColor.AQUA + "1 Totem Of Undying"));
                 item.setItemMeta(meta);
                 return item;
             case 5:
-                item = new ItemStack(Material.EMERALD_ORE, SMP5.rollNumber(2,10));
+                item = new ItemStack(Material.EMERALD_ORE, SMP5.rollNumber(2, 10));
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
-                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.GRAY + "To buy this, it costs",
                         ChatColor.AQUA + "7 Cooked Chicken"));
                 item.setItemMeta(meta);
                 return item;
@@ -195,7 +199,7 @@ public class InventoryManager {
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
-                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.GRAY + "To buy this, it costs",
                         ChatColor.AQUA + "16 TNT"));
                 item.setItemMeta(meta);
                 return item;
@@ -204,7 +208,7 @@ public class InventoryManager {
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
-                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.GRAY + "To buy this, it costs",
                         ChatColor.AQUA + "2 Netherite Scrap"));
                 item.setItemMeta(meta);
                 return item;
@@ -213,7 +217,7 @@ public class InventoryManager {
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
-                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.GRAY + "To buy this, it costs",
                         ChatColor.AQUA + "4 Snow blocks"));
                 item.setItemMeta(meta);
                 return item;
@@ -222,16 +226,16 @@ public class InventoryManager {
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
-                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.GRAY + "To buy this, it costs",
                         ChatColor.AQUA + "16 Eyes Of Ender"));
                 item.setItemMeta(meta);
                 return item;
             case 10:
-                item = new ItemStack(Material.LECTERN, SMP5.rollNumber(1,5));
+                item = new ItemStack(Material.LECTERN, SMP5.rollNumber(1, 5));
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
-                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.GRAY + "To buy this, it costs",
                         ChatColor.AQUA + "3 Books"));
                 item.setItemMeta(meta);
                 return item;
@@ -240,7 +244,7 @@ public class InventoryManager {
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
-                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.GRAY + "To buy this, it costs",
                         ChatColor.AQUA + "30 Sculk Catalysts"));
                 item.setItemMeta(meta);
                 return item;
@@ -249,34 +253,34 @@ public class InventoryManager {
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
-                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.GRAY + "To buy this, it costs",
                         ChatColor.AQUA + "64 String"));
                 item.setItemMeta(meta);
                 return item;
             case 13:
-                item = new ItemStack(Material.GOLDEN_APPLE, SMP5.rollNumber(5,10));
+                item = new ItemStack(Material.GOLDEN_APPLE, SMP5.rollNumber(5, 10));
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
-                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.GRAY + "To buy this, it costs",
                         ChatColor.AQUA + "10 Golden Ingots"));
                 item.setItemMeta(meta);
                 return item;
             case 14:
-                item = new ItemStack(Material.GOLDEN_CARROT, SMP5.rollNumber(5,10));
+                item = new ItemStack(Material.GOLDEN_CARROT, SMP5.rollNumber(5, 10));
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
-                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.GRAY + "To buy this, it costs",
                         ChatColor.AQUA + "7 Golden Nuggets"));
                 item.setItemMeta(meta);
                 return item;
             case 15:
-                item = new ItemStack(Material.ENDER_EYE, SMP5.rollNumber(1,5));
+                item = new ItemStack(Material.ENDER_EYE, SMP5.rollNumber(1, 5));
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
-                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.GRAY + "To buy this, it costs",
                         ChatColor.AQUA + "6 Ender Pearl"));
                 item.setItemMeta(meta);
                 return item;
@@ -285,7 +289,7 @@ public class InventoryManager {
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
-                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.GRAY + "To buy this, it costs",
                         ChatColor.AQUA + "2 Obsidian"));
                 item.setItemMeta(meta);
                 return item;
@@ -294,16 +298,16 @@ public class InventoryManager {
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
-                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.GRAY + "To buy this, it costs",
                         ChatColor.AQUA + "3 String"));
                 item.setItemMeta(meta);
                 return item;
             case 18:
-                item = new ItemStack(Material.ARROW, SMP5.rollNumber(5,20));
+                item = new ItemStack(Material.ARROW, SMP5.rollNumber(5, 20));
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
-                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.GRAY + "To buy this, it costs",
                         ChatColor.AQUA + "8 Flint"));
                 item.setItemMeta(meta);
                 return item;
@@ -312,16 +316,16 @@ public class InventoryManager {
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
-                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.GRAY + "To buy this, it costs",
                         ChatColor.AQUA + "2 Iron Ingots"));
                 item.setItemMeta(meta);
                 return item;
             case 20:
-                item = new ItemStack(Material.NETHER_WART, SMP5.rollNumber(5,20));
+                item = new ItemStack(Material.NETHER_WART, SMP5.rollNumber(5, 20));
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
-                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.GRAY + "To buy this, it costs",
                         ChatColor.AQUA + "3 Blaze Powder"));
                 item.setItemMeta(meta);
                 return item;
@@ -329,80 +333,80 @@ public class InventoryManager {
                 Bukkit.getLogger().log(Level.WARNING, "Please give a value 1<=x<=20!");
                 break;
         }
-        item = new ItemStack(Material.EMERALD_ORE, SMP5.rollNumber(2,10));
+        item = new ItemStack(Material.EMERALD_ORE, SMP5.rollNumber(2, 10));
         meta = item.getItemMeta();
         item.setItemMeta(meta);
         meta.setLore(Arrays.asList(
-                ChatColor.GRAY +  "To buy this, it costs",
+                ChatColor.GRAY + "To buy this, it costs",
                 ChatColor.AQUA + "7 Cooked Chicken"));
         item.setItemMeta(meta);
         return item;
     }
 
-    public ItemStack getMinecraftTradeItems(int roll){
+    public ItemStack getMinecraftTradeItems(int roll) {
         ItemStack item;
         ItemMeta meta;
         switch (roll) {
             case 1:
-                item = new ItemStack(Material.ROTTEN_FLESH, SMP5.rollNumber(5,20));
+                item = new ItemStack(Material.ROTTEN_FLESH, SMP5.rollNumber(5, 20));
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
-                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.GRAY + "To buy this, it costs",
                         ChatColor.AQUA + "8 Emeralds"));
                 item.setItemMeta(meta);
                 return item;
             case 2:
-                item = new ItemStack(Material.POISONOUS_POTATO, SMP5.rollNumber(5,20));
+                item = new ItemStack(Material.POISONOUS_POTATO, SMP5.rollNumber(5, 20));
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
-                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.GRAY + "To buy this, it costs",
                         ChatColor.AQUA + "14 Carrots"));
                 item.setItemMeta(meta);
                 return item;
             case 3:
-                item = new ItemStack(Material.COBWEB, SMP5.rollNumber(5,20));
+                item = new ItemStack(Material.COBWEB, SMP5.rollNumber(5, 20));
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
-                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.GRAY + "To buy this, it costs",
                         ChatColor.AQUA + "5 String"));
                 item.setItemMeta(meta);
                 return item;
             case 4:
-                item = new ItemStack(Material.DEAD_BUSH, SMP5.rollNumber(5,20));
+                item = new ItemStack(Material.DEAD_BUSH, SMP5.rollNumber(5, 20));
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
-                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.GRAY + "To buy this, it costs",
                         ChatColor.AQUA + "9 Sticks"));
                 item.setItemMeta(meta);
                 return item;
             case 5:
-                item = new ItemStack(Material.EMERALD_ORE, SMP5.rollNumber(2,10));
+                item = new ItemStack(Material.EMERALD_ORE, SMP5.rollNumber(2, 10));
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
-                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.GRAY + "To buy this, it costs",
                         ChatColor.AQUA + "8 Cooked Chicken"));
                 item.setItemMeta(meta);
                 return item;
             case 6:
-                item = new ItemStack(Material.FEATHER, SMP5.rollNumber(5,20));
+                item = new ItemStack(Material.FEATHER, SMP5.rollNumber(5, 20));
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
-                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.GRAY + "To buy this, it costs",
                         ChatColor.AQUA + "3 Eggs"));
                 item.setItemMeta(meta);
                 return item;
             case 7:
-                item = new ItemStack(Material.PUFFERFISH, SMP5.rollNumber(5,20));
+                item = new ItemStack(Material.PUFFERFISH, SMP5.rollNumber(5, 20));
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
-                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.GRAY + "To buy this, it costs",
                         ChatColor.AQUA + "2 Cooked Salmon"));
                 item.setItemMeta(meta);
                 return item;
@@ -411,70 +415,70 @@ public class InventoryManager {
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
-                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.GRAY + "To buy this, it costs",
                         ChatColor.AQUA + "4 Snow blocks"));
                 item.setItemMeta(meta);
                 return item;
             case 9:
-                item = new ItemStack(Material.RED_MUSHROOM, SMP5.rollNumber(5,20));
+                item = new ItemStack(Material.RED_MUSHROOM, SMP5.rollNumber(5, 20));
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
-                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.GRAY + "To buy this, it costs",
                         ChatColor.AQUA + "3 Brown Mushrooms"));
                 item.setItemMeta(meta);
                 return item;
             case 10:
-                item = new ItemStack(Material.LECTERN, SMP5.rollNumber(1,5));
+                item = new ItemStack(Material.LECTERN, SMP5.rollNumber(1, 5));
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
-                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.GRAY + "To buy this, it costs",
                         ChatColor.AQUA + "3 Books"));
                 item.setItemMeta(meta);
                 return item;
             case 11:
-                item = new ItemStack(Material.GOLDEN_CARROT, SMP5.rollNumber(10,20));
+                item = new ItemStack(Material.GOLDEN_CARROT, SMP5.rollNumber(10, 20));
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
-                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.GRAY + "To buy this, it costs",
                         ChatColor.AQUA + "7 Gold Nuggets"));
                 item.setItemMeta(meta);
                 return item;
             case 12:
-                item = new ItemStack(Material.INK_SAC, SMP5.rollNumber(5,20));
+                item = new ItemStack(Material.INK_SAC, SMP5.rollNumber(5, 20));
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
-                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.GRAY + "To buy this, it costs",
                         ChatColor.AQUA + "2 String"));
                 item.setItemMeta(meta);
                 return item;
             case 13:
-                item = new ItemStack(Material.GOLDEN_APPLE, SMP5.rollNumber(5,10));
+                item = new ItemStack(Material.GOLDEN_APPLE, SMP5.rollNumber(5, 10));
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
-                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.GRAY + "To buy this, it costs",
                         ChatColor.AQUA + "10 Gold Ingots"));
                 item.setItemMeta(meta);
                 return item;
             case 14:
-                item = new ItemStack(Material.GOLDEN_CARROT, SMP5.rollNumber(5,10));
+                item = new ItemStack(Material.GOLDEN_CARROT, SMP5.rollNumber(5, 10));
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
-                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.GRAY + "To buy this, it costs",
                         ChatColor.AQUA + "7 Gold Nuggets"));
                 item.setItemMeta(meta);
                 return item;
             case 15:
-                item = new ItemStack(Material.ENDER_EYE, SMP5.rollNumber(1,5));
+                item = new ItemStack(Material.ENDER_EYE, SMP5.rollNumber(1, 5));
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
-                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.GRAY + "To buy this, it costs",
                         ChatColor.AQUA + "3 Ender Pearl"));
                 item.setItemMeta(meta);
                 return item;
@@ -483,7 +487,7 @@ public class InventoryManager {
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
-                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.GRAY + "To buy this, it costs",
                         ChatColor.AQUA + "2 Obsidian"));
                 item.setItemMeta(meta);
                 return item;
@@ -492,16 +496,16 @@ public class InventoryManager {
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
-                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.GRAY + "To buy this, it costs",
                         ChatColor.AQUA + "3 String"));
                 item.setItemMeta(meta);
                 return item;
             case 18:
-                item = new ItemStack(Material.ARROW, SMP5.rollNumber(10,30));
+                item = new ItemStack(Material.ARROW, SMP5.rollNumber(10, 30));
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
-                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.GRAY + "To buy this, it costs",
                         ChatColor.AQUA + "8 Flint"));
                 item.setItemMeta(meta);
                 return item;
@@ -510,16 +514,16 @@ public class InventoryManager {
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
-                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.GRAY + "To buy this, it costs",
                         ChatColor.AQUA + "1 Diamond"));
                 item.setItemMeta(meta);
                 return item;
             case 20:
-                item = new ItemStack(Material.NETHER_WART, SMP5.rollNumber(5,20));
+                item = new ItemStack(Material.NETHER_WART, SMP5.rollNumber(5, 20));
                 meta = item.getItemMeta();
                 item.setItemMeta(meta);
                 meta.setLore(Arrays.asList(
-                        ChatColor.GRAY +  "To buy this, it costs",
+                        ChatColor.GRAY + "To buy this, it costs",
                         ChatColor.AQUA + "3 Blaze Powder"));
                 item.setItemMeta(meta);
                 return item;
@@ -527,11 +531,11 @@ public class InventoryManager {
                 Bukkit.getLogger().log(Level.WARNING, "Please give a value 1<=x<=20!");
                 break;
         }
-        item = new ItemStack(Material.EMERALD_ORE, SMP5.rollNumber(2,10));
+        item = new ItemStack(Material.EMERALD_ORE, SMP5.rollNumber(2, 10));
         meta = item.getItemMeta();
         item.setItemMeta(meta);
         meta.setLore(Arrays.asList(
-                ChatColor.GRAY +  "To buy this, it costs",
+                ChatColor.GRAY + "To buy this, it costs",
                 ChatColor.AQUA + "7 Cooked Chicken"));
         item.setItemMeta(meta);
         return item;

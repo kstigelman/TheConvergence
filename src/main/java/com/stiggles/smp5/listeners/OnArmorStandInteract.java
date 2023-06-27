@@ -25,13 +25,14 @@ public class OnArmorStandInteract implements Listener {
 
     SMP5 main;
 
-    public OnArmorStandInteract (SMP5 main) {
+    public OnArmorStandInteract(SMP5 main) {
         this.main = main;
     }
+
     @EventHandler
-    public void onPlayerInteract (PlayerArmorStandManipulateEvent e) {
-        ArmorStand entity = e.getRightClicked ();
-        if (entity.getName().contains ("convergence")) {
+    public void onPlayerInteract(PlayerArmorStandManipulateEvent e) {
+        ArmorStand entity = e.getRightClicked();
+        if (entity.getName().contains("convergence")) {
             e.setCancelled(true);
             if (e.getPlayer().getInventory().firstEmpty() == -1)
                 return;
@@ -55,13 +56,13 @@ public class OnArmorStandInteract implements Listener {
             }
             e.getPlayer().getInventory().addItem(getConvergence(entity.getLocation()));
 
-            if (!sp.hasFoundConvergence (hash)) {
+            if (!sp.hasFoundConvergence(hash)) {
                 e.getPlayer().sendMessage(ChatColor.GRAY + "You have found a Convergence Crystal! Someone may want to see this...");
                 sp.addConvergence(calculateHash(entity.getLocation()));
             }
             return;
         }
-        if (entity.getName().contains ("morabito")) {
+        if (entity.getName().contains("morabito")) {
             e.setCancelled(true);
             if (e.getPlayer().getInventory().firstEmpty() == -1)
                 return;
@@ -74,9 +75,9 @@ public class OnArmorStandInteract implements Listener {
                 if (i.getItemMeta().getLocalizedName().equals("recipe"))
                     return;
             }
-            e.getPlayer().sendMessage(ChatColor.GRAY.toString() + "You have found the Secret Recipe! Someone was looking for this...");
+            e.getPlayer().sendMessage(ChatColor.GRAY + "You have found the Secret Recipe! Someone was looking for this...");
             e.getPlayer().getInventory().addItem(getRecipe());
-                //    getName().contains(ChatColor.DARK_GRAY + "Natalie's Breath (Decayed)"))
+            //    getName().contains(ChatColor.DARK_GRAY + "Natalie's Breath (Decayed)"))
 
         }
         if (entity.getName().contains("drem_sword")) {
@@ -92,7 +93,7 @@ public class OnArmorStandInteract implements Listener {
 
                 if (i.getItemMeta().hasLocalizedName() && i.getItemMeta().getLocalizedName().equals("nats_breath"))
                     return;
-                    //    getName().contains(ChatColor.DARK_GRAY + "Natalie's Breath (Decayed)"))
+                //    getName().contains(ChatColor.DARK_GRAY + "Natalie's Breath (Decayed)"))
             }
             e.getPlayer().sendMessage(ChatColor.ITALIC + ChatColor.GRAY.toString() + "You have found the sword of Natalie's Breath! It looks decayed...");
             e.getPlayer().getInventory().addItem(getSword());
@@ -132,12 +133,13 @@ public class OnArmorStandInteract implements Listener {
             e.getPlayer().getInventory().addItem(getRocks());
         }
     }
-    public ItemStack getSword () {
+
+    public ItemStack getSword() {
         ItemStack item = new ItemStack(Material.STONE_SWORD);
         ItemMeta im = item.getItemMeta();
         im.setDisplayName(ChatColor.DARK_GRAY + "Natalie's Breath (Decayed)");
         im.setLocalizedName("nats_breath");
-        im.setLore (Arrays.asList(ChatColor.BLUE + "Quest Item", ChatColor.GRAY + ChatColor.ITALIC.toString() + "Belonged to a hero from long ago.",
+        im.setLore(Arrays.asList(ChatColor.BLUE + "Quest Item", ChatColor.GRAY + ChatColor.ITALIC.toString() + "Belonged to a hero from long ago.",
                 ChatColor.GRAY + ChatColor.ITALIC.toString() + "Perhaps there is someone who knows more about it?"));
         if (im instanceof Damageable)
             ((Damageable) im).setDamage(128);
@@ -146,24 +148,26 @@ public class OnArmorStandInteract implements Listener {
         item.setItemMeta(im);
         return item;
     }
-    public ItemStack getRecipe () {
+
+    public ItemStack getRecipe() {
         ItemStack item = new ItemStack(Material.PAPER);
         ItemMeta im = item.getItemMeta();
         im.setDisplayName(ChatColor.GOLD + "Moonshine Secret Recipe");
         im.setLocalizedName("recipe");
-        im.setLore (Arrays.asList(ChatColor.BLUE + "Quest Item", ChatColor.GRAY + "Spectral Saloon's famous recipe.",
+        im.setLore(Arrays.asList(ChatColor.BLUE + "Quest Item", ChatColor.GRAY + "Spectral Saloon's famous recipe.",
                 ChatColor.GRAY + ChatColor.ITALIC.toString() + "It looks like it was written in a code, so it is unreadable to you."));
         im.addEnchant(Enchantment.VANISHING_CURSE, 1, true);
         im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         item.setItemMeta(im);
         return item;
     }
-    public ItemStack getRocks () {
+
+    public ItemStack getRocks() {
         ItemStack item = new ItemStack(Material.END_STONE);
         ItemMeta im = item.getItemMeta();
         im.setDisplayName(ChatColor.AQUA + "Meteor Debris");
         im.setLocalizedName("moon_rocks");
-        im.setLore (Arrays.asList(ChatColor.BLUE + "Quest Item", ChatColor.GRAY + "A piece of the meteor.",
+        im.setLore(Arrays.asList(ChatColor.BLUE + "Quest Item", ChatColor.GRAY + "A piece of the meteor.",
                 ChatColor.GRAY + ChatColor.ITALIC.toString() + "Give this to someone who knows more about the meteor strike."));
         im.addEnchant(Enchantment.VANISHING_CURSE, 1, true);
         im.addEnchant(Enchantment.PROTECTION_FALL, 1, true);
@@ -171,7 +175,8 @@ public class OnArmorStandInteract implements Listener {
         item.setItemMeta(im);
         return item;
     }
-    public ItemStack getConvergence (Location loc) {
+
+    public ItemStack getConvergence(Location loc) {
         ItemStack item = new ItemStack(Material.AMETHYST_SHARD);
         ItemMeta im = item.getItemMeta();
         im.setDisplayName(ChatColor.LIGHT_PURPLE + "Convergence Crystal");
@@ -181,8 +186,8 @@ public class OnArmorStandInteract implements Listener {
         if (loc.getWorld().getName().contains("nether"))
             stringLocation += " in the Nether";
 
-        im.setLore (Arrays.asList(ChatColor.BLUE + "Quest Item", ChatColor.GRAY + "A sample of Convergence",
-                ChatColor.DARK_GRAY + "Found at (" + loc.getBlockX() + ", " + (loc.getBlockY() + 2) + ", " + loc.getBlockZ() + ")",
+        im.setLore(Arrays.asList(ChatColor.BLUE + "Quest Item", ChatColor.GRAY + "A sample of Convergence",
+                stringLocation,
                 ChatColor.GRAY + ChatColor.ITALIC.toString() + "Convergence is a substance created by ",
                 ChatColor.GRAY + ChatColor.ITALIC.toString() + "EGO Labs. They used their research on ",
                 ChatColor.GRAY + ChatColor.ITALIC.toString() + "it to create the world of Convergence."));
@@ -193,7 +198,7 @@ public class OnArmorStandInteract implements Listener {
         return item;
     }
 
-    public int calculateHash (Location location) {
+    public int calculateHash(Location location) {
         return location.getBlockX() + (location.getBlockY() * 2) + (location.getBlockZ() * 3);
     }
 }

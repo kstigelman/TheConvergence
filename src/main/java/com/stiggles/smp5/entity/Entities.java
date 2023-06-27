@@ -1,14 +1,12 @@
 package com.stiggles.smp5.entity;
 
 import com.stiggles.smp5.main.SMP5;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
-import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
@@ -25,7 +23,7 @@ public class Entities implements Listener {
     private static final SMP5 plugin = SMP5.getPlugin(SMP5.class);
 
 
-    public static void spawnStrayGroup(Location location){
+    public static void spawnStrayGroup(Location location) {
         spawnHeadStray(location);
         spawnLookoutStray(location);
         spawnGuard(location, 4);
@@ -36,7 +34,7 @@ public class Entities implements Listener {
 
     }
 
-    public static void spawnHeadStray(Location location){
+    public static void spawnHeadStray(Location location) {
         Stray mob = location.getWorld().spawn(location, Stray.class);
         mob.setCustomName(ChatColor.LIGHT_PURPLE + "Stray Herald");
         mob.setCustomNameVisible(true);
@@ -65,9 +63,9 @@ public class Entities implements Listener {
         meta.setUnbreakable(true);
         meta.setDisplayName((ChatColor.WHITE + "Boom Boom Bow"));
         meta.setLore(Arrays.asList(
-                ChatColor.GRAY +  "",
-                ChatColor.GOLD +  "-- SPECIAL ITEM --",
-                ChatColor.GRAY + "The arrows shot from this" ,
+                String.valueOf(ChatColor.GRAY),
+                ChatColor.GOLD + "-- SPECIAL ITEM --",
+                ChatColor.GRAY + "The arrows shot from this",
                 ChatColor.GRAY + "bow explode on impact!"));
         meta.setLocalizedName("boom_bow");
         bow.setItemMeta(meta);
@@ -75,18 +73,18 @@ public class Entities implements Listener {
         mob.getEquipment().setItemInMainHand(bow);
         mob.getEquipment().setItemInMainHandDropChance(50);
 
-        new BukkitRunnable(){
-            public void run(){
-                if(!mob.isDead()) {
-                    if(mob.getTarget() == null){
-                        for (Entity entity : mob.getNearbyEntities(40,40,40)){
+        new BukkitRunnable() {
+            public void run() {
+                if (!mob.isDead()) {
+                    if (mob.getTarget() == null) {
+                        for (Entity entity : mob.getNearbyEntities(40, 40, 40)) {
                             if (entity instanceof Player) {
                                 Player p = (Player) entity;
                                 mob.setTarget(p);
                             }
                         }
-                        for (Entity entity : mob.getNearbyEntities(5,2,5)){
-                            if (entity instanceof Player){
+                        for (Entity entity : mob.getNearbyEntities(5, 2, 5)) {
+                            if (entity instanceof Player) {
                                 Player p = (Player) entity;
                                 mob.setInvulnerable(true);
                                 mob.setInvisible(true);
@@ -103,7 +101,8 @@ public class Entities implements Listener {
         }.runTaskTimer(plugin, 0, 10);
 
     }
-    public static void spawnLookoutStray(Location location){
+
+    public static void spawnLookoutStray(Location location) {
         Stray mob = location.getWorld().spawn(location, Stray.class);
         mob.setCustomName(ChatColor.LIGHT_PURPLE + "Lookout Stray");
         mob.setCustomNameVisible(false);
@@ -131,8 +130,8 @@ public class Entities implements Listener {
         meta.setUnbreakable(false);
         meta.setDisplayName((ChatColor.WHITE + "Recon Bow"));
         meta.setLore(Arrays.asList(
-                ChatColor.GRAY +  "",
-                ChatColor.GOLD +  "-- SPECIAL ITEM --",
+                String.valueOf(ChatColor.GRAY),
+                ChatColor.GOLD + "-- SPECIAL ITEM --",
                 ChatColor.GRAY + "This bow scans nearby entities",
                 ChatColor.GRAY + "within a 10x10x10 block radius",
                 ChatColor.GRAY + "then makes them GLOW for 10 seconds"));
@@ -142,18 +141,18 @@ public class Entities implements Listener {
         mob.getEquipment().setItemInMainHand(bow);
         mob.getEquipment().setItemInMainHandDropChance(50);
 
-        new BukkitRunnable(){
-            public void run(){
-                if(!mob.isDead()) {
-                    if(mob.getTarget() == null){
-                        for (Entity entity : mob.getNearbyEntities(40,40,40)){
+        new BukkitRunnable() {
+            public void run() {
+                if (!mob.isDead()) {
+                    if (mob.getTarget() == null) {
+                        for (Entity entity : mob.getNearbyEntities(40, 40, 40)) {
                             if (entity instanceof Player) {
                                 Player p = (Player) entity;
                                 mob.setTarget(p);
                             }
                         }
-                        for (Entity entity : mob.getNearbyEntities(5,2,5)){
-                            if (entity instanceof Player){
+                        for (Entity entity : mob.getNearbyEntities(5, 2, 5)) {
+                            if (entity instanceof Player) {
                                 Player p = (Player) entity;
                                 mob.setInvulnerable(true);
                                 mob.setInvisible(true);
@@ -171,7 +170,7 @@ public class Entities implements Listener {
 
     }
 
-    public static void spawnGuard(Location center, int range){
+    public static void spawnGuard(Location center, int range) {
         double x = center.getX() + (Math.random() * range * 2 - range);
         double y = center.getY();
         double z = center.getZ() + (Math.random() * range * 2 - range);
@@ -204,18 +203,18 @@ public class Entities implements Listener {
         }
         mob.getEquipment().setItemInMainHandDropChance(10);
 
-        new BukkitRunnable(){
-            public void run(){
-                if(!mob.isDead()) {
-                    if(mob.getTarget() == null){
-                        for (Entity entity : mob.getNearbyEntities(40,40,40)){
+        new BukkitRunnable() {
+            public void run() {
+                if (!mob.isDead()) {
+                    if (mob.getTarget() == null) {
+                        for (Entity entity : mob.getNearbyEntities(40, 40, 40)) {
                             if (entity instanceof Player) {
                                 Player p = (Player) entity;
                                 mob.setTarget(p);
                             }
                         }
-                        for (Entity entity : mob.getNearbyEntities(5,2,5)){
-                            if (entity instanceof Player){
+                        for (Entity entity : mob.getNearbyEntities(5, 2, 5)) {
+                            if (entity instanceof Player) {
                                 Player p = (Player) entity;
                                 mob.setInvulnerable(true);
                                 mob.setInvisible(true);
@@ -233,7 +232,7 @@ public class Entities implements Listener {
         }.runTaskTimer(plugin, 0, 10);
     }
 
-    public static void spawnBlazingBeast(Location loc){
+    public static void spawnBlazingBeast(Location loc) {
         MagmaCube blazeIng = loc.getWorld().spawn(loc, MagmaCube.class);
         blazeIng.setCustomName(ChatColor.GOLD + "Blazing Beast");
         blazeIng.setSize(20);
@@ -245,17 +244,17 @@ public class Entities implements Listener {
         attributeHealth.setBaseValue(750);
         blazeIng.setHealth(750);
 
-        new BukkitRunnable(){
-            public void run(){
-                if(!blazeIng.isDead()) {
-                    for (Entity entity : blazeIng.getNearbyEntities(180, 180, 180)){
+        new BukkitRunnable() {
+            public void run() {
+                if (!blazeIng.isDead()) {
+                    for (Entity entity : blazeIng.getNearbyEntities(180, 180, 180)) {
                         if (entity instanceof Player) {
                             Player p = (Player) entity;
                             blazeIng.setTarget(p);
                         }
                     }
-                    for (Entity entity : blazeIng.getNearbyEntities(20, 180, 20)){
-                        if (entity instanceof Player){
+                    for (Entity entity : blazeIng.getNearbyEntities(20, 180, 20)) {
+                        if (entity instanceof Player) {
                             Player p = (Player) entity;
                             blazeIng.setTarget(p);
                         }
@@ -269,10 +268,10 @@ public class Entities implements Listener {
     }
 
     private static void preformAttacks(MagmaCube blazeIng) {
-        new BukkitRunnable(){
-            public void run(){
-                if(!blazeIng.isDead()) {
-                    for (Entity entity : blazeIng.getNearbyEntities(90, 32, 90)){
+        new BukkitRunnable() {
+            public void run() {
+                if (!blazeIng.isDead()) {
+                    for (Entity entity : blazeIng.getNearbyEntities(90, 32, 90)) {
                         if (entity instanceof Player) {
                             Player p = (Player) entity;
                             blazeIng.setTarget(p);
@@ -280,13 +279,13 @@ public class Entities implements Listener {
                             p.getWorld().strikeLightning(p.getLocation());
 
                             p.getWorld().spawnEntity(p.getLocation(), EntityType.MAGMA_CUBE);
-                            p.getWorld().spawnEntity(p.getLocation().add(0,2,0), EntityType.BLAZE);
+                            p.getWorld().spawnEntity(p.getLocation().add(0, 2, 0), EntityType.BLAZE);
                         }
                     }
-                    for (Entity entity : blazeIng.getNearbyEntities(32, 32, 32)){
-                        if (entity instanceof Player){
+                    for (Entity entity : blazeIng.getNearbyEntities(32, 32, 32)) {
+                        if (entity instanceof Player) {
                             Player p = (Player) entity;
-                            p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20*10, 1, false, false));
+                            p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20 * 10, 1, false, false));
                             p.getWorld().createExplosion(p.getLocation(), 2, false, false);
 
                         }
@@ -295,10 +294,10 @@ public class Entities implements Listener {
                     cancel();
                 }
             }
-        }.runTaskTimer(plugin, 0, 20*20);
-        new BukkitRunnable(){
-            public void run(){
-                if(!blazeIng.isDead()) {
+        }.runTaskTimer(plugin, 0, 20 * 20);
+        new BukkitRunnable() {
+            public void run() {
+                if (!blazeIng.isDead()) {
                     Location center = blazeIng.getLocation();
                     double range = 30;
                     double x = center.getX() + (Math.random() * range * 2 - range);
@@ -306,9 +305,10 @@ public class Entities implements Listener {
                     double z = center.getZ() + (Math.random() * range * 2 - range);
                     Location randomLocation = new Location(center.getWorld(), x, y, z);
                     randomLocation.getWorld().strikeLightningEffect(randomLocation);
-                    new BukkitRunnable() { public void run() {
-                        randomLocation.getWorld().createExplosion(randomLocation, 4, false, false);
-                    }
+                    new BukkitRunnable() {
+                        public void run() {
+                            randomLocation.getWorld().createExplosion(randomLocation, 4, false, false);
+                        }
                     }.runTaskLater(plugin, 60);
                 } else {
                     cancel();
@@ -318,16 +318,21 @@ public class Entities implements Listener {
     }
 
 
-    public static int rollNumber(int min, int max){
+    public static int rollNumber(int min, int max) {
         Random rand = new Random();
         int randomNumber = rand.nextInt(max) + min;
 
         return randomNumber;
     }
 
-    private boolean nearPlayer(Stray e){
-        for (Entity entity : e.getNearbyEntities(200, 128, 200)){
-            if (entity instanceof Player) { return true; } else { e.remove(); return false; }
+    private boolean nearPlayer(Stray e) {
+        for (Entity entity : e.getNearbyEntities(200, 128, 200)) {
+            if (entity instanceof Player) {
+                return true;
+            } else {
+                e.remove();
+                return false;
+            }
         }
         return true;
     }
@@ -339,7 +344,6 @@ public class Entities implements Listener {
         Location randomLocation = new Location(center.getWorld(), x, y, z);
         return randomLocation;
     }
-
 
 
 }

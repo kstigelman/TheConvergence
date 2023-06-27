@@ -1,6 +1,5 @@
 package com.stiggles.smp5.commands;
 
-import com.stiggles.smp5.main.PlayerManager;
 import com.stiggles.smp5.main.SMP5;
 import com.stiggles.smp5.player.StigglesPlayer;
 import org.bukkit.ChatColor;
@@ -10,18 +9,15 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-
 public class ToggleCoinChat implements CommandExecutor {
-
 
 
     public SMP5 main;
 
-    public ToggleCoinChat (SMP5 main) {
+    public ToggleCoinChat(SMP5 main) {
         this.main = main;
     }
+
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if (commandSender instanceof Player) {

@@ -13,7 +13,7 @@ public class AndEvenAnotherWanderer extends StigglesNPC {
     public AndEvenAnotherWanderer(SMP5 main, String name, Location location) {
         super(main, name, location);
 
-        setSkin (value, signature);
+        setSkin(value, signature);
     }
 
     @Override

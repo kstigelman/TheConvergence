@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 /**
- *   CURRENTLY UNUSED, MAY NEED LATER
+ * CURRENTLY UNUSED, MAY NEED LATER
  */
 
 
@@ -34,7 +34,7 @@ import java.util.UUID;
 */
 public class NPCCommand implements CommandExecutor {
 
-    private SMP5 main;
+    private final SMP5 main;
 
     public NPCCommand(SMP5 main) {
         this.main = main;

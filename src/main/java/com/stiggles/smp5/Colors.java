@@ -2,7 +2,7 @@ package com.stiggles.smp5;
 
 public class Colors {
     public static final String[] colors = {
-           "WHITE",       //  0
+            "WHITE",       //  0
             "LIGHT_GRAY", //  1
             "GRAY",       //  2
             "BLACK",      //  3
@@ -20,7 +20,7 @@ public class Colors {
             "PINK"        //  15
     };
 
-    public static String getColor (int index) {
+    public static String getColor(int index) {
         if (index >= colors.length)
             return null;
         return colors[index];

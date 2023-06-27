@@ -1,11 +1,5 @@
 package com.stiggles.smp5.towns;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -13,9 +7,15 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * This class is a region from one location to another. It can be used for blocks protection and things like WorldEdit.
  * Changes by Kaayylo -- Converted from 3-dimensional Cuboid to a 2-dimensional "CubeField". Ignores Y-coordinate.
+ *
  * @author desht (Original code), KingFaris10 (Editor of code), Kaayylo (Editor of code)
  */
 
@@ -33,7 +33,8 @@ public class CubeField implements Cloneable, ConfigurationSerializable {
      * @param l2 - The other corner
      */
     public CubeField(Location l1, Location l2) {
-        if (!l1.getWorld().equals(l2.getWorld())) throw new IllegalArgumentException("Locations must be on the same world");
+        if (!l1.getWorld().equals(l2.getWorld()))
+            throw new IllegalArgumentException("Locations must be on the same world");
         this.worldName = l1.getWorld().getName();
         this.x1 = Math.min(l1.getBlockX(), l2.getBlockX());
         this.z1 = Math.min(l1.getBlockZ(), l2.getBlockZ());
@@ -63,10 +64,10 @@ public class CubeField implements Cloneable, ConfigurationSerializable {
      * Construct a CubeField in the given World and xyz co-ordinates
      *
      * @param world - The CubeField's world
-     * @param x1 - X co-ordinate of corner 1
-     * @param z1 - Z co-ordinate of corner 1
-     * @param x2 - X co-ordinate of corner 2
-     * @param z2 - Z co-ordinate of corner 2
+     * @param x1    - X co-ordinate of corner 1
+     * @param z1    - Z co-ordinate of corner 1
+     * @param x2    - X co-ordinate of corner 2
+     * @param z2    - Z co-ordinate of corner 2
      */
     public CubeField(World world, int x1, int z1, int x2, int z2) {
         this.worldName = world.getName();
@@ -80,10 +81,10 @@ public class CubeField implements Cloneable, ConfigurationSerializable {
      * Construct a CubeField in the given world name and xyz co-ordinates.
      *
      * @param worldName - The CubeField's world name
-     * @param x1 - X co-ordinate of corner 1
-     * @param z1 - Z co-ordinate of corner 1
-     * @param x2 - X co-ordinate of corner 2
-     * @param z2 - Z co-ordinate of corner 2
+     * @param x1        - X co-ordinate of corner 1
+     * @param z1        - Z co-ordinate of corner 1
+     * @param x2        - X co-ordinate of corner 2
+     * @param z2        - Z co-ordinate of corner 2
      */
     private CubeField(String worldName, int x1, int z1, int x2, int z2) {
         this.worldName = worldName;
@@ -96,6 +97,7 @@ public class CubeField implements Cloneable, ConfigurationSerializable {
 
     /**
      * Construct a CubeField using a map with the following keys: worldName, x1, x2, z1, z2
+     *
      * @param map - The map of keys.
      */
     public CubeField(Map<String, Object> map) {
@@ -162,7 +164,7 @@ public class CubeField implements Cloneable, ConfigurationSerializable {
     /**
      * Get the size of this CubeField along the X axis
      *
-     * @return  Size of CubeField along the X axis
+     * @return Size of CubeField along the X axis
      */
     public int getSizeX() {
         return (this.x2 - this.x1) + 1;
@@ -171,7 +173,7 @@ public class CubeField implements Cloneable, ConfigurationSerializable {
     /**
      * Get the size of this CubeField along the Z axis
      *
-     * @return  Size of CubeField along the Z axis
+     * @return Size of CubeField along the Z axis
      */
     public int getSizeZ() {
         return (this.z2 - this.z1) + 1;
@@ -180,18 +182,17 @@ public class CubeField implements Cloneable, ConfigurationSerializable {
     /**
      * Get the minimum X co-ordinate of this CubeField
      *
-     * @return  the minimum X co-ordinate
+     * @return the minimum X co-ordinate
      */
     public int getLowerX() {
         return this.x1;
     }
 
 
-
     /**
      * Get the minimum Z co-ordinate of this CubeField
      *
-     * @return  the minimum Z co-ordinate
+     * @return the minimum Z co-ordinate
      */
     public int getLowerZ() {
         return this.z1;
@@ -200,7 +201,7 @@ public class CubeField implements Cloneable, ConfigurationSerializable {
     /**
      * Get the maximum X co-ordinate of this CubeField
      *
-     * @return  the maximum X co-ordinate
+     * @return the maximum X co-ordinate
      */
     public int getUpperX() {
         return this.x2;
@@ -209,7 +210,7 @@ public class CubeField implements Cloneable, ConfigurationSerializable {
     /**
      * Get the maximum Z co-ordinate of this CubeField
      *
-     * @return  the maximum Z co-ordinate
+     * @return the maximum Z co-ordinate
      */
     public int getUpperZ() {
         return this.z2;
@@ -233,7 +234,7 @@ public class CubeField implements Cloneable, ConfigurationSerializable {
     /**
      * Expand the CubeField in the given direction by the given amount.  Negative amounts will shrink the CubeField in the given direction.  Shrinking a CubeField's face past the opposite face is not an error and will return a valid CubeField.
      *
-     * @param dir - The direction in which to expand
+     * @param dir    - The direction in which to expand
      * @param amount - The number of blocks by which to expand
      * @return A new CubeField expanded by the given direction and amount
      */
@@ -255,7 +256,7 @@ public class CubeField implements Cloneable, ConfigurationSerializable {
     /**
      * Shift the CubeField in the given direction by the given amount.
      *
-     * @param dir - The direction in which to shift
+     * @param dir    - The direction in which to shift
      * @param amount - The number of blocks by which to shift
      * @return A new CubeField shifted by the given direction and amount
      */
@@ -266,7 +267,7 @@ public class CubeField implements Cloneable, ConfigurationSerializable {
     /**
      * Outset (grow) the CubeField in the given direction by the given amount.
      *
-     * @param dir - The direction in which to outset (must be Horizontal, Vertical, or Both)
+     * @param dir    - The direction in which to outset (must be Horizontal, Vertical, or Both)
      * @param amount - The number of blocks by which to outset
      * @return A new CubeField outset by the given direction and amount
      */
@@ -280,7 +281,7 @@ public class CubeField implements Cloneable, ConfigurationSerializable {
      * Inset (shrink) the CubeField in the given direction by the given amount.  Equivalent
      * to calling outset() with a negative amount.
      *
-     * @param dir - The direction in which to inset (must be Horizontal, Vertical, or Both)
+     * @param dir    - The direction in which to inset (must be Horizontal, Vertical, or Both)
      * @param amount - The number of blocks by which to inset
      * @return A new CubeField inset by the given direction and amount
      */
@@ -373,7 +374,6 @@ public class CubeField implements Cloneable, ConfigurationSerializable {
     }
 
 
-
     /**
      * Get a list of the chunks which are fully or partially contained in this CubeField.
      *
@@ -402,7 +402,7 @@ public class CubeField implements Cloneable, ConfigurationSerializable {
 
     @Override
     public String toString() {
-        return new String("CubeField: " + this.worldName + "," + this.x1 + "," + this.z1 + "=>" + this.x2 + "," + this.z2);
+        return "CubeField: " + this.worldName + "," + this.x1 + "," + this.z1 + "=>" + this.x2 + "," + this.z2;
     }
 
 

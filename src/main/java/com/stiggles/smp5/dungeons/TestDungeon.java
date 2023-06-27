@@ -11,29 +11,30 @@ public class TestDungeon extends Dungeon {
 
     String name;
     World world;
+
     public TestDungeon(SMP5 main, int dungeonID) {
-        super(main, dungeonID, new Location (Bukkit.getWorld ("testdungeon"), 158, -21, 18));
+        super(main, dungeonID, new Location(Bukkit.getWorld("testdungeon"), 158, -21, 18));
         name = "testdungeon";
         world = Bukkit.getWorld(name);
         addRooms();
     }
 
-    public void addRooms () {
+    public void addRooms() {
         //Need to add trigger cuboids
 
-        rooms.add (new LobbyRoom (new Cuboid(new Location(world, 41, -46, 195), new Location(world,24, -36, 185))));
-        rooms.add (new MobRoom (new Cuboid(new Location(world,23, -47, 195), new Location(world,-5, -36, 182))));
+        rooms.add(new LobbyRoom(new Cuboid(new Location(world, 41, -46, 195), new Location(world, 24, -36, 185))));
+        rooms.add(new MobRoom(new Cuboid(new Location(world, 23, -47, 195), new Location(world, -5, -36, 182))));
         //rooms.add (new FillerRoom (new Cuboid(new Location(world,11, -36, 182), new Location(world,-5, -46, 199))));
-        rooms.add (new TargetRoom (new Cuboid(new Location(world,24,-31,181), new Location(world,-4,-55,149))));
-        rooms.add (new FillerRoom (new Cuboid(new Location(world,-3,-39,125), new Location(world,11,-60,149))));
-        rooms.add (new WaveRoom (new Cuboid(new Location(world,11,-48,124), new Location(world,-16,-59,111))));
-        rooms.add (new MobRoom (new Cuboid(new Location(world,12,-48,110), new Location(world,28,-59,127))));
-        rooms.add (new WaveRoom (new Cuboid(new Location(world,27,-48,93), new Location(world,10,-59,110)), 2, 7));
-        rooms.add (new BossRoom (new Cuboid(new Location(world,28,-59,93), new Location(world,62,-40,109)),
-                                 new Cuboid(new Location(world,41, -57, 98), new Location(world, 47, -56, 104)), //Boss spawn trigger
-                                 new Cuboid (new Location (world, 53, -57, 101), new Location (world, 53, -54, 101))));
-        rooms.add (new FinalRoom (new Cuboid(new Location(world,63,-54,107), new Location(world,107,-41,96)),
-                                  new Cuboid(new Location(world,93, -48, 99), new Location(world, 98, -44, 103)))); //TP Trigger
+        rooms.add(new TargetRoom(new Cuboid(new Location(world, 24, -31, 181), new Location(world, -4, -55, 149))));
+        rooms.add(new FillerRoom(new Cuboid(new Location(world, -3, -39, 125), new Location(world, 11, -60, 149))));
+        rooms.add(new WaveRoom(new Cuboid(new Location(world, 11, -48, 124), new Location(world, -16, -59, 111))));
+        rooms.add(new MobRoom(new Cuboid(new Location(world, 12, -48, 110), new Location(world, 28, -59, 127))));
+        rooms.add(new WaveRoom(new Cuboid(new Location(world, 27, -48, 93), new Location(world, 10, -59, 110)), 2, 7));
+        rooms.add(new BossRoom(new Cuboid(new Location(world, 28, -59, 93), new Location(world, 62, -40, 109)),
+                new Cuboid(new Location(world, 41, -57, 98), new Location(world, 47, -56, 104)), //Boss spawn trigger
+                new Cuboid(new Location(world, 53, -57, 101), new Location(world, 53, -54, 101))));
+        rooms.add(new FinalRoom(new Cuboid(new Location(world, 63, -54, 107), new Location(world, 107, -41, 96)),
+                new Cuboid(new Location(world, 93, -48, 99), new Location(world, 98, -44, 103)))); //TP Trigger
         /*
         rooms.add (new LobbyRoom (new Cuboid(new Location(world, 41, -46, 195), new Location(world,28, -36, 185)),  //Boundary
                                   new Cuboid(new Location(world, 24, -44, 192), new Location(world, 24, 38, 188)), //Entrance
