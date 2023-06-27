@@ -6,57 +6,60 @@ import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-
 public class Town {
     private Cuboid cuboid;
     private String name;
     private String description;
 
-    public Town (String name, Cuboid cuboid) {
+    public Town(String name, Cuboid cuboid) {
         this.name = name;
         this.cuboid = cuboid;
     }
 
-    public Town (String name, Cuboid cuboid, String description) {
+    public Town(String name, Cuboid cuboid, String description) {
         this.name = name;
         this.cuboid = cuboid;
         this.description = description;
     }
 
-    public void setName (String name) {
-        this.name = name;
-    }
-
-    public String getName () {
+    public String getName() {
         return name;
     }
-    public void setCuboid (Cuboid cuboid) {
-        this.cuboid = cuboid;
+
+    public void setName(String name) {
+        this.name = name;
     }
-    public Cuboid getCuboid () {
+
+    public Cuboid getCuboid() {
         return cuboid;
     }
-    public void setDescription (String description) {
-        this.description = description;
+
+    public void setCuboid(Cuboid cuboid) {
+        this.cuboid = cuboid;
     }
-    public String getDescription () {
+
+    public String getDescription() {
         return description;
     }
 
-    public boolean contains (int x, int y, int z) {
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public boolean contains(int x, int y, int z) {
         return cuboid.contains(x, y, z);
     }
-    public boolean contains (Location location) {
+
+    public boolean contains(Location location) {
         return cuboid.contains(location);
     }
-    public boolean contains (Player player) {
+
+    public boolean contains(Player player) {
         return cuboid.contains(player.getLocation());
     }
-    public void showTitle (Player player) {
-        player.sendTitle(ChatColor.GOLD + ChatColor.BOLD.toString () + name, description, 10, 60, 20);
-        player.playSound(player.getLocation (), Sound.ENTITY_PLAYER_LEVELUP, 100, 0.f);
+
+    public void showTitle(Player player) {
+        player.sendTitle(ChatColor.GOLD + ChatColor.BOLD.toString() + name, description, 10, 60, 20);
+        player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 100, 0.f);
     }
 }

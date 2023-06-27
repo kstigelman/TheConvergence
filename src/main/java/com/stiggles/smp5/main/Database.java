@@ -1,6 +1,7 @@
 package com.stiggles.smp5.main;
 
 import org.bukkit.Bukkit;
+
 import java.io.File;
 import java.sql.*;
 import java.util.PriorityQueue;
@@ -8,11 +9,10 @@ import java.util.Scanner;
 
 public class Database {
 
-    private String[] HOST_INFO = new String[5];
+    private final String[] HOST_INFO = new String[5];
     private final String FILEPATH = "smp5/host.txt";
-
+    private final PriorityQueue<String> statements = new PriorityQueue<>();
     private Connection connection = null;
-    private PriorityQueue<String> statements = new PriorityQueue<>();
 
     public Database() {
         File file = new File("plugins/smp5/host.txt");
@@ -42,28 +42,36 @@ public class Database {
     public boolean isConnectionNull() {
         return connection == null;
     }
-    public boolean isConnected() { return connection != null; }
 
-    public Connection getConnection() { return connection; }
+    public boolean isConnected() {
+        return connection != null;
+    }
 
-    public boolean execute (String str) throws SQLException {
+    public Connection getConnection() {
+        return connection;
+    }
+
+    public boolean execute(String str) throws SQLException {
         Statement statement = connection.createStatement();
         return statement.execute(str);
     }
-    public ResultSet query (String str) throws SQLException {
-        Statement statement = connection.createStatement ();
+
+    public ResultSet query(String str) throws SQLException {
+        Statement statement = connection.createStatement();
         return statement.executeQuery(str);
 
     }
+
     public void disconnect() throws SQLException {
         if (isConnected())
             connection.close();
     }
 
-    public void runQueue () throws SQLException {
+    public void runQueue() throws SQLException {
         runQueue(statements.size());
     }
-    public void runQueue (int amount) throws SQLException {
+
+    public void runQueue(int amount) throws SQLException {
         if (amount > statements.size())
             amount = statements.size();
 
@@ -72,8 +80,7 @@ public class Database {
             try {
                 execute(statements.peek());
                 statements.remove();
-            }
-            catch (SQLException e) {
+            } catch (SQLException e) {
                 Bukkit.getConsoleSender().sendMessage("NVTECH: Could not execute statement from queue");
 
                 /*try {

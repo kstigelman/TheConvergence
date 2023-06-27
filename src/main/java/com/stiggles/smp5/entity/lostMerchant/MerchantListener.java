@@ -6,7 +6,6 @@ import com.stiggles.smp5.items.Pickaxes;
 import com.stiggles.smp5.items.Swords;
 import com.stiggles.smp5.items.armor.PeacesSymphony;
 import com.stiggles.smp5.main.SMP5;
-import com.sun.nio.sctp.PeerAddressChangeNotification;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -21,43 +20,42 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import javax.annotation.Nullable;
-import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 
 public class MerchantListener implements Listener {
-    private SMP5 plugin; // Add a reference to the plugin instance
     static Map<UUID, Boolean> merchantCheckList = new HashMap<UUID, Boolean>();
-
-
-    public MerchantListener(SMP5 plugin) {
-        this.plugin = plugin;
-    }
+    private final SMP5 plugin; // Add a reference to the plugin instance
     InventoryManager inventoryManager = new InventoryManager();
-    private Inventory inv;
-
     Pickaxes pickaxes = new Pickaxes();
     Swords swords = new Swords();
     BAGEL bagel = new BAGEL();
     GrapplingHook grapplingHook = new GrapplingHook();
     PeacesSymphony peacesSymphony = new PeacesSymphony();
+    private Inventory inv;
+    public MerchantListener(SMP5 plugin) {
+        this.plugin = plugin;
+    }
 
-    public Inventory getInventory(UUID id){  return inventoryManager.getInventoryFromMap(id);  }
-    public static void resetMerchantCheckMap(){
+    public static void resetMerchantCheckMap() {
         merchantCheckList.clear();
     }
+
+    public Inventory getInventory(UUID id) {
+        return inventoryManager.getInventoryFromMap(id);
+    }
+
     @EventHandler
-    public void onInteraction(PlayerInteractAtEntityEvent e){
-        if(e.getRightClicked().getType().equals(EntityType.VILLAGER)) {
+    public void onInteraction(PlayerInteractAtEntityEvent e) {
+        if (e.getRightClicked().getType().equals(EntityType.VILLAGER)) {
             if (e.getRightClicked().isCustomNameVisible()) {
                 Player p = e.getPlayer();
                 if (e.getRightClicked().getCustomName().equals(ChatColor.AQUA + "Merchant Marketeer")) {
                     Villager m = (Villager) e.getRightClicked();
                     if (merchantCheckList.get(m.getUniqueId()) == null) {
-                        if (SMP5.rollNumber(1,2) == 1){
+                        if (SMP5.rollNumber(1, 2) == 1) {
                             merchantCheckList.put(m.getUniqueId(), true);
                             inv = inventoryManager.makeInventory(p, 54, ChatColor.GRAY + "Lost Merchant Shop", inv);
                             inventoryManager.setInvMap(m.getUniqueId(), inv);
@@ -68,7 +66,7 @@ public class MerchantListener implements Listener {
                             p.sendMessage(ChatColor.RED + "This merchant does not currently have anything in stock! Please try again tomorrow.");
                         }
 
-                    } else if (merchantCheckList.get(m.getUniqueId()) == false){
+                    } else if (!merchantCheckList.get(m.getUniqueId())) {
                         p.sendMessage(ChatColor.RED + "This merchant does not currently have anything in stock! Please try again tomorrow.");
                     } else {
                         p.openInventory(inventoryManager.getInventoryFromMap(m.getUniqueId()));
@@ -233,22 +231,22 @@ public class MerchantListener implements Listener {
             } else if (item.equals(Material.FISHING_ROD)) {
                 checkForGrapplingHook(p, Material.STRING, 128, Material.FISHING_ROD, 1, Material.TRIPWIRE_HOOK, 1,
                         grapplingHook.getHook(), e.getCurrentItem().getAmount());
-            }  else if (item.equals(Material.NETHERITE_PICKAXE)) {
+            } else if (item.equals(Material.NETHERITE_PICKAXE)) {
                 checkCustomItem(p, Material.BLUE_WOOL, 41, pickaxes.giveHandyToolPickaxe(),
                         e.getCurrentItem().getAmount());
-            }  else if (item.equals(Material.EMERALD)) {
+            } else if (item.equals(Material.EMERALD)) {
                 checkCustomItem(p, Material.EMERALD_BLOCK, 16, swords.getTheEmeraldDagger(),
                         e.getCurrentItem().getAmount());
-            }  else if (item.equals(Material.LEATHER_HELMET)) {
+            } else if (item.equals(Material.LEATHER_HELMET)) {
                 checkCustomItem(p, Material.NETHERITE_INGOT, 1, peacesSymphony.getPeaceHelmet(),
                         e.getCurrentItem().getAmount());
-            }  else if (item.equals(Material.LEATHER_CHESTPLATE)) {
+            } else if (item.equals(Material.LEATHER_CHESTPLATE)) {
                 checkCustomItem(p, Material.NETHERITE_INGOT, 1, peacesSymphony.getPeaceChestplate(),
                         e.getCurrentItem().getAmount());
-            }  else if (item.equals(Material.LEATHER_LEGGINGS)) {
+            } else if (item.equals(Material.LEATHER_LEGGINGS)) {
                 checkCustomItem(p, Material.NETHERITE_INGOT, 1, peacesSymphony.getPeaceLeggings(),
                         e.getCurrentItem().getAmount());
-            }  else if (item.equals(Material.LEATHER_BOOTS)) {
+            } else if (item.equals(Material.LEATHER_BOOTS)) {
                 checkCustomItem(p, Material.NETHERITE_INGOT, 1, peacesSymphony.getPeaceBoots(),
                         e.getCurrentItem().getAmount());
             }
@@ -256,9 +254,9 @@ public class MerchantListener implements Listener {
     }
 
     public void checkItem(Player player, Material materialGiving, int amountGiving,
-                          Material materialReceiving, int amountGetting){
+                          Material materialReceiving, int amountGetting) {
 
-        if(player.getInventory().containsAtLeast(new ItemStack(materialGiving), amountGiving)){
+        if (player.getInventory().containsAtLeast(new ItemStack(materialGiving), amountGiving)) {
             player.getInventory().addItem(new ItemStack(materialReceiving, amountGetting));
             player.getInventory().removeItem(new ItemStack(materialGiving, amountGiving));
         } else {
@@ -268,9 +266,9 @@ public class MerchantListener implements Listener {
 
 
     public void checkCustomItem(Player player, Material materialGiving1, int amountGiving1,
-                                ItemStack itemStackGiving, int amountGetting){
+                                ItemStack itemStackGiving, int amountGetting) {
 
-        if(player.getInventory().containsAtLeast(new ItemStack(materialGiving1), amountGiving1)){
+        if (player.getInventory().containsAtLeast(new ItemStack(materialGiving1), amountGiving1)) {
             player.getInventory().removeItem(new ItemStack(materialGiving1, amountGiving1));
             player.getInventory().addItem(itemStackGiving);
 
@@ -282,9 +280,9 @@ public class MerchantListener implements Listener {
     public void checkForGrapplingHook(Player player, Material materialGiving1, int amountGiving1, Material materialGiving2,
                                       int amountGiving2, Material materialGiving3, int amountGiving3,
                                       ItemStack itemStackGiving, int amountGetting) {
-        if(player.getInventory().containsAtLeast(new ItemStack(materialGiving1), amountGiving1) &&
+        if (player.getInventory().containsAtLeast(new ItemStack(materialGiving1), amountGiving1) &&
                 player.getInventory().containsAtLeast(new ItemStack(materialGiving2), amountGiving2) &&
-                player.getInventory().containsAtLeast(new ItemStack(materialGiving3), amountGiving3)){
+                player.getInventory().containsAtLeast(new ItemStack(materialGiving3), amountGiving3)) {
             player.getInventory().removeItem(new ItemStack(materialGiving1, amountGiving1));
             player.getInventory().removeItem(new ItemStack(materialGiving2, amountGiving2));
             player.getInventory().removeItem(new ItemStack(materialGiving3, amountGiving3));

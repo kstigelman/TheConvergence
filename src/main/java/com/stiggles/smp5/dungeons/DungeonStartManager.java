@@ -1,9 +1,6 @@
 package com.stiggles.smp5.dungeons;
 
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -11,34 +8,26 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 
 public class DungeonStartManager implements Listener {
+    private final Dungeon dungeon;
+    private final World world;
+    private final ArrayList<Player> players;
+    private final ArrayList<Player> alivePlayers;
+
+    //private String actionBar = "⬜⬜⬜⬜⬜⬜⬜⬜⬜";
+    //private char c1 = '⬛';
+    //private char c2 = '⬜';
+    private final int everySecondTaskID;
+    public boolean timerActive = false;
     private int countdown = 0;
     private int timer = 0;
-    public boolean timerActive = false;
-
     private boolean started;
 
-    private String actionBar = "⬜⬜⬜⬜⬜⬜⬜⬜⬜";
-    private char c1 = '⬛';
-    private char c2 = '⬜';
-
-    private Dungeon dungeon;
-    private World world;
-
-    private ArrayList<Player> players;
-    private ArrayList<Player> alivePlayers;
-
-
-
-    private int everySecondTaskID;
-
-    public DungeonStartManager (Dungeon dungeon, int countdown) {
+    public DungeonStartManager(Dungeon dungeon, int countdown) {
         this.countdown = countdown;
         this.dungeon = dungeon;
         this.world = dungeon.getWorld();
@@ -51,12 +40,14 @@ public class DungeonStartManager implements Listener {
         everySecondTaskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(dungeon.getMain(), () -> everySecond(), 0L, 20L);
         Bukkit.getServer().getConsoleSender().sendMessage("DungeonStartManager: active!");
     }
-    public int getPlayerCount () {
+
+    public int getPlayerCount() {
         return players.size();
     }
+
     //This will need to be a Bukkit runnable set for every second.
     //We could also add the Cuboid code to this.
-    public void everySecond () {
+    public void everySecond() {
         if (alivePlayers.isEmpty())
             return;
 
@@ -67,8 +58,7 @@ public class DungeonStartManager implements Listener {
             if (countdown == 0) {
                 dungeon.start();
             }
-        }
-        else if (dungeon.getState().equals(DungeonState.STARTED)) {
+        } else if (dungeon.getState().equals(DungeonState.STARTED)) {
 
             if (timerActive) {
                 if (timer == 0) {
@@ -78,7 +68,7 @@ public class DungeonStartManager implements Listener {
             }
             Bukkit.getConsoleSender().sendMessage("Time active: " + timer);
             if (alivePlayers.isEmpty()) {
-                dungeon.reset ();
+                dungeon.reset();
                 timerActive = false;
 
                 this.getPlayers().clear();
@@ -110,39 +100,41 @@ public class DungeonStartManager implements Listener {
                 player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(actionBar));
             }*/
 
-        }
-        else if (dungeon.getState() == DungeonState.FAILED) {
+        } else if (dungeon.getState() == DungeonState.FAILED) {
             Bukkit.getScheduler().cancelTask(everySecondTaskID);
 
         }
     }
 
-    public boolean isStarted () { return started; }
+    public boolean isStarted() {
+        return started;
+    }
 
 
-    /** Updates the player count and executes join functions
+    /**
+     * Updates the player count and executes join functions
      *
      * @param e The player join server event
      */
     @EventHandler
-    public void onChangeWorld (PlayerChangedWorldEvent e) {
+    public void onChangeWorld(PlayerChangedWorldEvent e) {
         if (true)
             return;
 
         Player p = e.getPlayer();
 
         //Player is joining the dungeon world
-        if (p.getWorld ().getName().equals(dungeon.getWorld().getName())) {
-            join (p);
+        if (p.getWorld().getName().equals(dungeon.getWorld().getName())) {
+            join(p);
         }
         //Player is leaving the dungeon world
         else if (e.getFrom().getName().equals(dungeon.getWorld().getName())) {
-            leave (p);
+            leave(p);
         }
 
     }
 
-    public void join (Player p) {
+    public void join(Player p) {
         //dungeon.playerJoin(p);
         Bukkit.getServer().getConsoleSender().sendMessage("DungeonStartManager: " + p.getName() + " has joined!");
         p.setGameMode(GameMode.ADVENTURE);
@@ -160,7 +152,8 @@ public class DungeonStartManager implements Listener {
         this.players.add(p);
         this.alivePlayers.add(p);
     }
-    public void leave (Player p) {
+
+    public void leave(Player p) {
 
         Bukkit.getServer().getConsoleSender().sendMessage("DungeonStartManager: " + p.getName() + " has left!");
 
@@ -168,7 +161,6 @@ public class DungeonStartManager implements Listener {
         p.setInvisible(false);
         p.setAllowFlight(false);
         p.setFlying(false);
-
 
 
         if (dungeon.getState().equals(DungeonState.RECRUITING)) {
@@ -184,21 +176,19 @@ public class DungeonStartManager implements Listener {
 
 
     @EventHandler
-    public void onPlayerDeath (PlayerDeathEvent e) {
+    public void onPlayerDeath(PlayerDeathEvent e) {
         Player p = e.getEntity();
         if (!p.getWorld().getName().equals(dungeon.getWorld().getName()))
             return;
 
-        alivePlayers.remove (p);
+        alivePlayers.remove(p);
 
         if (this.getPlayers().contains(p)) {
             p.setAllowFlight(true);
             p.setFlying(true);
             p.setInvisible(true);
         }
-        if (this.getAlivePlayers().contains(p)){
-            this.getAlivePlayers().remove(p);
-        }
+        this.getAlivePlayers().remove(p);
 
         if (this.getAlivePlayers().isEmpty()) {
             dungeon.failed();
@@ -208,7 +198,7 @@ public class DungeonStartManager implements Listener {
     }
 
     @EventHandler
-    public void onPlayerQuit (PlayerQuitEvent e) {
+    public void onPlayerQuit(PlayerQuitEvent e) {
         Player p = e.getPlayer();
         if (!p.getWorld().getName().equals(dungeon.getWorld().getName()))
             return;
@@ -217,21 +207,26 @@ public class DungeonStartManager implements Listener {
         dungeon.playerQuit(p);
     }
 
-    public void sendPlayersMessage (String msg) {
+    public void sendPlayersMessage(String msg) {
         for (Player p : players) {
             p.sendMessage(msg);
         }
     }
-    public ArrayList<Player> getAlivePlayers () {
+
+    public ArrayList<Player> getAlivePlayers() {
         return alivePlayers;
     }
 
-    public ArrayList<Player> getPlayers () {
+    public ArrayList<Player> getPlayers() {
         return players;
     }
 
-    public int getTime () { return timer; }
+    public int getTime() {
+        return timer;
+    }
 
-    public int getCountdown () { return countdown; }
+    public int getCountdown() {
+        return countdown;
+    }
 
 }

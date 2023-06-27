@@ -9,17 +9,18 @@ import org.bukkit.entity.Player;
 
 public class doStrayThing implements CommandExecutor {
 
-    private SMP5 main;
-    public doStrayThing(SMP5 main){
+    private final SMP5 main;
+    Entities entities = new Entities();
+
+    public doStrayThing(SMP5 main) {
         this.main = main;
     }
-    Entities entities = new Entities();
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] strings) {
-        if (sender instanceof Player){
+        if (sender instanceof Player) {
             Player p = (Player) sender;
-            if (p.isOp()){
+            if (p.isOp()) {
                 //main.spawnStrayGroup();
                 CustomSpawns.spawnTheBeast();
             }

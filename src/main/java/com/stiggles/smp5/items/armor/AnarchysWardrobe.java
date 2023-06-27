@@ -25,16 +25,15 @@ public class AnarchysWardrobe implements Listener {
     private String boot;
 
 
-
-    private ItemStack getAnarchysHelmet(){
+    private ItemStack getAnarchysHelmet() {
         ItemStack item = new ItemStack(Material.LEATHER_HELMET);
         LeatherArmorMeta meta = (LeatherArmorMeta) item.getItemMeta();
         meta.setUnbreakable(true);
         meta.setColor(Color.fromRGB(166, 0, 199));
         meta.setDisplayName(ChatColor.LIGHT_PURPLE + "Anarchy's Helmet");
         meta.setLore(Arrays.asList(
-                ChatColor.GRAY +  "",
-                ChatColor.LIGHT_PURPLE +  "-- SPECIAL ARMOR --",
+                String.valueOf(ChatColor.GRAY),
+                ChatColor.LIGHT_PURPLE + "-- SPECIAL ARMOR --",
                 ChatColor.LIGHT_PURPLE + "- ANARCHY'S WARDROBE -",
                 ChatColor.GRAY + ChatColor.BOLD.toString() + "USELSS BY ITSELF",
                 ChatColor.GRAY + "When paired with the full",
@@ -53,15 +52,16 @@ public class AnarchysWardrobe implements Listener {
         item.setItemMeta(meta);
         return item;
     }
-    private ItemStack getAnarchysChestplate(){
+
+    private ItemStack getAnarchysChestplate() {
         ItemStack item = new ItemStack(Material.LEATHER_CHESTPLATE);
         LeatherArmorMeta meta = (LeatherArmorMeta) item.getItemMeta();
         meta.setUnbreakable(true);
         meta.setColor(Color.fromRGB(166, 0, 199));
         meta.setDisplayName(ChatColor.LIGHT_PURPLE + "Anarchy's Chestplate");
         meta.setLore(Arrays.asList(
-                ChatColor.GRAY +  "",
-                ChatColor.LIGHT_PURPLE +  "-- SPECIAL ARMOR --",
+                String.valueOf(ChatColor.GRAY),
+                ChatColor.LIGHT_PURPLE + "-- SPECIAL ARMOR --",
                 ChatColor.LIGHT_PURPLE + "- ANARCHY'S WARDROBE -",
                 ChatColor.GRAY + ChatColor.BOLD.toString() + "USELSS BY ITSELF",
                 ChatColor.GRAY + "When paired with the full",
@@ -82,15 +82,15 @@ public class AnarchysWardrobe implements Listener {
         return item;
     }
 
-    private ItemStack getAnarchysLeggings(){
+    private ItemStack getAnarchysLeggings() {
         ItemStack item = new ItemStack(Material.LEATHER_LEGGINGS);
         LeatherArmorMeta meta = (LeatherArmorMeta) item.getItemMeta();
         meta.setUnbreakable(true);
         meta.setColor(Color.fromRGB(166, 0, 199));
         meta.setDisplayName(ChatColor.LIGHT_PURPLE + "Anarchy's Leggings");
         meta.setLore(Arrays.asList(
-                ChatColor.GRAY +  "",
-                ChatColor.LIGHT_PURPLE +  "-- SPECIAL ARMOR --",
+                String.valueOf(ChatColor.GRAY),
+                ChatColor.LIGHT_PURPLE + "-- SPECIAL ARMOR --",
                 ChatColor.LIGHT_PURPLE + "- ANARCHY'S WARDROBE -",
                 ChatColor.GRAY + ChatColor.BOLD.toString() + "USELSS BY ITSELF",
                 ChatColor.GRAY + "When paired with the full",
@@ -110,15 +110,16 @@ public class AnarchysWardrobe implements Listener {
         item.setItemMeta(meta);
         return item;
     }
-    private ItemStack getAnarchysBoots(){
+
+    private ItemStack getAnarchysBoots() {
         ItemStack item = new ItemStack(Material.LEATHER_BOOTS);
         LeatherArmorMeta meta = (LeatherArmorMeta) item.getItemMeta();
         meta.setUnbreakable(true);
         meta.setColor(Color.fromRGB(166, 0, 199));
         meta.setDisplayName(ChatColor.LIGHT_PURPLE + "Anarchy's Boots");
         meta.setLore(Arrays.asList(
-                ChatColor.GRAY +  "",
-                ChatColor.LIGHT_PURPLE +  "-- SPECIAL ARMOR --",
+                String.valueOf(ChatColor.GRAY),
+                ChatColor.LIGHT_PURPLE + "-- SPECIAL ARMOR --",
                 ChatColor.LIGHT_PURPLE + "- ANARCHY'S WARDROBE -",
                 ChatColor.GRAY + ChatColor.BOLD.toString() + "USELSS BY ITSELF",
                 ChatColor.GRAY + "When paired with the full",
@@ -139,26 +140,26 @@ public class AnarchysWardrobe implements Listener {
         return item;
     }
 
-    private Boolean isAnarchySet(Player p){
+    private Boolean isAnarchySet(Player p) {
         helm = "placeholder1";
         chest = "placeholder2";
         legs = "placeholder3";
         boot = "placeholder4";
 
-        if (p.getInventory().getHelmet() != null){
+        if (p.getInventory().getHelmet() != null) {
             helm = p.getInventory().getHelmet().getItemMeta().getLocalizedName();
         }
-        if (p.getInventory().getChestplate() != null){
+        if (p.getInventory().getChestplate() != null) {
             chest = p.getInventory().getChestplate().getItemMeta().getLocalizedName();
         }
-        if (p.getInventory().getLeggings() != null){
+        if (p.getInventory().getLeggings() != null) {
             legs = p.getInventory().getLeggings().getItemMeta().getLocalizedName();
         }
-        if (p.getInventory().getBoots() != null){
+        if (p.getInventory().getBoots() != null) {
             boot = p.getInventory().getBoots().getItemMeta().getLocalizedName();
         }
 
-        if (helm.equals("a_helmet") && chest.equals("a_chestplate") && legs.equals("a_leggins") && boot.equals("a_boots")){
+        if (helm.equals("a_helmet") && chest.equals("a_chestplate") && legs.equals("a_leggins") && boot.equals("a_boots")) {
             helm = "placeholder1";
             chest = "placeholder2";
             legs = "placeholder3";
@@ -196,10 +197,10 @@ Slight Speed Increase
      */
 
     @EventHandler
-    public void playerInCombat(PlayerInteractEvent e){
+    public void playerInCombat(PlayerInteractEvent e) {
         Player p = e.getPlayer();
 
-        if (isAnarchySet(p)){
+        if (isAnarchySet(p)) {
 
             p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 50, 0, true, false, true));
             p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 50, 0, true, false, true));
@@ -209,7 +210,7 @@ Slight Speed Increase
     }
 
 
-    public void getItems(Player p){
+    public void getItems(Player p) {
         p.getInventory().addItem(getAnarchysHelmet(), getAnarchysChestplate(), getAnarchysLeggings(), getAnarchysBoots());
     }
 

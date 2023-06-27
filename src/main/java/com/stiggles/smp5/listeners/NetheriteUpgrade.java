@@ -13,23 +13,21 @@ import org.bukkit.inventory.SmithingInventory;
 public class NetheriteUpgrade implements Listener {
 
     @EventHandler
-    public void onUseOfTemplate(PrepareSmithingEvent e){
+    public void onUseOfTemplate(PrepareSmithingEvent e) {
         SmithingInventory sInv = e.getInventory();
         if (sInv.contains(NetheriteQuestItems.questTemplate())) {
-            return;
-        } else if (sInv.contains(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE)){
+        } else if (sInv.contains(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE)) {
             e.setResult(new ItemStack(Material.CAVE_AIR, 5));
         }
     }
 
     @EventHandler
-    public void onCraftTemplate(PrepareItemCraftEvent e){
+    public void onCraftTemplate(PrepareItemCraftEvent e) {
         CraftingInventory cInv = e.getInventory();
-        if (cInv.contains(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE)){
-         cInv.setResult(new ItemStack(Material.CAVE_AIR, 2));
+        if (cInv.contains(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE)) {
+            cInv.setResult(new ItemStack(Material.CAVE_AIR, 2));
         }
     }
-
 
 
 }

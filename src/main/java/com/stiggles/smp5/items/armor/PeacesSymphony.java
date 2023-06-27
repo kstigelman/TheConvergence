@@ -1,11 +1,14 @@
 package com.stiggles.smp5.items.armor;
 
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Color;
+import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
-import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
@@ -23,15 +26,15 @@ public class PeacesSymphony implements Listener {
     private String boot;
     private int nearEntities;
 
-    public ItemStack getPeaceHelmet(){
+    public ItemStack getPeaceHelmet() {
         ItemStack item = new ItemStack(Material.LEATHER_HELMET);
         LeatherArmorMeta meta = (LeatherArmorMeta) item.getItemMeta();
         meta.setUnbreakable(true);
         meta.setColor(Color.fromRGB(102, 255, 255));
         meta.setDisplayName(ChatColor.AQUA + "The Symphony's Helmet");
         meta.setLore(Arrays.asList(
-                ChatColor.GRAY +  "",
-                ChatColor.AQUA +  "-- SPECIAL ARMOR --",
+                String.valueOf(ChatColor.GRAY),
+                ChatColor.AQUA + "-- SPECIAL ARMOR --",
                 ChatColor.AQUA + "-= PEACES SYMPHONY =-",
                 ChatColor.GRAY + ChatColor.BOLD.toString() + "USELSS BY ITSELF",
                 ChatColor.GRAY + "When paired with the full",
@@ -52,15 +55,16 @@ public class PeacesSymphony implements Listener {
         item.setItemMeta(meta);
         return item;
     }
-    public ItemStack getPeaceChestplate(){
+
+    public ItemStack getPeaceChestplate() {
         ItemStack item = new ItemStack(Material.LEATHER_CHESTPLATE);
         LeatherArmorMeta meta = (LeatherArmorMeta) item.getItemMeta();
         meta.setUnbreakable(true);
         meta.setColor(Color.fromRGB(102, 255, 255));
         meta.setDisplayName(ChatColor.AQUA + "The Symphony's Chestplate");
         meta.setLore(Arrays.asList(
-                ChatColor.GRAY +  "",
-                ChatColor.AQUA +  "-- SPECIAL ARMOR --",
+                String.valueOf(ChatColor.GRAY),
+                ChatColor.AQUA + "-- SPECIAL ARMOR --",
                 ChatColor.AQUA + "-= PEACES SYMPHONY =-",
                 ChatColor.GRAY + ChatColor.BOLD.toString() + "USELSS BY ITSELF",
                 ChatColor.GRAY + "When paired with the full",
@@ -82,15 +86,15 @@ public class PeacesSymphony implements Listener {
         return item;
     }
 
-    public ItemStack getPeaceLeggings(){
+    public ItemStack getPeaceLeggings() {
         ItemStack item = new ItemStack(Material.LEATHER_LEGGINGS);
         LeatherArmorMeta meta = (LeatherArmorMeta) item.getItemMeta();
         meta.setUnbreakable(true);
         meta.setColor(Color.fromRGB(102, 255, 255));
         meta.setDisplayName(ChatColor.AQUA + "The Symphony's Leggings");
         meta.setLore(Arrays.asList(
-                ChatColor.GRAY +  "",
-                ChatColor.AQUA +  "-- SPECIAL ARMOR --",
+                String.valueOf(ChatColor.GRAY),
+                ChatColor.AQUA + "-- SPECIAL ARMOR --",
                 ChatColor.AQUA + "-= PEACES SYMPHONY =-",
                 ChatColor.GRAY + ChatColor.BOLD.toString() + "USELSS BY ITSELF",
                 ChatColor.GRAY + "When paired with the full",
@@ -112,15 +116,16 @@ public class PeacesSymphony implements Listener {
         item.setItemMeta(meta);
         return item;
     }
-    public ItemStack getPeaceBoots(){
+
+    public ItemStack getPeaceBoots() {
         ItemStack item = new ItemStack(Material.LEATHER_BOOTS);
         LeatherArmorMeta meta = (LeatherArmorMeta) item.getItemMeta();
         meta.setUnbreakable(true);
         meta.setColor(Color.fromRGB(102, 255, 255));
         meta.setDisplayName(ChatColor.AQUA + "The Symphony's Boots");
         meta.setLore(Arrays.asList(
-                ChatColor.GRAY +  "",
-                ChatColor.AQUA +  "-- SPECIAL ARMOR --",
+                String.valueOf(ChatColor.GRAY),
+                ChatColor.AQUA + "-- SPECIAL ARMOR --",
                 ChatColor.AQUA + "-= PEACES SYMPHONY =-",
                 ChatColor.GRAY + ChatColor.BOLD.toString() + "USELSS BY ITSELF",
                 ChatColor.GRAY + "When paired with the full",
@@ -142,27 +147,27 @@ public class PeacesSymphony implements Listener {
         return item;
     }
 
-    public Boolean isPeaceSet(Player p){
+    public Boolean isPeaceSet(Player p) {
 
         helm = "placeholder1";
         chest = "placeholder2";
         legs = "placeholder3";
         boot = "placeholder4";
 
-        if (p.getInventory().getHelmet() != null){
-            helm  = p.getInventory().getHelmet().getItemMeta().getLocalizedName();
+        if (p.getInventory().getHelmet() != null) {
+            helm = p.getInventory().getHelmet().getItemMeta().getLocalizedName();
         }
-        if (p.getInventory().getChestplate() != null){
+        if (p.getInventory().getChestplate() != null) {
             chest = p.getInventory().getChestplate().getItemMeta().getLocalizedName();
         }
-        if (p.getInventory().getLeggings() != null){
+        if (p.getInventory().getLeggings() != null) {
             legs = p.getInventory().getLeggings().getItemMeta().getLocalizedName();
         }
-        if (p.getInventory().getBoots() != null){
+        if (p.getInventory().getBoots() != null) {
             boot = p.getInventory().getBoots().getItemMeta().getLocalizedName();
         }
 
-        if (helm.equals("symp_helmet") && chest.equals("symp_chestplate") && legs.equals("symp_leggins") && boot.equals("symp_boots")){
+        if (helm.equals("symp_helmet") && chest.equals("symp_chestplate") && legs.equals("symp_leggins") && boot.equals("symp_boots")) {
             helm = "placeholder1";
             chest = "placeholder2";
             legs = "placeholder3";
@@ -172,11 +177,11 @@ public class PeacesSymphony implements Listener {
         return false;
     }
 
-    public void checkForPeaceArmor(){
+    public void checkForPeaceArmor() {
         nearEntities = 0;
-        for (Player p : Bukkit.getOnlinePlayers()){
-            for (Entity e : p.getNearbyEntities(5,5,5)) {
-                if (e instanceof Player){
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            for (Entity e : p.getNearbyEntities(5, 5, 5)) {
+                if (e instanceof Player) {
                     nearEntities = nearEntities + 1;
                 }
             }
@@ -189,7 +194,7 @@ public class PeacesSymphony implements Listener {
         }
     }
 
-    public void getItems(Player p){
+    public void getItems(Player p) {
         p.getInventory().addItem(getPeaceHelmet(), getPeaceChestplate(), getPeaceLeggings(), getPeaceBoots());
     }
 

@@ -1,7 +1,6 @@
 package com.stiggles.smp5.events;
 
 import com.stiggles.smp5.entity.npc.StigglesNPC;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
@@ -14,24 +13,26 @@ public class NPCRightClickEvent extends Event implements Cancellable {
 
     //Mandatory list to return
     private static final HandlerList HANDLERS = new HandlerList();
-
-    private boolean cancelled;
-
     private final Player player;
     private final StigglesNPC npc;
+    private boolean cancelled;
 
-    public NPCRightClickEvent (Player player, StigglesNPC npc) {
-        super (true);
+    public NPCRightClickEvent(Player player, StigglesNPC npc) {
+        super(true);
         cancelled = false;
         this.player = player;
         this.npc = npc;
     }
 
-    public Player getPlayer () {
+    public static HandlerList getHandlerList() {
+        return HANDLERS;
+    }
+
+    public Player getPlayer() {
         return player;
     }
 
-    public StigglesNPC getNPC () {
+    public StigglesNPC getNPC() {
         return npc;
     }
 
@@ -40,11 +41,6 @@ public class NPCRightClickEvent extends Event implements Cancellable {
     public HandlerList getHandlers() {
         return HANDLERS;
     }
-
-    public static HandlerList getHandlerList () {
-        return HANDLERS;
-    }
-
 
     @Override
     public boolean isCancelled() {

@@ -51,7 +51,7 @@ public class LostMerchant {
         return merchant;
     }
 
-    public ArrayList<UUID> getMerchantEntities(){
+    public ArrayList<UUID> getMerchantEntities() {
         return merchantEntities;
     }
 

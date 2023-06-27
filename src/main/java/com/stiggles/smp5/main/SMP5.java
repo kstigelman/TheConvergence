@@ -66,41 +66,51 @@ import java.util.*;
 import java.util.logging.Level;
 
 public class SMP5 extends JavaPlugin implements Listener {
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     /*
      *  TODO - REMOVE NPC FROM plugin.yml
      */
     private static SMP5 instance;
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
+    private final ArrayList<String> toggled = new ArrayList<>();
     public boolean inDungeon = true;
     public BankManager bankManager;
+    public HashMap<String, StigglesPlayer> online_players;
+    Convergence c;
+    //private Plugin plugin = SMP5.getPlugin(SMP5.class);
+    Random random = new Random(System.currentTimeMillis());
+    GrapplingHook grapplingHook = new GrapplingHook();
+    boolean open = false;
+    private Database database;
+    private PlayerManager playerManager;
+    private ArrayList<UUID> registeredUUIDs;
+    private ArrayList<StigglesNPC> npcs;
+    private CustomSpawns customSpawns;
+
     //public PacketListener packetListener;
     public static SMP5 getInstance() {
         return instance;
     }
-    Convergence c;
-    private Database database;
 
-    private PlayerManager playerManager;
-    private ArrayList<UUID> registeredUUIDs;
+    public static SMP5 getPlugin() {
+        return instance;
+    }
 
-    private ArrayList<StigglesNPC> npcs;
-    public HashMap<String, StigglesPlayer> online_players;
-    private ArrayList<String> toggled = new ArrayList<>();
-    //private Plugin plugin = SMP5.getPlugin(SMP5.class);
-    Random random = new Random(System.currentTimeMillis());
-    private CustomSpawns customSpawns;
-    GrapplingHook grapplingHook = new GrapplingHook();
-    boolean open = false;
+    public static int rollNumber(int min, int max) {
+        Random rand = new Random();
+        int randomNumber = rand.nextInt(max - min + 1) + min;
+
+        return randomNumber;
+    }
 
     @Override
     public void onEnable() {
 
         Cooldown.setupCooldown();
+        MetalDetector.setupCooldown();
 
-        if (getServer ().getPluginManager ().getPlugin ("Citizens") == null || !getServer ().getPluginManager ().getPlugin ("Citizens").isEnabled()) {
-            getLogger ().log (Level.SEVERE, "Citizens 2.0 not found or not enabled");
-            getServer ().getPluginManager ().disablePlugin (this);
+        if (getServer().getPluginManager().getPlugin("Citizens") == null || !getServer().getPluginManager().getPlugin("Citizens").isEnabled()) {
+            getLogger().log(Level.SEVERE, "Citizens 2.0 not found or not enabled");
+            getServer().getPluginManager().disablePlugin(this);
             return;
         }
 
@@ -112,21 +122,20 @@ public class SMP5 extends JavaPlugin implements Listener {
         database = new Database();
 
         try {
-            database.connect ();
-        }
-        catch (SQLException e) {
+            database.connect();
+        } catch (SQLException e) {
             Bukkit.getConsoleSender().sendMessage("NVTECH: Failed to connect to database.");
         }
 
 
-        if (Bukkit.getWorld ("world") == null) {
+        if (Bukkit.getWorld("world") == null) {
             Bukkit.getConsoleSender().sendMessage("NVTECH: Could not load world.");
             Bukkit.getServer().shutdown();
         }
-        if (Bukkit.getWorld ("sanctuary") == null) {
+        if (Bukkit.getWorld("sanctuary") == null) {
             new WorldCreator("sanctuary").createWorld();
         }
-        if (Bukkit.getWorld ("testdungeon") == null) {
+        if (Bukkit.getWorld("testdungeon") == null) {
             new WorldCreator("testdungeon").createWorld();
         }
 
@@ -172,13 +181,13 @@ public class SMP5 extends JavaPlugin implements Listener {
         }
 
         customSpawns = new CustomSpawns();
-        new BukkitRunnable(){
-            public void run(){
-                if (rollNumber(1,3) == 2){
+        new BukkitRunnable() {
+            public void run() {
+                if (rollNumber(1, 3) == 2) {
                     customSpawns.startCountForBlazingBeast();
                 }
             }
-        }.runTaskTimer(this, 20 * (60 * (60 * 1)), 20 * (60 * (60 * 1)));
+        }.runTaskTimer(this, 20 * (60 * (60)), 20 * (60 * (60)));
 
         /*new BukkitRunnable(){
             public void run(){
@@ -230,25 +239,41 @@ public class SMP5 extends JavaPlugin implements Listener {
 
     }
 
-    public DateTimeFormatter getFormatter() {return formatter; }
-    public Database getDatabase() { return database; }
-    public PlayerManager getPlayerManager() { return playerManager; }
-    public int getRandom () { return random.nextInt(); }
-    public ArrayList<String> getToggledChatPlayers () { return toggled; }
-
-    public static SMP5 getPlugin () {
-        return instance;
+    public DateTimeFormatter getFormatter() {
+        return formatter;
     }
 
-    public boolean isOpen () { return open; }
-    public void setOpen (boolean b) { open = b; }
+    public Database getDatabase() {
+        return database;
+    }
+
+    public PlayerManager getPlayerManager() {
+        return playerManager;
+    }
+
+    public int getRandom() {
+        return random.nextInt();
+    }
+
+    public ArrayList<String> getToggledChatPlayers() {
+        return toggled;
+    }
+
+    public boolean isOpen() {
+        return open;
+    }
+
+    public void setOpen(boolean b) {
+        open = b;
+    }
+
     @EventHandler
     public void onCitizensEnable(CitizensEnableEvent ev) {
         Bukkit.getConsoleSender().sendMessage("NV: Citizens Plugin enabled");
     }
 
     @EventHandler
-    public void onPlayerJoin (PlayerJoinEvent e) {
+    public void onPlayerJoin(PlayerJoinEvent e) {
 
         //Check if player is registered already
         Player p = e.getPlayer();
@@ -256,20 +281,20 @@ public class SMP5 extends JavaPlugin implements Listener {
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
             int timeElapsed = 0;
             boolean inc = true;
+
             @Override
             public void run() {
                 Bukkit.getConsoleSender().sendMessage("Spawning..." + timeElapsed);
-                Bukkit.getWorld ("world").spawnParticle(Particle.VILLAGER_ANGRY,
+                Bukkit.getWorld("world").spawnParticle(Particle.VILLAGER_ANGRY,
                         new Location(p.getWorld(),
-                                p.getLocation().getX() + Math.cos (Math.toRadians(timeElapsed * 10)),
+                                p.getLocation().getX() + Math.cos(Math.toRadians(timeElapsed * 10)),
                                 p.getLocation().getY() + (timeElapsed * 0.025),
-                                p.getLocation().getZ() + Math.sin (Math.toRadians(timeElapsed * 10))), 2, 0.1, 0.1, 0.1, null);
+                                p.getLocation().getZ() + Math.sin(Math.toRadians(timeElapsed * 10))), 2, 0.1, 0.1, 0.1, null);
                 if (inc) {
                     ++timeElapsed;
                     if (timeElapsed > 72)
                         inc = false;
-                }
-                else {
+                } else {
                     --timeElapsed;
                     if (timeElapsed <= 0)
                         inc = true;
@@ -290,14 +315,14 @@ public class SMP5 extends JavaPlugin implements Listener {
 
 
         //for (StigglesNPC n : NPCManager.getHashMap().values ())
-          //  n.showToPlayer(e.getPlayer());
+        //  n.showToPlayer(e.getPlayer());
 
         //npc3.SetHolding(Material.TRIDENT);
         //npcs.get (2).SetHolding(Material.TRIDENT);
         //npcs.get (4).SetHolding (Material.GOLDEN_PICKAXE);
     }
 
-    public void registerEvents () {
+    public void registerEvents() {
         PluginManager manager = Bukkit.getPluginManager();
 
         manager.registerEvents(new OnArmorStandInteract(this), this);
@@ -326,8 +351,9 @@ public class SMP5 extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new EndEyeListener(), this);
         Bukkit.getPluginManager().registerEvents(new Pendant(this), this);
         Bukkit.getPluginManager().registerEvents(new MerchantListener(this), this);
+        Bukkit.getPluginManager().registerEvents(new MetalDetector(this), this);
         //manager.registerEvents(this, this);
-        Bukkit.getScheduler().runTaskTimer(this, CustomSpawns::spawnWitherSkeleton, 20*30, 20 * 60);
+        Bukkit.getScheduler().runTaskTimer(this, CustomSpawns::spawnWitherSkeleton, 20 * 30, 20 * 60);
         Bukkit.getPluginManager().registerEvents(new CurseListener(this), this);
         Bukkit.getPluginManager().registerEvents(new NetheriteUpgrade(), this);
 
@@ -336,8 +362,7 @@ public class SMP5 extends JavaPlugin implements Listener {
             if (database.isConnected()) {
                 manager.registerEvents(new BountyListeners(this), this);
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
 
         }
 
@@ -346,7 +371,7 @@ public class SMP5 extends JavaPlugin implements Listener {
     /**
      * Loads all NPCs into the world and saves them as a StigglesNPC object.
      */
-    public void createNPCs () {
+    public void createNPCs() {
         CitizensAPI.getNPCRegistry().deregisterAll();
         npcs = new ArrayList<>();
         //npcs.add (new Ned(this, "Ned", new Location(Bukkit.getWorld("world"), 0, 0, 0)));
@@ -357,56 +382,57 @@ public class SMP5 extends JavaPlugin implements Listener {
         World worldNether = Bukkit.getWorld("world_nether");
         World worldEnd = Bukkit.getWorld("world_the_end");
 
-        npcs.add (new Starry (this, "Starry", new Location(world, -708.5, 67, -1110.5)));
-        npcs.add (new EggDONTTake(this, "Francis Smurf", new Location(world, 82.5, 101, 755.5)));
-        npcs.add (new DremBot (this, "Drem-Bot", new Location(world, 1154.5, 74, 127.5)));
-        npcs.add (new DungeonKeeper(this, "Dungeon Keeper", new Location(world, 1135.5, 78, 156.5)));
-        npcs.add (new Mister8Bit(this, "Luke the Fisherman", new Location(world, 774.5, 77, -596.5)));
-        npcs.add (new Spiffy (this, "Spiffy", new Location(world, -709.5, 66, -1121)));
-        npcs.add (new Astronomer(this, "The Astronomer", new Location(world, -900.5, 120, -1113.5)));
-        npcs.add (new Inventor(this, "The Inventor", new Location(world, 1149.5, 74, 120.5)));
-        npcs.add (new Philippe(this, "Sir Philippe Alfred", new Location(world, 1128.5, 71, 118.5)));
-        npcs.add (new Baggins (this, "Mr. Orangeflips", new Location(world, 99.5, 92, 757.5)));
-        npcs.add (new Drem (this, "Captain Beast", new Location(world, 1675.5, 107, -1133.5)));
-        npcs.add (new Beachman (this, "Beach Man", new Location (world, -1480.5, 63, 1024.5)));
-        npcs.add (new Chickens (this, "Gabe", new Location (world, 788.5, 83, -422.5)));
-        npcs.add (new Bear (this, "BearSharken", new Location (world, 540.5, 92, -912.5)));
-        npcs.add (new DrTrog (this, "Dr. Trog", new Location(world, 1489.5, 136, -1475.5)));
-        npcs.add (new Morabito (this, "Mr. Morabito", new Location(world, -751.5, 66,-1427.5)));
-        npcs.add (new Mole (this, "Mole 'a Quacks", new Location(world, 71.5, 111, 784.5)));
-        npcs.add (new Tiger (this, "Tigerfist", new Location (world, 45.5, 93, 818.5)));
-        npcs.add (new Alejandro(this, "Alejandro", new Location (world, 1252.5, 98, 1487.5)));
-        npcs.add (new Ralph (this, "Ralph", new Location(world, 1250.5, 93, 1492)));
-        npcs.add (new MaskedStranger(this, "Masked Stranger", new Location(world, -772.5, 157, 1381.5)));
-        npcs.add (new Scubadiver(this, "Scuba Diver", new Location(world, 1505.5, 73, -1279.5)));
+        npcs.add(new Starry(this, "Starry", new Location(world, -708.5, 67, -1110.5)));
+        npcs.add(new EggDONTTake(this, "Francis Smurf", new Location(world, 82.5, 101, 755.5)));
+        npcs.add(new DremBot(this, "Drem-Bot", new Location(world, 1154.5, 74, 127.5)));
+        npcs.add(new DungeonKeeper(this, "Dungeon Keeper", new Location(world, 1135.5, 78, 156.5)));
+        npcs.add(new Mister8Bit(this, "Luke the Fisherman", new Location(world, 774.5, 77, -596.5)));
+        npcs.add(new Spiffy(this, "Spiffy", new Location(world, -709.5, 66, -1121)));
+        npcs.add(new Astronomer(this, "The Astronomer", new Location(world, -900.5, 120, -1113.5)));
+        npcs.add(new Inventor(this, "The Inventor", new Location(world, 1149.5, 74, 120.5)));
+        npcs.add(new Philippe(this, "Sir Philippe Alfred", new Location(world, 1128.5, 71, 118.5)));
+        npcs.add(new Baggins(this, "Mr. Orangeflips", new Location(world, 99.5, 92, 757.5)));
+        npcs.add(new Drem(this, "Captain Beast", new Location(world, 1675.5, 107, -1133.5)));
+        npcs.add(new Beachman(this, "Beach Man", new Location(world, -1480.5, 63, 1024.5)));
+        npcs.add(new Chickens(this, "Gabe", new Location(world, 788.5, 83, -422.5)));
+        npcs.add(new Bear(this, "BearSharken", new Location(world, 540.5, 92, -912.5)));
+        npcs.add(new DrTrog(this, "Dr. Trog", new Location(world, 1489.5, 136, -1475.5)));
+        npcs.add(new Morabito(this, "Mr. Morabito", new Location(world, -751.5, 66, -1427.5)));
+        npcs.add(new Mole(this, "Mole a Quacks", new Location(world, 71.5, 111, 784.5)));
+        npcs.add(new Tiger(this, "Tigerfist", new Location(world, 45.5, 93, 818.5)));
+        npcs.add(new Alejandro(this, "Alejandro", new Location(world, 1252.5, 98, 1487.5)));
+        npcs.add(new Ralph(this, "Ralph", new Location(world, 1250.5, 93, 1492)));
+        npcs.add(new MaskedStranger(this, "Masked Stranger", new Location(world, -772.5, 157, 1381.5)));
+        npcs.add(new Scubadiver(this, "Scuba Diver", new Location(world, 1505.5, 73, -1279.5)));
         npcs.add(new Shrek(this, "Shrek", new Location(world, 739.5, 66, 1162.5)));
         npcs.add(new MindlessGuy(this, "Mindless Guy", new Location(world, 28.5, 91, 855.5)));
         npcs.add(new NetherWizard(this, "Wondrous Wizard", new Location(world, -976.5, 67, -278.5)));
         npcs.add(new YetAnotherWanderer(this, "Weary Traveler", new Location(world, -828.5, 70, -726.5)));
         npcs.add(new leadWanderer(this, "Adventurous Explorer", new Location(world, -834.5, 68, -728.5)));
 
-        npcs.add (new Anarcho(this, "Anarcho", new Location(worldNether, 550.5, 221, 236.5)));
+        npcs.add(new Anarcho(this, "Anarcho", new Location(worldNether, 550.5, 221, 236.5)));
         npcs.add(new NetheriteMaster(this, "Netherite Master", new Location(worldNether, -133.5, 168, -26.5)));
         npcs.add(new MineManager(this, "Mines Overseer", new Location(worldNether, -165.5, 185, 6.5)));
         npcs.add(new Cryptorg(this, "Cryptorg", new Location(worldNether, -121, 130, -12)));
 
-        npcs.add (new TheWanderer(this, "The Wanderer", new Location(Bukkit.getWorld("sanctuary"), 35, -60, 9)));
-        npcs.add (new Nouveau(this, "Nouveau", new Location (Bukkit.getWorld("sanctuary"), 8.5, -59, 8.5)));
+        npcs.add(new TheWanderer(this, "The Wanderer", new Location(Bukkit.getWorld("sanctuary"), 35, -60, 9)));
+        npcs.add(new Nouveau(this, "Nouveau", new Location(Bukkit.getWorld("sanctuary"), 8.5, -59, 8.5)));
         //Nouveau 52, 132, 746
     }
-    public void registerCommands () {
+
+    public void registerCommands() {
         //Bukkit.getPluginCommand("coins").setExecutor(new CoinCommand());
         //saveDefaultConfig()
         //stats = new PluginFile(this, "stats.yml", "stats.yml");
         //Load important database variables
-        Bukkit.getPluginCommand ("loadcitizens").setExecutor (new NPCCommand (this));
-        Bukkit.getPluginCommand ("world").setExecutor (new ChangeWorldCommand ());
+        Bukkit.getPluginCommand("loadcitizens").setExecutor(new NPCCommand(this));
+        Bukkit.getPluginCommand("world").setExecutor(new ChangeWorldCommand());
         Bukkit.getPluginCommand("o").setExecutor(new OpenWorldCommand(this));
-        Bukkit.getPluginCommand("start-dungeon").setExecutor (new DungeonStartCommand());
-        Bukkit.getPluginCommand("start-dungeon").setExecutor (new DungeonStartCommand());
+        Bukkit.getPluginCommand("start-dungeon").setExecutor(new DungeonStartCommand());
+        Bukkit.getPluginCommand("start-dungeon").setExecutor(new DungeonStartCommand());
         Bukkit.getPluginCommand("coins").setExecutor(new CoinCommand(this));
         Bukkit.getPluginCommand("togglecoin").setExecutor(new ToggleCoinChat(this));
-        Bukkit.getPluginCommand("smm").setExecutor(new SendMultiMessage (this));
+        Bukkit.getPluginCommand("smm").setExecutor(new SendMultiMessage(this));
         Bukkit.getPluginCommand("get-items").setExecutor(new GetItems());
         Bukkit.getPluginCommand("alert").setExecutor(new RestartAlertCommand(this));
         Bukkit.getPluginCommand("reset-merchants").setExecutor(new ResetMerchants());
@@ -414,15 +440,9 @@ public class SMP5 extends JavaPlugin implements Listener {
         Bukkit.getPluginCommand("get-stats").setExecutor(new GetStatsCommand(this));
     }
 
-    public static int rollNumber(int min, int max){
-        Random rand = new Random();
-        int randomNumber = rand.nextInt(max - min + 1) + min;
-
-        return randomNumber;
+    public void shutdownServer() {
+        Bukkit.shutdown();
     }
-
-    public void shutdownServer(){ Bukkit.shutdown(); }
-
 
 
 }

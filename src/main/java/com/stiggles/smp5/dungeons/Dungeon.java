@@ -1,3 +1,10 @@
+/**
+ * Explain dungeons stuff here
+ *
+ * @author Kyler Stigelman, Kael Hufford
+ */
+
+
 package com.stiggles.smp5.dungeons;
 
 
@@ -14,52 +21,48 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.PlayerInventory;
+
 import java.util.*;
 
 public class Dungeon implements Listener {
 
 
-    //To be added
-    private static int BASE_DIFFICULTY = 1;
-    private static int difficulty = 1;
-
-
-
     public static final int MAX_PLAYER_COUNT = 4;
-    private int dungeonID;
+    //To be added
+    private static final int BASE_DIFFICULTY = 1;
+    //private List<Cuboid> dungeonCuboids;
+    public static ArrayList<DungeonRoom> roomsFinished;
+    private static int difficulty = 1;
+    private final int dungeonID;
+    //Stores player's main world location before joining the dungeon world.
+    private final Map<UUID, Location> oldPlayerLocation;
+    //Stores player's main world inventory before joining the dungeon world.
+    private final Map<UUID, PlayerInventory> oldPlayerInventory;
+    //Manages the games states, rooms, and timers
+    //private DungeonStartManager dungeonManager;
+    private final List<UUID> playerID;
+    private final SMP5 main;
+    private final World world;
+    //DUNGEON START MANAGER VARS
+    private final ArrayList<Player> players;
+    private final ArrayList<Player> alivePlayers;
+    private final int everySecondTaskID;
+    public boolean timerActive = false;
+    protected List<DungeonRoom> rooms;
     //World spawn-- This should not change.
     private Location worldSpawn;
     //Player spawn-- The current location where the player will respawn when they die. May not necessarily be world spawn,
     //But in many cases, it probably will be.
     private Location playerSpawn;
-    //Stores player's main world location before joining the dungeon world.
-    private final Map<UUID, Location> oldPlayerLocation;
-    //Stores player's main world inventory before joining the dungeon world.
-    private final Map<UUID, PlayerInventory> oldPlayerInventory;
     //RECRUITING or STARTED
     private DungeonState state;
-    //Manages the games states, rooms, and timers
-    //private DungeonStartManager dungeonManager;
-    private final List<UUID> playerID;
-    //private List<Cuboid> dungeonCuboids;
-    public static ArrayList<DungeonRoom> roomsFinished;
     private int currentRoom;
     private int nextRoom;
     private DungeonRoom current;
-    protected List<DungeonRoom> rooms;
     private boolean active;
-    private final SMP5 main;
-
-    private final World world;
-
-    //DUNGEON START MANAGER VARS
-    private final ArrayList<Player> players;
-    private final ArrayList<Player> alivePlayers;
     private int countdown = 0;
     private int timer = 0;
-    public boolean timerActive = false;
     private boolean started;
-    private final int everySecondTaskID;
 
     public Dungeon(SMP5 main, int id, Location world_spawn) {
         countdown = 30;
@@ -93,18 +96,25 @@ public class Dungeon implements Listener {
         Bukkit.getPluginManager().registerEvents(this, main);
     }
 
-    public SMP5 getMain () { return main; }
+    public SMP5 getMain() {
+        return main;
+    }
 
-    public void cancelTask () { Bukkit.getScheduler().cancelTask (everySecondTaskID); }
+    public void cancelTask() {
+        Bukkit.getScheduler().cancelTask(everySecondTaskID);
+    }
+
     /**
      * Teleport the player to the world's player spawn point.
      *
      * @param player The player to be spawned.
      */
-    public void spawnPlayer(Player player) { player.teleport(playerSpawn); }
+    public void spawnPlayer(Player player) {
+        player.teleport(playerSpawn);
+    }
 
     //From DUNGEON START MANAGER
-    public void everySecond () {
+    public void everySecond() {
         if (alivePlayers.isEmpty())
             return;
 
@@ -117,8 +127,7 @@ public class Dungeon implements Listener {
 
             if (countdown == 0)
                 start();
-        }
-        else if (state.equals(DungeonState.STARTED)) {
+        } else if (state.equals(DungeonState.STARTED)) {
             if (timerActive) {
                 if (timer == 0)
                     started = true;
@@ -126,7 +135,7 @@ public class Dungeon implements Listener {
             }
             Bukkit.getConsoleSender().sendMessage("Time active: " + timer);
             if (alivePlayers.isEmpty()) {
-                reset ();
+                reset();
                 timerActive = false;
 
                 this.getPlayers().clear();
@@ -134,28 +143,29 @@ public class Dungeon implements Listener {
             }
             //Update dungeon logic
             update();
-        }
-        else if (state.equals(DungeonState.FAILED))
+        } else if (state.equals(DungeonState.FAILED))
             Bukkit.getScheduler().cancelTask(everySecondTaskID);
     }
 
-    /** Updates the player count and executes join functions
+    /**
+     * Updates the player count and executes join functions
      *
      * @param e The player join server event
      */
     @EventHandler
-    public void onChangeWorld (PlayerChangedWorldEvent e) {
+    public void onChangeWorld(PlayerChangedWorldEvent e) {
         if (true)
             return;
         Player p = e.getPlayer();
         //Player is joining the dungeon world
-        if (p.getWorld ().getName().equals(world.getName()))
-            join (p);
-        //Player is leaving the dungeon world
+        if (p.getWorld().getName().equals(world.getName()))
+            join(p);
+            //Player is leaving the dungeon world
         else if (e.getFrom().getName().equals(world.getName()))
-            leave (p);
+            leave(p);
     }
-    public void join (Player p) {
+
+    public void join(Player p) {
         //dungeon.playerJoin(p);
         Bukkit.getServer().getConsoleSender().sendMessage("Dungeon: " + p.getName() + " has joined!");
         oldPlayerLocation.put(p.getUniqueId(), p.getLocation());
@@ -181,7 +191,8 @@ public class Dungeon implements Listener {
         this.players.add(p);
         this.alivePlayers.add(p);
     }
-    public void leave (Player p) {
+
+    public void leave(Player p) {
         p.setGameMode(GameMode.SURVIVAL);
         p.setInvisible(false);
         p.setAllowFlight(false);
@@ -212,12 +223,12 @@ public class Dungeon implements Listener {
     }
 
     @EventHandler
-    public void onPlayerDeath (PlayerDeathEvent e) {
+    public void onPlayerDeath(PlayerDeathEvent e) {
         Player p = e.getEntity();
         if (!p.getWorld().getName().equals(getWorld().getName()))
             return;
 
-        alivePlayers.remove (p);
+        alivePlayers.remove(p);
 
         if (this.getPlayers().contains(p)) {
             p.setAllowFlight(true);
@@ -229,30 +240,39 @@ public class Dungeon implements Listener {
         if (this.getAlivePlayers().isEmpty())
             failed();
     }
+
     @EventHandler
-    public void onPlayerQuit (PlayerQuitEvent e) {
+    public void onPlayerQuit(PlayerQuitEvent e) {
         Player p = e.getPlayer();
         if (!p.getWorld().getName().equals(world.getName()))
             return;
 
         //if (isStarted())
         //playerQuit(p);
-        leave (p);
+        leave(p);
     }
-    public void sendPlayersMessage (String msg) {
+
+    public void sendPlayersMessage(String msg) {
         for (Player p : players)
             p.sendMessage(msg);
     }
-    public void sendPlayersSound (Sound sound, float volume, float pitch) {
+
+    public void sendPlayersSound(Sound sound, float volume, float pitch) {
         for (Player p : players)
             p.playSound(p, sound, 1, 1);
     }
 
-    public int getTime () { return timer; }
+    public int getTime() {
+        return timer;
+    }
 
-    public int getCountdown () { return countdown; }
+    public int getCountdown() {
+        return countdown;
+    }
 
-    public boolean isStarted () { return started; }
+    public boolean isStarted() {
+        return started;
+    }
     //END OF DUNGEON START MANAGER
 
 
@@ -261,7 +281,7 @@ public class Dungeon implements Listener {
      *
      * @return The difficulty.
      */
-    public int getDifficulty () {
+    public int getDifficulty() {
         return difficulty;
     }
 
@@ -270,7 +290,7 @@ public class Dungeon implements Listener {
      *
      * @param amount The new difficulty.
      */
-    public void setDifficulty (int amount) {
+    public void setDifficulty(int amount) {
         difficulty = amount;
     }
 
@@ -279,20 +299,21 @@ public class Dungeon implements Listener {
      *
      * @return The new difficulty.
      */
-    public int setDifficulty () {
+    public int setDifficulty() {
         return difficulty = ((BASE_DIFFICULTY * getPlayerCount() * 3) / 4) + 1;
     }
-    public void update () {
+
+    public void update() {
         int room = currentRoom;
         for (int index = currentRoom; index < rooms.size(); ++index) {
             if (rooms.get(index).checkPlayer(this.getAlivePlayers().get(0), rooms.get(index).getBoundary())) {
                 if (room > currentRoom) {
-                    rooms.get (currentRoom).closeExit ();
+                    rooms.get(currentRoom).closeExit();
                     currentRoom = room;
-                    current = rooms.get (currentRoom);
+                    current = rooms.get(currentRoom);
                     Bukkit.getConsoleSender().sendMessage("Player has advanced to the next room!");
                 }
-                rooms.get(index).update ();
+                rooms.get(index).update();
                 Bukkit.getConsoleSender().sendMessage("Current: " + current.type.toString());
                 return;
             }
@@ -301,17 +322,18 @@ public class Dungeon implements Listener {
     }
 
 
-    public void goToNextRoom () {
+    public void goToNextRoom() {
         ++currentRoom;
         nextRoom = currentRoom + 1;
 
-        if (this.getCurrentRoomIndex() >= rooms.size () - 1) {
+        if (this.getCurrentRoomIndex() >= rooms.size() - 1) {
             currentRoom = rooms.size() - 1;
             nextRoom = rooms.size() - 1;
         }
         current = getNextRoom();
 
     }
+
     /**
      * Retrieve the player spawn location.
      *
@@ -328,6 +350,15 @@ public class Dungeon implements Listener {
      */
     public Location getWorldSpawn() {
         return worldSpawn;
+    }
+
+    /**
+     * Set the world's spawn location based on the world and given coordinates.
+     *
+     * @param location A location object containing the dungeon world and x, y, z coordinates.
+     */
+    public void setWorldSpawn(Location location) {
+        worldSpawn = location;
     }
 
     /**
@@ -366,33 +397,41 @@ public class Dungeon implements Listener {
         return currentRoom;
     }
 
-    public Material getBlockBelowPlayer (Player p) {
-        return getWorld().getBlockAt( (int) p.getLocation().getX(), (int) p.getLocation().getZ() - 1, (int) p.getLocation().getZ()).getType();
+    public Material getBlockBelowPlayer(Player p) {
+        return getWorld().getBlockAt((int) p.getLocation().getX(), (int) p.getLocation().getZ() - 1, (int) p.getLocation().getZ()).getType();
     }
 
-    public RoomType getPlayerRoom () {
+    public RoomType getPlayerRoom() {
         return getRoomType(getBlockBelowPlayer(this.getAlivePlayers().get(0)));
     }
-    public boolean isSameRoom () {
+
+    public boolean isSameRoom() {
         if (playerID.isEmpty())
             return false;
 
-        return getPlayerRoom().equals (current.type);
+        return getPlayerRoom().equals(current.type);
     }
 
-    public void createRoomFromType () {
+    public void createRoomFromType() {
 
     }
-    public void checkCurrentRoom () {
+
+    public void checkCurrentRoom() {
         ArrayList<Player> alive = this.getAlivePlayers();
         if (alive.isEmpty())
             return;
 
         getBlockBelowPlayer(alive.get(0));
     }
-    public ArrayList<Player> getPlayers () { return players; }
-    public ArrayList<Player> getAlivePlayers () { return alivePlayers; }
+
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
     //public ArrayList<Player> getPlayers () { return dungeonManager.getPlayers (); }
+
+    public ArrayList<Player> getAlivePlayers() {
+        return alivePlayers;
+    }
 
     public RoomType getRoomType(Material m) {
         if (m == Material.LIME_CONCRETE)
@@ -419,6 +458,7 @@ public class Dungeon implements Listener {
             return RoomType.FINAL;
         return RoomType.NULL;
     }
+
     /**
      * Retrieve the ArrayList index of the room the players will go to next.
      *
@@ -438,30 +478,21 @@ public class Dungeon implements Listener {
     }
 
     /**
-     * Retrieve the next room the players will go to.
-     *
-     * @return DungeonRoom that players will advance to next.
-     */
-    public DungeonRoom getNextRoom() {
-        return rooms.get(nextRoom);
-    }
-
-    /**
-     * Retrieve all the rooms in a dungeon.
-     *
-     * @return A list of all the DungeonRooms
-     */
-    public List<DungeonRoom> getRooms() {
-        return rooms;
-    }
-
-    /**
      * Set the room index of the room the players are currently in.
      *
      * @param index integer value
      */
     public void setCurrentRoom(int index) {
         currentRoom = index;
+    }
+
+    /**
+     * Retrieve the next room the players will go to.
+     *
+     * @return DungeonRoom that players will advance to next.
+     */
+    public DungeonRoom getNextRoom() {
+        return rooms.get(nextRoom);
     }
 
     /**
@@ -477,6 +508,15 @@ public class Dungeon implements Listener {
     }
 
     /**
+     * Retrieve all the rooms in a dungeon.
+     *
+     * @return A list of all the DungeonRooms
+     */
+    public List<DungeonRoom> getRooms() {
+        return rooms;
+    }
+
+    /**
      * Set player's next spawn location with given coordinates
      *
      * @param x coordinate
@@ -485,15 +525,6 @@ public class Dungeon implements Listener {
      */
     public void setPlayerSpawn(float x, float y, float z) {
         playerSpawn = new Location(worldSpawn.getWorld(), x, y, z);
-    }
-
-    /**
-     * Set the world's spawn location based on the world and given coordinates.
-     *
-     * @param location A location object containing the dungeon world and x, y, z coordinates.
-     */
-    public void setWorldSpawn(Location location) {
-        worldSpawn = location;
     }
 
     /**
@@ -512,7 +543,7 @@ public class Dungeon implements Listener {
      *
      * @return ArrayList of Players.
      */
-    public List<UUID> getPlayerIDs () {
+    public List<UUID> getPlayerIDs() {
         return playerID;
     }
 
@@ -561,6 +592,7 @@ public class Dungeon implements Listener {
     }
 
     //Make a checking system for if player quits during a dungeon.
+
     /**
      * Prepare the player for returning to the main world. Restores their information
      * to its original state, then teleports them back.
@@ -603,11 +635,14 @@ public class Dungeon implements Listener {
     public DungeonState getState() {
         return state;
     }
-    public void setState (DungeonState state) {
+
+    public void setState(DungeonState state) {
         this.state = state;
     }
 
-    public boolean isFull () { return playerID.size() == MAX_PLAYER_COUNT; }
+    public boolean isFull() {
+        return playerID.size() == MAX_PLAYER_COUNT;
+    }
 
     public void killMobs() {
         List<Entity> entities = getWorldEntities();
@@ -632,7 +667,7 @@ public class Dungeon implements Listener {
         currentRoom = 0;
         nextRoom = 1;
         state = DungeonState.STARTED;
-        current = rooms.get (0);
+        current = rooms.get(0);
         current.openExit();
         timerActive = true;
         setDifficulty();
@@ -657,14 +692,14 @@ public class Dungeon implements Listener {
                 room.resetRoom();
             }
         }
-        Bukkit.broadcastMessage(ChatColor.YELLOW +"The dungeon has been reset! Do /start-dungeon to begin!");
+        Bukkit.broadcastMessage(ChatColor.YELLOW + "The dungeon has been reset! Do /start-dungeon to begin!");
 
     }
 
     public void failed() {
         state = DungeonState.FAILED;
         for (Player p : getPlayers())
-            playerQuit (p);
+            playerQuit(p);
     }
 
     /**
@@ -685,6 +720,7 @@ public class Dungeon implements Listener {
         FINAL,
         NULL
     }
+
     /* Begin DungeonRoom class definitions. Each one corresponds to a different RoomType and has unique
      * properties. Fundamentally, each one checks that the user is inside the room, controls opening and
      * closing the entrance and exits, and spawning mobs.
@@ -693,29 +729,25 @@ public class Dungeon implements Listener {
         private final Material TRIGGER_BLOCK = Material.BROWN_GLAZED_TERRACOTTA;
         private final Material ENTRANCE_BLOCK = Material.WHITE_GLAZED_TERRACOTTA;
         private final Material EXIT_BLOCK = Material.BLACK_GLAZED_TERRACOTTA;
-        protected Material fillType = Material.POLISHED_DEEPSLATE;
-        protected byte doorOffset = 3;
-
         private final Cuboid boundary;
         private final Cuboid entrance;
         private final Cuboid exit;
         private final Cuboid trigger;
-
+        protected Material fillType = Material.POLISHED_DEEPSLATE;
+        protected byte doorOffset = 3;
+        protected boolean enteredRoom = false;
+        protected boolean triggered = false;
+        protected DungeonRoom next;
         private Location spawnLocation;
-
         private boolean finished = false;
         private boolean roomActive;
-        protected boolean enteredRoom = false;
-
-        protected boolean triggered = false;
         private RoomType type;
-
-        protected DungeonRoom next;
 
         //Constructors
         public DungeonRoom(Cuboid boundary) {
             this(boundary, boundary.getCenter());
         }
+
         public DungeonRoom(Cuboid boundary, Location spawn) {
             this.boundary = boundary;
             this.spawnLocation = spawn;
@@ -726,8 +758,7 @@ public class Dungeon implements Listener {
             exit = findExit();
 
 
-
-            Location l = new Location (getWorld(), 0.5, 0.5, 0.5);
+            Location l = new Location(getWorld(), 0.5, 0.5, 0.5);
             if (trigger != null)
                 l = trigger.getCenter();
 
@@ -742,6 +773,7 @@ public class Dungeon implements Listener {
             this.entrance = entrance;
             this.exit = entrance;
         }
+
         public DungeonRoom(Cuboid boundary, Cuboid trigger, Cuboid entrance, Cuboid exit, Location spawn) {
             this.boundary = boundary;
             this.spawnLocation = spawn;
@@ -755,29 +787,31 @@ public class Dungeon implements Listener {
             return boundary;
         }
 
-        /** Locates the defined trigger (COMMAND_BLOCK) in the cuboid boundary.
+        /**
+         * Locates the defined trigger (COMMAND_BLOCK) in the cuboid boundary.
          *
          * @return The 3x3 cuboid trigger
          */
-        public Cuboid findTrigger () {
+        public Cuboid findTrigger() {
             for (Block b : boundary) {
                 if (b.getType().equals(TRIGGER_BLOCK)) {
-                    return new Cuboid (getWorld(), b.getLocation().getBlockX() - 1, b.getLocation().getBlockY() + 2, b.getLocation().getBlockZ() - 1,
+                    return new Cuboid(getWorld(), b.getLocation().getBlockX() - 1, b.getLocation().getBlockY() + 2, b.getLocation().getBlockZ() - 1,
                             b.getLocation().getBlockX() + 1, b.getLocation().getBlockY() + 5, b.getLocation().getBlockZ() + 1);
                 }
             }
             return null;
         }
 
-        /** Locates the defined entrance (WHITE_GLAZED_TERRACOTTA) in the cuboid boundary.
+        /**
+         * Locates the defined entrance (WHITE_GLAZED_TERRACOTTA) in the cuboid boundary.
          *
          * @return The 3x1 cuboid
          */
-        public Cuboid findEntrance () {
+        public Cuboid findEntrance() {
             ArrayList<Location> blocks = new ArrayList<>();
             for (Block b : boundary) {
                 if (b.getType().equals(ENTRANCE_BLOCK)) {
-                    blocks.add (b.getLocation());
+                    blocks.add(b.getLocation());
                     //return new Cuboid (getWorld(), b.getLocation().getBlockX(), b.getLocation().getBlockY() + 2, b.getLocation().getBlockZ(),
                     //        b.getLocation().getBlockX(), b.getLocation().getBlockY() + 5, b.getLocation().getBlockZ());
                 }
@@ -785,27 +819,28 @@ public class Dungeon implements Listener {
 
             if (blocks.size() == 1) {
                 Location l = blocks.get(0);
-                return new Cuboid (getWorld(), l.getBlockX(), l.getBlockY() + 2, l.getBlockZ(),
+                return new Cuboid(getWorld(), l.getBlockX(), l.getBlockY() + 2, l.getBlockZ(),
                         l.getBlockX(), l.getBlockY() + 2 + doorOffset, l.getBlockZ());
-            }
-            else if (blocks.size() == 2) {
+            } else if (blocks.size() == 2) {
                 Location l1 = blocks.get(0);
                 Location l2 = blocks.get(1);
 
                 int dX = l1.getBlockX() - l2.getBlockX();
                 int dZ = l1.getBlockZ() - l2.getBlockZ();
 
-                return new Cuboid (getWorld(), l1.getBlockX(), l1.getBlockY() + 2, l1.getBlockZ(),
+                return new Cuboid(getWorld(), l1.getBlockX(), l1.getBlockY() + 2, l1.getBlockZ(),
                         l1.getBlockX() - dX, l1.getBlockY() + 2 + doorOffset, l1.getBlockZ() - dZ);
             }
 
             return null;
         }
-        /** Locates the defined exit (BLACK_GLAZED_TERRACOTTA) in the cuboid boundary.
+
+        /**
+         * Locates the defined exit (BLACK_GLAZED_TERRACOTTA) in the cuboid boundary.
          *
          * @return The 3x1 cuboid
          */
-        public Cuboid findExit () {
+        public Cuboid findExit() {
             ArrayList<Location> blocks = new ArrayList<>();
             for (Block b : boundary) {
                 if (b.getType().equals(EXIT_BLOCK)) {
@@ -816,17 +851,16 @@ public class Dungeon implements Listener {
             }
             if (blocks.size() == 1) {
                 Location l = blocks.get(0);
-                return new Cuboid (getWorld(), l.getBlockX(), l.getBlockY() + 2, l.getBlockZ(),
+                return new Cuboid(getWorld(), l.getBlockX(), l.getBlockY() + 2, l.getBlockZ(),
                         l.getBlockX(), l.getBlockY() + 2 + doorOffset, l.getBlockZ());
-            }
-            else if (blocks.size() == 2) {
+            } else if (blocks.size() == 2) {
                 Location l1 = blocks.get(0);
                 Location l2 = blocks.get(1);
 
                 int dX = l1.getBlockX() - l2.getBlockX();
                 int dZ = l1.getBlockZ() - l2.getBlockZ();
 
-                return new Cuboid (getWorld(), l1.getBlockX(), l1.getBlockY() + 2, l1.getBlockZ(),
+                return new Cuboid(getWorld(), l1.getBlockX(), l1.getBlockY() + 2, l1.getBlockZ(),
                         l1.getBlockX() - dX, l1.getBlockY() + 2 + doorOffset, l1.getBlockZ() - dZ);
             }
             return null;
@@ -844,15 +878,22 @@ public class Dungeon implements Listener {
             return fillType;
         }
 
-        public Cuboid getTrigger () { return trigger; }
+        public Cuboid getTrigger() {
+            return trigger;
+        }
 
         public RoomType getType() {
             return type;
         }
 
-        public void setNextRoom (DungeonRoom room) {
+        public void setType(RoomType type) {
+            this.type = type;
+        }
+
+        public void setNextRoom(DungeonRoom room) {
             next = room;
         }
+
         public void openEntrance() {
             if (entrance == null)
                 return;
@@ -881,13 +922,6 @@ public class Dungeon implements Listener {
                 block.setType(fillType);
         }
 
-        public void setSpawnLocation(Location l) {
-            spawnLocation = l;
-        }
-        public void setType(RoomType type) {
-            this.type = type;
-        }
-
         public void update() {
             if (finished)
                 return;
@@ -900,7 +934,7 @@ public class Dungeon implements Listener {
             if (trigger == null)
                 return;
             if (!triggered)
-                if(checkPlayer(alivePlayers.get(0), trigger))
+                if (checkPlayer(alivePlayers.get(0), trigger))
                     onTrigger();
 
             //if(checkAllPlayers(trigger));
@@ -911,15 +945,18 @@ public class Dungeon implements Listener {
                 next.onTrigger();
             }*/
         }
-        public boolean containsAllPlayers () {
+
+        public boolean containsAllPlayers() {
             for (Player p : alivePlayers) {
                 if (!boundary.contains(p.getLocation()))
                     return false;
             }
             return true;
         }
+
         public abstract void onPlayerEnter(Player player);
-        public void onTrigger () {
+
+        public void onTrigger() {
             if (checkAllPlayers(trigger)) {
                 roomActive = true;
                 closeEntrance();
@@ -928,45 +965,61 @@ public class Dungeon implements Listener {
             }
         }
 
-        public boolean checkPlayer (Player p, Cuboid container) {
+        public boolean checkPlayer(Player p, Cuboid container) {
             return container.contains(p.getLocation());
         }
-        public boolean checkAllPlayers (Cuboid container) {
+
+        public boolean checkAllPlayers(Cuboid container) {
             for (Player player : alivePlayers)
                 if (!container.contains(player.getLocation()))
                     return false;
             return true;
         }
+
         public Location getSpawnLocation() {
             return spawnLocation;
         }
+
+        public void setSpawnLocation(Location l) {
+            spawnLocation = l;
+        }
+
         public boolean isFinished() {
             return finished;
         }
-        public boolean isRoomActive() {
-            return roomActive;
-        }
-        public boolean hasEnteredRoom () {
-            return enteredRoom;
-        }
-        public boolean isTriggered () {
-            return triggered;
-        }
+
         public void setFinished(boolean val) {
             finished = val;
         }
+
+        public boolean isRoomActive() {
+            return roomActive;
+        }
+
         public void setRoomActive(boolean val) {
             roomActive = val;
         }
+
+        public boolean hasEnteredRoom() {
+            return enteredRoom;
+        }
+
+        public boolean isTriggered() {
+            return triggered;
+        }
+
         public boolean contains(Player p) {
             return getBoundary().contains(p.getLocation());
         }
+
         public void teleportRoomSpawn(Player p) {
             p.teleport(spawnLocation);
         }
+
         public abstract void resetRoom();
 
     }
+
     protected abstract class SpawnerDungeonRoom extends DungeonRoom {
         private final Map<Block, String> spawnerBlocks;
 
@@ -1012,11 +1065,13 @@ public class Dungeon implements Listener {
             spawned = true;
         }
     }
+
     protected abstract class MultiRoom extends DungeonRoom {
-        public MultiRoom (Cuboid boundary, Cuboid trigger, Cuboid entrance, Cuboid exit, Location spawn) {
+        public MultiRoom(Cuboid boundary, Cuboid trigger, Cuboid entrance, Cuboid exit, Location spawn) {
             super(boundary, trigger, entrance, exit, spawn);
         }
     }
+
     protected class LobbyRoom extends DungeonRoom {
         private boolean start;
 
@@ -1032,8 +1087,9 @@ public class Dungeon implements Listener {
         @Override
         public void onPlayerEnter(Player player) {
         }
+
         @Override
-        public void onTrigger () {
+        public void onTrigger() {
             openExit();
             triggered = true;
         }
@@ -1056,11 +1112,12 @@ public class Dungeon implements Listener {
             super.update();
         }
     }
+
     protected class FillerRoom extends DungeonRoom {
         public FillerRoom(Cuboid boundary) {
             super(boundary);
             setType(RoomType.FILLER);
-            openExit ();
+            openExit();
         }
 
         @Override
@@ -1074,6 +1131,7 @@ public class Dungeon implements Listener {
             openExit();
         }
     }
+
     protected class FindRoom extends DungeonRoom {
         //public Key;
         public FindRoom(Cuboid boundary) {
@@ -1093,6 +1151,7 @@ public class Dungeon implements Listener {
         public void update() {
         }
     }
+
     protected class ParkourRoom extends DungeonRoom {
         //public Key;
 
@@ -1111,32 +1170,38 @@ public class Dungeon implements Listener {
 
         @Override
         public void update() {
-            if (!containsAllPlayers())
-                return;
+            if (!containsAllPlayers()) {
+            }
         }
     }
+
     protected class CollectionRoom extends DungeonRoom {
         public CollectionRoom(Cuboid boundary) {
             super(boundary);
             setType(RoomType.COLLECTION);
         }
+
         @Override
         public void onPlayerEnter(Player player) {
         }
+
         @Override
         public void resetRoom() {
         }
+
         @Override
         public void update() {
-            if (!containsAllPlayers())
-                return;
+            if (!containsAllPlayers()) {
+            }
         }
     }
+
     protected class TargetRoom extends SpawnerDungeonRoom {
         public HashMap<Block, Boolean> targetBlocks;
         private int count = 0;
         private int startTime = 0;
         private boolean open = false;
+
         public TargetRoom(Cuboid boundary) {
             super(boundary);
             setType(RoomType.TARGET);
@@ -1162,13 +1227,13 @@ public class Dungeon implements Listener {
         public void getTargetBlocks() {
             for (Block block : getBoundary())
                 if (block.getType().equals(Material.TARGET))
-                    targetBlocks.put (block, false);
+                    targetBlocks.put(block, false);
             Bukkit.getConsoleSender().sendMessage("Found " + targetBlocks.size() + " blocks");
         }
 
         public boolean checkTargets() {
             for (Block block : targetBlocks.keySet()) {
-                if (targetBlocks.get (block))
+                if (targetBlocks.get(block))
                     continue;
 
                 Collection<Entity> c = world.getNearbyEntities(block.getLocation(), 0.8, 0.8, 0.8);
@@ -1177,7 +1242,7 @@ public class Dungeon implements Listener {
 
                 for (Entity e : c) {
                     if (e instanceof Arrow) {
-                        targetBlocks.put (block, true);
+                        targetBlocks.put(block, true);
                         ++count;
                         sendPlayersMessage("Hit a target! " + count + "/" + targetBlocks.size());
                         sendPlayersSound(Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
@@ -1198,13 +1263,14 @@ public class Dungeon implements Listener {
 
         @Override
         public void update() {
-            super.update ();
+            super.update();
             if (!targetBlocks.isEmpty() && checkTargets())
                 onHitAllTargets();
             if (!open && (timer - startTime) % 12 == 0)
                 spawnMobs();
         }
     }
+
     protected class MobRoom extends SpawnerDungeonRoom {
         public MobRoom(Cuboid boundary) {
             super(boundary);
@@ -1221,20 +1287,22 @@ public class Dungeon implements Listener {
         public void onPlayerEnter(Player player) {
             if (!hasSpawned())
                 spawnMobs();
-            openExit ();
+            openExit();
         }
 
 
         @Override
         public void resetRoom() {
             openEntrance();
-            closeExit ();
+            closeExit();
         }
     }
+
     protected class WaveRoom extends SpawnerDungeonRoom {
         public WaveRoom(Cuboid boundary) {
-            this (boundary, 5, 8);
+            this(boundary, 5, 8);
         }
+
         public WaveRoom(Cuboid boundary, int count, int timeBetween) {
             super(boundary);
             setType(RoomType.WAVE);
@@ -1263,8 +1331,7 @@ public class Dungeon implements Listener {
                 if (countdown <= 0) {
                     spawnNextWave();
                     countdown = timeBetweenWaves;
-                }
-                else
+                } else
                     --countdown;
                 return;
             }
@@ -1278,12 +1345,13 @@ public class Dungeon implements Listener {
         }
 
     }
+
     protected class BossRoom extends SpawnerDungeonRoom {
 
         private final Cuboid bossTrigger;
+        private final Cuboid bossExit;
         private Entity boss;
         private boolean bossSpawned = false;
-        private Cuboid bossExit;
 
         public BossRoom(Cuboid boundary, Cuboid bossTrigger, Cuboid bossExit) {
             super(boundary);
@@ -1296,11 +1364,13 @@ public class Dungeon implements Listener {
             closeExit();
             this.bossExit = bossExit;
         }
-        public void openBossExit () {
+
+        public void openBossExit() {
             for (Block block : bossExit)
                 block.setType(Material.LADDER);
         }
-        public void closeBossExit () {
+
+        public void closeBossExit() {
             for (Block block : bossExit)
                 block.setType(Material.AIR);
         }
@@ -1311,7 +1381,7 @@ public class Dungeon implements Listener {
             //spawnBoss ();
         }
 
-        public Location findBossTrigger () {
+        public Location findBossTrigger() {
             for (Block b : getBoundary())
                 if (b.getType().equals(Material.MELON))
                     return b.getLocation();
@@ -1319,18 +1389,20 @@ public class Dungeon implements Listener {
             return null;
         }
 
-        public void onBossKill () {
-            openExit ();
+        public void onBossKill() {
+            openExit();
             Bukkit.getConsoleSender().sendMessage("I am dead!");
             //Run end-game code
         }
+
         @Override
         public void onPlayerEnter(Player player) {
             closeEntrance();
             closeExit();
         }
-        public void onBossTriggerEnter (Player p) {
-            spawnBoss ();
+
+        public void onBossTriggerEnter(Player p) {
+            spawnBoss();
             bossSpawned = true;
 
         }
@@ -1341,8 +1413,8 @@ public class Dungeon implements Listener {
             closeExit();
         }
 
-        public void spawnBoss () {
-            boss = DungeonMobs.spawnKnightBoss (bossTrigger.getCenter());
+        public void spawnBoss() {
+            boss = DungeonMobs.spawnKnightBoss(bossTrigger.getCenter());
             for (Player p : alivePlayers)
                 p.sendTitle("Knight of the Dungeon", null, 10, 60, 10);
         }
@@ -1360,9 +1432,10 @@ public class Dungeon implements Listener {
                 return;
             }
             if (boss == null || boss.isDead())
-                onBossKill ();
+                onBossKill();
         }
     }
+
     protected class FinalRoom extends DungeonRoom {
         private final Cuboid endDungeonTrigger;
 
@@ -1380,7 +1453,8 @@ public class Dungeon implements Listener {
             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("DUNGEON COMPLETED"));
 
         }
-        public void onEndTriggerEnter (Player p) {
+
+        public void onEndTriggerEnter(Player p) {
         }
 
         @Override

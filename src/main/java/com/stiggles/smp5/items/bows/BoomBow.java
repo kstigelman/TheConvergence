@@ -22,45 +22,46 @@ public class BoomBow implements Listener {
     private static final NamespacedKey boomKey = new NamespacedKey(plugin, "boom_arrow");
 
 
-    private ItemStack getBoomBow(){
+    private ItemStack getBoomBow() {
         ItemStack bow = new ItemStack(Material.BOW);
         ItemMeta meta = bow.getItemMeta();
         meta.setUnbreakable(true);
         meta.setDisplayName((ChatColor.WHITE + "Boom Boom Bow"));
         meta.setLore(Arrays.asList(
-                ChatColor.GRAY +  "",
-                ChatColor.GOLD +  "-- SPECIAL ITEM --",
-                ChatColor.GRAY + "The arrows shot from this" ,
+                String.valueOf(ChatColor.GRAY),
+                ChatColor.GOLD + "-- SPECIAL ITEM --",
+                ChatColor.GRAY + "The arrows shot from this",
                 ChatColor.GRAY + "bow explode on impact!"));
         meta.setLocalizedName("boom_bow");
         bow.setItemMeta(meta);
         return bow;
     }
+
     @EventHandler
-    public void onShoot(EntityShootBowEvent e){
+    public void onShoot(EntityShootBowEvent e) {
         if (!e.getBow().hasItemMeta()) {
             return;
         }
-        if (e.getBow().getItemMeta().getLocalizedName().equals("boom_bow")){
+        if (e.getBow().getItemMeta().getLocalizedName().equals("boom_bow")) {
             e.getProjectile().getPersistentDataContainer().set(boomKey, PersistentDataType.STRING, "boom_arrow");
             ItemMeta meta = e.getBow().getItemMeta();
             meta.setUnbreakable(false);
             meta.setDisplayName((ChatColor.WHITE + "Boom Boom Bow"));
             meta.setLore(Arrays.asList(
-                    ChatColor.GRAY +  "",
-                    ChatColor.GOLD +  "-- SPECIAL ITEM --",
-                    ChatColor.GRAY + "The arrows shot from this" ,
+                    String.valueOf(ChatColor.GRAY),
+                    ChatColor.GOLD + "-- SPECIAL ITEM --",
+                    ChatColor.GRAY + "The arrows shot from this",
                     ChatColor.GRAY + "bow explode on impact!"));
             meta.setLocalizedName("boom_bow");
 
             e.getBow().setItemMeta(meta);
         }
-        
-        
+
+
     }
 
     @EventHandler
-    public void onDamage(ProjectileHitEvent e){
+    public void onDamage(ProjectileHitEvent e) {
         PersistentDataContainer container = e.getEntity().getPersistentDataContainer();
         if (!container.has(boomKey, PersistentDataType.STRING)) return;
         if (container.get(boomKey, PersistentDataType.STRING).equals("boom_arrow")) {
@@ -69,7 +70,7 @@ public class BoomBow implements Listener {
         }
     }
 
-    public ItemStack getBoomBowPlayer(Player p){
+    public ItemStack getBoomBowPlayer(Player p) {
         return getBoomBow();
     }
 

@@ -1,7 +1,9 @@
 package com.stiggles.smp5.commands;
 
 import com.stiggles.smp5.entity.lostMerchant.LostMerchant;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -19,13 +21,13 @@ public class SpawnMerchants implements CommandExecutor {
 
         if (commandSender instanceof Player) {
             Player p = (Player) commandSender;
-            if (p.isOp()){
+            if (p.isOp()) {
                 spawnMerchants(p);
             } else {
-                p.sendMessage(ChatColor.RED +"You do not have permission to use this command! That or you've already spawned them.");
+                p.sendMessage(ChatColor.RED + "You do not have permission to use this command! That or you've already spawned them.");
             }
         } else {
-            if (!spawned){
+            if (!spawned) {
                 spawned = true;
             }
         }

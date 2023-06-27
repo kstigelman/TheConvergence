@@ -19,12 +19,12 @@ import java.util.UUID;
 
 public class ProjectileListener implements Listener {
 
-    SMP5 main;
     private static NamespacedKey boomKey;
     private static NamespacedKey glowKey;
+    SMP5 main;
     private UUID uuidShot;
 
-    public ProjectileListener (SMP5 main) {
+    public ProjectileListener(SMP5 main) {
         this.main = main;
         boomKey = new NamespacedKey(main, "boom_arrow");
         glowKey = new NamespacedKey(main, "glow_arrow");
@@ -35,15 +35,14 @@ public class ProjectileListener implements Listener {
         //Might be able to replace condition with isBow()
         if (e.getBow().getItemMeta().getLocalizedName().equals("boom_bow")) {
             e.getProjectile().getPersistentDataContainer().set(boomKey, PersistentDataType.STRING, "boom_arrow");
-        }
-        else if (e.getBow().getItemMeta().getLocalizedName().equals("glow_bow")){
+        } else if (e.getBow().getItemMeta().getLocalizedName().equals("glow_bow")) {
             e.getProjectile().getPersistentDataContainer().set(glowKey, PersistentDataType.STRING, "glow_arrow");
             uuidShot = e.getEntity().getUniqueId();
         }
     }
 
     @EventHandler
-    public void onArrowDamage (ProjectileHitEvent e) {
+    public void onArrowDamage(ProjectileHitEvent e) {
         if (e.getHitEntity() == null)
             return;
 
@@ -52,22 +51,21 @@ public class ProjectileListener implements Listener {
         if (container.has(boomKey, PersistentDataType.STRING) && container.get(boomKey, PersistentDataType.STRING).equals("boom_arrow")) {
             e.getEntity().getWorld().createExplosion(e.getEntity().getLocation(), 1, false, false);
             e.getEntity().remove();
-        }
-        else if (container.has(glowKey, PersistentDataType.STRING) && container.get(glowKey, PersistentDataType.STRING).equals("glow_arrow")) {
-            for (Entity entity : e.getEntity().getNearbyEntities(20,20,20)){
+        } else if (container.has(glowKey, PersistentDataType.STRING) && container.get(glowKey, PersistentDataType.STRING).equals("glow_arrow")) {
+            for (Entity entity : e.getEntity().getNearbyEntities(20, 20, 20)) {
                 if (!entity.getUniqueId().equals(uuidShot)) {
                     if (entity instanceof Mob) {
                         ((Mob) entity).addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 100, 10, true, false, true));
-                    }
-                    else if (entity instanceof Player) {
+                    } else if (entity instanceof Player) {
                         ((Player) entity).addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 100, 10, true, false, true));
                     }
                 }
             }
         }
     }
-    private boolean isBow(ItemStack item){
-        return(item.hasItemMeta()
+
+    private boolean isBow(ItemStack item) {
+        return (item.hasItemMeta()
                 && item.getItemMeta().hasLocalizedName()
                 && item.getItemMeta().getLocalizedName().equals("boom_bow"));
     }

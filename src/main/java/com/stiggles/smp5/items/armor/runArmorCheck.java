@@ -9,11 +9,20 @@ public class runArmorCheck {
     LunarArmor lunarArmor = new LunarArmor();
 
     SMP5 main;
-    public runArmorCheck (SMP5 main) {
+
+    public runArmorCheck(SMP5 main) {
         this.main = main;
 
-        new BukkitRunnable() { public void run() { peacesSymphony.checkForPeaceArmor(); }  }.runTaskTimer(main, 0, 40);
-        new BukkitRunnable() { public void run() { lunarArmor.checkForLunarArmor();  }  }.runTaskTimer(main, 0, 40);
+        new BukkitRunnable() {
+            public void run() {
+                peacesSymphony.checkForPeaceArmor();
+            }
+        }.runTaskTimer(main, 0, 40);
+        new BukkitRunnable() {
+            public void run() {
+                lunarArmor.checkForLunarArmor();
+            }
+        }.runTaskTimer(main, 0, 40);
 
         new BukkitRunnable() {
             public void run() {
