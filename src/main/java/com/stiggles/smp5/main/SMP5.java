@@ -18,6 +18,7 @@ import com.stiggles.smp5.entity.monsters.CustomSpawns;
 import com.stiggles.smp5.entity.monsters.KillMagmaBoss;
 import com.stiggles.smp5.entity.npc.*;
 import com.stiggles.smp5.entity.npc.dialoguenpc.*;
+import com.stiggles.smp5.entity.npc.dialoguenpc.ArchaeologistDesire.Archaeologist;
 import com.stiggles.smp5.entity.npc.dialoguenpc.NetheriteQuest.MineManager;
 import com.stiggles.smp5.entity.npc.dialoguenpc.NetheriteQuest.NetheriteMaster;
 import com.stiggles.smp5.entity.npc.shopnpcs.*;
@@ -352,6 +353,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new Pendant(this), this);
         Bukkit.getPluginManager().registerEvents(new MerchantListener(this), this);
         Bukkit.getPluginManager().registerEvents(new MetalDetector(this), this);
+        Bukkit.getPluginManager().registerEvents(new PillagerCastle(this), this);
         //manager.registerEvents(this, this);
         Bukkit.getScheduler().runTaskTimer(this, CustomSpawns::spawnWitherSkeleton, 20 * 30, 20 * 60);
         Bukkit.getPluginManager().registerEvents(new CurseListener(this), this);
@@ -409,6 +411,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         npcs.add(new NetherWizard(this, "Wondrous Wizard", new Location(world, -976.5, 67, -278.5)));
         npcs.add(new YetAnotherWanderer(this, "Weary Traveler", new Location(world, -828.5, 70, -726.5)));
         npcs.add(new leadWanderer(this, "Adventurous Explorer", new Location(world, -834.5, 68, -728.5)));
+        npcs.add(new Archaeologist(this, "League Representative", new Location(world, 16.5, 92, 744.5)));
 
         npcs.add(new Anarcho(this, "Anarcho", new Location(worldNether, 550.5, 221, 236.5)));
         npcs.add(new NetheriteMaster(this, "Netherite Master", new Location(worldNether, -133.5, 168, -26.5)));

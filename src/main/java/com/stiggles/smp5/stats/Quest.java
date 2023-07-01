@@ -43,6 +43,11 @@ public class Quest {
         }
     }
 
+    public static void silentQuestComplete(Player p, QuestName q) {
+            StigglesPlayer stigglesPlayer = main.getPlayerManager().getStigglesPlayer(p.getUniqueId());
+            stigglesPlayer.addQuest(q);
+    }
+
     public static boolean isQuestComplete(Player p, QuestName q) {
         return main.getPlayerManager().getStigglesPlayer(p.getUniqueId()).getQuestsCompleted().contains(q);
         /*try {
@@ -67,6 +72,17 @@ public class Quest {
         APPLE_A_DAY,
         ACQUIRE_GRAPPLING_HOOK,
         COLLECT_CONVERGENCE,
-        FISHING
+        FISHING,
+        //Archaeologist Quests (Put everything else above)
+        MESA_SITE_CHALLENGE,
+        MOUNTAINS_SITE_CHALLENGE,
+        MANGROVE_SITE_CHALLENGE,
+        SPRUCE_SITE_CHALLENGE,
+        ARCHAEOLOGIST_ARMOR_QUEST,
+        OCEAN_MONUMENT_SITE_CHALLENGE,
+        STRONGHOLD_SITE_CHALLENGE,
+        DINO_ISLAND_SITE_CHALLENGE,
+        DESERT_TEMPLE_SITE_CHALLENGE,
+        METAL_DETECTOR_QUEST
     }
 }

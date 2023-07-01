@@ -1,6 +1,7 @@
 package com.stiggles.smp5.listeners;
 
 import com.stiggles.smp5.dungeons.Cuboids.Cuboid;
+import com.stiggles.smp5.entity.monsters.PillagerCastle;
 import com.stiggles.smp5.items.Cooldown;
 import com.stiggles.smp5.items.HuntQuestItems;
 import com.stiggles.smp5.items.NetheriteQuestItems;
@@ -10,6 +11,7 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Spellcaster;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -18,6 +20,7 @@ import org.bukkit.event.inventory.PrepareAnvilEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -266,5 +269,39 @@ public class AllMiscEvents implements Listener {
             e.setResult(new ItemStack(Material.AIR));
         }
     }
+
+
+    /*@EventHandler
+    public void onJoin(PlayerJoinEvent e) {
+        new BukkitRunnable() {
+            public void run() {
+
+                Player p = e.getPlayer();
+                if (PillagerCastle.castleRegion.contains(p.getLocation())){
+                    World world = p.getWorld();
+                    Location center = PillagerCastle.castleRegion.getCenter();
+                    int range = 25;
+                    double x = center.getX() + (Math.random() * range * 2 - range);
+                    double y = center.getY();
+                    double z = center.getZ() + (Math.random() * range * 2 - range);
+                    Location randomLocation = new Location(world, x, y, z);
+                    if (world.getBlockAt(randomLocation).isEmpty() && world.getBlockAt(randomLocation.subtract(0,1,0)).isEmpty()
+                            && world.getBlockAt(randomLocation.add(0,1,0)).isEmpty()) {
+                        int rng = SMP5.rollNumber(1,6);
+                        if (rng <= 3) {
+                            PillagerCastle.spawnCastlePillager(randomLocation, main);
+                        } else if (rng <= 5) {
+                            PillagerCastle.spawnCastleGuard(randomLocation, main);
+                        } else if (rng == 6) {
+                            if (SMP5.rollNumber())
+                            PillagerCastle.spawnCastleLeader(randomLocation, main);
+                        }
+                    }
+                }
+
+            }
+        }.runTaskTimer(main,20*60, 20*20);
+    }
+     */
 
 }

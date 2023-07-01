@@ -236,23 +236,18 @@ public class MetalDetector implements Listener {
         Action action = e.getAction();
         Block eventBlock = e.getClickedBlock();
         Player player = e.getPlayer();
-        Bukkit.getConsoleSender().sendMessage("1");
         if (checkCooldown(player)) {
-            Bukkit.getConsoleSender().sendMessage("2");
             ItemStack mainHandItem = player.getInventory().getItemInMainHand();
             if (isDetector(player.getInventory().getItemInMainHand())) {
-                Bukkit.getConsoleSender().sendMessage("3");
                 if (action.equals(Action.RIGHT_CLICK_BLOCK)) { // Search
-                    Bukkit.getConsoleSender().sendMessage("4");
                     if (getMode(mainHandItem).equals("mineral_mode")) {
-                        Bukkit.getConsoleSender().sendMessage("5");
                         if (eventBlock != null) {
                             Bukkit.getConsoleSender().sendMessage("6");
                             Cuboid mineralCuboid = getScanedCuboid(eventBlock.getLocation(), 5, 5);
                             for (Block block : mineralCuboid.getBlocks()) {
                                 Bukkit.getConsoleSender().sendMessage("7");
 
-                                if (isMineral(block.getType())) {
+                                if (isMineral(block)) {
                                     Bukkit.getConsoleSender().sendMessage("8");
                                     makeGlowing(block.getLocation());
                                     setCooldown(player, 5);
@@ -260,20 +255,19 @@ public class MetalDetector implements Listener {
                             }
                         }
                     } else if (getMode(mainHandItem).equals("treasure_mode")) {
-                        Bukkit.getConsoleSender().sendMessage("9");
                         if (eventBlock != null) {
-                            Bukkit.getConsoleSender().sendMessage("10");
-                            Cuboid treasureCuboid = getScanedCuboid(eventBlock.getLocation(), 5, 5);
+                            Cuboid treasureCuboid = getScanedCuboid(eventBlock.getLocation(), 7, 7);
                             if (SMP5.rollNumber(1, 3) == 1) { // Change to 5 if seen to be to OP
-                                Bukkit.getConsoleSender().sendMessage("11");
                                 Location center = treasureCuboid.getCenter();
                                 Location lootLocation = getRandomLocation(center, 5, center.getWorld());
                                 makeGlowing(lootLocation);
                                 spawnLoot(lootLocation);
+                                player.sendMessage(ChatColor.GREEN + "You found a treasure chest! Go- Dig it up!");
+                                player.sendMessage(ChatColor.DARK_GRAY.toString() + ChatColor.ITALIC + "(You may search again in 10 seconds)");
                                 setCooldown(player, 10);
                             } else {
-                                Bukkit.getConsoleSender().sendMessage("12");
                                 setCooldown(player, 5);
+                                player.sendMessage(ChatColor.RED + "You Didn't seem to find anything... try searching again in 5 seconds.");
                             }
                         }
 
@@ -325,14 +319,14 @@ public class MetalDetector implements Listener {
      *                 given in case of unexpected null.
      */
     private void spawnLoot(Location location) {
-        Location chestLocation = location.subtract(0, 1, 0);
+        Location chestLocation = location.subtract(0, 2, 0);
         chestLocation.getBlock().setType(Material.CHEST);
         Chest chest = (Chest) chestLocation.getBlock().getState();
-        int roll = SMP5.rollNumber(1, 8);
-        if (roll <= 3) {
+        int roll = SMP5.rollNumber(1, 9);
+        if (roll <= 5) {
             chest.setLootTable(LootTables.ANCIENT_CITY_ICE_BOX.getLootTable());
             chest.update();
-        } else if (roll <= 6) {
+        } else if (roll == 6) {
             chest.setLootTable(LootTables.BURIED_TREASURE.getLootTable());
             chest.update();
         } else if (roll == 7) {
@@ -340,6 +334,9 @@ public class MetalDetector implements Listener {
             chest.update();
         } else if (roll == 8) {
             chest.setLootTable(LootTables.STRONGHOLD_LIBRARY.getLootTable());
+            chest.update();
+        } else if (roll == 9) {
+            chest.setLootTable(LootTables.END_CITY_TREASURE.getLootTable());
             chest.update();
         }
         chest.update(true);
@@ -370,7 +367,8 @@ public class MetalDetector implements Listener {
      * @param material The material of a block that this method is checking
      * @return If the material can be used on by the Metal Detector
      */
-    private boolean isMineral(Material material) {
+    private boolean isMineral(Block block) {
+        Material material = block.getType();
         if (material.equals(Material.COAL_ORE) || material.equals(Material.DEEPSLATE_COAL_ORE)) {
             return true;
         } else if (material.equals(Material.DIAMOND_ORE) || material.equals(Material.DEEPSLATE_DIAMOND_ORE)) {
