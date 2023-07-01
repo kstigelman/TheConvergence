@@ -73,7 +73,7 @@ public class CoinBank {
      * @return Whether the new balance would be above zero
      */
     private boolean hasSufficientFunds(int amount) {
-        return (balance - amount) > 0;
+        return (balance - amount) >= 0;
     }
 
     @Override

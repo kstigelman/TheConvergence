@@ -73,6 +73,12 @@ public class Quest {
         ACQUIRE_GRAPPLING_HOOK,
         COLLECT_CONVERGENCE,
         FISHING,
+        STIGGLES_ASSEMBLE,
+        RECRUIT_STARRY,
+        RECRUIT_PHILIPPE,
+        RECRUIT_INVENTOR,
+        RECRUIT_ANARCHO,
+        FISHING,
         //Archaeologist Quests (Put everything else above)
         MESA_SITE_CHALLENGE,
         MOUNTAINS_SITE_CHALLENGE,

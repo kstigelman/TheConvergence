@@ -108,7 +108,8 @@ public class DungeonManager {
             int i = dungeons.size();
             dungeons.put("testdungeon", new TestDungeon(main, i));
             for (Entity e : Bukkit.getWorld("testdungeon").getLivingEntities()) {
-                e.remove();
+                if (!(e instanceof Player))
+                    e.remove();
             }
         }
         //return null;

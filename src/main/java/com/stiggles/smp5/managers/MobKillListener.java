@@ -49,6 +49,9 @@ public class MobKillListener implements Listener {
 
         StigglesPlayer sKiller = main.getPlayerManager().getStigglesPlayer(killer.getUniqueId());
 
+        if (sKiller == null)
+            return;
+
         String killedEntity = e.getEntity().getClass().getName();
         String[] parts = killedEntity.split("entity.Craft");
 

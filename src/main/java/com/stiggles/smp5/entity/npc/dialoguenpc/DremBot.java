@@ -2,9 +2,31 @@ package com.stiggles.smp5.entity.npc.dialoguenpc;
 
 import com.stiggles.smp5.entity.npc.StigglesNPC;
 import com.stiggles.smp5.main.SMP5;
+import com.stiggles.smp5.managers.NPCManager;
+import com.stiggles.smp5.player.StigglesPlayer;
+import com.stiggles.smp5.stats.Quest;
+import net.citizensnpcs.Citizens;
+import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.npc.CitizensNPC;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.profile.PlayerProfile;
+import org.bukkit.profile.PlayerTextures;
+import xyz.xenondevs.invui.item.Click;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.UUID;
 
 public class DremBot extends StigglesNPC {
 
@@ -23,5 +45,48 @@ public class DremBot extends StigglesNPC {
         if (player.getName().contains("YoDrem")) {
             sendMessage(player, "Interesting. You are me, but human.");
         }
+    }
+
+
+    public void talk2 (Player p) {
+        //String dialogue = getDialogue();
+
+        //if (dialogue == null || dialogue.equals(""))
+        //    return;
+
+        StigglesPlayer sp = main.getPlayerManager().getStigglesPlayer(p.getUniqueId());
+        HashSet<Quest.QuestName> quests = sp.getQuestsCompleted();
+
+        ArrayList<TextComponent> clickables = new ArrayList<>();
+
+        if (sp.hasQuestCompleted(Quest.QuestName.MORABITO_RECIPE)) {
+            TextComponent new_clickable = new TextComponent("§6§l[Mr. Morabito]");
+            new_clickable.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/dbc " + p.getName() + NPCManager.getNPCByName("Mr. Morabito").getId()));
+            clickables.add (new_clickable);
+        }
+        if (sp.hasQuestCompleted(Quest.QuestName.NATALIES_REDEMPTION)) {
+            TextComponent new_clickable = new TextComponent("§6§l[Captain Beast]");
+            new_clickable.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/dbc " + p.getName() + NPCManager.getNPCByName("Captain Beast").getId()));
+            clickables.add (new_clickable);
+        }
+        if (sp.hasQuestCompleted(Quest.QuestName.APPLE_A_DAY)) {
+            TextComponent new_clickable = new TextComponent("§6§l[Mr. Orangeflips]");
+            new_clickable.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/dbc " + p.getName() + NPCManager.getNPCByName("Mr. Orangeflips").getId()));
+            clickables.add (new_clickable);
+        }
+        if (sp.hasQuestCompleted(Quest.QuestName.FISHING)) {
+            TextComponent new_clickable = new TextComponent("§6§l[Mr. Orangeflips]");
+            new_clickable.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/dbc " + p.getName() + NPCManager.getNPCByName("Luke the Fisherman").getId()));
+            clickables.add (new_clickable);
+        }
+
+        if (!hasDialogue())
+            return;
+
+        TextComponent clickable = new TextComponent("§6§l<<CLICK TO TALK MORE>>");
+        //clickable.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tellraw " + p.getName() + " \"" + dialogue + "\""));
+        clickable.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/smm " + p.getName() + " " + getId ()));
+
+        p.spigot().sendMessage(new BaseComponent[]{clickable});
     }
 }

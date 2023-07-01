@@ -2,13 +2,16 @@ package com.stiggles.smp5.entity.npc.dialoguenpc;
 
 import com.stiggles.smp5.entity.npc.StigglesNPC;
 import com.stiggles.smp5.main.SMP5;
+import com.stiggles.smp5.stats.Quest;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
@@ -71,7 +74,10 @@ public class Starry extends StigglesNPC {
     public boolean checkQuestItems(Player player) {
         if (player.getInventory().getItemInMainHand().hasItemMeta()) {
             ItemMeta im = player.getInventory().getItemInMainHand().getItemMeta();
-            if (im != null && im.hasDisplayName() && im.getLocalizedName().equals("nats_breath")) {
+            if (im == null || !im.hasLocalizedName())
+                return false;
+
+            if (im.getLocalizedName().equals("nats_breath")) {
                 player.getInventory().getItemInMainHand().setAmount(0);
                 sendMessage(player, "...");
                 Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "Where did you find that?"), 40);
@@ -87,6 +93,24 @@ public class Starry extends StigglesNPC {
                         ChatColor.GRAY + ChatColor.ITALIC.toString() + "like " + ChatColor.RED + "Drem" + ChatColor.GRAY + ChatColor.ITALIC + " somewhere in the snowy mountains."));
                 book.setItemMeta(bookMeta);
                 player.getInventory().addItem(book);
+                return true;
+            }
+            if (im.getLocalizedName().equals("trog_letter")) {
+                player.getInventory().getItemInMainHand().setAmount(0);
+                sendMessage(player, "Oh! What's this?");
+                sendMessageLater(player, "...a scientist? From EGO Labs?", 80);
+                sendMessageLater(player, "He's asking me to rally for help to take a stand against Nouveau. Am I really fit for this role?", 160);
+                sendMessageLater(player, "This is a lot to process... but we do need to stop Nouveau. And if Dr. Trog is asking for my help, I will do it.", 240);
+                sendMessageLater(player, "I'm going to need a team.", 240);
+                sendMessageLater(player, "I need someone who will be loyal. Someone who won't back out. If only my friend Phil was here... he would be perfect.", 360);
+                sendMessageLater(player, "Next, I need someone creative and smart. I need someone who can invent new ideas and strategies to give us the upper hand in this battle.", 420);
+                sendMessageLater(player, "I also need warriors, people who are passionate to fight.", 480);
+                sendMessageLater(player, "Anarcho would be a good warrior to help us, but I don't know where he is.. He, like Nouveau, brought devastation to my homeworld... but he recognized his wrongdoings. ", 540);
+                sendMessageLater (player, "I wish Drem and Anarcho were here. They both have faced Nouveau before, and they would be eager to fight", 300);
+                sendMessageLater(player, "Captain Beast will be a perfect match for this fight. Thank you for finding him.", 600);
+                sendMessageLater(player, "Spiffy and I need to go consult two friends of ours in Community City on this matter.", 760);
+                sendMessageLater(player, "If you come across anyone who you think would be a good candidate for my team, please, give them this letter. Thank you.", 660);
+                Bukkit.getScheduler().runTaskLater(main, () -> Quest.questComplete(player, Quest.QuestName.RECRUIT_STARRY, "Taking a Stand", 50), 300);
                 return true;
             }
         }
@@ -113,5 +137,23 @@ public class Starry extends StigglesNPC {
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
             player.getInventory().addItem(getItemProvider().get());
         }
+    }
+    public ItemStack getLetter() {
+        ItemStack item = new ItemStack(Material.PAPER);
+        ItemMeta im = item.getItemMeta();
+        im.setDisplayName(ChatColor.YELLOW + "Starry's Request");
+        im.setLocalizedName("starry_letter");
+        im.setLore(Arrays.asList(ChatColor.BLUE + "Quest Item", ChatColor.GRAY + "Signed by Starry",
+                ChatColor.GRAY + "Starry needs to recruit some teammates to help",
+                ChatColor.GRAY + "her and Dr. Trog in the battle against Nouveau.",
+                ChatColor.GRAY + "Show this letter to people who may be a good candidate:",
+                ChatColor.GRAY + "1. Someone as loyal as Starry's old friend " + ChatColor.RED + "Phil",
+                ChatColor.GRAY + "2. Someone who is " + ChatColor.RED + "inventive",
+                ChatColor.GRAY + "3. Someone with the passion to fight Nouveau, like " + ChatColor.RED + "Anarcho or Drem"));
+
+        im.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
+        im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        item.setItemMeta(im);
+        return item;
     }
 }

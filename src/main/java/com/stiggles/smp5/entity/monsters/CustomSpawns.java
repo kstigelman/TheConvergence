@@ -4,11 +4,25 @@ import com.stiggles.smp5.dungeons.Cuboids.Cuboid;
 import com.stiggles.smp5.entity.Entities;
 import com.stiggles.smp5.main.SMP5;
 import org.bukkit.*;
+import org.bukkit.attribute.Attributable;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.profile.PlayerProfile;
+import org.bukkit.profile.PlayerTextures;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.UUID;
 
 public class CustomSpawns {
     private static final SMP5 main = SMP5.getPlugin(SMP5.class);
@@ -134,6 +148,66 @@ public class CustomSpawns {
                     spawnTheBeast();
                 }
             }.runTaskLater(main, ((20 * (60 * 25)) + 20 * (60L * SMP5.rollNumber(1, 3))));
+        }
+    }
+
+    public static void spawnCryptoid (Location location) {
+        Zombie zombie = location.getWorld().spawn(location, Zombie.class);
+        zombie.setCustomName(ChatColor.DARK_RED + "Infected Cryptoid");
+        zombie.setCustomNameVisible(true);
+
+        Attributable zombieAt = zombie;
+        AttributeInstance attributeDamage = zombieAt.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);
+        AttributeInstance attributeHealth = zombieAt.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+        attributeDamage.setBaseValue(4);
+        attributeHealth.setBaseValue(30);
+        zombie.setHealth(30);
+
+        ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
+        SkullMeta skull_meta = (SkullMeta) skull.getItemMeta();
+        try {
+            PlayerProfile p = Bukkit.createPlayerProfile(UUID.randomUUID());
+            PlayerTextures pt = p.getTextures();
+            pt.setSkin(new URL("http://textures.minecraft.net/texture/f6f69cc0a2896cba539714cc0a9bc54eee7f680ef86e1c13e7d15354f17ffbd9"
+            ));
+            p.setTextures(pt);
+            skull_meta.setOwnerProfile(p);
+        } catch (MalformedURLException e) {
+
+        }
+        skull.setItemMeta(skull_meta);
+        zombie.getEquipment().setHelmet(skull);
+
+        ItemStack armor = new ItemStack (Material.LEATHER_CHESTPLATE);
+        LeatherArmorMeta leather_meta = (LeatherArmorMeta) armor.getItemMeta();
+        leather_meta.setColor(Color.RED);
+
+        armor.setItemMeta(leather_meta);
+        zombie.getEquipment().setChestplate(armor);
+
+        armor = new ItemStack (Material.LEATHER_LEGGINGS);
+        armor.setItemMeta(leather_meta);
+        zombie.getEquipment().setLeggings(armor);
+
+        armor = new ItemStack (Material.LEATHER_BOOTS);
+        armor.setItemMeta(leather_meta);
+        zombie.getEquipment().setLeggings(armor);
+    }
+
+    public static void checkCryptoidSpawns () {
+        World world;
+        if ((world = Bukkit.getWorld ("world")) == null)
+            return;
+
+        List<LivingEntity> entities = world.getLivingEntities();
+
+        for (LivingEntity e : entities) {
+            if (!(e instanceof Zombie))
+                return;
+            if (main.getRandom() % 5 != 0)
+                return;
+            CustomSpawns.spawnCryptoid(e.getLocation());
+            e.remove();
         }
     }
 

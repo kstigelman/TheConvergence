@@ -253,7 +253,7 @@ public class SMP5 extends JavaPlugin implements Listener {
     }
 
     public int getRandom() {
-        return random.nextInt();
+        return Math.abs (random.nextInt());
     }
 
     public ArrayList<String> getToggledChatPlayers() {

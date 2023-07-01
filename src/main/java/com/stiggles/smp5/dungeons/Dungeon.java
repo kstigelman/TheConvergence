@@ -65,7 +65,7 @@ public class Dungeon implements Listener {
     private boolean started;
 
     public Dungeon(SMP5 main, int id, Location world_spawn) {
-        countdown = 30;
+        countdown = 10;
         players = new ArrayList<>();
         alivePlayers = new ArrayList<>();
         started = false;
@@ -181,7 +181,7 @@ public class Dungeon implements Listener {
 
         if (state.equals(DungeonState.RECRUITING)) {
             if (players.isEmpty())
-                countdown = 30;
+                countdown = 10;
 
             if (getPlayerCount() == getMaxPlayerCount() && countdown >= 0)
                 countdown = 10;
@@ -1309,7 +1309,8 @@ public class Dungeon implements Listener {
             waveCount = count;
             timeBetweenWaves = timeBetween;
             openEntrance();
-            openExit();
+
+            closeExit ();
         }
 
         @Override
@@ -1321,7 +1322,7 @@ public class Dungeon implements Listener {
         @Override
         public void resetRoom() {
             openEntrance();
-            openExit();
+            closeExit();
         }
 
         @Override
@@ -1352,7 +1353,7 @@ public class Dungeon implements Listener {
         private final Cuboid bossExit;
         private Entity boss;
         private boolean bossSpawned = false;
-
+        private boolean killed = false;
         public BossRoom(Cuboid boundary, Cuboid bossTrigger, Cuboid bossExit) {
             super(boundary);
             setType(RoomType.BOSS);
@@ -1363,6 +1364,7 @@ public class Dungeon implements Listener {
             openEntrance();
             closeExit();
             this.bossExit = bossExit;
+            killed = false;
         }
 
         public void openBossExit() {
@@ -1390,8 +1392,11 @@ public class Dungeon implements Listener {
         }
 
         public void onBossKill() {
-            openExit();
-            Bukkit.getConsoleSender().sendMessage("I am dead!");
+            if (!killed) {
+                openExit();
+                Bukkit.getConsoleSender().sendMessage("I am dead!");
+                killed = true;
+            }
             //Run end-game code
         }
 
@@ -1403,6 +1408,7 @@ public class Dungeon implements Listener {
 
         public void onBossTriggerEnter(Player p) {
             spawnBoss();
+            closeEntrance();
             bossSpawned = true;
 
         }
@@ -1411,6 +1417,7 @@ public class Dungeon implements Listener {
         public void resetRoom() {
             openEntrance();
             closeExit();
+            killed = false;
         }
 
         public void spawnBoss() {
@@ -1424,6 +1431,8 @@ public class Dungeon implements Listener {
             super.update();
             if (!bossSpawned) {
                 for (Player p : getAlivePlayers()) {
+                    if (!containsAllPlayers())
+                        return;
                     if (bossTrigger.contains(p.getLocation())) {
                         onBossTriggerEnter(p);
                         return;

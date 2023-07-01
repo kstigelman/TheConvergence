@@ -76,13 +76,6 @@ public class LogEventListener implements Listener {
 
             //Bounty.setTabName(p);
 
-            StigglesPlayer sp = main.getPlayerManager().getStigglesPlayer(p.getUniqueId());
-
-            if (sp.isCursed()) {
-                if (p.getAttribute(Attribute.GENERIC_MAX_HEALTH) != null)
-                    p.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(10);
-            }
-
             if (p.getWorld().getName().equals("sanctuary")) {
                 if (!Quest.isQuestComplete(p, Quest.QuestName.NOUVEAU_INTRO))
                     return;

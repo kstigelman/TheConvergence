@@ -7,6 +7,7 @@ import com.stiggles.smp5.items.HuntQuestItems;
 import com.stiggles.smp5.items.NetheriteQuestItems;
 import com.stiggles.smp5.items.Pickaxes;
 import com.stiggles.smp5.main.SMP5;
+import com.stiggles.smp5.stats.Quest;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;

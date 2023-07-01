@@ -43,8 +43,8 @@ public class OnArmorStandInteract implements Listener {
             int hash = calculateHash(entity.getLocation());
 
 
-            if (!sp.hasTalkedTo("Dr. Trog")) {
-                e.getPlayer().sendMessage(ChatColor.GRAY + "This looks like a strange substance...");
+            if (!sp.hasTalkedTo("Dr. Trog") && !sp.hasTalkedTo("The Wanderer")) {
+                e.getPlayer().sendMessage(ChatColor.GRAY + "This looks like a strange substance... maybe someone knows more about it.");
                 return;
             }
             for (ItemStack i : e.getPlayer().getInventory()) {
