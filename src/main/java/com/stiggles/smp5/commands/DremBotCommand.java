@@ -27,25 +27,51 @@ public class DremBotCommand implements CommandExecutor {
         if (Bukkit.getPlayer(args[0]) == null)
             return false;
 
-        int id;
-        try {
-            id = Integer.parseInt(args[1]);
-        } catch (NumberFormatException e) {
-            return false;
-        }
-        StigglesNPC npc = NPCManager.getNPC(id);
+
+
         Player p = Bukkit.getPlayer(args[0]);
+        StigglesNPC npc = NPCManager.getNPCByName("Drem-Bot");
 
-        ArrayList<String> dialogue = npc.getDialogues();
-
-        if (dialogue == null || dialogue.isEmpty())
+        if (npc == null || p == null)
             return false;
 
-        for (int i = 0; i < dialogue.size(); ++i) {
-            int finalI = i;
-            Bukkit.getScheduler().runTaskLater(main, () -> {
-                npc.sendMessage(p, dialogue.get(finalI));
-            }, (long) finalI * 120);
+        switch (Integer.parseInt(args[1])) {
+            case 1:
+            case 2:
+                npc.sendMessage(p, "Name: Anarcho\nHomeworld: Stiggles 1\nInfo: ");
+                npc.sendMessage(p, "Name: Bearsharken\nHomeworld: Stiggles 1\nInfo: ");
+                npc.sendMessage(p, "Name: Cryptorg\nHomeworld: Stiggles 1\nInfo: ");
+                npc.sendMessage(p, "Name: Emperor Nouveau\nHomeworld: Stiggles 1\nInfo: ");
+                npc.sendMessage(p, "Name: Gabe\nHomeworld: Stiggles 1\nInfo: ");
+                npc.sendMessage(p, "Name: Luke the Fisherman\nHomeworld: Stiggles 1\nInfo: ");
+                npc.sendMessage(p, "Name: Mole A Quacks\nHomeworld: Stiggles 1\nInfo: ");
+                npc.sendMessage(p, "Name: Ralph\nHomeworld: Stiggles 1\nInfo: ");
+                npc.sendMessage(p, "Name: Starry\nHomeworld: Stiggles 1\nInfo: ");
+                npc.sendMessage(p, "Name: Spiffy\nHomeworld: Stiggles 1\nInfo: ");
+                npc.sendMessage(p, "Name: Tigerfist\nHomeworld: Stiggles 1\nInfo: ");
+
+                npc.sendMessage(p, "Name: The Astronomer\nHomeworld: Earth-360\nInfo: ");
+                npc.sendMessage(p, "Name: Dr. Trog\nHomeworld: Earth-360\nInfo: ");
+
+                npc.sendMessage(p, "Name: Dungeon Keeper\nHomeworld: Origins Kingdom\nInfo: ");
+                npc.sendMessage(p, "Name: Sir Philippe Alfred\nHomeworld: Origins Kingdom\nInfo: ");
+
+                npc.sendMessage(p, "Name: Mr. Morabito\nHomeworld: Clan 2\nInfo: ");
+                npc.sendMessage(p, "Name: Mr. Orangeflips\nHomeworld: Clan 2\nInfo: ");
+
+                npc.sendMessage(p, "Name: Beachman\nHomeworld: Stiggles Vacation!\nInfo: ");
+
+                npc.sendMessage(p, "Name: Captain Beast\nHomeworld: DREAD\nInfo: ");
+
+                npc.sendMessage(p, "Name: Francis Smurf\nHomeworld: Stiggles 3\nInfo: ");
+
+                npc.sendMessage(p, "Name: The Inventor\nHomeworld: Into the Ashes\nInfo: ");
+
+
+
+
+                break;
+
         }
         return true;
     }

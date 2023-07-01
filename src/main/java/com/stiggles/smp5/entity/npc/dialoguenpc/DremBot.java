@@ -61,22 +61,42 @@ public class DremBot extends StigglesNPC {
 
         if (sp.hasQuestCompleted(Quest.QuestName.MORABITO_RECIPE)) {
             TextComponent new_clickable = new TextComponent("§6§l[Mr. Morabito]");
-            new_clickable.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/dbc " + p.getName() + NPCManager.getNPCByName("Mr. Morabito").getId()));
+            new_clickable.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/dbc " + p.getName() + " 1"));
             clickables.add (new_clickable);
         }
         if (sp.hasQuestCompleted(Quest.QuestName.NATALIES_REDEMPTION)) {
             TextComponent new_clickable = new TextComponent("§6§l[Captain Beast]");
-            new_clickable.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/dbc " + p.getName() + NPCManager.getNPCByName("Captain Beast").getId()));
+            new_clickable.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/dbc " + p.getName() + " 2"));
             clickables.add (new_clickable);
         }
         if (sp.hasQuestCompleted(Quest.QuestName.APPLE_A_DAY)) {
             TextComponent new_clickable = new TextComponent("§6§l[Mr. Orangeflips]");
-            new_clickable.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/dbc " + p.getName() + NPCManager.getNPCByName("Mr. Orangeflips").getId()));
+            new_clickable.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/dbc " + p.getName() + " 3"));
             clickables.add (new_clickable);
         }
         if (sp.hasQuestCompleted(Quest.QuestName.FISHING)) {
-            TextComponent new_clickable = new TextComponent("§6§l[Mr. Orangeflips]");
-            new_clickable.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/dbc " + p.getName() + NPCManager.getNPCByName("Luke the Fisherman").getId()));
+            TextComponent new_clickable = new TextComponent("§6§l[Luke the Fisherman]");
+            new_clickable.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/dbc " + p.getName() + " 4"));
+            clickables.add (new_clickable);
+        }
+        if (sp.hasQuestCompleted(Quest.QuestName.SMALL_STEP)) {
+            TextComponent new_clickable = new TextComponent("§6§l[The Astronomer]");
+            new_clickable.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/dbc " + p.getName() + " 5"));
+            clickables.add (new_clickable);
+        }
+        if (sp.hasQuestCompleted(Quest.QuestName.BLUEPRINTS)) {
+            TextComponent new_clickable = new TextComponent("§6§l[Ralph]");
+            new_clickable.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/dbc " + p.getName() + " 6"));
+            clickables.add (new_clickable);
+        }
+        if (sp.hasQuestCompleted(Quest.QuestName.RECRUIT_STARRY)) {
+            TextComponent new_clickable = new TextComponent("§6§l[Starry]");
+            new_clickable.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/dbc " + p.getName() + " 7"));
+            clickables.add (new_clickable);
+        }
+        if (sp.hasQuestCompleted(Quest.QuestName.RECRUIT_ANARCHO)) {
+            TextComponent new_clickable = new TextComponent("§6§l[Anarcho]");
+            new_clickable.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/dbc " + p.getName() + " 7"));
             clickables.add (new_clickable);
         }
 
