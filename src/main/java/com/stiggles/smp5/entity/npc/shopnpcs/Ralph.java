@@ -3,10 +3,9 @@ package com.stiggles.smp5.entity.npc.shopnpcs;
 import com.stiggles.smp5.Colors;
 import com.stiggles.smp5.entity.npc.ShopNPC;
 import com.stiggles.smp5.main.SMP5;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import com.stiggles.smp5.player.StigglesPlayer;
+import com.stiggles.smp5.stats.Quest;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -63,6 +62,27 @@ public class Ralph extends ShopNPC {
     @Override
     public void interactDialogue(Player player) {
         sendMessage(player, "Hello. What can we help ya build?");
+    }
+
+    @Override
+    public void onInteract (Player player) {
+        if (checkQuestItems(player))
+            return;
+        interactDialogue(player);
+
+        StigglesPlayer sp = main.getPlayerManager().getStigglesPlayer(player.getUniqueId());
+        if (sp.hasQuestCompleted(Quest.QuestName.COLLECT_CONVERGENCE) && !sp.hasQuestCompleted(Quest.QuestName.BLUEPRINTS)) {
+            sendMessageLater(player, "...", 40);
+            sendMessageLater(player, "A scientist named Dr. Trog sent you to find a builder?", 80);
+            sendMessageLater(player, "Well, you came to the right place. We can help him out.", 160);
+            sendMessageLater(player, "I'll get right on it. I'll send my worker Alejandro to visit him and see what he needs.", 220);
+            sendMessageLater(player, "Thanks for stopping by, don't forget to come back if you ever need building supplies!", 280);
+            Bukkit.getScheduler().runTaskLater(main, () -> Quest.questComplete(player, Quest.QuestName.BLUEPRINTS, "The Project Begins...", 50), 280);
+            return;
+        }
+        createGUI(player);
+        showGUI(player);
+        talk(player);
     }
 
     private class Pickaxe extends StigglesBaseItem {

@@ -2,6 +2,7 @@ package com.stiggles.smp5.entity.npc.shopnpcs;
 
 import com.stiggles.smp5.entity.npc.ShopNPC;
 import com.stiggles.smp5.main.SMP5;
+import com.stiggles.smp5.stats.Quest;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -50,6 +51,25 @@ public class Inventor extends ShopNPC {
         if (player.getName().contains("Fleury87")) {
             sendMessage(player, "Interesting... I knew it. I knew this world was part of some multiversal anomaly.");
         }
+    }
+
+    public boolean checkQuestItems(Player player) {
+        if (player.getInventory().getItemInMainHand().hasItemMeta()) {
+            ItemMeta im = player.getInventory().getItemInMainHand().getItemMeta();
+            if (im == null || !im.hasLocalizedName())
+                return true;
+            if (im.getLocalizedName().equals("starry_letter")) {
+                sendMessage(player, "Hmmm. How peculiar. A letter from Phoenix Victor-- or Starry, as you may know her.");
+                sendMessageLater(player, "Interestingly enough, I suspect this Starry is very parallel with the one I know...", 60);
+                sendMessageLater(player, "Well, enough of this tangent. It looks like she needs help.", 120);
+                sendMessageLater(player, "I've actually been thinking about ways to defeat Nouveau. I hope my inventions and ideas will be valuable to her.", 180);
+                sendMessageLater(player, "Let her know she has my support.", 260);
+                Bukkit.getScheduler().runTaskLater(main, () -> Quest.questComplete(player, Quest.QuestName.RECRUIT_INVENTOR, "The Strategist", 100), 260);
+                return true;
+            }
+        }
+
+        return false;
     }
 
     @Override

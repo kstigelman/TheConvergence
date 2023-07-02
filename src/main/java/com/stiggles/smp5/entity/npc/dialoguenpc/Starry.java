@@ -149,7 +149,9 @@ public class Starry extends StigglesNPC {
                 ChatColor.GRAY + "Show this letter to people who may be a good candidate:",
                 ChatColor.GRAY + "1. Someone as loyal as Starry's old friend " + ChatColor.RED + "Phil",
                 ChatColor.GRAY + "2. Someone who is " + ChatColor.RED + "inventive",
-                ChatColor.GRAY + "3. Someone with the passion to fight Nouveau, like " + ChatColor.RED + "Anarcho or Drem"));
+                ChatColor.GRAY + "3. Someone with the passion to fight Nouveau, like " + ChatColor.RED + "Anarcho or Drem",
+                ChatColor.GRAY + "Report back to Starry once you have found these people."
+        ));
 
         im.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
         im.addItemFlags(ItemFlag.HIDE_ENCHANTS);

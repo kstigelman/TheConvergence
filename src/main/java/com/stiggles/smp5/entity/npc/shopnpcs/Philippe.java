@@ -2,10 +2,8 @@ package com.stiggles.smp5.entity.npc.shopnpcs;
 
 import com.stiggles.smp5.entity.npc.ShopNPC;
 import com.stiggles.smp5.main.SMP5;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import com.stiggles.smp5.stats.Quest;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -73,11 +71,22 @@ public class Philippe extends ShopNPC {
     public boolean checkQuestItems(Player player) {
         if (player.getInventory().getItemInMainHand().hasItemMeta()) {
             ItemMeta im = player.getInventory().getItemInMainHand().getItemMeta();
-            if (im != null && im.hasDisplayName() && im.getLocalizedName().equals("nats_breath")) {
+            if (im == null || !im.hasLocalizedName())
+                return true;
+            if (im.getLocalizedName().equals("nats_breath")) {
                 sendMessage(player, "A sword named Natalie's Breath? Quoi? Where I am from, there is the legend of a creature, named Natalie. Legend says that even a drop this creature's breath has the power to heal any disease. No one I know has ever seen her, though.");
                 return true;
             }
+            if (im.getLocalizedName().equals("starry_letter")) {
+                sendMessage(player, "Une lettre de Reine Starry?");
+                sendMessageLater(player, "Bien sûr! It's not the Starry I know, but she still requests my help. As a loyal knight, I must protect whatever the Queen asks.", 80);
+                sendMessageLater (player, "Although they are not identical, they are still the same person. I must fulfill my vow as a knight, and to Starry.", 160);
+                sendMessageLater(player, "Merci. Thank you for showing me this letter. Please tell Starry she has my assistance.", 240);
+                Bukkit.getScheduler().runTaskLater(main, () -> Quest.questComplete(player, Quest.QuestName.RECRUIT_PHILIPPE, "The Loyal Knight", 100), 260);
+                return true;
+            }
         }
+
         return false;
     }
 

@@ -153,7 +153,8 @@ public class DrTrog extends StigglesNPC {
         im.setLocalizedName("trog_letter");
         im.setLore(Arrays.asList(ChatColor.BLUE + "Quest Item", ChatColor.GRAY + "Addressed to Starry",
                 ChatColor.GRAY + "Dr. Trog needs help in the fight against Nouveau.",
-                ChatColor.GRAY + "Since she knows Nouveau, she is the best candidate to help organize the attack."));
+                ChatColor.GRAY + "Since she knows Nouveau, she is the best candidate to help organize the attack."
+                ));
         im.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
         im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         item.setItemMeta(im);

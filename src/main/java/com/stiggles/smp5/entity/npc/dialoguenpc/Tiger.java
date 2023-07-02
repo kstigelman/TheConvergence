@@ -57,7 +57,6 @@ public class Tiger extends ShopNPC {
         if (player.getName().contains("ItsTigerFist")) {
             sendMessage(player, "Hold up, WHAT??? ARE YOU ME???");
         }
-
     }
 
     private class Logs extends StigglesBaseItem {
