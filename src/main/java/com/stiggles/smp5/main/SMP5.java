@@ -11,8 +11,6 @@ package com.stiggles.smp5.main;
 import com.stiggles.smp5.commands.*;
 import com.stiggles.smp5.dungeons.DungeonStartCommand;
 import com.stiggles.smp5.entity.Entities;
-import com.stiggles.smp5.entity.lostMerchant.InventoryManager;
-import com.stiggles.smp5.entity.lostMerchant.LostMerchant;
 import com.stiggles.smp5.entity.lostMerchant.MerchantListener;
 import com.stiggles.smp5.entity.monsters.CustomSpawns;
 import com.stiggles.smp5.entity.monsters.KillMagmaBoss;
@@ -33,33 +31,19 @@ import com.stiggles.smp5.items.crafting.CustomCrafting;
 import com.stiggles.smp5.listeners.*;
 import com.stiggles.smp5.managers.BankManager;
 import com.stiggles.smp5.managers.Bounty;
-import com.stiggles.smp5.managers.MobKillListener;
+import com.stiggles.smp5.listeners.MobKillListener;
 import com.stiggles.smp5.player.StigglesPlayer;
-import com.stiggles.smp5.stats.Quest;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.event.CitizensEnableEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.profile.PlayerProfile;
-import org.bukkit.profile.PlayerTextures;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
@@ -343,6 +327,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         CustomCrafting cc = new CustomCrafting(this);
         Bukkit.getPluginManager().registerEvents(new Swords(), this);
         Bukkit.getPluginManager().registerEvents(new AllMiscEvents(this), this);
+
         Bukkit.getPluginManager().registerEvents(new BoomBow(), this);
         Bukkit.getPluginManager().registerEvents(new GlowBow(), this);
         Bukkit.getPluginManager().registerEvents(new Pickaxes(), this);
@@ -353,9 +338,10 @@ public class SMP5 extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new Pendant(this), this);
         Bukkit.getPluginManager().registerEvents(new MerchantListener(this), this);
         Bukkit.getPluginManager().registerEvents(new MetalDetector(this), this);
-        Bukkit.getPluginManager().registerEvents(new PillagerCastle(this), this);
+        //Bukkit.getPluginManager().registerEvents(new PillagerCastle(this), this);
+        Bukkit.getPluginManager().registerEvents(new DungeonExplosionEvent(), this);
         //manager.registerEvents(this, this);
-        Bukkit.getScheduler().runTaskTimer(this, CustomSpawns::spawnWitherSkeleton, 20 * 30, 20 * 60);
+        Bukkit.getScheduler().runTaskTimer(this, CustomSpawns::spawnWitherSkeleton, 0, 20 * 10);
         Bukkit.getPluginManager().registerEvents(new CurseListener(this), this);
         Bukkit.getPluginManager().registerEvents(new NetheriteUpgrade(), this);
 
@@ -412,13 +398,13 @@ public class SMP5 extends JavaPlugin implements Listener {
         npcs.add(new YetAnotherWanderer(this, "Weary Traveler", new Location(world, -828.5, 70, -726.5)));
         npcs.add(new leadWanderer(this, "Adventurous Explorer", new Location(world, -834.5, 68, -728.5)));
         npcs.add(new Archaeologist(this, "League Representative", new Location(world, 16.5, 92, 744.5)));
+        npcs.add(new TheWanderer(this, "The Wanderer", new Location(Bukkit.getWorld("world"), -493.5, 68, -662.5)));
 
         npcs.add(new Anarcho(this, "Anarcho", new Location(worldNether, 550.5, 221, 236.5)));
         npcs.add(new NetheriteMaster(this, "Netherite Master", new Location(worldNether, -133.5, 168, -26.5)));
         npcs.add(new MineManager(this, "Mines Overseer", new Location(worldNether, -165.5, 185, 6.5)));
         npcs.add(new Cryptorg(this, "Cryptorg", new Location(worldNether, -121, 130, -12)));
 
-        npcs.add(new TheWanderer(this, "The Wanderer", new Location(Bukkit.getWorld("sanctuary"), 35, -60, 9)));
         npcs.add(new Nouveau(this, "Nouveau", new Location(Bukkit.getWorld("sanctuary"), 8.5, -59, 8.5)));
         //Nouveau 52, 132, 746
     }

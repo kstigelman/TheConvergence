@@ -78,6 +78,7 @@ public class Quest {
         RECRUIT_PHILIPPE,
         RECRUIT_INVENTOR,
         RECRUIT_ANARCHO,
+        RECRUIT_DREM,
         //Archaeologist Quests (Put everything else above)
         MESA_SITE_CHALLENGE,
         MOUNTAINS_SITE_CHALLENGE,

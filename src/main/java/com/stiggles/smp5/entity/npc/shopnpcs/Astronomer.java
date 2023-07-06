@@ -76,9 +76,9 @@ public class Astronomer extends ShopNPC {
     public boolean checkQuestItems(Player player) {
         if (player.getInventory().getItemInMainHand().hasItemMeta()) {
             ItemMeta im = player.getInventory().getItemInMainHand().getItemMeta();
-            if (im != null && im.hasDisplayName() && im.getLocalizedName().equals("moon_rocks")) {
+            if (im != null && im.hasDisplayName() && im.getLocalizedName().equals("meteor_core")) {
                 player.getInventory().getItemInMainHand().setAmount(0);
-                sendMessage(player, "Ah, how interesting... these samples reveal so much. Let me process those samples quick...");
+                sendMessage(player, "Ah, how interesting... this meteor core reveals so much. Let me process a sample of it quick...");
                 sendMessageLater(player, "Hmmm, just as I predicted. That meteor had traces of Convergence within it, and it seems to have anti-gravity properties. Did you happen to notice that the impact site had lighter gravity?", 80);
                 sendMessageLater(player, "It appears that Convergence may different effects based on what other elements it is mixed with.", 160);
                 sendMessageLater(player, "Here, I will give you this processed sample. Can you take it to Dr. Trog of EGO Labs? He may find it useful for his research...", 200);

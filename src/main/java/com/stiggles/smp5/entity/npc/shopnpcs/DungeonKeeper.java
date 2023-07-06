@@ -13,6 +13,7 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
@@ -23,11 +24,14 @@ import xyz.xenondevs.invui.item.impl.AbstractItem;
 import xyz.xenondevs.invui.item.impl.SimpleItem;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class DungeonKeeper extends ShopNPC {
 
     ArrayList<ItemStack> items = new ArrayList<>();
+    HashMap<UUID, PlayerInventory> inventories = new HashMap<>();
 
     public DungeonKeeper(SMP5 main, String name, Location location) {
 
@@ -76,14 +80,20 @@ public class DungeonKeeper extends ShopNPC {
 
     @Override
     public void createGUI(Player player) {
+
+        AbstractItem chestSlot = new SimpleItem(new ItemBuilder(Material.BLACK_STAINED_GLASS));
+        if (inventories.containsKey(player.getUniqueId())) {
+            chestSlot = new ReturnInventory(400);
+        }
         gui = Gui.normal()
                 .setStructure(
                         "# # # # # # # # #",
                         "# x x x a x x x #",
-                        "# # # # # # # # #")
+                        "# # # # # # # # c")
                 .addIngredient('#', new SimpleItem(new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE)))
                 .addIngredient('a', new BaseKey(100))
                 .addIngredient('x', new SimpleItem(new ItemBuilder(Material.WHITE_STAINED_GLASS_PANE)))
+                .addIngredient('x', chestSlot)
                 .build();
     }
 
@@ -91,7 +101,11 @@ public class DungeonKeeper extends ShopNPC {
 
     }
 
+    public void giveInventory (Player player) {
+        inventories.put (player.getUniqueId(), player.getInventory());
+    }
     public void GiveInventory(Inventory i) {
+
         for (ItemStack is : i) {
             if (is != null)
                 items.add(is);
@@ -136,6 +150,27 @@ public class DungeonKeeper extends ShopNPC {
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
             handleTrade(player, this);
+        }
+    }
+    private class ReturnInventory extends StigglesBaseItem {
+        public ReturnInventory (int price) {
+            super(price);
+            item = new ItemStack(Material.CHEST);
+            ItemMeta meta = item.getItemMeta();
+            meta.setDisplayName(ChatColor.BOLD + ChatColor.GOLD.toString() + "Salvaged Items");
+            meta.setLore(List.of(ChatColor.GRAY + "Gain your lost items back from the dungeon.",
+                    ChatColor.RED + "WARNING: WILL REPLACE ALL ITEMS IN YOUR CURRENT INVENTORY"));
+            item.setItemMeta(meta);
+        }
+
+        public ItemProvider getItemProvider() {
+            return new ItemBuilder(item).addLoreLines(getCost());
+        }
+
+        @Override
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
+            handleTrade(player, this);
+
         }
     }
 

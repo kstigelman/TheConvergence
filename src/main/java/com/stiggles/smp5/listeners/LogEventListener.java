@@ -75,7 +75,12 @@ public class LogEventListener implements Listener {
             p.playSound(p, Sound.BLOCK_BEACON_ACTIVATE, 1, 2);
 
             //Bounty.setTabName(p);
-
+            if (p.getWorld().getName().equals("testdungeon")) {
+                p.teleport(Bukkit.getWorld("world").getSpawnLocation());
+                //p.setInvisible(false);
+                p.setGameMode(GameMode.SURVIVAL);
+                p.setInvisible(false);
+            }
             if (p.getWorld().getName().equals("sanctuary")) {
                 if (!Quest.isQuestComplete(p, Quest.QuestName.NOUVEAU_INTRO))
                     return;

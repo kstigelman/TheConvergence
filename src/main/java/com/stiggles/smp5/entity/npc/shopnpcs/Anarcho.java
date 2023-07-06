@@ -1,11 +1,29 @@
 package com.stiggles.smp5.entity.npc.shopnpcs;
 
+import com.stiggles.smp5.entity.npc.ShopNPC;
 import com.stiggles.smp5.entity.npc.StigglesNPC;
+import com.stiggles.smp5.entity.npc.dialoguenpc.Tiger;
 import com.stiggles.smp5.main.SMP5;
-import org.bukkit.Location;
+import com.stiggles.smp5.stats.Quest;
+import org.bukkit.*;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.jetbrains.annotations.NotNull;
+import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.item.ItemProvider;
+import xyz.xenondevs.invui.item.builder.ItemBuilder;
+import xyz.xenondevs.invui.item.impl.SimpleItem;
 
-public class Anarcho extends StigglesNPC {
+import java.util.Arrays;
+
+public class Anarcho extends ShopNPC {
 
     public Anarcho(SMP5 main, String name, Location location) {
         super(main, name, location);
@@ -18,12 +36,29 @@ public class Anarcho extends StigglesNPC {
 
     @Override
     public void onInteract(Player player) {
+        if (checkQuestItems(player))
+            return;
         interactDialogue(player);
-        /*if (Quest.isQuestComplete(player, Quest.QuestName.NATALIES_REDEMPTION)) {
+        if (Quest.isQuestComplete(player, Quest.QuestName.RECRUIT_ANARCHO)) {
             createGUI(player);
-            showGUI (player);
-        }*/
+            showGUI(player);
+        }
         talk(player);
+    }
+
+    @Override
+    public void createGUI(Player player) {
+        gui = Gui.normal()
+                .setStructure(
+                        "# # # # # # # #",
+                        "# # a b c d # #",
+                        "# # # # # # # #")
+                .addIngredient('#', new SimpleItem(new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE)))
+                .addIngredient('a', new AnarchyHelmet(200))
+                .addIngredient('b', new AnarchyChestplate(300))
+                .addIngredient('c', new AnarchyLeggings(250))
+                .addIngredient('d', new AnarchyBoots(150))
+                .build();
     }
 
     @Override
@@ -36,6 +71,192 @@ public class Anarcho extends StigglesNPC {
             sendMessage(player, "Welcome to Anarcho's Castle. Heh.");
         } else {
             sendMessage(player, "Hi there. I didn't expect any visitors today.");
+        }
+    }
+
+    @Override
+    public boolean handleTrade(Player player, StigglesBaseItem item) {
+        if (super.handleTrade(player, item)) {
+            sendMessage(player, "Thanks.");
+            return true;
+        }
+        sendMessage(player, "Hey, don't you even think about trying to steal!");
+        return false;
+    }
+
+    public boolean checkQuestItems(Player player) {
+        if (player.getInventory().getItemInMainHand().hasItemMeta()) {
+            ItemMeta im = player.getInventory().getItemInMainHand().getItemMeta();
+            if (im == null || !im.hasLocalizedName())
+                return true;
+            if (im.getLocalizedName().equals("starry_letter")) {
+                sendMessage(player, "...");
+                sendMessageLater(player, "From Starry? Is this real?", 60);
+                sendMessageLater(player, "We definitely need to stop Nouveau. He's caused us enough trouble in the past, and he doesn't need to keep it up now. I'm sick of his control.", 120);
+                sendMessageLater(player, "Plus, this gives me a way to make up for all the things I've done in the past. Tell Starry I will be there.", 180);
+                Bukkit.getScheduler().runTaskLater(main, () -> Quest.questComplete(player, Quest.QuestName.RECRUIT_ANARCHO, "Reconciliation", 100), 220);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private class AnarchyChestplate extends StigglesBaseItem {
+        public AnarchyChestplate(int price) {
+            super(price);
+            item = new ItemStack(Material.LEATHER_CHESTPLATE);
+            LeatherArmorMeta meta = (LeatherArmorMeta) item.getItemMeta();
+            meta.setUnbreakable(true);
+            meta.setColor(Color.fromRGB(166, 0, 199));
+            meta.setDisplayName(ChatColor.LIGHT_PURPLE + "Anarchy's Chestplate");
+            meta.setLore(Arrays.asList(
+                    String.valueOf(ChatColor.GRAY),
+                    ChatColor.LIGHT_PURPLE + "-- SPECIAL ARMOR --",
+                    ChatColor.LIGHT_PURPLE + "- ANARCHY'S WARDROBE -",
+                    ChatColor.GRAY + ChatColor.BOLD.toString() + "USELSS BY ITSELF",
+                    ChatColor.GRAY + "When paired with the full",
+                    ChatColor.GRAY + "set of ANARCHY'S WARDROBE you",
+                    ChatColor.GRAY + "gain the following buffs",
+                    ChatColor.GRAY + ChatColor.BOLD.toString() + "IN COMBAT",
+                    ChatColor.GRAY + "- Regeneration 1",
+                    ChatColor.GRAY + "- Strength 1",
+                    ChatColor.GRAY + "- Speed 1"));
+            meta.setLocalizedName("a_chestplate");
+
+            AttributeModifier genericArmor = new AttributeModifier("generic.armor", 8, AttributeModifier.Operation.ADD_NUMBER);
+            AttributeModifier toughnessArmor = new AttributeModifier("generic.armor_toughness", 2, AttributeModifier.Operation.ADD_NUMBER);
+            meta.addAttributeModifier(Attribute.GENERIC_ARMOR, genericArmor);
+            meta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, toughnessArmor);
+            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+            item.setItemMeta(meta);
+        }
+
+        public ItemProvider getItemProvider() {
+            return new ItemBuilder(item).addLoreLines(getCost());
+        }
+
+        @Override
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
+            handleTrade(player, this);
+        }
+    }
+
+    private class AnarchyLeggings extends StigglesBaseItem {
+        public AnarchyLeggings(int price) {
+            super(price);
+            item = new ItemStack(Material.LEATHER_LEGGINGS);
+            LeatherArmorMeta meta = (LeatherArmorMeta) item.getItemMeta();
+            meta.setUnbreakable(true);
+            meta.setColor(Color.fromRGB(166, 0, 199));
+            meta.setDisplayName(ChatColor.LIGHT_PURPLE + "Anarchy's Chestplate");
+            meta.setLore(Arrays.asList(
+                    String.valueOf(ChatColor.GRAY),
+                    ChatColor.LIGHT_PURPLE + "-- SPECIAL ARMOR --",
+                    ChatColor.LIGHT_PURPLE + "- ANARCHY'S WARDROBE -",
+                    ChatColor.GRAY + ChatColor.BOLD.toString() + "USELSS BY ITSELF",
+                    ChatColor.GRAY + "When paired with the full",
+                    ChatColor.GRAY + "set of ANARCHY'S WARDROBE you",
+                    ChatColor.GRAY + "gain the following buffs",
+                    ChatColor.GRAY + ChatColor.BOLD.toString() + "IN COMBAT",
+                    ChatColor.GRAY + "- Regeneration 1",
+                    ChatColor.GRAY + "- Strength 1",
+                    ChatColor.GRAY + "- Speed 1"));
+            meta.setLocalizedName("a_chestplate");
+
+            AttributeModifier genericArmor = new AttributeModifier("generic.armor", 8, AttributeModifier.Operation.ADD_NUMBER);
+            AttributeModifier toughnessArmor = new AttributeModifier("generic.armor_toughness", 2, AttributeModifier.Operation.ADD_NUMBER);
+            meta.addAttributeModifier(Attribute.GENERIC_ARMOR, genericArmor);
+            meta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, toughnessArmor);
+            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+            item.setItemMeta(meta);
+        }
+
+        public ItemProvider getItemProvider() {
+            return new ItemBuilder(item).addLoreLines(getCost());
+        }
+
+        @Override
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
+            handleTrade(player, this);
+        }
+    }
+
+    private class AnarchyHelmet extends StigglesBaseItem {
+        public AnarchyHelmet(int price) {
+            super(price);
+            item = new ItemStack(Material.LEATHER_HELMET);
+            LeatherArmorMeta meta = (LeatherArmorMeta) item.getItemMeta();
+            meta.setUnbreakable(true);
+            meta.setColor(Color.fromRGB(166, 0, 199));
+            meta.setDisplayName(ChatColor.LIGHT_PURPLE + "Anarchy's Helmet");
+            meta.setLore(Arrays.asList(
+                    String.valueOf(ChatColor.GRAY),
+                    ChatColor.LIGHT_PURPLE + "-- SPECIAL ARMOR --",
+                    ChatColor.LIGHT_PURPLE + "- ANARCHY'S WARDROBE -",
+                    ChatColor.GRAY + ChatColor.BOLD.toString() + "USELSS BY ITSELF",
+                    ChatColor.GRAY + "When paired with the full",
+                    ChatColor.GRAY + "set of ANARCHY'S WARDROBE you",
+                    ChatColor.GRAY + "gain the following buffs",
+                    ChatColor.GRAY + ChatColor.BOLD.toString() + "IN COMBAT",
+                    ChatColor.GRAY + "- Regeneration 1",
+                    ChatColor.GRAY + "- Strength 1",
+                    ChatColor.GRAY + "- Speed 1"));
+            meta.setLocalizedName("a_helmet");
+            AttributeModifier genericArmor = new AttributeModifier("generic.armor", 3, AttributeModifier.Operation.ADD_NUMBER);
+            AttributeModifier toughnessArmor = new AttributeModifier("generic.armor_toughness", 2, AttributeModifier.Operation.ADD_NUMBER);
+            meta.addAttributeModifier(Attribute.GENERIC_ARMOR, genericArmor);
+            meta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, toughnessArmor);
+            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+            item.setItemMeta(meta);
+        }
+
+        public ItemProvider getItemProvider() {
+            return new ItemBuilder(item).addLoreLines(getCost());
+        }
+
+        @Override
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
+            handleTrade(player, this);
+        }
+    }
+    private class AnarchyBoots extends StigglesBaseItem {
+        public AnarchyBoots(int price) {
+            super(price);
+            item = new ItemStack(Material.LEATHER_BOOTS);
+            LeatherArmorMeta meta = (LeatherArmorMeta) item.getItemMeta();
+            meta.setUnbreakable(true);
+            meta.setColor(Color.fromRGB(166, 0, 199));
+            meta.setDisplayName(ChatColor.LIGHT_PURPLE + "Anarchy's Boots");
+            meta.setLore(Arrays.asList(
+                    String.valueOf(ChatColor.GRAY),
+                    ChatColor.LIGHT_PURPLE + "-- SPECIAL ARMOR --",
+                    ChatColor.LIGHT_PURPLE + "- ANARCHY'S WARDROBE -",
+                    ChatColor.GRAY + ChatColor.BOLD.toString() + "USELSS BY ITSELF",
+                    ChatColor.GRAY + "When paired with the full",
+                    ChatColor.GRAY + "set of ANARCHY'S WARDROBE you",
+                    ChatColor.GRAY + "gain the following buffs",
+                    ChatColor.GRAY + ChatColor.BOLD.toString() + "IN COMBAT",
+                    ChatColor.GRAY + "- Regeneration 1",
+                    ChatColor.GRAY + "- Strength 1",
+                    ChatColor.GRAY + "- Speed 1"));
+            meta.setLocalizedName("a_boots");
+
+            AttributeModifier genericArmor = new AttributeModifier("generic.armor", 2, AttributeModifier.Operation.ADD_NUMBER);
+            AttributeModifier toughnessArmor = new AttributeModifier("generic.armor_toughness", 2, AttributeModifier.Operation.ADD_NUMBER);
+            meta.addAttributeModifier(Attribute.GENERIC_ARMOR, genericArmor);
+            meta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, toughnessArmor);
+            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+            item.setItemMeta(meta);
+        }
+
+        public ItemProvider getItemProvider() {
+            return new ItemBuilder(item).addLoreLines(getCost());
+        }
+
+        @Override
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
+            handleTrade(player, this);
         }
     }
 }

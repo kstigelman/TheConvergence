@@ -2,6 +2,7 @@ package com.stiggles.smp5.listeners;
 
 import com.stiggles.smp5.main.SMP5;
 import com.stiggles.smp5.player.StigglesPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -17,7 +18,12 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.profile.PlayerProfile;
+import org.bukkit.profile.PlayerTextures;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.UUID;
 
@@ -125,12 +131,12 @@ public class OnArmorStandInteract implements Listener {
                 if (i == null || !i.hasItemMeta())
                     continue;
 
-                if (i.getItemMeta().hasLocalizedName() && i.getItemMeta().getLocalizedName().equals("moon_rocks"))
+                if (i.getItemMeta().hasLocalizedName() && i.getItemMeta().getLocalizedName().equals("meteor_core"))
                     return;
                 //    getName().contains(ChatColor.DARK_GRAY + "Natalie's Breath (Decayed)"))
             }
             e.getPlayer().sendMessage(ChatColor.ITALIC + ChatColor.GRAY.toString() + "You picked up some debris from the meteor strike!");
-            e.getPlayer().getInventory().addItem(getRocks());
+            e.getPlayer().getInventory().addItem(getMeteor());
         }
     }
 
@@ -196,6 +202,26 @@ public class OnArmorStandInteract implements Listener {
         im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         item.setItemMeta(im);
         return item;
+    }
+    public ItemStack getMeteor () {
+        ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
+        SkullMeta meta = (SkullMeta) skull.getItemMeta();
+
+        PlayerProfile p = Bukkit.createPlayerProfile(UUID.randomUUID());
+        try {
+            PlayerTextures pt = p.getTextures();
+            pt.setSkin(new URL("http://textures.minecraft.net/texture/97341e4c8cca4d23cd9dad4c8ab5f71bd9f775f89e97b269ff5e36139ada0a0d"
+            ));
+            p.setTextures(pt);
+        } catch (MalformedURLException e) {
+
+        }
+        meta.setOwnerProfile(p);
+        meta.setDisplayName(ChatColor.DARK_RED + "Meteor Core");
+        meta.setLore (Arrays.asList (ChatColor.BLUE + "Quest Item", ChatColor.GRAY + "Debris from the meteor. Maybe someone nearby can take look at it."));
+        meta.setLocalizedName("meteor_core");
+        skull.setItemMeta(meta);
+        return skull;
     }
 
     public int calculateHash(Location location) {

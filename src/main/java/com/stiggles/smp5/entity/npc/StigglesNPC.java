@@ -6,26 +6,27 @@ import com.stiggles.smp5.worlds.WorldType;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.trait.trait.Equipment;
-import net.citizensnpcs.trait.FollowTrait;
 import net.citizensnpcs.trait.LookClose;
 import net.citizensnpcs.trait.SkinTrait;
 
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+
 import org.bukkit.*;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Random;
 
-
+/**
+ * Represent a Stiggles NPC using Citizens API.
+ *
+ * @author Kyler Stigelman
+ */
 public abstract class StigglesNPC {
-
     protected int ri;
 
     private NPC npc;
@@ -39,10 +40,9 @@ public abstract class StigglesNPC {
     private String worldName = "world";
 
     private final Location spawnLocation;
-    //private Plugin plugin = Main.getPlugin(SMP5.class);
+
     private float voice = 1.0f;
     private float yaw;
-
 
     public StigglesNPC (SMP5 main, String name) {
         this (main, name, new Location (Bukkit.getWorlds().get(0), 0, 0, 0));
@@ -55,7 +55,6 @@ public abstract class StigglesNPC {
          * Server is planned to restart daily, so for certain NPC's
          * that have a shop, the shop will update daily.
          */
-
         ri = main.getRandom();
 
         //if (npc == null) {
@@ -97,7 +96,8 @@ public abstract class StigglesNPC {
         this (main, name, location, -1);
     }
 
-    /** Retrives the name of the NPC
+    /**
+     * Retrives the name of the NPC
      *
      * @return the string name
      */
@@ -105,7 +105,8 @@ public abstract class StigglesNPC {
         return name;
     }
 
-    /** Set the rotation of the NPC.
+    /**
+     * Set the rotation of the NPC.
      *
      * @param yaw The horizontal rotation.
      */
@@ -116,7 +117,8 @@ public abstract class StigglesNPC {
                       npc.getStoredLocation().getY(),
                       npc.getStoredLocation().getZ () + Math.sin(yaw * 3.14 / 180)));
     }
-    /** Retrieve the Citizens NPC object.
+    /**
+     * Retrieve the Citizens NPC object.
      *
      * @return The NPC.
      */
@@ -124,7 +126,8 @@ public abstract class StigglesNPC {
         return npc;
     }
 
-    /** Set a new internal name for the npc. Will not change the display name.
+    /**
+     * Set a new internal name for the npc. Will not change the display name.
      *
      * @param name the new name.
      */
@@ -132,7 +135,8 @@ public abstract class StigglesNPC {
         this.name = name;
     }
 
-    /** Change the location of the NPC.
+    /**
+     * Change the location of the NPC.
      *
      * @param location A minecraft location to be set.
      */
@@ -141,7 +145,8 @@ public abstract class StigglesNPC {
         npc.spawn(location);
     }
 
-    /** Change the location of the NPC.
+    /**
+     * Change the location of the NPC.
      *
      * @param x The x-coordinate of the location.
      * @param y The y-coordinate of the location.
@@ -152,7 +157,8 @@ public abstract class StigglesNPC {
         npc.spawn(new Location (Bukkit.getWorld (worldName), x, y, z));
     }
 
-    /** Set the skin of the NPC. Get fields from mineskin.org.
+    /**
+     * Set the skin of the NPC. Get fields from mineskin.org.
      *
      * @param value The skin value string.
      * @param signature The skin signature string.
@@ -161,7 +167,8 @@ public abstract class StigglesNPC {
         npc.getOrAddTrait (SkinTrait.class).setSkinPersistent(name, signature, value);
     }
 
-    /** Broadcast message from the NPC to all players online.
+    /**
+     *  Broadcast message from the NPC to all players online.
      *
      * @param msg The message to be sent.
      */
@@ -169,7 +176,8 @@ public abstract class StigglesNPC {
         Bukkit.getServer().broadcastMessage(chatColor + "<" + nameColorPrefix + name + ChatColor.WHITE + chatColor + "> " + msg);
     }
 
-    /** Send a message from the NPC to a specific player.
+    /**
+     * Send a message from the NPC to a specific player.
      *
      * @param p The player to send the message to.
      * @param msg The message to be sent.
@@ -178,6 +186,13 @@ public abstract class StigglesNPC {
         p.sendMessage(chatColor + "<" + nameColorPrefix + name + ChatColor.WHITE + chatColor + "> " + msg);
     }
 
+    /**
+     * Send a message from the NPC to a specific player after a delay.
+     *
+     * @param p The player to send the message to.
+     * @param msg The message to be sent.
+     * @param delay The time duration in ticks to wait before sending.
+     */
     public void sendMessageLater (Player p, String msg, int delay) {
         Bukkit.getScheduler().runTaskLater(main, () -> {
             sendMessage(p, msg);
@@ -185,7 +200,8 @@ public abstract class StigglesNPC {
 
     }
 
-    /** Event that occurs when the player clicks on the NPC.
+    /**
+     * Event that occurs when the player clicks on the NPC.
      *
      * @param player The player that interacted with the NPC.
      */
@@ -197,13 +213,15 @@ public abstract class StigglesNPC {
         talk (player);
     }
 
-    /** Send dialogue to player when the NPC is interacted with.
+    /**
+     * Send dialogue to player when the NPC is interacted with.
      *
      * @param player The player that interacted with the NPC.
      */
     public abstract void interactDialogue (Player player);
 
-    /** Selects a line of extra dialogue prompted by the player from the NPC's
+    /**
+     * Selects a line of extra dialogue prompted by the player from the NPC's
      *    dialogue file.
      *
      * @return The dialogue selected from the file.
@@ -227,6 +245,13 @@ public abstract class StigglesNPC {
 
         return "<" + getName () + "> " + dialogue;
     }
+
+    /**
+     * Retrieves dialogue lines from a text file.
+     *   Precondition: hasDialogue returns true.
+     *
+     * @return An array of dialogue lines.
+     */
     public ArrayList<String> getDialogues () {
         String dialogue;
         try {
@@ -244,6 +269,12 @@ public abstract class StigglesNPC {
         }
     }
 
+    /**
+     * Checks if the NPC has a non-empty text file whose name
+     *   matches the NPC's name.
+     *
+     * @return Whether or not the file has been found.
+     */
     public boolean hasDialogue () {
         try {
             FileReader fileReader = new FileReader("plugins/smp5/text/" + name + ".txt");
@@ -260,7 +291,8 @@ public abstract class StigglesNPC {
         }
     }
 
-    /** Prompts player in chat with a clickable message so player can talk to the NPC
+    /**
+     * Prompts player in chat with a clickable message so player can talk to the NPC
      *    more if they wish.
      *
      * @param p The player that interacted with the NPC.
@@ -281,7 +313,8 @@ public abstract class StigglesNPC {
         p.spigot().sendMessage(new BaseComponent[]{clickable});
     }
 
-    /** Get the NPC's entity ID.
+    /**
+     * Get the NPC's entity ID.
      *
      * @return The ID.
      */
@@ -289,7 +322,8 @@ public abstract class StigglesNPC {
         return npc.getId();
     }
 
-    /** Set the NPC to hold a certain item.
+    /**
+     * Set the NPC to hold a certain item.
      *
      * @param item The item material the NPC should hold.
      */
@@ -298,24 +332,54 @@ public abstract class StigglesNPC {
             return;
         npc.getOrAddTrait(Equipment.class).set (Equipment.EquipmentSlot.HAND, new ItemStack(item));
     }
+
+    /**
+     * Play a sound from the NPC's location.
+     *
+     * @param p The player that will hear the sound.
+     * @param sound The sound effect to be played.
+     */
     public void playSound (Player p, Sound sound) {
         p.playSound(p.getLocation(), sound, 1.f, voice);
     }
 
+    /**
+     * Change the pitch of any sound that will be played from the NPC.
+     *
+     * @param voice The new pitch.
+     */
     public void setVoice (float voice) {
         this.voice = voice;
     }
+
+    /**
+     * Send a message and play a sound directed to a player.
+     *
+     * @param p The player to send the message and sound.
+     * @param message The message to be sent.
+     * @param sound The sound effect to be played.
+     */
     public void speak (Player p, String message, Sound sound) {
         sendMessage(p, message);
         playSound(p, sound);
     }
 
+    /**
+     * Send a message and play a sound directed to a player
+     *   after a time delay.
+     *
+     * @param p The player to send the message and sound.
+     * @param message The message to be sent.
+     * @param sound The sound effect to be played.
+     * @param delay The time to wait before executing.
+     */
     public void speakLater (Player p, String message, Sound sound, int delay) {
         Bukkit.getScheduler().runTaskLater(main, () -> {
             speak (p, message, sound);
         }, delay);
     }
-    /** Set the NPC to hold a certain item.
+    /**
+     * Set the NPC to hold a certain item.
      *
      * @param item The item stack the NPC should hold.
      */
@@ -325,7 +389,8 @@ public abstract class StigglesNPC {
         npc.getOrAddTrait(Equipment.class).set (Equipment.EquipmentSlot.HAND, item);
     }
 
-    /** Set the color of the NPC's name to be displayed in chat and above head.
+    /**
+     * Set the color of the NPC's name to be displayed in chat and above head.
      *
      * @param color The color to be set.
      */
@@ -333,7 +398,8 @@ public abstract class StigglesNPC {
         nameColorPrefix = color;
     }
 
-    /** Set the color of the NPC's chat messages.
+    /**
+     * Set the color of the NPC's chat messages.
      *
      * @param color
      */
@@ -341,7 +407,8 @@ public abstract class StigglesNPC {
         chatColor = color;
     }
 
-    /** Get the name of the world the NPC is located in.
+    /**
+     * Get the name of the world the NPC is located in.
      *
      * @return The string name of the world.
      */
@@ -349,6 +416,15 @@ public abstract class StigglesNPC {
         return worldName;
     }
 
+    /**
+     * Checks a players inventory for certain quest-related
+     *   items upon interaction. By default, always return false
+     *   if unimplemented. For NPCs that do have items, this
+     *   method will be overridden in the subclass.
+     *
+     * @param player The player invovled in the interaction.
+     * @return Whether or not the player has the quest items.
+     */
     public boolean checkQuestItems (Player player) {
         return false;
     }

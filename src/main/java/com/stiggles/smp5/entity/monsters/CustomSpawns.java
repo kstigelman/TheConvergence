@@ -21,6 +21,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -115,7 +116,7 @@ public class CustomSpawns {
             if (!highestRandomLocation.getBlock().getType().equals(Material.NETHER_BRICK)) {
                 break;
             }
-
+            Bukkit.getConsoleSender().sendMessage("Spawning");
             Bukkit.getWorld(p.getWorld().getName()).spawnEntity(highestRandomLocation, EntityType.WITHER_SKELETON);
         }
     }
@@ -175,8 +176,13 @@ public class CustomSpawns {
         } catch (MalformedURLException e) {
 
         }
+        skull_meta.setDisplayName(ChatColor.DARK_RED + "Infected Cryptoid Skull");
+        skull_meta.setLore(Arrays.asList(ChatColor.GRAY + "The Cryptorg Virus was a zombie-like outbreak in the",
+                ChatColor.GRAY + "world of DREAD. There is only " + ChatColor.RED + "1 " + ChatColor.GRAY + "known survivor from",
+                ChatColor.GRAY + "this universe, a man who goes by the name Captain Beast."));
         skull.setItemMeta(skull_meta);
         zombie.getEquipment().setHelmet(skull);
+        zombie.getEquipment().setHelmetDropChance(0.08f);
 
         ItemStack armor = new ItemStack (Material.LEATHER_CHESTPLATE);
         LeatherArmorMeta leather_meta = (LeatherArmorMeta) armor.getItemMeta();
@@ -191,24 +197,30 @@ public class CustomSpawns {
 
         armor = new ItemStack (Material.LEATHER_BOOTS);
         armor.setItemMeta(leather_meta);
-        zombie.getEquipment().setLeggings(armor);
+        zombie.getEquipment().setBoots(armor);
     }
 
     public static void checkCryptoidSpawns () {
-        World world;
-        if ((world = Bukkit.getWorld ("world")) == null)
-            return;
+        new BukkitRunnable () {
+            @Override
+            public void run() {
+                World world;
+                if ((world = Bukkit.getWorld ("world")) == null)
+                    return;
 
-        List<LivingEntity> entities = world.getLivingEntities();
+                List<LivingEntity> entities = world.getLivingEntities();
 
-        for (LivingEntity e : entities) {
-            if (!(e instanceof Zombie))
-                return;
-            if (main.getRandom() % 5 != 0)
-                return;
-            CustomSpawns.spawnCryptoid(e.getLocation());
-            e.remove();
-        }
+                for (LivingEntity e : entities) {
+                    if (!(e instanceof Zombie))
+                        continue;
+                    if (main.getRandom() % 5 != 0)
+                        continue;
+                    CustomSpawns.spawnCryptoid(e.getLocation());
+                    e.remove();
+                }
+            }
+        }.runTaskTimer(main, 60 * 20, 60 * 20);
+
     }
 
 }

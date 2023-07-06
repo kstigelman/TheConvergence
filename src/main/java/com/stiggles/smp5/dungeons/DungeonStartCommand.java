@@ -39,19 +39,12 @@ public class DungeonStartCommand implements CommandExecutor, Listener {
                             //Bukkit.broadcastMessage(ChatColor.YELLOW +"A Dungeon is being started by " + p.getName() +" you have 30 seconds to type the command: /dungeon join " + p.getName());
                             p.sendMessage(ChatColor.GREEN + "You are being sent to the dungeon! Prepare yourself! (" + Math.addExact(1, players.size()) + "/4 Players)");
                             // p.teleport(Bukkit.getWorld("testdungeon").getBlockAt((int) 43.5, -42, (int) 190.5).getLocation());
-                            p.getLocation().setYaw(90);
-                            p.getLocation().setPitch(0);
+                            //p.getLocation().setYaw(90);
+                            //p.getLocation().setPitch(0);
                             //players.add(p);
                             //alivePlayers.add(p);
                             DungeonManager.addPlayer(p, "testdungeon");
-                            p.getInventory().clear();
-                            p.getInventory().addItem(new ItemStack(Material.IRON_SWORD));
-                            p.getInventory().addItem(new ItemStack(Material.IRON_LEGGINGS));
-                            p.getInventory().addItem(new ItemStack(Material.IRON_BOOTS));
-                            p.getInventory().addItem(new ItemStack(Material.SHIELD));
-                            p.getInventory().addItem(new ItemStack(Material.COOKED_BEEF, 64));
-
-                            p.setGameMode(GameMode.ADVENTURE);
+                            return true;
                             // p.sendMessage(ChatColor.GREEN + "You have been given items to aid you in the dungeon! Good luck.");
                         } else {
                             p.sendMessage(ChatColor.GREEN + "You are being sent to the dungeon! Prepare yourself! (" + Math.addExact(1, players.size()) + "/4 Players)");

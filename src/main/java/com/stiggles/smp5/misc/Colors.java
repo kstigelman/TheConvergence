@@ -1,5 +1,9 @@
-package com.stiggles.smp5;
+package com.stiggles.smp5.misc;
 
+/** Maps color values to numbers for randomization.
+ *
+ * @author Kyler Stigelman
+ */
 public class Colors {
     public static final String[] colors = {
             "WHITE",       //  0

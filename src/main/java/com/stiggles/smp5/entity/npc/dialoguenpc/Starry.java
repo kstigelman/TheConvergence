@@ -51,6 +51,19 @@ public class Starry extends StigglesNPC {
         }
     */
     public void interactDialogue(Player player) {
+        if (!Quest.isQuestComplete(player, Quest.QuestName.STIGGLES_ASSEMBLE)) {
+            boolean found = false;
+            for (ItemStack i : player.getInventory()) {
+                if (i == null || !i.hasItemMeta())
+                    continue;
+                if (i.getItemMeta().getLocalizedName().equals("starry_letter")) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found)
+                player.getInventory().addItem(getLetter());
+        }
         String msg = "Welcome to the Spectral Saloon!";
 
 
@@ -72,6 +85,16 @@ public class Starry extends StigglesNPC {
     }
 
     public boolean checkQuestItems(Player player) {
+        if (Quest.isQuestComplete(player, Quest.QuestName.RECRUIT_DREM)
+                && Quest.isQuestComplete(player, Quest.QuestName.RECRUIT_INVENTOR)
+                && Quest.isQuestComplete(player, Quest.QuestName.RECRUIT_PHILIPPE)
+                && Quest.isQuestComplete(player, Quest.QuestName.RECRUIT_ANARCHO)
+                && !Quest.isQuestComplete(player, Quest.QuestName.STIGGLES_ASSEMBLE)) {
+            sendMessage(player, "Wow! You really were able to find four people for our team? Thank you so much!");
+            sendMessageLater(player, "I have been busy making plans and consulting my friends and Dr. Trog as we plan for this fight.", 60);
+            sendMessageLater(player, "Now, we just wait for another update from Dr. Trog, and then we can move forward with the plan.", 120);
+            Quest.questComplete(player, Quest.QuestName.STIGGLES_ASSEMBLE, "Stiggles, Assemble!", 1000);
+        }
         if (player.getInventory().getItemInMainHand().hasItemMeta()) {
             ItemMeta im = player.getInventory().getItemInMainHand().getItemMeta();
             if (im == null || !im.hasLocalizedName())
@@ -98,19 +121,21 @@ public class Starry extends StigglesNPC {
             if (im.getLocalizedName().equals("trog_letter")) {
                 player.getInventory().getItemInMainHand().setAmount(0);
                 sendMessage(player, "Oh! What's this?");
-                sendMessageLater(player, "...a scientist? From EGO Labs?", 80);
-                sendMessageLater(player, "He's asking me to rally for help to take a stand against Nouveau. Am I really fit for this role?", 160);
-                sendMessageLater(player, "This is a lot to process... but we do need to stop Nouveau. And if Dr. Trog is asking for my help, I will do it.", 240);
-                sendMessageLater(player, "I'm going to need a team.", 240);
+                sendMessageLater(player, "...a scientist? From EGO Labs?", 60);
+                sendMessageLater(player, "He's asking me to rally for help to take a stand against Nouveau. Am I really fit for this role?", 140);
+                sendMessageLater(player, "This is a lot to take in, and I don't know if I can do this... but we do need to stop Nouveau. And if Dr. Trog is asking for my help, I will do it.", 220);
+                Bukkit.getScheduler().runTaskLater(main, () -> Quest.questComplete(player, Quest.QuestName.RECRUIT_STARRY, "Taking a Stand", 50), 240);
+                sendMessageLater(player, "I'm going to need a team.", 300);
                 sendMessageLater(player, "I need someone who will be loyal. Someone who won't back out. If only my friend Phil was here... he would be perfect.", 360);
-                sendMessageLater(player, "Next, I need someone creative and smart. I need someone who can invent new ideas and strategies to give us the upper hand in this battle.", 420);
-                sendMessageLater(player, "I also need warriors, people who are passionate to fight.", 480);
-                sendMessageLater(player, "Anarcho would be a good warrior to help us, but I don't know where he is.. He, like Nouveau, brought devastation to my homeworld... but he recognized his wrongdoings. ", 540);
-                sendMessageLater (player, "I wish Drem and Anarcho were here. They both have faced Nouveau before, and they would be eager to fight", 300);
-                sendMessageLater(player, "Captain Beast will be a perfect match for this fight. Thank you for finding him.", 600);
-                sendMessageLater(player, "Spiffy and I need to go consult two friends of ours in Community City on this matter.", 760);
-                sendMessageLater(player, "If you come across anyone who you think would be a good candidate for my team, please, give them this letter. Thank you.", 660);
-                Bukkit.getScheduler().runTaskLater(main, () -> Quest.questComplete(player, Quest.QuestName.RECRUIT_STARRY, "Taking a Stand", 50), 300);
+                sendMessageLater(player, "Next, I need someone creative and smart. I need someone who can invent new ideas and strategies to give us the upper hand in this battle.", 450);
+                sendMessageLater(player, "I also need some warriors, people who are passionate to fight.", 520);
+                if (Quest.isQuestComplete(player, Quest.QuestName.NATALIES_REDEMPTION))
+                    sendMessageLater(player, "Captain Beast-- a.k.a Drem, will be a perfect match for this fight. Thank you for finding him. It would be great to find a second one, too.", 600);
+                else
+                    sendMessageLater(player, "There are two people I know who have the fighting ambition we need-- their names are Drem and Anarcho. One sought justice and the other wanted devastation. However, I don't know if either one of them are here.", 600);
+                sendMessageLater(player, "Spiffy and I need to go consult two friends of ours in Community City on this matter. They may be able to give advice on who to ask.", 680);
+                sendMessageLater(player, "If you come across anyone who you think would be a good candidate for my team, please, give them this letter. Thank you.", 760);
+                player.getInventory().addItem(getLetter());
                 return true;
             }
         }
@@ -149,7 +174,7 @@ public class Starry extends StigglesNPC {
                 ChatColor.GRAY + "Show this letter to people who may be a good candidate:",
                 ChatColor.GRAY + "1. Someone as loyal as Starry's old friend " + ChatColor.RED + "Phil",
                 ChatColor.GRAY + "2. Someone who is " + ChatColor.RED + "inventive",
-                ChatColor.GRAY + "3. Someone with the passion to fight Nouveau, like " + ChatColor.RED + "Anarcho or Drem",
+                ChatColor.GRAY + "3. People with the passion to fight Nouveau, like " + ChatColor.RED + "Anarcho or Drem",
                 ChatColor.GRAY + "Report back to Starry once you have found these people."
         ));
 

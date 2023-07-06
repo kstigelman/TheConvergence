@@ -1,6 +1,6 @@
 package com.stiggles.smp5.entity.npc.shopnpcs;
 
-import com.stiggles.smp5.Colors;
+import com.stiggles.smp5.misc.Colors;
 import com.stiggles.smp5.entity.npc.ShopNPC;
 import com.stiggles.smp5.main.SMP5;
 import com.stiggles.smp5.player.StigglesPlayer;

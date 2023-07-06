@@ -43,7 +43,7 @@ public abstract class ShopNPC extends StigglesNPC {
 
     public boolean handleTrade(Player player, StigglesBaseItem item) {
         StigglesPlayer sp = main.getPlayerManager().getStigglesPlayer(player.getUniqueId());
-        if (sp.withdraw(item.cost)) {
+        if (sp.withdraw(item.cost) && player.getInventory().firstEmpty() != -1) {
             player.getInventory().addItem(item.item);
             playSound(player, Sound.ENTITY_VILLAGER_TRADE);
             return true;

@@ -1,6 +1,7 @@
 package com.stiggles.smp5.listeners;
 
 import com.stiggles.smp5.dungeons.Cuboids.Cuboid;
+import com.stiggles.smp5.entity.monsters.CustomSpawns;
 import com.stiggles.smp5.entity.monsters.PillagerCastle;
 import com.stiggles.smp5.items.Cooldown;
 import com.stiggles.smp5.items.HuntQuestItems;
@@ -24,6 +25,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
@@ -46,8 +49,16 @@ public class AllMiscEvents implements Listener {
     Cuboid obsidianSpot = new Cuboid(
             new Location(Bukkit.getWorld("world_nether"), -126, 124, -78),
             new Location(Bukkit.getWorld("world_nether"), -140, 141, -68));
+
+    Cuboid meteor = new Cuboid (
+            new Location (Bukkit.getWorld("world"), -543, 110, -1112),
+            new Location (Bukkit.getWorld("world"), -588, 141, -1077)
+    );
+
     public AllMiscEvents(SMP5 main) {
         this.main = main;
+        isAtMeteor();
+        CustomSpawns.checkCryptoidSpawns();
     }
 
     /***
@@ -84,7 +95,6 @@ public class AllMiscEvents implements Listener {
             }
         }
     }
-
     /***
      This event is for checking if players are breaking a block that relates to the
      netherite upgrade obtainment quest.
@@ -271,6 +281,19 @@ public class AllMiscEvents implements Listener {
         }
     }
 
+    public void isAtMeteor () {
+        new BukkitRunnable() {
+            public void run () {
+                for(Player p :Bukkit.getOnlinePlayers())
+                {
+                    if (meteor.contains(p.getLocation())) {
+                        p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 5 * 20, 2));
+                        p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 5 * 20, 0));
+                    }
+                }
+            }
+        }.runTaskTimer(main, 20 * 5, 20 * 3);
+    }
 
     /*@EventHandler
     public void onJoin(PlayerJoinEvent e) {

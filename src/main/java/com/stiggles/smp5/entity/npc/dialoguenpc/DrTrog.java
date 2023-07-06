@@ -70,9 +70,9 @@ public class DrTrog extends StigglesNPC {
             StigglesPlayer sp = main.getPlayerManager().getStigglesPlayer(player.getUniqueId());
             if (sp.totalConvergenceFound() > 0) {
                 if (!hasSufficientConvergence(player, 8)) {
-                    sendMessage(player, "I see you have come across some Convergence Crystals.");
-                    sendMessage(player, "If you find more, could you bring me " + ChatColor.LIGHT_PURPLE + requiredAmount + ChatColor.WHITE + " different crystals? I am working on a certain project that requires them...");
-                    sendMessage(player, "I can also explain more about my project if you are interested");
+                    sendMessageLater(player, "I see you have come across some Convergence Crystals.", 20);
+                    sendMessageLater(player, "If you find more, could you bring me " + ChatColor.LIGHT_PURPLE + requiredAmount + ChatColor.WHITE + " different crystals? I am working on a certain project that requires them...", 80);
+                    sendMessageLater(player, "I can also explain more about my project if you are interested", 140);
                     return false;
                 } else {
                     //Remove all Convergence from inventory

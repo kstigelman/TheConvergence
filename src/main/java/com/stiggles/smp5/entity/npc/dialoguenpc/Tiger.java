@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.item.ItemProvider;
@@ -57,6 +58,28 @@ public class Tiger extends ShopNPC {
         if (player.getName().contains("ItsTigerFist")) {
             sendMessage(player, "Hold up, WHAT??? ARE YOU ME???");
         }
+    }
+
+    public boolean checkQuestItems(Player player) {
+        if (player.getInventory().getItemInMainHand().hasItemMeta()) {
+            ItemMeta im = player.getInventory().getItemInMainHand().getItemMeta();
+            if (im == null || !im.hasLocalizedName())
+                return true;
+            if (im.getLocalizedName().equals("starry_letter")) {
+                sendMessage(player, "Starry actually told me about this! She came by the Community City to talk to me and Mole A Quacks.");
+                sendMessageLater(player, "We'll mostly be providing the resources for our team, and helping Starry recruit.", 60);
+                sendMessageLater(player, "Are you still trying to find people?", 120);
+                sendMessageLater(player, "You see... I actually have a brother, his name is Anarcho. Back where Starry and I are from, he caused a lot of trouble for us, and hurt a lot of people.", 180);
+                sendMessageLater(player, "He changed his ways, though, and tried to make things right with us. I do believe he's changed, and I'm glad for it, but I haven't seen him in years.", 260);
+                sendMessageLater (player, "I've heard claims he's hiding somewhere in the Nether.", 340);
+                sendMessageLater (player, "Long story short, I think he would be ready to help Starry fight this battle. Maybe you should go look for him.", 400);
+                sendMessageLater(player, "Don't get me wrong-- he's done some bad things. But this would give him a chance to prove he's truly changed...", 460);
+
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private class Logs extends StigglesBaseItem {

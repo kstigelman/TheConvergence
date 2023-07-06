@@ -9,7 +9,9 @@ package com.stiggles.smp5.dungeons;
 
 
 import com.stiggles.smp5.dungeons.Cuboids.Cuboid;
+import com.stiggles.smp5.entity.npc.shopnpcs.DungeonKeeper;
 import com.stiggles.smp5.main.SMP5;
+import com.stiggles.smp5.managers.NPCManager;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
@@ -25,8 +27,6 @@ import org.bukkit.inventory.PlayerInventory;
 import java.util.*;
 
 public class Dungeon implements Listener {
-
-
     public static final int MAX_PLAYER_COUNT = 4;
     //To be added
     private static final int BASE_DIFFICULTY = 1;
@@ -63,6 +63,7 @@ public class Dungeon implements Listener {
     private int countdown = 0;
     private int timer = 0;
     private boolean started;
+    private boolean finished = false;
 
     public Dungeon(SMP5 main, int id, Location world_spawn) {
         countdown = 10;
@@ -100,10 +101,13 @@ public class Dungeon implements Listener {
         return main;
     }
 
+
+    /**
+     *  Cancel the task that runs the main dungeon logic.
+     */
     public void cancelTask() {
         Bukkit.getScheduler().cancelTask(everySecondTaskID);
     }
-
     /**
      * Teleport the player to the world's player spawn point.
      *
@@ -143,8 +147,12 @@ public class Dungeon implements Listener {
             }
             //Update dungeon logic
             update();
-        } else if (state.equals(DungeonState.FAILED))
+        } else if (state.equals(DungeonState.FAILED)) {
             Bukkit.getScheduler().cancelTask(everySecondTaskID);
+        }
+        else if (state.equals(DungeonState.END)) {
+            timerActive = false;
+        }
     }
 
     /**
@@ -169,7 +177,7 @@ public class Dungeon implements Listener {
         //dungeon.playerJoin(p);
         Bukkit.getServer().getConsoleSender().sendMessage("Dungeon: " + p.getName() + " has joined!");
         oldPlayerLocation.put(p.getUniqueId(), p.getLocation());
-        oldPlayerInventory.put(p.getUniqueId(), p.getInventory());
+        //oldPlayerInventory.put(p.getUniqueId(), p.getInventory());
 
         this.addPlayerID(p);
         this.spawnPlayer(p);
@@ -208,14 +216,14 @@ public class Dungeon implements Listener {
 
         this.removePlayerID(p);
         Location oldLocation = oldPlayerLocation.remove(p.getUniqueId());
-        PlayerInventory inv = oldPlayerInventory.remove(p.getUniqueId());
+        //PlayerInventory inv = oldPlayerInventory.remove(p.getUniqueId());
         //Clear current inventory
-        p.getInventory().clear();
+        //p.getInventory().clear();
 
         //Set old inventory
-        p.getInventory().setContents(inv.getContents());
-        p.getInventory().setArmorContents(inv.getArmorContents());
-        p.getInventory().setExtraContents(inv.getExtraContents());
+        //p.getInventory().setContents(inv.getContents());
+        //p.getInventory().setArmorContents(inv.getArmorContents());
+        //p.getInventory().setExtraContents(inv.getExtraContents());
 
         //TP player back to their previous location
         p.teleport(oldLocation);
@@ -228,6 +236,15 @@ public class Dungeon implements Listener {
         if (!p.getWorld().getName().equals(getWorld().getName()))
             return;
 
+        if (!e.getDrops().isEmpty ()) {
+            DungeonKeeper dungeonKeeper = (DungeonKeeper) NPCManager.getNPCByName("Dungeon Keeper");
+            if (e.getEntity().getInventory().isEmpty() || dungeonKeeper == null)
+                return;
+            //dungeonKeeper.GiveInventory(e.getEntity().getInventory());
+            dungeonKeeper.giveInventory(e.getEntity());
+            e.getEntity().sendMessage("<" + ChatColor.AQUA + "Dungeon Keeper" + ChatColor.WHITE + "> I can give you your items back... for a price. Come talk to me by tonight or I will sell your items.");
+            e.getDrops().clear();
+        }
         alivePlayers.remove(p);
 
         if (this.getPlayers().contains(p)) {
@@ -681,10 +698,11 @@ public class Dungeon implements Listener {
      * Resets the dungeon for a new run.
      */
     public void reset() {
-        for (Player p : getPlayers()) {
-            playerQuit(p);
-        }
+        for (Player p : getPlayers())
+            leave (p);
+
         active = false;
+
         killMobs();
 
         if (rooms != null && !rooms.isEmpty()) {
@@ -930,6 +948,7 @@ public class Dungeon implements Listener {
                     onPlayerEnter(alivePlayers.get(0));
                     enteredRoom = true;
                 }
+                return;
             }
             if (trigger == null)
                 return;
@@ -1354,6 +1373,8 @@ public class Dungeon implements Listener {
         private Entity boss;
         private boolean bossSpawned = false;
         private boolean killed = false;
+        Cuboid escape = new Cuboid (world, 53, -57, 101, 53, -54, 101);
+
         public BossRoom(Cuboid boundary, Cuboid bossTrigger, Cuboid bossExit) {
             super(boundary);
             setType(RoomType.BOSS);
@@ -1365,6 +1386,9 @@ public class Dungeon implements Listener {
             closeExit();
             this.bossExit = bossExit;
             killed = false;
+            for (Block block : escape) {
+                block.setType(Material.AIR);
+            }
         }
 
         public void openBossExit() {
@@ -1395,7 +1419,12 @@ public class Dungeon implements Listener {
             if (!killed) {
                 openExit();
                 Bukkit.getConsoleSender().sendMessage("I am dead!");
+                for (Block block : escape) {
+                    block.setType(Material.SCAFFOLDING);
+
+                }
                 killed = true;
+
             }
             //Run end-game code
         }
@@ -1404,6 +1433,9 @@ public class Dungeon implements Listener {
         public void onPlayerEnter(Player player) {
             closeEntrance();
             closeExit();
+            for (Player p : getPlayers()) {
+                p.playSound(p.getLocation(), Sound.ENTITY_ZOMBIE_BREAK_WOODEN_DOOR, 1, 1);
+            }
         }
 
         public void onBossTriggerEnter(Player p) {
@@ -1418,6 +1450,9 @@ public class Dungeon implements Listener {
             openEntrance();
             closeExit();
             killed = false;
+            for (Block block : escape) {
+                block.setType(Material.AIR);
+            }
         }
 
         public void spawnBoss() {
@@ -1460,10 +1495,16 @@ public class Dungeon implements Listener {
         @Override
         public void onPlayerEnter(Player player) {
             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("DUNGEON COMPLETED"));
-
         }
 
         public void onEndTriggerEnter(Player p) {
+            p.sendTitle("The End", null, 20, 60, 20);
+            for (Player players : alivePlayers) {
+                if (!endDungeonTrigger.contains(p.getLocation()))
+                    return;
+            }
+            //End dungeon
+            state = DungeonState.END;
         }
 
         @Override

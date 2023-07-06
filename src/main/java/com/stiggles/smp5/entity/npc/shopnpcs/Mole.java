@@ -1,6 +1,6 @@
 package com.stiggles.smp5.entity.npc.shopnpcs;
 
-import com.stiggles.smp5.Colors;
+import com.stiggles.smp5.misc.Colors;
 import com.stiggles.smp5.entity.npc.ShopNPC;
 import com.stiggles.smp5.main.SMP5;
 import org.bukkit.ChatColor;
@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -22,7 +23,6 @@ import xyz.xenondevs.invui.item.builder.PotionBuilder;
 import xyz.xenondevs.invui.item.impl.AbstractItem;
 import xyz.xenondevs.invui.item.impl.SimpleItem;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class Mole extends ShopNPC {
@@ -52,6 +52,24 @@ public class Mole extends ShopNPC {
         if (player.getName().contains("MoleAQuacks")) {
             sendMessage(player, "You so look familiar. Do I know you? I think we share a face.");
         }
+    }
+    public boolean checkQuestItems(Player player) {
+        if (player.getInventory().getItemInMainHand().hasItemMeta()) {
+            ItemMeta im = player.getInventory().getItemInMainHand().getItemMeta();
+            if (im == null || !im.hasLocalizedName())
+                return true;
+            if (im.getLocalizedName().equals("starry_letter")) {
+                sendMessage(player, "Oh yeah, Starry stopped by here a bit ago to talk to me about that.");
+                sendMessageLater(player, "I'm in, Nouveau has caused enough damage, and I think it's time to take action.", 60);
+                sendMessageLater(player, "We've got to keep this on the down-low, however. We don't want Nouveau to catch on.", 120);
+                sendMessageLater(player, "Are you still looking for people to recruit for her team? ", 180);
+                sendMessageLater (player, "You should go to Holland, I think there might be a few people there that would be great.", 240);
+                sendMessageLater(player, "Head northeast. The town is deep in the wooded taiga.", 280);
+                return true;
+            }
+        }
+
+        return false;
     }
 
     @Override

@@ -95,6 +95,11 @@ public class DungeonManager {
         }
         return false;
     }
+    public static Dungeon getDungeon (String dungeonName) {
+        if (isValidDungeon(dungeonName))
+            return dungeons.get(dungeonName);
+        return null;
+    }
 
     public static void removeDungeon(String dungeonName) {
         if (dungeonName == null)

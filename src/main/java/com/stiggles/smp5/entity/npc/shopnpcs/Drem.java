@@ -209,7 +209,7 @@ public class Drem extends ShopNPC {
                     player.getInventory().getItemInMainHand().setAmount(0);
                     sendMessage(player, "What's this?");
                     Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "Wh- what?"), 60);
-                    Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "But how? This is not mine..."), 120);
+                    Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "But how?"), 120);
                     Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "I have gone by Captain Beast for years, but my real name is Drem. But I am not the same Drem written about in this book. There are things written in here that parallels my own life, but its different."), 180);
                     Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "This explains why Nouveau hates me so much. His greatest enemy was me. Another version of me."), 240);
                     Bukkit.getScheduler().runTaskLater(main, () -> sendMessage(player, "I can't sit by any longer. I will protect the people of this world against Nouveau. We will bring him to justice."), 300);
@@ -221,6 +221,16 @@ public class Drem extends ShopNPC {
             }
             if (im != null && im.getLocalizedName().equals("nats_breath")) {
                 sendMessage(player, "Natalie's Breath? I mean, I had a horse named Natalie once. But what's this sword got to do with anything? Get out.");
+                return;
+            }
+            if (im != null && im.getLocalizedName().equals("starry_letter")) {
+                if (Quest.isQuestComplete(player, Quest.QuestName.NATALIES_REDEMPTION)) {
+                    sendMessage(player, "What's this? Is this the same Starry who wrote that journal you brought me?");
+                    sendMessageLater(player, "I do not know her, but she obviously wants to fight Nouveau too. Tell her you can count me in.", 60);
+                    Quest.questComplete(player, Quest.QuestName.RECRUIT_DREM, "The Old Hero", 50);
+                    return;
+                }
+                sendMessage(player, "Huh? Who's Starry? Get out!!");
                 return;
             }
         }
@@ -236,18 +246,22 @@ public class Drem extends ShopNPC {
         if (player.getName().contains ("YoDrem")) {
             sendMessage(player, "Impossible, are you trying to taunt me??? How do you know who I am??? Get out of here. Now.");
         }
-        String msg = "";
-        if (interactCounter == 0)
-            msg = "Hello?";
-        if (interactCounter == 1)
-            msg = "You should leave.";
-        if (interactCounter == 2) {
-            msg = "I'm warning you.";
-            interactCounter = 0;
-        }
+        if (!Quest.isQuestComplete(player, Quest.QuestName.NATALIES_REDEMPTION)) {
+            String msg = "";
+            if (interactCounter == 0)
+                msg = "Hello?";
+            if (interactCounter == 1)
+                msg = "You should leave.";
+            if (interactCounter == 2) {
+                msg = "I'm warning you.";
+                interactCounter = 0;
+            }
 
-        sendMessage (player, msg);
-        interactCounter++;
+            sendMessage(player, msg);
+            interactCounter++;
+            return;
+        }
+        sendMessage(player, "Oh, it's you again. Hello.");
     }
 
     @Override
@@ -267,7 +281,7 @@ public class Drem extends ShopNPC {
                 .addIngredient( 'c', new Warhorn(300))
                 .addIngredient( 'd', new DragonBreath(100))
                 .addIngredient( 'e', new Vlad (400))
-                .addIngredient( 'f', new Pendant (3000))
+                .addIngredient( 'f', new Pendant (1000))
                 .addIngredient( 'g', new Locked ("? ? ?"))
                 .build ();
     }

@@ -14,12 +14,14 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.UUID;
 
-
+/** Represents a player interface between the server and
+ *    database.
+ */
 public class StigglesPlayer
 {
     private SMP5 main;
 
-    private UUID uuid; //
+    private UUID uuid;
     private String name;
 
     private Player player;
@@ -48,7 +50,6 @@ public class StigglesPlayer
 
         Database db = main.getDatabase();
         db.connect();
-
 
         ResultSet info = db.query(
                 "SELECT * FROM player WHERE uuid = '" + uuid + "';"
@@ -151,7 +152,7 @@ public class StigglesPlayer
         if (!questsCompleted.add (q))
             return;
         try {
-            main.getDatabase().execute("INSERT INTO quest VALUES ('" + q.toString() + "', '" + uuid + "', " + LocalDateTime.now().format(main.getFormatter()) + ");");
+            main.getDatabase().execute("INSERT INTO quest VALUES ('" + q.toString() + "', '" + uuid + "', '" + LocalDateTime.now().format(main.getFormatter()) + "');");
         } catch (SQLException e) {
             e.printStackTrace();
         }

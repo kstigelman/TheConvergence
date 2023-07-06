@@ -6,6 +6,9 @@ import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
+/**
+ * Unused
+ */
 public class Town {
     private Cuboid cuboid;
     private String name;
