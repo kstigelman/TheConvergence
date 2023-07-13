@@ -51,7 +51,7 @@ public class Starry extends StigglesNPC {
         }
     */
     public void interactDialogue(Player player) {
-        if (!Quest.isQuestComplete(player, Quest.QuestName.STIGGLES_ASSEMBLE)) {
+        if (!Quest.isQuestComplete(player, Quest.QuestName.STIGGLES_ASSEMBLE) && Quest.isQuestComplete(player, Quest.QuestName.COLLECT_CONVERGENCE)) {
             boolean found = false;
             for (ItemStack i : player.getInventory()) {
                 if (i == null || !i.hasItemMeta())
@@ -124,7 +124,8 @@ public class Starry extends StigglesNPC {
                 sendMessageLater(player, "...a scientist? From EGO Labs?", 60);
                 sendMessageLater(player, "He's asking me to rally for help to take a stand against Nouveau. Am I really fit for this role?", 140);
                 sendMessageLater(player, "This is a lot to take in, and I don't know if I can do this... but we do need to stop Nouveau. And if Dr. Trog is asking for my help, I will do it.", 220);
-                Bukkit.getScheduler().runTaskLater(main, () -> Quest.questComplete(player, Quest.QuestName.RECRUIT_STARRY, "Taking a Stand", 50), 240);
+                if (!Quest.isQuestComplete(player, Quest.QuestName.RECRUIT_STARRY))
+                    Bukkit.getScheduler().runTaskLater(main, () -> Quest.questComplete(player, Quest.QuestName.RECRUIT_STARRY, "Taking a Stand", 50), 240);
                 sendMessageLater(player, "I'm going to need a team.", 300);
                 sendMessageLater(player, "I need someone who will be loyal. Someone who won't back out. If only my friend Phil was here... he would be perfect.", 360);
                 sendMessageLater(player, "Next, I need someone creative and smart. I need someone who can invent new ideas and strategies to give us the upper hand in this battle.", 450);

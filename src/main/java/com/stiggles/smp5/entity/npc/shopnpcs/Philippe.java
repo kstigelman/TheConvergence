@@ -82,7 +82,8 @@ public class Philippe extends ShopNPC {
                 sendMessageLater(player, "Bien sûr! It's not the Starry I know, but she still requests my help. As a loyal knight, I must protect whatever the Queen asks.", 80);
                 sendMessageLater (player, "Although they are not identical, they are still the same person. I must fulfill my vow as a knight, and to Starry.", 160);
                 sendMessageLater(player, "Merci. Thank you for showing me this letter. Please tell Starry she has my assistance.", 240);
-                Bukkit.getScheduler().runTaskLater(main, () -> Quest.questComplete(player, Quest.QuestName.RECRUIT_PHILIPPE, "The Loyal Knight", 100), 260);
+                if (!Quest.isQuestComplete(player, Quest.QuestName.RECRUIT_PHILIPPE))
+                    Bukkit.getScheduler().runTaskLater(main, () -> Quest.questComplete(player, Quest.QuestName.RECRUIT_PHILIPPE, "The Loyal Knight", 100), 260);
                 return true;
             }
         }

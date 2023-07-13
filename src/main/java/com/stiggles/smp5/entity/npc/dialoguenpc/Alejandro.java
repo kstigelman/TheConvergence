@@ -22,6 +22,10 @@ public class Alejandro extends StigglesNPC {
 
     @Override
     public void interactDialogue(Player player) {
-        sendMessage(player, "Hola.");
+        int n = Math.abs (main.getRandom() % 3);
+        if (n == 0)
+            sendMessage(player, "Ve a hablar con Ralph!");
+        else
+            sendMessage(player, "Hola.");
     }
 }

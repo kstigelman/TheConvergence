@@ -64,7 +64,8 @@ public class Inventor extends ShopNPC {
                 sendMessageLater(player, "Well, enough of this tangent. It looks like she needs help.", 120);
                 sendMessageLater(player, "I've actually been thinking about ways to defeat Nouveau. I hope my inventions and ideas will be valuable to her.", 180);
                 sendMessageLater(player, "Let her know she has my support.", 260);
-                Bukkit.getScheduler().runTaskLater(main, () -> Quest.questComplete(player, Quest.QuestName.RECRUIT_INVENTOR, "The Strategist", 100), 260);
+                if (!Quest.isQuestComplete(player, Quest.QuestName.RECRUIT_INVENTOR))
+                    Bukkit.getScheduler().runTaskLater(main, () -> Quest.questComplete(player, Quest.QuestName.RECRUIT_INVENTOR, "The Strategist", 100), 260);
                 return true;
             }
         }

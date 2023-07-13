@@ -388,7 +388,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         npcs.add(new Morabito(this, "Mr. Morabito", new Location(world, -751.5, 66, -1427.5)));
         npcs.add(new Mole(this, "Mole a Quacks", new Location(world, 71.5, 111, 784.5)));
         npcs.add(new Tiger(this, "Tigerfist", new Location(world, 45.5, 93, 818.5)));
-        npcs.add(new Alejandro(this, "Alejandro", new Location(world, 1252.5, 98, 1487.5)));
+        npcs.add(new Alejandro(this, "Alejandro", new Location(world, 1240.5, 92, 1477.5)));
         npcs.add(new Ralph(this, "Ralph", new Location(world, 1250.5, 93, 1492)));
         npcs.add(new MaskedStranger(this, "Masked Stranger", new Location(world, -772.5, 157, 1381.5)));
         npcs.add(new Scubadiver(this, "Scuba Diver", new Location(world, 1505.5, 73, -1279.5)));
@@ -406,6 +406,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         npcs.add(new Cryptorg(this, "Cryptorg", new Location(worldNether, -121, 130, -12)));
 
         npcs.add(new Nouveau(this, "Nouveau", new Location(Bukkit.getWorld("sanctuary"), 8.5, -59, 8.5)));
+        //Maybe put Nouveau at 1259 86 -1225.5
         //Nouveau 52, 132, 746
     }
 

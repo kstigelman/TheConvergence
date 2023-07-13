@@ -18,12 +18,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.inventory.PrepareAnvilEvent;
-import org.bukkit.event.inventory.PrepareItemCraftEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -61,6 +62,73 @@ public class AllMiscEvents implements Listener {
         CustomSpawns.checkCryptoidSpawns();
     }
 
+    @EventHandler
+    public void onClickNetheriteUpgrade (InventoryClickEvent e) {
+        ItemStack item = e.getCurrentItem();
+        if (item == null)
+            return;
+
+        if (item.getType().equals(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE)) {
+            item.setAmount(0);
+            e.setCancelled(true);
+        }
+    }
+    @EventHandler
+    public void onNetherriteInteract (PlayerInteractEvent e) {
+        if (e.getItem() == null)
+            return;
+        if (!e.getItem().hasItemMeta())
+            return;
+        ItemMeta meta = e.getItem().getItemMeta();
+        if (meta == null || !meta.hasLocalizedName())
+            return;
+
+        String name = meta.getLocalizedName();
+
+        if (name.equals("reinforced_ancient_debris") || name.equals("hardened_gold") ||
+                name.equals("hardened_diamond") || name.equals("tough_obsidian")) {
+            e.setCancelled(true);
+        }
+    }
+    @EventHandler
+    public void onInventoryMove (InventoryMoveItemEvent e) {
+        if (!e.getItem().hasItemMeta())
+            return;
+        ItemMeta meta = e.getItem().getItemMeta();
+        if (meta == null || !meta.hasLocalizedName())
+            return;
+
+        String name = meta.getLocalizedName();
+
+        if (name.equals("reinforced_ancient_debris") || name.equals("hardened_gold") ||
+                name.equals("hardened_diamond") || name.equals("tough_obsidian")) {
+            e.setCancelled(true);
+        }
+    }
+    @EventHandler
+    public void onClickItems (InventoryClickEvent e) {
+        if (e.getWhoClicked().getGameMode().equals(GameMode.CREATIVE))
+            return;
+        if (e.getInventory() instanceof PlayerInventory)
+            return;
+
+        ItemStack item = e.getCurrentItem();
+
+        if (item == null)
+            return;
+
+        ItemMeta meta = item.getItemMeta();
+
+        if (meta == null || !meta.hasLocalizedName())
+            return;
+
+        String name = meta.getLocalizedName();
+
+        if (name.equals("reinforced_ancient_debris") || name.equals("hardened_gold") ||
+                name.equals("hardened_diamond") || name.equals("tough_obsidian")) {
+            e.setCancelled(true);
+        }
+    }
     /***
      This event is for checking if they are trying to use the grappling
      hooks ability.

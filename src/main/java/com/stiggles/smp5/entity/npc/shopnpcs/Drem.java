@@ -227,7 +227,8 @@ public class Drem extends ShopNPC {
                 if (Quest.isQuestComplete(player, Quest.QuestName.NATALIES_REDEMPTION)) {
                     sendMessage(player, "What's this? Is this the same Starry who wrote that journal you brought me?");
                     sendMessageLater(player, "I do not know her, but she obviously wants to fight Nouveau too. Tell her you can count me in.", 60);
-                    Quest.questComplete(player, Quest.QuestName.RECRUIT_DREM, "The Old Hero", 50);
+                    if (!Quest.isQuestComplete(player, Quest.QuestName.RECRUIT_DREM))
+                        Quest.questComplete(player, Quest.QuestName.RECRUIT_DREM, "The Old Hero", 50);
                     return;
                 }
                 sendMessage(player, "Huh? Who's Starry? Get out!!");
