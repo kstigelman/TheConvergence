@@ -68,10 +68,13 @@ public class AllMiscEvents implements Listener {
         if (item == null)
             return;
 
-        if (item.getType().equals(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE)) {
-            item.setAmount(0);
-            e.setCancelled(true);
-        }
+        if (!item.getType().equals(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE))
+            return;
+        if (item.hasItemMeta() && item.getItemMeta().getLocalizedName().equals("netherite_quest_upgrade_template"))
+            return;
+
+        item.setAmount(0);
+        e.setCancelled(true);
     }
     @EventHandler
     public void onNetherriteInteract (PlayerInteractEvent e) {
