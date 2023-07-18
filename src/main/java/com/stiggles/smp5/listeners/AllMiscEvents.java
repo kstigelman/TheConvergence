@@ -325,6 +325,8 @@ public class AllMiscEvents implements Listener {
 
     @EventHandler
     public void prepareAnvil(PrepareAnvilEvent e) {
+        if (e.getResult() == null || !e.getResult().hasItemMeta())
+            return;
         if (e.getResult().getItemMeta() != null && e.getResult().getItemMeta().getLocalizedName().equals("warden_weakness")) {
             if (e.getResult().getItemMeta().hasEnchant(Enchantment.DURABILITY) || e.getResult().getItemMeta().hasEnchant(Enchantment.MENDING)) {
                 e.setResult(new ItemStack(Material.AIR));
