@@ -63,6 +63,13 @@ public class ItemListener implements Listener {
 
         } else if (localName.equals("cave_key")) {
             e.setCancelled(true);
+            e.getItem().setAmount(0);
+            e.getPlayer().sendMessage(ChatColor.DARK_GRAY + "The gate to the Cave Dungeon begins to open...");
+            e.getPlayer().playSound(e.getPlayer(), Sound.ENTITY_ENDER_DRAGON_DEATH, 1, 0);
+            Bukkit.getScheduler().runTaskLater(main, () -> {
+                DungeonManager.addPlayer(e.getPlayer(), "testdungeon");
+            }, 40);
+            /*
             if (GateCuboids.getCaveGate().contains(e.getPlayer().getLocation())) {
                 e.getItem().setAmount(0);
                 e.getPlayer().sendMessage(ChatColor.DARK_GRAY + "The gate to the Cave Dungeon begins to open...");
@@ -71,6 +78,9 @@ public class ItemListener implements Listener {
                     DungeonManager.addPlayer(e.getPlayer(), "testdungeon");
                 }, 40);
             }
+            else {
+                e.getPlayer().sendMessage(ChatColor.DARK_GRAY + "You can't use that here...");
+            }*/
         }
 
 

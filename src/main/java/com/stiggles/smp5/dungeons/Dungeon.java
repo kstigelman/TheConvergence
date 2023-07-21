@@ -12,18 +12,25 @@ import com.stiggles.smp5.dungeons.Cuboids.Cuboid;
 import com.stiggles.smp5.entity.npc.shopnpcs.DungeonKeeper;
 import com.stiggles.smp5.main.SMP5;
 import com.stiggles.smp5.managers.NPCManager;
+import com.stiggles.smp5.player.StigglesPlayer;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.Chest;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.loot.LootTables;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class Dungeon implements Listener {
@@ -64,9 +71,11 @@ public class Dungeon implements Listener {
     private int timer = 0;
     private boolean started;
     private boolean finished = false;
+    private int timeLimit = 420;
+    String beganAt;
 
     public Dungeon(SMP5 main, int id, Location world_spawn) {
-        countdown = 10;
+        countdown = 60;
         players = new ArrayList<>();
         alivePlayers = new ArrayList<>();
         started = false;
@@ -119,9 +128,8 @@ public class Dungeon implements Listener {
 
     //From DUNGEON START MANAGER
     public void everySecond() {
-        if (alivePlayers.isEmpty())
-            return;
-
+        //if (alivePlayers.isEmpty())
+        //    return;
         if (state == DungeonState.RECRUITING) {
             if (countdown > 0)
                 --countdown;
@@ -136,6 +144,11 @@ public class Dungeon implements Listener {
                 if (timer == 0)
                     started = true;
                 ++timer;
+
+                if (timer == timeLimit - 60)
+                    sendPlayersMessage(ChatColor.RED + "[Warning] You have 60 seconds left to complete this dungeon.");
+                if (timer >= timeLimit)
+                    failed();
             }
             Bukkit.getConsoleSender().sendMessage("Time active: " + timer);
             if (alivePlayers.isEmpty()) {
@@ -147,14 +160,43 @@ public class Dungeon implements Listener {
             }
             //Update dungeon logic
             update();
-        } else if (state.equals(DungeonState.FAILED)) {
-            Bukkit.getScheduler().cancelTask(everySecondTaskID);
         }
-        else if (state.equals(DungeonState.END)) {
-            timerActive = false;
+        else if (state.equals(DungeonState.END) || state.equals(DungeonState.FAILED)) {
+            if (countdown > 0) {
+                --countdown;
+                return;
+            }
+            //put dungeon keeper stuff here?
+            ArrayList<Player> temp_players = new ArrayList<>(getPlayers());
+            for (Player p : temp_players) {
+                StigglesPlayer sp = main.getPlayerManager().getStigglesPlayer(p.getUniqueId());
+                leave(p);
+                if (sp != null)
+                    sp.addDungeonComplete(world.getName(), beganAt, timer, 0, state.equals(DungeonState.END));
+            }
+            DungeonManager.removeDungeon("testdungeon");
+            Bukkit.getScheduler().cancelTask(everySecondTaskID);
+
         }
     }
 
+    //public void resetPlayer (Player player) {
+        //leave (player);
+        //player.setGameMode(GameMode.SURVIVAL);
+        //player.setInvisible(false);
+        //Location location = player.getBedSpawnLocation();
+        //player.teleport(Objects.requireNonNullElseGet(location, () -> Bukkit.getWorld("world").getSpawnLocation()));
+    //}
+    public void end () {
+        state = DungeonState.END;
+        countdown = 10;
+        timerActive = false;
+
+        int minutes = timer / 60;
+        int seconds = timer % 60;
+        String timeString = minutes + "m" + seconds + "s";
+        sendPlayersMessage(ChatColor.GOLD + "Dungeon completed in " + timeString + ". Teleporting you in 10 seconds.");
+    }
     /**
      * Updates the player count and executes join functions
      *
@@ -189,15 +231,20 @@ public class Dungeon implements Listener {
 
         if (state.equals(DungeonState.RECRUITING)) {
             if (players.isEmpty())
-                countdown = 10;
+                countdown = 60;
 
             if (getPlayerCount() == getMaxPlayerCount() && countdown >= 0)
                 countdown = 10;
 
-            Bukkit.getConsoleSender().sendMessage("Dungeon is starting in " + countdown);
+            Bukkit.getConsoleSender().sendMessage("Dungeon is starting in " + countdown + ". Other players may join during this time.");
+            p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 20000000, 100, true));
         }
         this.players.add(p);
         this.alivePlayers.add(p);
+
+        for (Player thisPlayer : players) {
+            p.sendMessage(ChatColor.GREEN + p.getName() + " has joined the dungeon (" + players.size() + "/4)");
+        }
     }
 
     public void leave(Player p) {
@@ -205,6 +252,7 @@ public class Dungeon implements Listener {
         p.setInvisible(false);
         p.setAllowFlight(false);
         p.setFlying(false);
+        p.removePotionEffect(PotionEffectType.REGENERATION);
 
         if (getState().equals(DungeonState.RECRUITING)) {
             //If a player leaves, allow for 30 more seconds for players to join.
@@ -231,28 +279,36 @@ public class Dungeon implements Listener {
     }
 
     @EventHandler
+    public void onRespawn (PlayerRespawnEvent e) {
+        Player p = e.getPlayer();
+        if (!p.getWorld().getName().equals(getWorld().getName()))
+            return;
+
+        e.setRespawnLocation(worldSpawn);
+    }
+    @EventHandler
     public void onPlayerDeath(PlayerDeathEvent e) {
         Player p = e.getEntity();
         if (!p.getWorld().getName().equals(getWorld().getName()))
             return;
 
         if (!e.getDrops().isEmpty ()) {
-            DungeonKeeper dungeonKeeper = (DungeonKeeper) NPCManager.getNPCByName("Dungeon Keeper");
+            DungeonKeeper dungeonKeeper = (DungeonKeeper) NPCManager.getNPCByName ("Dungeon Keeper");
             if (e.getEntity().getInventory().isEmpty() || dungeonKeeper == null)
                 return;
             //dungeonKeeper.GiveInventory(e.getEntity().getInventory());
-            dungeonKeeper.giveInventory(e.getEntity());
-            e.getEntity().sendMessage("<" + ChatColor.AQUA + "Dungeon Keeper" + ChatColor.WHITE + "> I can give you your items back... for a price. Come talk to me by tonight or I will sell your items.");
+            //dungeonKeeper.giveInventory(e.getEntity());
+            dungeonKeeper.giveDrops(e.getEntity().getUniqueId(), e.getEntity().getInventory().getContents());
+            dungeonKeeper.sendMessage(e.getEntity(), "I can give you your items back... for a price. Come talk to me by tonight or I will sell your items.");
+
             e.getDrops().clear();
         }
         alivePlayers.remove(p);
 
-        if (this.getPlayers().contains(p)) {
-            p.setAllowFlight(true);
-            p.setFlying(true);
-            p.setInvisible(true);
-        }
-        this.getAlivePlayers().remove(p);
+        p.setAllowFlight(true);
+        p.setFlying(true);
+        p.setInvisible(true);
+        p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 20000000, 100, true));
 
         if (this.getAlivePlayers().isEmpty())
             failed();
@@ -688,8 +744,12 @@ public class Dungeon implements Listener {
         current.openExit();
         timerActive = true;
         setDifficulty();
-        for (Player p : alivePlayers)
+        for (Player p : alivePlayers) {
             p.teleport(new Location(world, 43.5, -42, 190.5));
+            p.sendMessage(ChatColor.GRAY + "Good luck. You have " + timeLimit / 60 + " minutes to complete the dungeon.");
+            p.removePotionEffect(PotionEffectType.REGENERATION);
+        }
+        beganAt = LocalDateTime.now().format(main.getFormatter());
         //rooms.get(currentRoom).update();
         //Remove barriers at entrance
     }
@@ -715,9 +775,17 @@ public class Dungeon implements Listener {
     }
 
     public void failed() {
+        for (Player p : getPlayers()) {
+            p.setAllowFlight(true);
+            p.setFlying(true);
+            p.setInvisible(true);
+            p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 20000000, 100, true));
+        }
         state = DungeonState.FAILED;
-        for (Player p : getPlayers())
-            playerQuit(p);
+        countdown = 10;
+        timerActive = false;
+        sendPlayersMessage(ChatColor.DARK_RED + "Dungeon failed. Teleporting you in 10 seconds.");
+            //playerQuit(p);
     }
 
     /**
@@ -1194,24 +1262,66 @@ public class Dungeon implements Listener {
         }
     }
 
-    protected class CollectionRoom extends DungeonRoom {
+    protected class CollectionRoom extends WaveRoom {
+
+
+
+        public void getChests() {
+            int count = 0;
+            for (Block block : getBoundary()) {
+                if (block.getType().equals(Material.CHEST)) {
+                    Chest chest = (Chest) block.getState();
+                    chest.setLootTable(LootTables.ABANDONED_MINESHAFT.getLootTable());
+                    chest.update();
+                    ++count;
+                }
+            }
+            if (count != 0)
+                Bukkit.getConsoleSender().sendMessage("Found " + count + " chests");
+
+        }
         public CollectionRoom(Cuboid boundary) {
+            this(boundary, 5, 8);
+        }
+
+        public CollectionRoom(Cuboid boundary, int count, int timeBetween) {
             super(boundary);
             setType(RoomType.COLLECTION);
+
+            getChests();
+
         }
 
         @Override
         public void onPlayerEnter(Player player) {
+            closeEntrance();
+            closeExit();
         }
 
         @Override
         public void resetRoom() {
+            openEntrance();
+            closeExit();
         }
 
         @Override
         public void update() {
-            if (!containsAllPlayers()) {
+            super.update();
+            if (currentWave != waveCount) {
+                if (countdown <= 0) {
+                    spawnNextWave();
+                    countdown = timeBetweenWaves;
+                } else
+                    --countdown;
+                return;
             }
+            openExit();
+        }
+
+        public void spawnNextWave() {
+            //This could be different if the mobs are different each wave.
+            spawnMobs();
+            ++currentWave;
         }
     }
 
@@ -1424,7 +1534,7 @@ public class Dungeon implements Listener {
 
                 }
                 killed = true;
-
+                timerActive = false;
             }
             //Run end-game code
         }
@@ -1482,11 +1592,19 @@ public class Dungeon implements Listener {
 
     protected class FinalRoom extends DungeonRoom {
         private final Cuboid endDungeonTrigger;
-
+        private boolean lootSpawned = false;
         public FinalRoom(Cuboid boundary, Cuboid endDungeonTrigger) {
             super(boundary);
             setType(RoomType.FINAL);
             this.endDungeonTrigger = endDungeonTrigger;
+
+            for (Block block : getBoundary()) {
+                if (block.getType().equals(Material.CHEST)) {
+                    Chest chest = (Chest) block.getState();
+                    chest.getBlockInventory().clear();
+                    chest.update();
+                }
+            }
         }
 
         public void playerTriggerEnter() {
@@ -1495,16 +1613,38 @@ public class Dungeon implements Listener {
         @Override
         public void onPlayerEnter(Player player) {
             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("DUNGEON COMPLETED"));
+
+            if (!lootSpawned)
+                spawnLoot();
+
         }
 
         public void onEndTriggerEnter(Player p) {
             p.sendTitle("The End", null, 20, 60, 20);
-            for (Player players : alivePlayers) {
-                if (!endDungeonTrigger.contains(p.getLocation()))
-                    return;
-            }
+
+            if (!endDungeonTrigger.contains(p.getLocation()))
+                return;
             //End dungeon
-            state = DungeonState.END;
+            end ();
+        }
+
+        public void spawnLoot () {
+            lootSpawned = true;
+            int count = 0;
+            int limit = getAlivePlayers().size();
+            for (Block block : getBoundary()) {
+                if (count >= limit)
+                    break;
+                if (block.getType().equals(Material.CHEST)) {
+                    Chest chest = (Chest) block.getState();
+                    chest.setLootTable(LootTables.END_CITY_TREASURE.getLootTable());
+                    chest.update();
+                    ++count;
+                }
+            }
+            if (count != 0)
+                Bukkit.getConsoleSender().sendMessage("Spawned " + count + " loot chests");
+
         }
 
         @Override

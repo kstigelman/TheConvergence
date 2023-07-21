@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.UUID;
 
@@ -30,7 +31,7 @@ public class StigglesPlayer
     private HashSet<String> npcTalks = new HashSet<>();
     private HashSet<Quest.QuestName> questsCompleted = new HashSet<>();
     private HashSet<Integer> convergenceFound = new HashSet<>();
-
+    private HashSet<String> dungeonsCompleted = new HashSet<>();
     boolean cursed;
     boolean chatToggledOn;
     private int killstreak;
@@ -147,7 +148,17 @@ public class StigglesPlayer
             Bukkit.getConsoleSender().sendMessage("Stiggles Player [" + player.getName()+ "]: Failed to register");
         }*/
     }
-
+    public void addDungeonComplete (String name, String beganAt, int length, int difficulty, boolean won) {
+        dungeonsCompleted.add (name);
+        try {
+            main.getDatabase().execute(
+                    "INSERT INTO dungeon VALUES ('" +
+                    name + "', '" + uuid + "', '" +
+                    beganAt + "', " + length + ", " + difficulty + ", " + won + ");");
+            } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     public void addQuest (Quest.QuestName q) {
         if (!questsCompleted.add (q))
             return;

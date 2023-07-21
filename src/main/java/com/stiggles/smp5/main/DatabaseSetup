@@ -77,9 +77,19 @@ create table convergence (
        foreign key (uuid) references player (uuid)
 );
 create table npc_talks (
-                               uuid char(36),
-                               npc_name varchar (32),
-                               timesTalkedTo int,
-                               primary key (uuid, npc_name),
-                               foreign key (uuid) references player (uuid)
+       uuid char(36),
+       npc_name varchar (32),
+       timesTalkedTo int,
+       primary key (uuid, npc_name),
+       foreign key (uuid) references player (uuid)
+);
+create table dungeon (
+    dungeon varchar (32),
+    uuid char(36),
+    timestamp char(19),
+    length int,
+    difficulty int,
+    won bit,
+    primary key (dungeon, uuid, timestamp),
+    foreign key (uuid) references player (uuid)
 );

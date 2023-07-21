@@ -2,6 +2,7 @@ package com.stiggles.smp5.entity.npc.shopnpcs;
 
 import com.stiggles.smp5.entity.npc.ShopNPC;
 import com.stiggles.smp5.main.SMP5;
+import com.stiggles.smp5.player.StigglesPlayer;
 import com.stiggles.smp5.stats.Quest;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -77,7 +78,9 @@ public class Inventor extends ShopNPC {
     public void createGUI(Player player) {
         AbstractItem lockedSlot = new Locked("? ? ?");
         //Also check if player has visited all locations
-
+        StigglesPlayer sp = main.getPlayerManager().getStigglesPlayer(player.getUniqueId());
+        if (sp.hasQuestCompleted(Quest.QuestName.RECRUIT_INVENTOR))
+            lockedSlot = new Elytra(4000);
         //Advancement a = Bukkit.getAdvancement(new NamespacedKey(main, "minecraft:end/kill_dragon"));
         /*if (a != null) {
             if (player.getAdvancementProgress(a).isDone())

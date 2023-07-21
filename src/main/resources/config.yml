@@ -2,8 +2,11 @@ Default: 0
 Slime: 1
 MagmaCube: 1
 Zombie: 2
+Drowned: 2
+Husk: 2
 Spider: 2
 Skeleton: 3
+Stray: 3
 Piglin: 3
 SkeletonHorse: 3
 Silverfish: 3

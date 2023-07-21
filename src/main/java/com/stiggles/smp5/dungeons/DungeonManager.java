@@ -102,10 +102,8 @@ public class DungeonManager {
     }
 
     public static void removeDungeon(String dungeonName) {
-        if (dungeonName == null)
-            return;
-
-        dungeons.remove(dungeonName);
+        if (isValidDungeon(dungeonName))
+            dungeons.remove(dungeonName);
     }
 
     public static void makeNewDungeon(String name) {
