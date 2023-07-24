@@ -19,6 +19,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class PillagerCastle implements Listener {
 
     SMP5 main;
+
+    private static boolean active = false;
     public PillagerCastle(SMP5 main) {
         this.main = main;
     }
@@ -75,7 +77,7 @@ public class PillagerCastle implements Listener {
         Evoker evoker = loc.getWorld().spawn(loc, Evoker.class);
         evoker.setPatrolLeader(true);
         evoker.setPersistent(true);
-
+        active = true;
         new BukkitRunnable() {
             public void run() {
                 if (!evoker.isDead()) {
@@ -87,11 +89,19 @@ public class PillagerCastle implements Listener {
                     }
                 } else {
                     cancel();
+
+                    new BukkitRunnable() {
+                        public void run() {
+                            active = false;
+                        }
+                    }.runTaskLater(main, 20 * 300);
                 }
             }
-        }.runTaskTimer(main, 0, 10);
+        }.runTaskLater(main, 0);
     }
-
+    public static boolean isActive () {
+        return active;
+    }
     @EventHandler
     public void wololo(EntitySpellCastEvent e){
         if (e.getEntity() instanceof Evoker){

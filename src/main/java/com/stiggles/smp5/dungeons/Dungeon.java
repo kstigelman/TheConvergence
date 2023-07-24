@@ -25,6 +25,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.loot.LootTables;
 import org.bukkit.potion.PotionEffect;
@@ -1343,6 +1344,10 @@ public class Dungeon implements Listener {
         @Override
         public void onPlayerEnter(Player player) {
             startTime = timer;
+            for (Player p : getAlivePlayers()) {
+                p.getInventory().addItem(new ItemStack(Material.BOW));
+                p.getInventory().addItem(new ItemStack(Material.ARROW, 5));
+            }
         }
 
         @Override
@@ -1395,7 +1400,7 @@ public class Dungeon implements Listener {
             super.update();
             if (!targetBlocks.isEmpty() && checkTargets())
                 onHitAllTargets();
-            if (!open && (timer - startTime) % 12 == 0)
+            if (!open && (timer - startTime) % 20 == 0)
                 spawnMobs();
         }
     }

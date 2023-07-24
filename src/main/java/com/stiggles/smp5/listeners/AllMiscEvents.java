@@ -60,6 +60,7 @@ public class AllMiscEvents implements Listener {
         this.main = main;
         isAtMeteor();
         CustomSpawns.checkCryptoidSpawns();
+        spawnPillagers();
     }
 
     @EventHandler
@@ -368,6 +369,40 @@ public class AllMiscEvents implements Listener {
         }.runTaskTimer(main, 20 * 5, 20 * 3);
     }
 
+    public void spawnPillagers () {
+        new BukkitRunnable() {
+            public void run () {
+                for(Player p :Bukkit.getOnlinePlayers())
+                {
+                    if (PillagerCastle.isActive ())
+                        return;
+                    if (!PillagerCastle.castleRegion.contains(p.getLocation()))
+                        return;
+
+                    World world = p.getWorld();
+                    Location center = PillagerCastle.castleRegion.getCenter();
+                    int range = 25;
+
+                    for (int i = 0; i < 18; ++i) {
+                        double x = center.getX() + (Math.random() * range * 2 - range);
+                        double y = center.getY();
+                        double z = center.getZ() + (Math.random() * range * 2 - range);
+                        Location randomLocation = new Location(world, x, y, z);
+
+                        int rng = SMP5.rollNumber(1,6);
+                        if (rng <= 2)
+                            continue;
+
+                        if (i % 3 == 0)
+                            PillagerCastle.spawnCastleGuard(randomLocation, main);
+                        else
+                            PillagerCastle.spawnCastlePillager(randomLocation, main);
+                    }
+                    PillagerCastle.spawnCastleLeader(center, main);
+                }
+            }
+        }.runTaskTimer(main, 20 * 5, 20 * 5);
+    }
     /*@EventHandler
     public void onJoin(PlayerJoinEvent e) {
         new BukkitRunnable() {

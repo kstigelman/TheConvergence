@@ -14,6 +14,7 @@ import com.stiggles.smp5.entity.Entities;
 import com.stiggles.smp5.entity.lostMerchant.MerchantListener;
 import com.stiggles.smp5.entity.monsters.CustomSpawns;
 import com.stiggles.smp5.entity.monsters.KillMagmaBoss;
+import com.stiggles.smp5.entity.monsters.PillagerCastle;
 import com.stiggles.smp5.entity.npc.*;
 import com.stiggles.smp5.entity.npc.dialoguenpc.*;
 import com.stiggles.smp5.entity.npc.dialoguenpc.ArchaeologistDesire.Archaeologist;
@@ -339,7 +340,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new DungeonKey (this), this);
         Bukkit.getPluginManager().registerEvents(new MerchantListener(this), this);
         Bukkit.getPluginManager().registerEvents(new MetalDetector(this), this);
-        //Bukkit.getPluginManager().registerEvents(new PillagerCastle(this), this);
+        Bukkit.getPluginManager().registerEvents(new PillagerCastle(this), this);
         Bukkit.getPluginManager().registerEvents(new DungeonExplosionEvent(), this);
         //Bukkit.getPluginManager().registerEvents(new DungeonDeathListener(this), this);
         //manager.registerEvents(this, this);

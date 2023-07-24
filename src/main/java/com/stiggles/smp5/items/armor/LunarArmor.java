@@ -66,7 +66,7 @@ public class LunarArmor {
                 ChatColor.GRAY + "gain the following buffs:",
                 ChatColor.GRAY + "- Jump Boost I",
                 ChatColor.GRAY + "- Slow Falling I"));
-        meta.setLocalizedName("symp_chestplate");
+        meta.setLocalizedName("lunar_chestplate");
 
         AttributeModifier genericArmor = new AttributeModifier("generic.armor", 6, AttributeModifier.Operation.ADD_NUMBER);
         meta.addAttributeModifier(Attribute.GENERIC_ARMOR, genericArmor);
@@ -93,7 +93,7 @@ public class LunarArmor {
                 ChatColor.GRAY + "gain the following buffs:",
                 ChatColor.GRAY + "- Jump Boost I",
                 ChatColor.GRAY + "- Slow Falling I"));
-        meta.setLocalizedName("symp_leggins");
+        meta.setLocalizedName("lunar_leggings");
 
         AttributeModifier genericArmor = new AttributeModifier("generic.armor", 5, AttributeModifier.Operation.ADD_NUMBER);
         meta.addAttributeModifier(Attribute.GENERIC_ARMOR, genericArmor);
@@ -121,7 +121,7 @@ public class LunarArmor {
                 ChatColor.GRAY + "gain the following buffs:",
                 ChatColor.GRAY + "- Jump Boost I",
                 ChatColor.GRAY + "- Slow Falling I"));
-        meta.setLocalizedName("symp_boots");
+        meta.setLocalizedName("lunar_boots");
 
         AttributeModifier genericArmor = new AttributeModifier("generic.armor", 2, AttributeModifier.Operation.ADD_NUMBER);
         meta.addAttributeModifier(Attribute.GENERIC_ARMOR, genericArmor);
@@ -185,22 +185,18 @@ public class LunarArmor {
             boot = p.getInventory().getBoots().getItemMeta().getLocalizedName();
         }
 
-        if (helm.equals("lunar_helmet") && chest.equals("lunar_chestplate") && legs.equals("lunar_leggings") && boot.equals("lunar_boots")) {
-            helm = "placeholder1";
-            chest = "placeholder2";
-            legs = "placeholder3";
-            boot = "placeholder4";
+        if (helm.equals("lunar_helmet") && chest.equals("lunar_chestplate") && legs.equals("lunar_leggings") && boot.equals("lunar_boots"))
             return true;
-        }
         return false;
     }
 
     public void checkForLunarArmor() {
         nearEntities = 0;
         for (Player p : Bukkit.getOnlinePlayers()) {
-            if (nearEntities == 0 && isLunarSet(p)) {
-                p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 100, 0, true, false, true));
+            if (isLunarSet(p)) {
+                p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 100, 1, true, false, true));
                 p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 100, 2, false, false, false));
+                p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100, 0, false, false, false));
             }
         }
     }

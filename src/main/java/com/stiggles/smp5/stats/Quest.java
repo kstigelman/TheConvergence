@@ -24,6 +24,8 @@ public class Quest {
                 return;
             }
             StigglesPlayer stigglesPlayer = main.getPlayerManager().getStigglesPlayer(p.getUniqueId());
+            if (stigglesPlayer.hasQuestCompleted(q))
+                return;
             if (questMessage != null) {
                 stigglesPlayer.addQuest(q);
                 p.sendMessage(ChatColor.WHITE + "You have completed the quest " + ChatColor.GREEN + questMessage);

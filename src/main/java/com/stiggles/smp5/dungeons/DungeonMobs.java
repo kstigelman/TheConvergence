@@ -221,10 +221,10 @@ public class DungeonMobs implements Listener {
         boss.setCustomNameVisible(true);
         Attributable bossAt = boss;
         AttributeInstance attributeHealth = bossAt.getAttribute(Attribute.GENERIC_MAX_HEALTH);
-        attributeHealth.setBaseValue(56);
-        boss.setHealth(56);
+        attributeHealth.setBaseValue(60);
+        boss.setHealth(60);
         AttributeInstance attributeAttack = bossAt.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);
-        attributeAttack.setBaseValue(30);
+        attributeAttack.setBaseValue(20);
         new BukkitRunnable() {
             public void run() {
                 if (!boss.isDead()) {

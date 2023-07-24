@@ -55,7 +55,7 @@ public class Astronomer extends ShopNPC {
         AbstractItem lockedSlot = new Locked("? ? ?");
 
         if (Quest.isQuestComplete(player, Quest.QuestName.SMALL_STEP))
-            lockedSlot = new MoonShard(50);
+            lockedSlot = new MoonShard(20);
 
         gui = Gui.normal()
                 .setStructure(
@@ -237,10 +237,8 @@ public class Astronomer extends ShopNPC {
         }
 
         public ItemProvider getItemProvider() {
-            return new ItemBuilder(Material.IRON_BOOTS)
-                    .setDisplayName(ChatColor.AQUA + "Lunar Boots")
-                    .addLoreLines(getCost())
-                    .addEnchantment(Enchantment.PROTECTION_FALL, 13, true);
+            return new ItemBuilder(item)
+                    .addLoreLines(getCost());
         }
 
         @Override

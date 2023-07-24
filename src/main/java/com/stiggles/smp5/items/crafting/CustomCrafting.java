@@ -1,5 +1,6 @@
 package com.stiggles.smp5.items.crafting;
 
+import com.stiggles.smp5.items.armor.LunarArmor;
 import com.stiggles.smp5.main.SMP5;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -7,6 +8,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
+import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -60,7 +62,31 @@ public class CustomCrafting {
         recipe.addIngredient(new RecipeChoice.ExactChoice(sharpnessBook));
         recipe.addIngredient(new RecipeChoice.ExactChoice(item));
 
+
+        LunarArmor lunarArmor = new LunarArmor();
+        ShapedRecipe lunar_helmet = new ShapedRecipe(new NamespacedKey(main, "lunar_helmet"), lunarArmor.getLunarHelmet());
+        lunar_helmet.shape("EEE","E E");
+        lunar_helmet.setIngredient('E', new RecipeChoice.ExactChoice(lunarArmor.getMoonShards(1)));
+
+
+        ShapedRecipe lunar_chestplate = new ShapedRecipe(new NamespacedKey(main, "lunar_chestplate"), lunarArmor.getLunarChestplate());
+        lunar_chestplate.shape("E E","EEE", "EEE");
+        lunar_chestplate.setIngredient('E', new RecipeChoice.ExactChoice(lunarArmor.getMoonShards(1)));
+
+
+        ShapedRecipe lunar_leggings = new ShapedRecipe(new NamespacedKey(main, "lunar_leggings"), lunarArmor.getLunarLeggings());
+        lunar_leggings.shape("EEE","E E", "E E");
+        lunar_leggings.setIngredient('E', new RecipeChoice.ExactChoice(lunarArmor.getMoonShards(1)));
+
+        ShapedRecipe lunar_boots = new ShapedRecipe(new NamespacedKey(main, "lunar_boots"), lunarArmor.getLunarBoots());
+        lunar_boots.shape("E E","E E");
+        lunar_boots.setIngredient('E', new RecipeChoice.ExactChoice(lunarArmor.getMoonShards(1)));
+
         // Register the recipe
         getServer().addRecipe(recipe);
+        getServer().addRecipe(lunar_helmet);
+        getServer().addRecipe(lunar_chestplate);
+        getServer().addRecipe(lunar_leggings);
+        getServer().addRecipe(lunar_boots);
     }
 }
