@@ -112,7 +112,7 @@ public class DungeonKeeper extends ShopNPC {
 
         AbstractItem chestSlot = new SimpleItem(new ItemBuilder(Material.BLACK_STAINED_GLASS));
         if (drops.containsKey(player.getUniqueId())) {
-            chestSlot = new ReturnInventory(400);
+            chestSlot = new ReturnInventory(120);
         }
 
 
@@ -122,7 +122,7 @@ public class DungeonKeeper extends ShopNPC {
                         "# x x x a x x x #",
                         "# # # # # # # # c")
                 .addIngredient('#', new SimpleItem(new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE)))
-                .addIngredient('a', new BaseKey(100))
+                .addIngredient('a', new BaseKey(50))
                 .addIngredient('x', new SimpleItem(new ItemBuilder(Material.WHITE_STAINED_GLASS_PANE)))
                 .addIngredient('c', chestSlot)
                 .build();

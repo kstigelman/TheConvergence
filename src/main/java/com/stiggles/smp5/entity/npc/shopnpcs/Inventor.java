@@ -80,7 +80,7 @@ public class Inventor extends ShopNPC {
         //Also check if player has visited all locations
         StigglesPlayer sp = main.getPlayerManager().getStigglesPlayer(player.getUniqueId());
         if (sp.hasQuestCompleted(Quest.QuestName.RECRUIT_INVENTOR))
-            lockedSlot = new Elytra(1200);
+            lockedSlot = new Elytra(900);
         //Advancement a = Bukkit.getAdvancement(new NamespacedKey(main, "minecraft:end/kill_dragon"));
         /*if (a != null) {
             if (player.getAdvancementProgress(a).isDone())
