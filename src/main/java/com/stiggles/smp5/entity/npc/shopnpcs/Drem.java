@@ -277,12 +277,12 @@ public class Drem extends ShopNPC {
                         "# a b c d e f g #",
                         "# # # # # # # # #")
                 .addIngredient ('#', new SimpleItem(new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE)))
-                .addIngredient( 'a', new Saddle (150))
-                .addIngredient( 'b', new HorseArmor(100))
-                .addIngredient( 'c', new Warhorn(300))
-                .addIngredient( 'd', new DragonBreath(100))
-                .addIngredient( 'e', new Vlad (400))
-                .addIngredient( 'f', new Pendant (1000))
+                .addIngredient( 'a', new Saddle (120))
+                .addIngredient( 'b', new HorseArmor(80))
+                .addIngredient( 'c', new Warhorn(200))
+                .addIngredient( 'd', new DragonBreath(90))
+                .addIngredient( 'e', new Vlad (300))
+                .addIngredient( 'f', new Pendant (400))
                 .addIngredient( 'g', new Locked ("? ? ?"))
                 .build ();
     }

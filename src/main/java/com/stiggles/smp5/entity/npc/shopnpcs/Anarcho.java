@@ -50,14 +50,15 @@ public class Anarcho extends ShopNPC {
     public void createGUI(Player player) {
         gui = Gui.normal()
                 .setStructure(
-                        "# # # # # # # #",
-                        "# # a b c d # #",
-                        "# # # # # # # #")
+                        "# # # # # # # # #",
+                        "# # a b c d e # #",
+                        "# # # # # # # # #")
                 .addIngredient('#', new SimpleItem(new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE)))
-                .addIngredient('a', new AnarchyHelmet(200))
-                .addIngredient('b', new AnarchyChestplate(300))
-                .addIngredient('c', new AnarchyLeggings(250))
-                .addIngredient('d', new AnarchyBoots(150))
+                .addIngredient('a', new AnarchyHelmet(120))
+                .addIngredient('b', new AnarchyChestplate(250))
+                .addIngredient('c', new AnarchyLeggings(200))
+                .addIngredient('d', new AnarchyBoots(90))
+                .addIngredient('d', new Totem (80))
                 .build();
     }
 
@@ -248,6 +249,21 @@ public class Anarcho extends ShopNPC {
             meta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, toughnessArmor);
             meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
             item.setItemMeta(meta);
+        }
+
+        public ItemProvider getItemProvider() {
+            return new ItemBuilder(item).addLoreLines(getCost());
+        }
+
+        @Override
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
+            handleTrade(player, this);
+        }
+    }
+    private class Totem extends StigglesBaseItem {
+        public Totem (int price) {
+            super(price);
+            item = new ItemStack(Material.TOTEM_OF_UNDYING);
         }
 
         public ItemProvider getItemProvider() {

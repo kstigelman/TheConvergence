@@ -43,11 +43,11 @@ public class Tiger extends ShopNPC {
                         "# # b c d e f # #",
                         "# # # # # # # # #")
                 .addIngredient('#', new SimpleItem(new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE)))
-                .addIngredient('b', new Logs(8))
-                .addIngredient('c', new Cobblestone(2))
-                .addIngredient('d', new Bricks(4))
-                .addIngredient('e', new Glowstone(10))
-                .addIngredient('f', new Coal(16))
+                .addIngredient('b', new Logs(5))
+                .addIngredient('c', new Cobblestone(1))
+                .addIngredient('d', new Bricks(2))
+                .addIngredient('e', new Glowstone(6))
+                .addIngredient('f', new Coal(10))
                 .build();
     }
 

@@ -63,12 +63,12 @@ public class Astronomer extends ShopNPC {
                         "# a b c d e f g #",
                         "# # # # # # # # #")
                 .addIngredient('#', new SimpleItem(new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE)))
-                .addIngredient('a', new Endstone(20))
-                .addIngredient('b', new PurpurBlock(15))
-                .addIngredient('c', new ChorusFruit(85))
-                .addIngredient('d', new ShulkerShell(1000))
-                .addIngredient('e', new EndRod(75))
-                .addIngredient('f', new DragonHead(2000))
+                .addIngredient('a', new Endstone(5))
+                .addIngredient('b', new PurpurBlock(5))
+                .addIngredient('c', new ChorusFruit(45))
+                .addIngredient('d', new ShulkerShell(800))
+                .addIngredient('e', new EndRod(45))
+                .addIngredient('f', new DragonHead(300))
                 .addIngredient('g', lockedSlot)
                 .build();
     }

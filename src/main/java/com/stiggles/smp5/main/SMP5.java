@@ -402,11 +402,13 @@ public class SMP5 extends JavaPlugin implements Listener {
         npcs.add(new leadWanderer(this, "Adventurous Explorer", new Location(world, -834.5, 68, -728.5)));
         npcs.add(new Archaeologist(this, "League Representative", new Location(world, 16.5, 92, 744.5)));
         npcs.add(new TheWanderer(this, "The Wanderer", new Location(Bukkit.getWorld("world"), -493.5, 68, -662.5)));
+        npcs.add(new MrEgo(this, "Mr. EGO", new Location(Bukkit.getWorld("world"), 1495.5, 134, -1469.5)));
 
         npcs.add(new Anarcho(this, "Anarcho", new Location(worldNether, 550.5, 221, 236.5)));
         npcs.add(new NetheriteMaster(this, "Netherite Master", new Location(worldNether, -133.5, 168, -26.5)));
         npcs.add(new MineManager(this, "Mines Overseer", new Location(worldNether, -165.5, 185, 6.5)));
         npcs.add(new Cryptorg(this, "Cryptorg", new Location(worldNether, -121, 130, -12)));
+
 
         npcs.add(new Nouveau(this, "Nouveau", new Location(Bukkit.getWorld("sanctuary"), 8.5, -59, 8.5)));
         //Maybe put Nouveau at 1259 86 -1225.5

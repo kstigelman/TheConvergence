@@ -85,11 +85,11 @@ public class Mole extends ShopNPC {
                         "# # # # # # # # #")
                 .addIngredient('#', new SimpleItem(new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE)))
                 .addIngredient('a', new EnergyDrink(80))
-                .addIngredient('b', new Slimeball(10))
-                .addIngredient('c', new Kelp(20))
+                .addIngredient('b', new Slimeball(6))
+                .addIngredient('c', new Kelp(10))
                 .addIngredient('d', new Pickle(15))
-                .addIngredient('e', new StainedGlass(6))
-                .addIngredient('f', new Coral(40))
+                .addIngredient('e', new StainedGlass(2))
+                .addIngredient('f', new Coral(20))
                 .addIngredient('g', new Locked("To be added"))
                 .build();
     }

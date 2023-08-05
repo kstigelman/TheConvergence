@@ -771,7 +771,8 @@ public class Dungeon implements Listener {
                 room.resetRoom();
             }
         }
-        Bukkit.broadcastMessage(ChatColor.YELLOW + "The dungeon has been reset! Do /start-dungeon to begin!");
+        state = DungeonState.END;
+        //Bukkit.broadcastMessage(ChatColor.YELLOW + "The dungeon has been reset! Do /start-dungeon to begin!");
 
     }
 
