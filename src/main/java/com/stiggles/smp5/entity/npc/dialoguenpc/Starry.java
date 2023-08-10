@@ -51,6 +51,9 @@ public class Starry extends StigglesNPC {
         }
     */
     public void interactDialogue(Player player) {
+        sendMessage(player, "Thank you for helping us fight against Nouveau as we prepare to bring this world down.");
+        sendMessageLater(player, "You should prepare yourself for battle, we'll be turning on the power generators soon. That will definitely get the attention of Nouveau.", 80);
+        /*
         if (!Quest.isQuestComplete(player, Quest.QuestName.STIGGLES_ASSEMBLE) && Quest.isQuestComplete(player, Quest.QuestName.COLLECT_CONVERGENCE)) {
             boolean found = false;
             for (ItemStack i : player.getInventory()) {
@@ -81,7 +84,7 @@ public class Starry extends StigglesNPC {
         else
             msg += " We're happy to have you!";
 
-        sendMessage(player, msg);
+        sendMessage(player, msg);*/
     }
 
     public boolean checkQuestItems(Player player) {

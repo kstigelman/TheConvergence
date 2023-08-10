@@ -21,9 +21,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class CustomSpawns {
     private static final SMP5 main = SMP5.getPlugin(SMP5.class);
@@ -152,6 +150,63 @@ public class CustomSpawns {
         }
     }
 
+    public static void spawnNouveauMinion (Location location) {
+        Skeleton mob = location.getWorld().spawn(location, Skeleton.class);
+        mob.setCustomName(ChatColor.DARK_PURPLE + "Nouveau's Minion");
+        mob.setCustomNameVisible(true);
+
+        AttributeInstance attributeDamage = mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);
+        AttributeInstance attributeHealth = mob.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+        attributeDamage.setBaseValue(8);
+        attributeHealth.setBaseValue(15);
+        mob.setHealth(15);
+
+        ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
+        SkullMeta skull_meta = (SkullMeta) skull.getItemMeta();
+        try {
+            PlayerProfile p = Bukkit.createPlayerProfile(UUID.randomUUID());
+            PlayerTextures pt = p.getTextures();
+            pt.setSkin(new URL("http://textures.minecraft.net/texture/8e62f6a64af42522070f2b29be8ac8382b8b1dc4c163e09c7f8a3b32e105f3fd"
+            ));
+            p.setTextures(pt);
+            skull_meta.setOwnerProfile(p);
+        } catch (MalformedURLException e) {
+
+        }
+
+
+        if (Math.abs(main.getRandom()) % 4 == 0) {
+            ItemStack bow = new ItemStack(Material.BOW);
+            mob.getEquipment().setItemInMainHand(bow);
+        }
+        else {
+            ItemStack sword = new ItemStack(Material.IRON_SWORD);
+            mob.getEquipment().setItemInMainHand(sword);
+        }
+
+        skull.setItemMeta(skull_meta);
+        mob.getEquipment().setHelmet(skull);
+
+
+        ItemStack armor = new ItemStack (Material.LEATHER_CHESTPLATE);
+        LeatherArmorMeta leather_meta = (LeatherArmorMeta) armor.getItemMeta();
+        leather_meta.setColor(Color.BLACK);
+
+        armor.setItemMeta(leather_meta);
+        mob.getEquipment().setChestplate(armor);
+
+        armor = new ItemStack (Material.CHAINMAIL_LEGGINGS);
+        mob.getEquipment().setLeggings(armor);
+
+        armor = new ItemStack (Material.LEATHER_BOOTS);
+        armor.setItemMeta(leather_meta);
+        mob.getEquipment().setBoots(armor);
+
+        ArrayList<Player> players = main.getSpawnerCuboids().getNearbyPlayers();
+        if (players.size() == 0)
+            return;
+        mob.setTarget(main.getSpawnerCuboids().getNearbyPlayers().get(Math.abs (main.getRandom()) % players.size()));
+    }
     public static void spawnCryptoid (Location location) {
         Zombie zombie = location.getWorld().spawn(location, Zombie.class);
         zombie.setCustomName(ChatColor.DARK_RED + "Infected Cryptoid");
@@ -198,8 +253,62 @@ public class CustomSpawns {
         armor = new ItemStack (Material.LEATHER_BOOTS);
         armor.setItemMeta(leather_meta);
         zombie.getEquipment().setBoots(armor);
-    }
 
+        ArrayList<Player> players = main.getSpawnerCuboids().getNearbyPlayers();
+        if (players.size() == 0)
+            return;
+        zombie.setTarget(main.getSpawnerCuboids().getNearbyPlayers().get(Math.abs (main.getRandom()) % players.size()));
+    }
+    public static void spawnGuard (Location location) {
+        WitherSkeleton mob = location.getWorld().spawn(location, WitherSkeleton.class);
+        mob.setCustomName(ChatColor.DARK_PURPLE + "Corrupted Guard");
+        mob.setCustomNameVisible(true);
+
+        AttributeInstance attributeDamage = mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);
+        AttributeInstance attributeHealth = mob.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+        attributeDamage.setBaseValue(2);
+        attributeHealth.setBaseValue(20);
+        mob.setHealth(20);
+
+        ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
+        SkullMeta skull_meta = (SkullMeta) skull.getItemMeta();
+        try {
+            PlayerProfile p = Bukkit.createPlayerProfile(UUID.randomUUID());
+            PlayerTextures pt = p.getTextures();
+            pt.setSkin(new URL("http://textures.minecraft.net/texture/9f9814c47dff04d3ecbefc524b22db4707b09af3a487151d096bc9411ffbfef9"
+            ));
+            p.setTextures(pt);
+            skull_meta.setOwnerProfile(p);
+        } catch (MalformedURLException e) {
+
+        }
+
+        ItemStack sword = new ItemStack(Material.STONE_SWORD);
+        mob.getEquipment().setItemInMainHand(sword);
+
+        skull.setItemMeta(skull_meta);
+        mob.getEquipment().setHelmet(skull);
+
+
+        ItemStack armor = new ItemStack (Material.LEATHER_CHESTPLATE);
+        LeatherArmorMeta leather_meta = (LeatherArmorMeta) armor.getItemMeta();
+        leather_meta.setColor(Color.GRAY);
+
+        armor.setItemMeta(leather_meta);
+        mob.getEquipment().setChestplate(armor);
+
+        armor = new ItemStack (Material.NETHERITE_LEGGINGS);
+        mob.getEquipment().setLeggings(armor);
+
+        armor = new ItemStack (Material.LEATHER_BOOTS);
+        armor.setItemMeta(leather_meta);
+        mob.getEquipment().setBoots(armor);
+
+        ArrayList<Player> players = main.getSpawnerCuboids().getNearbyPlayers();
+        if (players.size() == 0)
+            return;
+        mob.setTarget(main.getSpawnerCuboids().getNearbyPlayers().get(Math.abs (main.getRandom()) % players.size()));
+    }
     public static void checkCryptoidSpawns () {
         new BukkitRunnable () {
             @Override

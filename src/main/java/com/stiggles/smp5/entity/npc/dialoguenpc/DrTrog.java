@@ -28,12 +28,14 @@ public class DrTrog extends StigglesNPC {
 
     @Override
     public void interactDialogue(Player player) {
-        StigglesPlayer sp = main.getPlayerManager().getStigglesPlayer(player.getUniqueId());
+        sendMessage(player,"After 2 months of hard work, we have finally completed the power generator. Once it is turned on, I am certain Nouveau will try to stop us, but we must stand strong.");
+        sendMessageLater(player, "We couldn't have done it without the help of Ralph and Alejandro, the builders.", 100);
+        /*StigglesPlayer sp = main.getPlayerManager().getStigglesPlayer(player.getUniqueId());
         if (!sp.hasTalkedTo(getName()))
             sendMessage(player, "Uh, hello?");
         else
             sendMessage(player, "Hi there.");
-
+        */
     }
 
     /*

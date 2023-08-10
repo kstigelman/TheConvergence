@@ -64,7 +64,10 @@ public class Anarcho extends ShopNPC {
 
     @Override
     public void interactDialogue(Player player) {
-        if (player.getName().contains("ItsTigerFist")) {
+        sendMessage(player, "This is the site where the meteor hit. The meteor had a high concentration of Convergence making it an excellent power source.");
+        sendMessageLater(player, "...although it also means there are highly dangerous monsters corrupted by the Convergence that will try to attack us.", 80);
+        sendMessageLater(player, "Heh. I'd like to see those monsters try and get through me.", 160);
+        /*if (player.getName().contains("ItsTigerFist")) {
             sendMessage(player, "Tiger... hello.");
             return;
         }
@@ -72,7 +75,7 @@ public class Anarcho extends ShopNPC {
             sendMessage(player, "Welcome to Anarcho's Castle. Heh.");
         } else {
             sendMessage(player, "Hi there. I didn't expect any visitors today.");
-        }
+        }*/
     }
 
     @Override

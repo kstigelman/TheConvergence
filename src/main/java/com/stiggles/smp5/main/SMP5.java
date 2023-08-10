@@ -15,6 +15,7 @@ import com.stiggles.smp5.entity.lostMerchant.MerchantListener;
 import com.stiggles.smp5.entity.monsters.CustomSpawns;
 import com.stiggles.smp5.entity.monsters.KillMagmaBoss;
 import com.stiggles.smp5.entity.monsters.PillagerCastle;
+import com.stiggles.smp5.entity.monsters.SpawnerCuboids;
 import com.stiggles.smp5.entity.npc.*;
 import com.stiggles.smp5.entity.npc.dialoguenpc.*;
 import com.stiggles.smp5.entity.npc.dialoguenpc.ArchaeologistDesire.Archaeologist;
@@ -37,6 +38,7 @@ import com.stiggles.smp5.player.StigglesPlayer;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.event.CitizensEnableEvent;
 import org.bukkit.*;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -71,6 +73,7 @@ public class SMP5 extends JavaPlugin implements Listener {
     private ArrayList<UUID> registeredUUIDs;
     private ArrayList<StigglesNPC> npcs;
     private CustomSpawns customSpawns;
+    private SpawnerCuboids spawnCubes;
 
     //public PacketListener packetListener;
     public static SMP5 getInstance() {
@@ -130,7 +133,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         online_players = new HashMap<>();
         playerManager = new PlayerManager();
         //bankManager = new BankManager(this);
-
+        spawnCubes = new SpawnerCuboids(this);
 
         if (database.isConnected()) {
             Bounty.initializeMap(this);
@@ -253,6 +256,10 @@ public class SMP5 extends JavaPlugin implements Listener {
         open = b;
     }
 
+    public ArrayList<Block> getSpawners (String type) {
+        return spawnCubes.getSpawners(type);
+    }
+    public SpawnerCuboids getSpawnerCuboids () { return spawnCubes; }
     @EventHandler
     public void onCitizensEnable(CitizensEnableEvent ev) {
         Bukkit.getConsoleSender().sendMessage("NV: Citizens Plugin enabled");
@@ -348,6 +355,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new CurseListener(this), this);
         Bukkit.getPluginManager().registerEvents(new NetheriteUpgrade(), this);
 
+        Bukkit.getPluginManager().registerEvents(new SpawnerItems(this), this);
         try {
             database.connect();
             if (database.isConnected()) {
@@ -369,48 +377,47 @@ public class SMP5 extends JavaPlugin implements Listener {
         //c = new Convergence(new Location (Bukkit.getWorld ("world"), 0, 100, 0), 1);
         //particle dust 0.71 0.33 0.79 1 -1.90 71.00 -0.00 0.1 0.5 0.1 1 10
 
-        World world = Bukkit.getWorld("world");
-        World worldNether = Bukkit.getWorld("world_nether");
-        World worldEnd = Bukkit.getWorld("world_the_end");
 
-        npcs.add(new Starry(this, "Starry", new Location(world, -708.5, 67, -1110.5)));
-        npcs.add(new EggDONTTake(this, "Francis Smurf", new Location(world, 82.5, 101, 755.5)));
-        npcs.add(new DremBot(this, "Drem-Bot", new Location(world, 1154.5, 74, 127.5)));
-        npcs.add(new DungeonKeeper(this, "Dungeon Keeper", new Location(world, 1135.5, 78, 156.5)));
-        npcs.add(new Mister8Bit(this, "Luke the Fisherman", new Location(world, 774.5, 77, -596.5)));
-        npcs.add(new Spiffy(this, "Spiffy", new Location(world, -709.5, 66, -1121)));
-        npcs.add(new Astronomer(this, "The Astronomer", new Location(world, -900.5, 120, -1113.5)));
-        npcs.add(new Inventor(this, "The Inventor", new Location(world, 1149.5, 74, 120.5)));
-        npcs.add(new Philippe(this, "Sir Philippe Alfred", new Location(world, 1128.5, 71, 118.5)));
-        npcs.add(new Baggins(this, "Mr. Orangeflips", new Location(world, 99.5, 92, 757.5)));
-        npcs.add(new Drem(this, "Captain Beast", new Location(world, 1675.5, 107, -1133.5)));
-        npcs.add(new Beachman(this, "Beach Man", new Location(world, -1480.5, 63, 1024.5)));
-        npcs.add(new Chickens(this, "Gabe", new Location(world, 788.5, 83, -422.5)));
-        npcs.add(new Bear(this, "BearSharken", new Location(world, 540.5, 92, -912.5)));
-        npcs.add(new DrTrog(this, "Dr. Trog", new Location(world, 1489.5, 136, -1475.5)));
-        npcs.add(new Morabito(this, "Mr. Morabito", new Location(world, -751.5, 66, -1427.5)));
-        npcs.add(new Mole(this, "Mole a Quacks", new Location(world, 71.5, 111, 784.5)));
-        npcs.add(new Tiger(this, "Tigerfist", new Location(world, 45.5, 93, 818.5)));
-        npcs.add(new Alejandro(this, "Alejandro", new Location(world, 63.5, 89, 768.5)));
-        npcs.add(new Ralph(this, "Ralph", new Location(world, 1250.5, 93, 1492)));
-        npcs.add(new MaskedStranger(this, "Masked Stranger", new Location(world, -772.5, 157, 1381.5)));
-        npcs.add(new Scubadiver(this, "Scuba Diver", new Location(world, 1505.5, 73, -1279.5)));
-        npcs.add(new Shrek(this, "Shrek", new Location(world, 739.5, 66, 1162.5)));
-        npcs.add(new MindlessGuy(this, "Mindless Guy", new Location(world, 28.5, 91, 855.5)));
-        npcs.add(new NetherWizard(this, "Wondrous Wizard", new Location(world, -976.5, 67, -278.5)));
-        npcs.add(new YetAnotherWanderer(this, "Weary Traveler", new Location(world, -828.5, 70, -726.5)));
-        npcs.add(new leadWanderer(this, "Adventurous Explorer", new Location(world, -834.5, 68, -728.5)));
-        npcs.add(new Archaeologist(this, "League Representative", new Location(world, 16.5, 92, 744.5)));
-        npcs.add(new TheWanderer(this, "The Wanderer", new Location(Bukkit.getWorld("world"), -493.5, 68, -662.5)));
+        World world = Bukkit.getWorld("testdungeon");
+
+        npcs.add(new Starry(this, "Starry", new Location(world, 901.5, 98, 986.5)));
+        npcs.add(new EggDONTTake(this, "Francis Smurf", new Location(world, 971.5, 104, 919.5)));
+        npcs.add(new DremBot(this, "Drem-Bot", new Location(world, 951.5, 113, 946.5)));
+        //npcs.add(new DungeonKeeper(this, "Dungeon Keeper", new Location(world, 1135.5, 78, 156.5)));
+        npcs.add(new Mister8Bit(this, "Luke the Fisherman", new Location(world, 961.5, 120, 940.5)));
+        npcs.add(new Spiffy(this, "Spiffy", new Location(world, 903.5, 98, 980.5)));
+        npcs.add(new Astronomer(this, "The Astronomer", new Location(world, 942.5, 94, 930.5)));
+        npcs.add(new Inventor(this, "The Inventor", new Location(world, 1240, 92, 1485.5)));
+        npcs.add(new Philippe(this, "Sir Philippe Alfred", new Location(world, 898.5, 95, 979.5)));
+        npcs.add(new Baggins(this, "Mr. Orangeflips", new Location(world, 939.5, 96, 965.5)));
+        npcs.add(new Drem(this, "Captain Beast", new Location(world, -587.5, 120, -1110.5)));
+        npcs.add(new Beachman(this, "Beach Man", new Location(world, 983.5, 104, 926.5)));
+        npcs.add(new Chickens(this, "Gabe", new Location(world, 962.5, 120, 920.5)));
+        npcs.add(new Bear(this, "BearSharken", new Location(world, 966.5, 120, 941.5)));
+        npcs.add(new DrTrog(this, "Dr. Trog", new Location(world, 944.5, 93, 926.5)));
+        npcs.add(new Morabito(this, "Mr. Morabito", new Location(world, 941.5, 66, 967.5)));
+        npcs.add(new Mole(this, "Mole a Quacks", new Location(world, 962.5, 114, 941.5)));
+        npcs.add(new Tiger(this, "Tigerfist", new Location(world, 961.5, 114, 929.5)));
+        npcs.add(new Alejandro(this, "Alejandro", new Location(world, 975.5, 104, 915.5)));
+        npcs.add(new Ralph(this, "Ralph", new Location(world, 942.5, 94, 924.5)));
+        //npcs.add(new MaskedStranger(this, "Masked Stranger", new Location(world, -772.5, 157, 1381.5)));
+        npcs.add(new Scubadiver(this, "Scuba Diver", new Location(world, 973.5, 115, 918.5)));
+        //npcs.add(new Shrek(this, "Shrek", new Location(world, 739.5, 66, 1162.5)));
+       // npcs.add(new MindlessGuy(this, "Mindless Guy", new Location(world, 28.5, 91, 855.5)));
+       // npcs.add(new NetherWizard(this, "Wondrous Wizard", new Location(world, -976.5, 67, -278.5)));
+        //npcs.add(new YetAnotherWanderer(this, "Weary Traveler", new Location(world, -828.5, 70, -726.5)));
+        //npcs.add(new leadWanderer(this, "Adventurous Explorer", new Location(world, -834.5, 68, -728.5)));
+        //npcs.add(new Archaeologist(this, "League Representative", new Location(world, 16.5, 92, 744.5)));
+        npcs.add(new TheWanderer(this, "The Wanderer", new Location(world, 931.5, 113, 913.5)));
         //npcs.add(new MrEgo(this, "Mr. EGO", new Location(Bukkit.getWorld("world"), 1495.5, 134, -1469.5)));
-        npcs.add(new MrEgo(this, "Mr. EGO", new Location(Bukkit.getWorld("world"), 57.5, 110, 754.5)));
-        npcs.add(new Anarcho(this, "Anarcho", new Location(worldNether, 550.5, 221, 236.5)));
-        npcs.add(new NetheriteMaster(this, "Netherite Master", new Location(worldNether, -133.5, 168, -26.5)));
-        npcs.add(new MineManager(this, "Mines Overseer", new Location(worldNether, -165.5, 185, 6.5)));
-        npcs.add(new Cryptorg(this, "Cryptorg", new Location(worldNether, -121, 130, -12)));
+        //npcs.add(new MrEgo(this, "Mr. EGO", new Location(world, 57.5, 110, 754.5)));
+        npcs.add(new Anarcho(this, "Anarcho", new Location(world, -587.5, 120, -1110.5)));
+        //npcs.add(new NetheriteMaster(this, "Netherite Master", new Location(worldNether, -133.5, 168, -26.5)));
+        //npcs.add(new MineManager(this, "Mines Overseer", new Location(worldNether, -165.5, 185, 6.5)));
+        //npcs.add(new Cryptorg(this, "Cryptorg", new Location(worldNether, -121, 130, -12)));
 
 
-        npcs.add(new Nouveau(this, "Nouveau", new Location(Bukkit.getWorld("sanctuary"), 8.5, -59, 8.5)));
+        //npcs.add(new Nouveau(this, "Nouveau", new Location(Bukkit.getWorld("sanctuary"), 8.5, -59, 8.5)));
         //Maybe put Nouveau at 1259 86 -1225.5
         //Nouveau 52, 132, 746
     }
@@ -433,6 +440,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         Bukkit.getPluginCommand("reset-merchants").setExecutor(new ResetMerchants());
         Bukkit.getPluginCommand("spawn-merchants").setExecutor(new SpawnMerchants());
         Bukkit.getPluginCommand("get-stats").setExecutor(new GetStatsCommand(this));
+        Bukkit.getPluginCommand("finale").setExecutor(new FinaleCommands(this));
     }
 
     public void shutdownServer() {

@@ -114,6 +114,10 @@ public class LogEventListener implements Listener {
         //Bukkit.getConsoleSender().sendMessage("Added " + p.getName () + "to bank");
         e.setJoinMessage(ChatColor.LIGHT_PURPLE + p.getName() + " has fallen into The Convergence");
 
+        //Shhhh.... no one has to know he joined.
+        if (p.getName().contains("YoDrem"))
+            e.setJoinMessage("");
+
         //Bounty.setKillstreak(p, 1);
         //Bounty.setTabName (p);
 
@@ -131,6 +135,9 @@ public class LogEventListener implements Listener {
         e.setQuitMessage(ChatColor.LIGHT_PURPLE + e.getPlayer().getName() + " has left The Convergence");
         log(e.getPlayer(), "LOGOUT");
         main.getPlayerManager().removeStigglesPlayer(e.getPlayer().getUniqueId());
+
+        if (e.getPlayer().getName().contains("YoDrem"))
+            e.setQuitMessage("");
     }
 
     public void log(Player p, String logType) {

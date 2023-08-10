@@ -244,7 +244,7 @@ public class Drem extends ShopNPC {
     }
     @Override
     public void interactDialogue(Player player) {
-        if (player.getName().contains ("YoDrem")) {
+        /*if (player.getName().contains ("YoDrem")) {
             sendMessage(player, "Impossible, are you trying to taunt me??? How do you know who I am??? Get out of here. Now.");
         }
         if (!Quest.isQuestComplete(player, Quest.QuestName.NATALIES_REDEMPTION)) {
@@ -261,8 +261,8 @@ public class Drem extends ShopNPC {
             sendMessage(player, msg);
             interactCounter++;
             return;
-        }
-        sendMessage(player, "Oh, it's you again. Hello.");
+        }*/
+        sendMessage(player, "This used to be Kaayylo and I's bunker during the Cryptorg outbreak. Now, we have to defend it from Nouveau.");
     }
 
     @Override

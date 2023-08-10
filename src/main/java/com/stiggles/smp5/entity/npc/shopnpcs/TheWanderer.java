@@ -114,17 +114,20 @@ public class TheWanderer extends ShopNPC {
 
     @Override
     public void interactDialogue(Player player) {
-        speak(player, "I'm The Wanderer. I am here to pick up the pieces of this shattered world.", Sound.ENTITY_EVOKER_AMBIENT);
-        speakLater(player, "Let me share my burden with you.",Sound. ENTITY_EVOKER_AMBIENT, 60);
-        speakLater(player, "Nouveau did not gain control of this world without any casualties.", Sound.ENTITY_EVOKER_AMBIENT, 120);
-        speakLater(player, "He was terrified-- terrified of a man named Clato. In act of fear and insanity, he killed Clato and escaped to the Convergence.",Sound.ENTITY_EVOKER_AMBIENT,  180);
-        speakLater(player, "The opening of the Convergence consumed what was left of Clato. He seeks justice, but he needs your strength to do so.",Sound.ENTITY_EVOKER_AMBIENT,  270);
-        speakLater(player, "Bear this curse and you will be rewarded. Beware, it comes with difficult trials. The choice is yours.", Sound.ENTITY_EVOKER_AMBIENT, 360);
-        Bukkit.getScheduler().runTaskLater (main, () -> createAndShowCurse(player), 480);
+        speak(player, "I am here to pick up the pieces of this shattered world.", Sound.ENTITY_EVOKER_AMBIENT);
+        speakLater(player, "Nouveau will pay.",Sound. ENTITY_EVOKER_AMBIENT, 60);
+       // speakLater(player, "Nouveau did not gain control of this world without any casualties.", Sound.ENTITY_EVOKER_AMBIENT, 120);
+        //speakLater(player, "He was terrified-- terrified of a man named Clato. In act of fear and insanity, he killed Clato and escaped to the Convergence.",Sound.ENTITY_EVOKER_AMBIENT,  180);
+        //speakLater(player, "The opening of the Convergence consumed what was left of Clato. He seeks justice, but he needs your strength to do so.",Sound.ENTITY_EVOKER_AMBIENT,  270);
+        //speakLater(player, "Bear this curse and you will be rewarded. Beware, it comes with difficult trials. The choice is yours.", Sound.ENTITY_EVOKER_AMBIENT, 360);
+        //Bukkit.getScheduler().runTaskLater (main, () -> createAndShowCurse(player), 480);
     }
     @Override
     public void onInteract (Player player) {
-        StigglesPlayer sp = main.getPlayerManager().getStigglesPlayer(player.getUniqueId());
+
+        interactDialogue(player);
+
+        /*StigglesPlayer sp = main.getPlayerManager().getStigglesPlayer(player.getUniqueId());
 
         if (checkQuestItems(player))
             return;
@@ -139,7 +142,7 @@ public class TheWanderer extends ShopNPC {
             interactDialogue(player);
             talk(player);
             createAndShowCurse(player);
-        }
+        }*/
     }
 
     public void createGUI(Player player) {

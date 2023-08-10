@@ -44,14 +44,16 @@ public class Inventor extends ShopNPC {
     @Override
     public void interactDialogue(Player player) {
         int n = main.getRandom() % 2;
-        if (n == 0)
+        sendMessage(player, "This is the home of the smurfs. They have been crucial in helping with this operation. They built the power generators without Nouveau taking notice.");
+        sendMessageLater(player, "Let's return the favor. We'll defend this place that they have made their home.", 80);
+        /*if (n == 0)
             sendMessage(player, "Hi there.");
         else
-            sendMessage(player, "Welcome to my workshop.");
+            sendMessage(player, "Hi there.");
 
         if (player.getName().contains("Fleury87")) {
             sendMessage(player, "Interesting... I knew it. I knew this world was part of some multiversal anomaly.");
-        }
+        }*/
     }
 
     public boolean checkQuestItems(Player player) {

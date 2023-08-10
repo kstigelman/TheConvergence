@@ -30,3 +30,5 @@ commands:
     description: Admins only!
   get-stats:
     description: List all your stats!
+  finale:
+    description: Admin use only!

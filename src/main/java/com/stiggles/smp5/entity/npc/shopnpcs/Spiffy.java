@@ -42,10 +42,10 @@ public class Spiffy extends ShopNPC {
 
     @Override
     public void interactDialogue(Player player) {
-        sendMessage(player, "Welcome! How can I help you?");
-        if (player.getName().contains("Shadowkatcher")) {
+        sendMessage(player, "Hello! How can I help you?");
+        /*if (player.getName().contains("Shadowkatcher")) {
             sendMessage(player, "Are you me??? I can't believe it.");
-        }
+        }*/
     }
 
     @Override

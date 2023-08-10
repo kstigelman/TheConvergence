@@ -37,7 +37,8 @@ public class Philippe extends ShopNPC {
 
     @Override
     public void interactDialogue(Player player) {
-        int n = main.getRandom() % 3;
+        sendMessage(player,"It is my duty to Starry to defend the Community City, our base of operations on this mission.");
+        /*int n = main.getRandom() % 3;
         if (n == 0)
             sendMessage(player, "Bonjour");
         else if (n == 1)
@@ -47,7 +48,7 @@ public class Philippe extends ShopNPC {
 
         if (player.getName().contains("PhilippeAlfred")) {
             sendMessage(player, "Quoi? Are you me? I didn't expect this today.");
-        }
+        }*/
     }
 
     @Override

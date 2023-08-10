@@ -43,10 +43,12 @@ public class Astronomer extends ShopNPC {
     @Override
     public void interactDialogue(Player player) {
         int n = main.getRandom() % 2;
+        sendMessage(player, "Hello.");
+        /*
         if (n == 0)
             sendMessage(player, "Isn't the night sky just so fascinating?");
         else
-            sendMessage(player, "Welcome to my observatory.");
+            sendMessage(player, "Welcome to my observatory.");*/
     }
 
     @Override
