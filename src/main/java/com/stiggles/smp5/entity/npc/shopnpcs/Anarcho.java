@@ -39,10 +39,14 @@ public class Anarcho extends ShopNPC {
         if (checkQuestItems(player))
             return;
         interactDialogue(player);
+
+        createGUI(player);
+        showGUI(player);
+        /*
         if (Quest.isQuestComplete(player, Quest.QuestName.RECRUIT_ANARCHO)) {
             createGUI(player);
             showGUI(player);
-        }
+        }*/
         talk(player);
     }
 

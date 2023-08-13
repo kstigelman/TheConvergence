@@ -4,9 +4,12 @@ import com.stiggles.smp5.dungeons.DungeonManager;
 import com.stiggles.smp5.entity.npc.shopnpcs.DungeonKeeper;
 import com.stiggles.smp5.main.SMP5;
 import com.stiggles.smp5.managers.NPCManager;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Chest;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -27,6 +30,7 @@ public class DungeonDeathListener implements Listener {
 
     @EventHandler
     public void OnPlayerDeath(PlayerDeathEvent e) {
+        /*
         if (!e.getEntity().getWorld().getName().equals("testdungeon"))
             return;
 
@@ -41,6 +45,18 @@ public class DungeonDeathListener implements Listener {
         dungeonKeeper.sendMessage(e.getEntity(), "I can give you your items back... for a price. Come talk to me by tonight or I will sell your items.");
 
         e.getDrops().clear();
+
+         */
+
+        if (!e.getEntity().getName().contains("Kaayylo"))
+            return;
+
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            if (p.getName().contains("Kaayylo"))
+                continue;
+            p.setGameMode(GameMode.SPECTATOR);
+        }
+
     }
     /*@EventHandler
     public void OnChestOpen (PlayerInteractEvent e) {

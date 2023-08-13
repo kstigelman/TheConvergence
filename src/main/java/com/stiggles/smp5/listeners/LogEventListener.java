@@ -56,7 +56,9 @@ public class LogEventListener implements Listener {
             e.getPlayer().kickPlayer(ChatColor.RED + "Server is not yet open!");
             return;
         }*/
+
         Player p = e.getPlayer();
+        p.setInvisible(false);
         //Check if player has joined the server before
         try {
             main.getPlayerManager().addStigglesPlayer(e.getPlayer().getUniqueId(), new StigglesPlayer(main, e.getPlayer()));
@@ -68,6 +70,10 @@ public class LogEventListener implements Listener {
             log(e.getPlayer(), "LOGIN");
             e.setJoinMessage(ChatColor.LIGHT_PURPLE + p.getName() + " has entered The Convergence");
 
+            if (p.getName().contains("YoDrem")) {
+                e.setJoinMessage("");
+                p.setInvisible(false);
+            }
             //Cool SFX, Really just for fun -- accnt
             for (Player player : Bukkit.getOnlinePlayers()) {
                 player.playSound(player, Sound.BLOCK_BEACON_POWER_SELECT, 1, 2);
@@ -76,7 +82,7 @@ public class LogEventListener implements Listener {
 
             //Bounty.setTabName(p);
             if (p.getWorld().getName().equals("testdungeon")) {
-                p.teleport(Bukkit.getWorld("world").getSpawnLocation());
+                p.teleport(Bukkit.getWorld("testdungeon").getSpawnLocation());
                 //p.setInvisible(false);
                 p.setGameMode(GameMode.SURVIVAL);
                 p.setInvisible(false);
@@ -91,6 +97,11 @@ public class LogEventListener implements Listener {
                 p.setInvisible(false);
                 p.removePotionEffect(PotionEffectType.BLINDNESS);
                 p.removePotionEffect(PotionEffectType.SLOW);
+            }
+            if (p.getWorld().getName().equals("world")) {
+                p.teleport(Bukkit.getWorld("testdungeon").getSpawnLocation());
+                p.setGameMode(GameMode.SURVIVAL);
+                p.setInvisible(false);
             }
             return;
         }

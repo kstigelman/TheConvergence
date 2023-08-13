@@ -167,7 +167,7 @@ public class Drem extends ShopNPC {
             item.setItemMeta(meta);
         }
         public ItemProvider getItemProvider () {
-            return new ItemBuilder(item);
+            return new ItemBuilder(item).addLoreLines(getCost());
 
         }
         @Override
@@ -202,6 +202,7 @@ public class Drem extends ShopNPC {
     }
     @Override
     public void onInteract (Player player) {
+        /*
         if (player.getInventory().getItemInMainHand().hasItemMeta()) {
             ItemMeta im = player.getInventory().getItemInMainHand().getItemMeta();
             if (im != null && im.getLocalizedName().equals("drem_book")) {
@@ -234,12 +235,16 @@ public class Drem extends ShopNPC {
                 sendMessage(player, "Huh? Who's Starry? Get out!!");
                 return;
             }
-        }
+        }*/
         interactDialogue (player);
+
+        createGUI(player);
+        showGUI (player);
+        /*
         if (Quest.isQuestComplete(player, Quest.QuestName.NATALIES_REDEMPTION)) {
             createGUI(player);
             showGUI (player);
-        }
+        }*/
         talk (player);
     }
     @Override
@@ -283,7 +288,7 @@ public class Drem extends ShopNPC {
                 .addIngredient( 'd', new DragonBreath(90))
                 .addIngredient( 'e', new Vlad (300))
                 .addIngredient( 'f', new Pendant (400))
-                .addIngredient( 'g', new Locked ("? ? ?"))
+                .addIngredient( 'g', new BoomBow (300))
                 .build ();
     }
 }

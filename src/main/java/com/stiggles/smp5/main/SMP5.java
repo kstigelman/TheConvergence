@@ -126,6 +126,7 @@ public class SMP5 extends JavaPlugin implements Listener {
         }
         if (Bukkit.getWorld("testdungeon") == null) {
             new WorldCreator("testdungeon").createWorld();
+
         }
 
 
@@ -349,13 +350,14 @@ public class SMP5 extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new MetalDetector(this), this);
         Bukkit.getPluginManager().registerEvents(new PillagerCastle(this), this);
         Bukkit.getPluginManager().registerEvents(new DungeonExplosionEvent(), this);
-        //Bukkit.getPluginManager().registerEvents(new DungeonDeathListener(this), this);
+        Bukkit.getPluginManager().registerEvents(new DungeonDeathListener(this), this);
         //manager.registerEvents(this, this);
         Bukkit.getScheduler().runTaskTimer(this, CustomSpawns::spawnWitherSkeleton, 0, 20 * 10);
         Bukkit.getPluginManager().registerEvents(new CurseListener(this), this);
         Bukkit.getPluginManager().registerEvents(new NetheriteUpgrade(), this);
 
         Bukkit.getPluginManager().registerEvents(new SpawnerItems(this), this);
+        Bukkit.getPluginManager().registerEvents(spawnCubes, this);
         try {
             database.connect();
             if (database.isConnected()) {
@@ -379,6 +381,7 @@ public class SMP5 extends JavaPlugin implements Listener {
 
 
         World world = Bukkit.getWorld("testdungeon");
+        World smp_world = Bukkit.getWorld("world");
 
         npcs.add(new Starry(this, "Starry", new Location(world, 901.5, 98, 986.5)));
         npcs.add(new EggDONTTake(this, "Francis Smurf", new Location(world, 971.5, 104, 919.5)));
@@ -387,14 +390,15 @@ public class SMP5 extends JavaPlugin implements Listener {
         npcs.add(new Mister8Bit(this, "Luke the Fisherman", new Location(world, 961.5, 120, 940.5)));
         npcs.add(new Spiffy(this, "Spiffy", new Location(world, 903.5, 98, 980.5)));
         npcs.add(new Astronomer(this, "The Astronomer", new Location(world, 942.5, 94, 930.5)));
-        npcs.add(new Inventor(this, "The Inventor", new Location(world, 1240, 92, 1485.5)));
+        npcs.add(new Inventor(this, "The Inventor", new Location(smp_world, 1240, 92, 1485.5)));
         npcs.add(new Philippe(this, "Sir Philippe Alfred", new Location(world, 898.5, 95, 979.5)));
         npcs.add(new Baggins(this, "Mr. Orangeflips", new Location(world, 939.5, 96, 965.5)));
-        npcs.add(new Drem(this, "Captain Beast", new Location(world, -587.5, 120, -1110.5)));
+        npcs.add(new Drem(this, "Captain Beast", new Location(smp_world, -587.5, 120, -1110.5)));
         npcs.add(new Beachman(this, "Beach Man", new Location(world, 983.5, 104, 926.5)));
         npcs.add(new Chickens(this, "Gabe", new Location(world, 962.5, 120, 920.5)));
         npcs.add(new Bear(this, "BearSharken", new Location(world, 966.5, 120, 941.5)));
         npcs.add(new DrTrog(this, "Dr. Trog", new Location(world, 944.5, 93, 926.5)));
+        npcs.add(new DrTrog(this, "Dr. Trog", new Location(Bukkit.getWorld("sanctuary"), 35.5, -60, 6.5)));
         npcs.add(new Morabito(this, "Mr. Morabito", new Location(world, 941.5, 66, 967.5)));
         npcs.add(new Mole(this, "Mole a Quacks", new Location(world, 962.5, 114, 941.5)));
         npcs.add(new Tiger(this, "Tigerfist", new Location(world, 961.5, 114, 929.5)));
@@ -411,13 +415,13 @@ public class SMP5 extends JavaPlugin implements Listener {
         npcs.add(new TheWanderer(this, "The Wanderer", new Location(world, 931.5, 113, 913.5)));
         //npcs.add(new MrEgo(this, "Mr. EGO", new Location(Bukkit.getWorld("world"), 1495.5, 134, -1469.5)));
         //npcs.add(new MrEgo(this, "Mr. EGO", new Location(world, 57.5, 110, 754.5)));
-        npcs.add(new Anarcho(this, "Anarcho", new Location(world, -587.5, 120, -1110.5)));
+        npcs.add(new Anarcho(this, "Anarcho", new Location(smp_world, -587.5, 120, -1110.5)));
         //npcs.add(new NetheriteMaster(this, "Netherite Master", new Location(worldNether, -133.5, 168, -26.5)));
         //npcs.add(new MineManager(this, "Mines Overseer", new Location(worldNether, -165.5, 185, 6.5)));
         //npcs.add(new Cryptorg(this, "Cryptorg", new Location(worldNether, -121, 130, -12)));
 
 
-        //npcs.add(new Nouveau(this, "Nouveau", new Location(Bukkit.getWorld("sanctuary"), 8.5, -59, 8.5)));
+        npcs.add(new Nouveau(this, "Nouveau", new Location(Bukkit.getWorld("sanctuary"), 8.5, -59, 8.5)));
         //Maybe put Nouveau at 1259 86 -1225.5
         //Nouveau 52, 132, 746
     }

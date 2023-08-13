@@ -31,20 +31,21 @@ public class SpawnerCuboids implements Listener {
     public SpawnerCuboids (SMP5 main) {
         this.main = main;
 
+        players = new ArrayList<>();
         cuboids = new ArrayList<>();
         red_spawners = new ArrayList<>();
         purple_spawners = new ArrayList<>();
         black_spawners = new ArrayList<>();
 
-        //Island
+        //Island 0
         cuboids.add(new Cuboid(Objects.requireNonNull(Bukkit.getWorld("testdungeon")), 1000, 95, 1000, 860, 120, 900));
-        //Mesa
-        cuboids.add(new Cuboid(Objects.requireNonNull(Bukkit.getWorld("world")), -532, 110, -1142, -532, 122, -1059));
-        //Ruins
+        //Mesa 1
+        cuboids.add(new Cuboid(Objects.requireNonNull(Bukkit.getWorld("world")), -610, 110, -1142, -532, 122, -1059));
+        //Ruins 2
         cuboids.add(new Cuboid(Objects.requireNonNull(Bukkit.getWorld("world")), -247, 68, 1347, -329, 88, 1277));
-        //Smurf
+        //Smurf 3
         cuboids.add(new Cuboid(Objects.requireNonNull(Bukkit.getWorld("world")), 1269, 84, 1506, 1222, 99, 1467));
-        //Final fight
+        //Final fight 4
         cuboids.add(new Cuboid(Objects.requireNonNull(Bukkit.getWorld("testdungeon")), 845, 93, 921, 805, 93, 961));
         activeCuboid = 0;
         findSpawners();
@@ -94,7 +95,8 @@ public class SpawnerCuboids implements Listener {
         if (activeCuboid >= cuboids.size())
             return;
 
-        players.clear();
+        if (!players.isEmpty())
+            players.clear();
         for (Entity e : Objects.requireNonNull(cuboids.get(activeCuboid).getWorld()).getNearbyEntities(cuboids.get(activeCuboid).getCenter(), 100, 100, 100)) {
             if (e instanceof Player)
                 players.add((Player) e);
