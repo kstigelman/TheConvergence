@@ -1,6 +1,6 @@
 package com.stiggles.smp5.managers;
 
-import com.stiggles.smp5.main.Database;
+import com.stiggles.smp5.stats.Database;
 import com.stiggles.smp5.main.SMP5;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

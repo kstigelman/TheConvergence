@@ -1,9 +1,10 @@
-/**
- * Plugin for Stiggles SMP Season 5, the biggest,
- * most ambitious project yet.
+/** The Convergence
+ *
+ * A plugin for Stiggles SMP Season 5.
  *
  * @author Kyler Stigelman
- * @version 0.0.0
+ * @author Kael Hufford
+ * @version 1.2.5
  * @since 2022-08-28
  */
 package com.stiggles.smp5.main;
@@ -30,15 +31,14 @@ import com.stiggles.smp5.items.bows.BoomBow;
 import com.stiggles.smp5.items.bows.GlowBow;
 import com.stiggles.smp5.items.crafting.CustomCrafting;
 import com.stiggles.smp5.listeners.*;
-import com.stiggles.smp5.managers.BankManager;
 import com.stiggles.smp5.managers.Bounty;
 import com.stiggles.smp5.listeners.MobKillListener;
 import com.stiggles.smp5.player.StigglesPlayer;
+import com.stiggles.smp5.stats.Database;
+import com.stiggles.smp5.stats.PlayerManager;
 import net.citizensnpcs.api.CitizensAPI;
-import net.citizensnpcs.api.event.CitizensEnableEvent;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.PluginManager;
@@ -53,18 +53,12 @@ import java.util.logging.Level;
 
 public class SMP5 extends JavaPlugin implements Listener {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-    /*
-     *  TODO - REMOVE NPC FROM plugin.yml
-     */
+
     private static SMP5 instance;
     private final ArrayList<String> toggled = new ArrayList<>();
-    public boolean inDungeon = true;
-    public BankManager bankManager;
     public HashMap<String, StigglesPlayer> online_players;
-    Convergence c;
-    //private Plugin plugin = SMP5.getPlugin(SMP5.class);
+
     Random random = new Random(System.currentTimeMillis());
-    GrapplingHook grapplingHook = new GrapplingHook();
     boolean open = false;
     private Database database;
     private PlayerManager playerManager;
@@ -72,25 +66,10 @@ public class SMP5 extends JavaPlugin implements Listener {
     private ArrayList<StigglesNPC> npcs;
     private CustomSpawns customSpawns;
 
-    //public PacketListener packetListener;
-    public static SMP5 getInstance() {
-        return instance;
-    }
 
-    public static SMP5 getPlugin() {
-        return instance;
-    }
-
-    public static int rollNumber(int min, int max) {
-        Random rand = new Random();
-        int randomNumber = rand.nextInt(max - min + 1) + min;
-
-        return randomNumber;
-    }
 
     @Override
     public void onEnable() {
-
         Cooldown.setupCooldown();
         MetalDetector.setupCooldown();
 
@@ -253,60 +232,20 @@ public class SMP5 extends JavaPlugin implements Listener {
         open = b;
     }
 
-    @EventHandler
-    public void onCitizensEnable(CitizensEnableEvent ev) {
-        Bukkit.getConsoleSender().sendMessage("NV: Citizens Plugin enabled");
+    public static SMP5 getInstance() {
+        return instance;
     }
 
-    @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent e) {
-
-        //Check if player is registered already
-        Player p = e.getPlayer();
-
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
-            int timeElapsed = 0;
-            boolean inc = true;
-
-            @Override
-            public void run() {
-                Bukkit.getConsoleSender().sendMessage("Spawning..." + timeElapsed);
-                Bukkit.getWorld("world").spawnParticle(Particle.VILLAGER_ANGRY,
-                        new Location(p.getWorld(),
-                                p.getLocation().getX() + Math.cos(Math.toRadians(timeElapsed * 10)),
-                                p.getLocation().getY() + (timeElapsed * 0.025),
-                                p.getLocation().getZ() + Math.sin(Math.toRadians(timeElapsed * 10))), 2, 0.1, 0.1, 0.1, null);
-                if (inc) {
-                    ++timeElapsed;
-                    if (timeElapsed > 72)
-                        inc = false;
-                } else {
-                    --timeElapsed;
-                    if (timeElapsed <= 0)
-                        inc = true;
-                }
-            }
-        }, 0, 2);
-        /*
-        if (!registeredUUIDs.contains(p.getUniqueId())) {
-            //Register player record
-
-            database.execute("INSERT INTO player VALUES ('" + p.getUniqueId() + "', '" + p.getName() + "', " + 0 + ")");
-            //Register bank record
-            database.execute("INSERT INTO bank VALUES ('" + p.getUniqueId() + "', '" + 0 + ")");
-        }*/
-        //online_players.put (e.getPlayer ().getName (), new StigglesPlayer());
-        //If so, add uuid + stigglesplayer to online_players
-        //Otherwise, register new StigglesPlayer UUID and add to online_players
-
-
-        //for (StigglesNPC n : NPCManager.getHashMap().values ())
-        //  n.showToPlayer(e.getPlayer());
-
-        //npc3.SetHolding(Material.TRIDENT);
-        //npcs.get (2).SetHolding(Material.TRIDENT);
-        //npcs.get (4).SetHolding (Material.GOLDEN_PICKAXE);
+    public static SMP5 getPlugin() {
+        return instance;
     }
+
+    public static int rollNumber(int min, int max) {
+        Random rand = new Random();
+        int randomNumber = rand.nextInt(max - min + 1) + min;
+        return randomNumber;
+    }
+
 
     public void registerEvents() {
         PluginManager manager = Bukkit.getPluginManager();
@@ -354,24 +293,21 @@ public class SMP5 extends JavaPlugin implements Listener {
                 manager.registerEvents(new BountyListeners(this), this);
             }
         } catch (SQLException e) {
-
+            Bukkit.getConsoleSender().sendMessage("Error: Could not connect to DB.");
         }
 
     }
 
     /**
-     * Loads all NPCs into the world and saves them as a StigglesNPC object.
+     * Loads all NPCs into the world and saves them as StigglesNPC objects.
      */
     public void createNPCs() {
         CitizensAPI.getNPCRegistry().deregisterAll();
         npcs = new ArrayList<>();
-        //npcs.add (new Ned(this, "Ned", new Location(Bukkit.getWorld("world"), 0, 0, 0)));
-        //c = new Convergence(new Location (Bukkit.getWorld ("world"), 0, 100, 0), 1);
-        //particle dust 0.71 0.33 0.79 1 -1.90 71.00 -0.00 0.1 0.5 0.1 1 10
 
         World world = Bukkit.getWorld("world");
         World worldNether = Bukkit.getWorld("world_nether");
-        World worldEnd = Bukkit.getWorld("world_the_end");
+        World worldNouveau = Bukkit.getWorld("sanctuary");
 
         npcs.add(new Starry(this, "Starry", new Location(world, -708.5, 67, -1110.5)));
         npcs.add(new EggDONTTake(this, "Francis Smurf", new Location(world, 82.5, 101, 755.5)));
@@ -401,18 +337,16 @@ public class SMP5 extends JavaPlugin implements Listener {
         npcs.add(new YetAnotherWanderer(this, "Weary Traveler", new Location(world, -828.5, 70, -726.5)));
         npcs.add(new leadWanderer(this, "Adventurous Explorer", new Location(world, -834.5, 68, -728.5)));
         npcs.add(new Archaeologist(this, "League Representative", new Location(world, 16.5, 92, 744.5)));
-        npcs.add(new TheWanderer(this, "The Wanderer", new Location(Bukkit.getWorld("world"), -493.5, 68, -662.5)));
-        //npcs.add(new MrEgo(this, "Mr. EGO", new Location(Bukkit.getWorld("world"), 1495.5, 134, -1469.5)));
-        npcs.add(new MrEgo(this, "Mr. EGO", new Location(Bukkit.getWorld("world"), 57.5, 110, 754.5)));
+        npcs.add(new TheWanderer(this, "The Wanderer", new Location(world, -493.5, 68, -662.5)));
+        npcs.add(new MrEgo(this, "Mr. EGO", new Location(world, 57.5, 110, 754.5)));
+
         npcs.add(new Anarcho(this, "Anarcho", new Location(worldNether, 550.5, 221, 236.5)));
         npcs.add(new NetheriteMaster(this, "Netherite Master", new Location(worldNether, -133.5, 168, -26.5)));
         npcs.add(new MineManager(this, "Mines Overseer", new Location(worldNether, -165.5, 185, 6.5)));
         npcs.add(new Cryptorg(this, "Cryptorg", new Location(worldNether, -121, 130, -12)));
 
 
-        npcs.add(new Nouveau(this, "Nouveau", new Location(Bukkit.getWorld("sanctuary"), 8.5, -59, 8.5)));
-        //Maybe put Nouveau at 1259 86 -1225.5
-        //Nouveau 52, 132, 746
+        npcs.add(new Nouveau(this, "Nouveau", new Location(worldNouveau, 8.5, -59, 8.5)));
     }
 
     public void registerCommands() {
@@ -437,6 +371,42 @@ public class SMP5 extends JavaPlugin implements Listener {
 
     public void shutdownServer() {
         Bukkit.shutdown();
+    }
+
+
+
+    /** Unused method-- for testing only.
+     *  Spawns particles that circle the player repeatedly.
+     *
+     * @param e The caught player join event.
+     */
+    //@EventHandler
+    public void onPlayerJoin(PlayerJoinEvent e) {
+        //Check if player is registered already
+        Player p = e.getPlayer();
+
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+            int timeElapsed = 0;
+            boolean inc = true;
+            @Override
+            public void run() {
+                Bukkit.getConsoleSender().sendMessage("Spawning..." + timeElapsed);
+                Bukkit.getWorld("world").spawnParticle(Particle.VILLAGER_ANGRY,
+                        new Location(p.getWorld(),
+                                p.getLocation().getX() + Math.cos(Math.toRadians(timeElapsed * 10)),
+                                p.getLocation().getY() + (timeElapsed * 0.025),
+                                p.getLocation().getZ() + Math.sin(Math.toRadians(timeElapsed * 10))), 2, 0.1, 0.1, 0.1, null);
+                if (inc) {
+                    ++timeElapsed;
+                    if (timeElapsed > 72)
+                        inc = false;
+                } else {
+                    --timeElapsed;
+                    if (timeElapsed <= 0)
+                        inc = true;
+                }
+            }
+        }, 0, 2);
     }
 
 

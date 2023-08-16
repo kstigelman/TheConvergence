@@ -1,4 +1,4 @@
-package com.stiggles.smp5.player;
+package com.stiggles.smp5.stats;
 
 
 import org.bukkit.Bukkit;

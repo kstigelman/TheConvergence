@@ -1,6 +1,7 @@
 package com.stiggles.smp5.player;
 
-import com.stiggles.smp5.main.Database;
+import com.stiggles.smp5.stats.CoinBank;
+import com.stiggles.smp5.stats.Database;
 import com.stiggles.smp5.main.SMP5;
 import com.stiggles.smp5.stats.Quest;
 import org.bukkit.ChatColor;
@@ -11,7 +12,6 @@ import org.bukkit.entity.Player;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.UUID;
 
@@ -28,10 +28,11 @@ public class StigglesPlayer
     private Player player;
     private CoinBank coinBank;
 
-    private HashSet<String> npcTalks = new HashSet<>();
-    private HashSet<Quest.QuestName> questsCompleted = new HashSet<>();
-    private HashSet<Integer> convergenceFound = new HashSet<>();
-    private HashSet<String> dungeonsCompleted = new HashSet<>();
+    private HashSet<String> npcTalks;
+    private HashSet<Quest.QuestName> questsCompleted;
+    private HashSet<Integer> convergenceFound;
+    private HashSet<String> dungeonsCompleted;
+
     boolean cursed;
     boolean chatToggledOn;
     private int killstreak;
@@ -48,6 +49,11 @@ public class StigglesPlayer
         convergenceBalance = 0;
         cursed = false;
         chatToggledOn = true;
+
+        npcTalks = new HashSet<>();
+        questsCompleted = new HashSet<>();
+        convergenceFound = new HashSet<>();
+        dungeonsCompleted = new HashSet<>();
 
         Database db = main.getDatabase();
         db.connect();
@@ -107,46 +113,6 @@ public class StigglesPlayer
         player.setPlayerListName(player.getDisplayName() + " " + ChatColor.GOLD + getBounty() + "c");
         info.close ();
 
-        //Bukkit.getConsoleSender().sendMessage("Stiggles Player [" + player.getName()+ "]: Failed to register");
-
-
-        //Check if player has joined the server before
-        //Fetch StigglesPlayer from player
-        //If null, they are a new player.
-        //Otherwise, store this info in the player object
-        //coinBank = new CoinBank(this.player.getUniqueId ());
-        /*
-        Database db = main.getDatabase();
-        try {
-            ResultSet rs = db.query("SELECT * FROM player");
-            if (!rs.next()) {
-                coinBank = new CoinBank(this.player.getUniqueId ());
-
-                try {
-                    main.getDatabase().execute("INSERT INTO player VALUES ('" +
-                            uuid + "', '" +
-                            player.getName () + "', " +
-                            0 + ", " +
-                            0 + ", " +
-                            0 + ", " +
-                            0 + ", " +
-                            0 + ");"
-                    );
-                }
-                catch (SQLException e) {
-
-                }
-            }
-            else {
-                coinBank = new CoinBank(uuid, rs.getInt(3));
-                killstreak = rs.getInt(4);
-                cursed = rs.getBoolean(6);
-                chatToggledOn = rs.getBoolean(7);
-            }
-        }
-        catch (SQLException e) {
-            Bukkit.getConsoleSender().sendMessage("Stiggles Player [" + player.getName()+ "]: Failed to register");
-        }*/
     }
     public void addDungeonComplete (String name, String beganAt, int length, int difficulty, boolean won) {
         dungeonsCompleted.add (name);

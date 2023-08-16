@@ -1,6 +1,6 @@
 package com.stiggles.smp5.misc;
 
-/** Maps color values to numbers for randomization.
+/** Maps color values to numbers for use in shop randomization.
  *
  * @author Kyler Stigelman
  */

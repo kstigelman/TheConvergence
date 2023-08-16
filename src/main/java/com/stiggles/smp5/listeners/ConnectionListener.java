@@ -1,7 +1,6 @@
 package com.stiggles.smp5.listeners;
 
 import com.stiggles.smp5.main.SMP5;
-import com.stiggles.smp5.managers.BankManager;
 import com.stiggles.smp5.player.StigglesPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -49,20 +48,22 @@ public class ConnectionListener implements Listener {
         if (customPlayer == null)
             return;
 
+        main.getPlayerManager().removeStigglesPlayer(e.getPlayer().getUniqueId());
 
+        /*
         Player p = e.getPlayer();
         String w = e.getPlayer().getWorld().getName();
         int x = Math.round((int) e.getPlayer().getLocation().getX());
         int y = Math.round((int) e.getPlayer().getLocation().getY());
         int z = Math.round((int) e.getPlayer().getLocation().getZ());
         int c = BankManager.getBalance(e.getPlayer());
-
+        */
         //customPlayer.setLogOffWorld(w);
         //customPlayer.setLogOffX(x);
         //customPlayer.setLogOffY(y);
         //customPlayer.setLogOffZ(z);
         //customPlayer.setCoins(c);
 
-        main.getPlayerManager().removeStigglesPlayer(e.getPlayer().getUniqueId());
+
     }
 }

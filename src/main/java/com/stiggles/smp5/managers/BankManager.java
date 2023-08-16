@@ -1,8 +1,8 @@
 package com.stiggles.smp5.managers;
 
-import com.stiggles.smp5.main.Database;
+import com.stiggles.smp5.stats.Database;
 import com.stiggles.smp5.main.SMP5;
-import com.stiggles.smp5.player.CoinBank;
+import com.stiggles.smp5.stats.CoinBank;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -12,6 +12,10 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.UUID;
 
+/** Deprecated class-- replaced with PlayerManager
+ *
+ * @author Kyler Stigelman
+ */
 public class BankManager {
 
     private static HashMap<String, Integer> coinAmounts;

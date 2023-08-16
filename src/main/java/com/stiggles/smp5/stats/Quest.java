@@ -1,6 +1,5 @@
 package com.stiggles.smp5.stats;
 
-import com.stiggles.smp5.main.Database;
 import com.stiggles.smp5.main.SMP5;
 import com.stiggles.smp5.player.StigglesPlayer;
 import org.bukkit.Bukkit;

@@ -2,7 +2,7 @@ package com.stiggles.smp5.entity.npc;
 import com.stiggles.smp5.managers.NPCManager;
 import com.stiggles.smp5.main.SMP5;
 
-import com.stiggles.smp5.worlds.WorldType;
+
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.trait.trait.Equipment;
@@ -36,7 +36,7 @@ public abstract class StigglesNPC {
 
     private String name;
 
-    private WorldType worldType;
+
     private String worldName = "world";
 
     private final Location spawnLocation;
@@ -69,11 +69,6 @@ public abstract class StigglesNPC {
 
         if (location.getWorld() != null)
             worldName = location.getWorld().getName();
-
-        worldType = WorldType.SMP;
-        for (WorldType w : WorldType.values())
-            if (worldName.contains(w.toString()))
-                worldType = w;
 
         spawnLocation = location;
         yaw = 1f;

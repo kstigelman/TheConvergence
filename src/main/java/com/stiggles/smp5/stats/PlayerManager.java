@@ -1,4 +1,4 @@
-package com.stiggles.smp5.main;
+package com.stiggles.smp5.stats;
 
 import com.stiggles.smp5.player.StigglesPlayer;
 

@@ -10,14 +10,27 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+/** Represents a command that displays to the player the amount of coins they have collected.
+ *
+ * @author Kyler Stigelman
+ */
 public class CoinCommand implements CommandExecutor {
 
+    //Need SMP5 object to access PlayerManager.
     SMP5 main;
-
     public CoinCommand(SMP5 main) {
         this.main = main;
     }
 
+    /** Displays the amount of coins the sender has.
+     *  Admins may check other players coins and give players coins.
+     *
+     * @param sender Source of the command
+     * @param command Command which was executed
+     * @param label Alias of the command which was used
+     * @param args Passed command arguments
+     * @return True if the command succeeded, false otherwise.
+     */
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player) {
@@ -25,6 +38,7 @@ public class CoinCommand implements CommandExecutor {
             if (args.length > 0) {
                 if (p.isOp()) {
                     if (args.length >= 3) {
+                        //Give players coins: /coins give <username> <amount>
                         if (args[0].equals("give")) {
                             Player argPlayer = Bukkit.getPlayer(args[1]);
 
@@ -45,6 +59,7 @@ public class CoinCommand implements CommandExecutor {
                             return false;
                         }
                     }
+                    //Check other player's coins: /coins <username>
                     Player argPlayer = Bukkit.getPlayer(args[0]);
                     if (argPlayer != null) {
                         StigglesPlayer sPlayer = main.getPlayerManager().getStigglesPlayer(argPlayer.getUniqueId());
@@ -58,10 +73,12 @@ public class CoinCommand implements CommandExecutor {
                 //If they have any other arguments and the player is not opped, just ignore
                 // the arg and return the player's account instead.
             }
+            //Check own coins: /coins
             p.sendMessage("You have " + ChatColor.GOLD + main.getPlayerManager().getStigglesPlayer(p.getUniqueId()).getBalance() + " coins.");
-            //p.sendMessage("You have " + ChatColor.GOLD + BankManager.getBalance(p) + " coins.");
             return true;
-        } else if (args.length > 0) {
+        }
+        //Repeat process for console.
+        else if (args.length > 0) {
             if (args.length >= 3) {
                 if (args[0].equals("give")) {
                     Player argPlayer = Bukkit.getPlayer(args[1]);
