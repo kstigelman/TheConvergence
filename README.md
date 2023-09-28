@@ -1,5 +1,6 @@
 # The Convergence -- Stiggles Season 5
 Spigot plugin for the 5th iteration of the Stiggles Minecraft Server, which ran from 6/9/23 - 9/1/23.
+
 Developed by Kyler Stigelman and Kael Hufford
 _______________________________________________
 The evil Emperor Nouveau has taken over EGO Labs and opened a multiversal gateway to a new world! This world, called the Convergence, 
