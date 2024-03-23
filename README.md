@@ -1,13 +1,18 @@
-# Stiggles Season 5
-Spigot plugin for the 5th iteration of the Stiggles Minecraft Server, launched 6/9/23.
+# The Convergence -- Stiggles Season 5
+Spigot plugin for the 5th iteration of the Stiggles Minecraft Server, which ran from 6/9/23 - 9/1/23.
+
 Developed by Kyler Stigelman and Kael Hufford
 _______________________________________________
+The evil Emperor Nouveau has taken over EGO Labs and opened a multiversal gateway to a new world! This world, called the Convergence, 
+is filled with remnants of the worlds conquered by EGO Labs. Explore the landmarks, talk to cititzens, and 
+complete quests to pave the way the defeating Nouveau and restoring EGO Labs.
 
 ### Features:
 - Dungeons
+- Quests
 - NPCs
 - Bank system
-- Quests
+- Custom Items
 - Bounty system
 - Database connectivity
 
@@ -15,6 +20,12 @@ ________
 ### Dungeons
 - Dungeons are built in-game, then are registered as certain room types
   depending on characteristics contained within each room.
+
+_________
+### Quests
+- Certain NPCs have quests that can be activated by finding and returning
+  items hidden around the world. These quests have in-game coins and items
+  as rewards.
   
 ________
 ### NPCs
@@ -29,10 +40,8 @@ _________
   in-game items.
 
 _________
-### Quests
-- Certain NPCs have quests that can be activated by finding and returning
-  items hidden around the world. These quests have in-game coins and items
-  as rewards.
+### Custom Items
+- Various custom items allow for new ways to play Minecraft and provide new options for exploration and battle.
 
 _________
 ### Bounty System
