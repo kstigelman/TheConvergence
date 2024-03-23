@@ -36,7 +36,7 @@ import java.util.*;
 
 public class Dungeon implements Listener {
     public static final int MAX_PLAYER_COUNT = 4;
-    //To be added
+    //Difficulty -- To be added
     private static final int BASE_DIFFICULTY = 1;
     //private List<Cuboid> dungeonCuboids;
     public static ArrayList<DungeonRoom> roomsFinished;
